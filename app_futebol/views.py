@@ -4,4 +4,4 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def home(request):
-    return HttpResponse("Bem-vindo ao blog!")
+    return HttpResponse("Se está vendo essa mensagem é pq rodou sucesso!")
