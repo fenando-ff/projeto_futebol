@@ -1,0 +1,42 @@
+# Arquivos de sistema
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+.DS_Store
+Thumbs.db
+
+# Ambiente virtual
+venv/
+.env/
+.venv/
+
+# Configuração de IDEs/editores
+.vscode/
+.idea/
+*.swp
+
+# Arquivos de build e cache
+build/
+dist/
+*.egg-info/
+.eggs/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Arquivos de banco de dados locais
+db.sqlite3
+
+# Arquivos de mídia e uploads (se não quiser versionar)
+media/
+uploads/
+
+# Configurações sensíveis
+.env.local
+.env.production
+.env.test
