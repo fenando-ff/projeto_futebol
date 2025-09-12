@@ -11,3 +11,6 @@ def tela_carrinho(request):
 
 def tela_loja_detalhe(request):
     return render(request, "app_futebol/loja_detalhe.html")
+
+def tela_socio(request):
+    return render(request, "app_futebol/socio.html")

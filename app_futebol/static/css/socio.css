@@ -1,0 +1,82 @@
+#area_seta {
+    margin-bottom: 24px;
+}
+
+.fa-arrow-circle-left {
+    color: #FFD700;
+    font-size: 50px;
+    margin: 8px;
+}
+
+.campo-image-titulo {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.campo-image-titulo .imagem-titulo {
+    width: 90%;
+}
+
+.container-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+}
+
+.card {
+    width: 70%;
+    height: 70%;
+    background: linear-gradient(180deg,#001A4A 30%,#173b70 30%);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    padding: 12px;
+}
+
+.titulo-card, .conteudo-vantagens {
+    width: 70%;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.card .img-cartao-card {
+    width: 50%;
+    border-radius: 12px;
+    position: relative;
+    bottom: 40px;
+    transform: rotate(-16deg);
+}
+
+.titulo-card {
+    text-align: center;
+    margin-bottom: 32px;
+    margin-top: -12px;
+}
+
+.info-valor-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    color: #ffffff;
+    align-items: center;
+}
+
+.preco {
+    font-size: 32px;
+}
+
+.button-quero-este {
+    background-color: #5e99f1;
+    padding: 8px;
+    text-transform: uppercase;
+    border-radius: 8px;
+    width: 70%;
+    box-shadow: 2px 4px 8px #1a2e4d;
+}
