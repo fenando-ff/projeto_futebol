@@ -54,3 +54,4 @@ Thumbs.db
 # Ignora arquivos com informações sensíveis, como chaves de API e senhas.
 # O arquivo .env é a forma mais comum de gerenciar isso.
 .env
+certs/

@@ -84,6 +84,11 @@ DATABASES = {
         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
         'HOST': os.environ.get('DATABASE_HOST'),
         'PORT': os.environ.get('DATABASE_PORT'),
+        'OPTIONS': {
+            'SSL': {
+                'ca': os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA")), # type: ignore
+            }
+        }
     }
 }
 
