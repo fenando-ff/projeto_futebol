@@ -28,6 +28,8 @@ body{
 .logo img {
     width: 10%;
     height: 20%;
+    max-width: 36px;
+    max-height: 36px;
 }
 
 .logo h1 {
