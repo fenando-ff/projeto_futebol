@@ -23,3 +23,9 @@ def tela_cadastro(request):
 
 def tela_historia(request):
     return render(request, "app_futebol/historia.html")
+
+def tela_rec_senha(request):
+    return render(request, "app_futebol/rec_senha.html")
+
+def tela_rec_senha_2(request):
+    return render(request, "app_futebol/rec_senha_2.html")

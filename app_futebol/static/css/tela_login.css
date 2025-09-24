@@ -115,7 +115,7 @@ input[type="password"]::-ms-reveal {            /* trocando a cor do olho deixan
 
 
 
-.esqueceu_senha{
+.esqueceu_senha a {
     color: rgb(215, 231, 245);
     text-decoration-line: none;
     font-size: 14px;

@@ -26,8 +26,8 @@
         <ul class="hamburguer-opcoes">
             <li class="opcao-nav"><a href="{% url "loja_detalhe" %}">Loja</a></li>
             <li class="opcao-nav"><a href="noticia.html">Notícias</a></li>
-            <li class="opcao-nav"><a href="historia.html">História</a></li>
-            <li class="opcao-nav"><a href="login.html">Login</a></li>
+            <li class="opcao-nav"><a href="{% url "historia" %}">História</a></li>
+            <li class="opcao-nav"><a href="{% url "login" %}">Login</a></li>
             <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
             <li class="opcao-nav"><a href="{% url "socio" %}">Sócios</a></li>
         </ul>
@@ -47,7 +47,7 @@
                 <input type="text" maxlength="1" id="input4"/>
             </div>
 
-                <button class ="btn">CONTINUE</button>
+                <a href="{% url "rec_senha_2" %}"><button class ="btn">CONTINUE</button></a>
 
             <p class="duvida">Não recebeu o código?</p>
 
