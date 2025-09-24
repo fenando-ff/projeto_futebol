@@ -84,11 +84,11 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
-        # 'OPTIONS': {
-        #     'ssl': {
-        #         'ca': os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA")), # type: ignore
-        #     }
-        # }
+        'OPTIONS': {
+            'ssl': {
+                'ca': os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA")), # type: ignore
+            }
+        }
     }
 }
 
@@ -128,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
