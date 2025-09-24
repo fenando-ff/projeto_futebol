@@ -1,0 +1,281 @@
+.corpo {
+    background: linear-gradient(180deg,#001BB2 70%,#F72B2B 95%,#f0f0f0 98%);
+    background-repeat: no-repeat;
+}
+
+a {
+    text-decoration: none;
+}
+
+.titulo {
+    display: flex;
+    flex-direction: column;
+    color: #f0f0f0;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    gap: 16px;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 32px;
+    margin-top: 32px;
+}
+
+.titulo h1 {
+    text-transform: uppercase;
+}
+
+.titulo .fa-star {
+    color: yellow;
+    font-size: 50px;
+}
+
+.container-cards {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.container-cards .card {
+    width: 60%;
+    height:16rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    padding: 16px;
+    margin: auto;
+    border-radius: 8px;
+}
+
+.container-cards .card1 {
+    background-color: #f0f0f0;
+}
+
+.card1 .link-jornal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.link-jornal .texto-noticia {
+    font-size: large;
+    color: black;
+}
+
+.container-cards .card2 {
+    background-color: #001A4A;
+    color: #f0f0f0;
+}
+
+.card2 .versus-jogo {
+    display: flex;
+    margin-bottom: 32px;
+}
+
+.versus-jogo .time-casa {
+    flex: 1;
+    text-align: center;
+}
+
+.versus-jogo .time-fora {
+    flex: 1;
+    text-align: center;
+}
+
+.versus-jogo .fa-xmark {
+    flex: 1;
+    font-size: 50px;
+    align-self: center;
+}
+
+.card2 .versus-jogo img {
+    width: 48px;
+}
+
+.card2 .dia-hora {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.dia-hora a {
+    width: 100px;
+    color: #f0f0f0;
+    padding: 8px;
+    background-color: #F72B2B;
+    border-radius: 32px;
+    font-size: larger;
+    text-align: center;
+}
+
+.container-cards .card3 {
+    justify-content: center;
+    background-color: #f0f0f0;
+}
+
+.card3 img {
+    width: 60%;
+    margin: auto;
+}
+
+.card3 .titulo-card-produto {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.card3 a {
+    text-align: center;
+    color: #f0f0f0;
+    background-color: #001A4A;
+    width: 40%;
+    margin: auto;
+    padding: 8px;
+    border-radius: 16px;
+    text-transform: uppercase;
+}
+
+.proximo-jogo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: #f0f0f0;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 100px;
+}
+
+.proximo-jogo h1 {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.proximo-jogo .proximo-jogo-versus {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.proximo-jogo-versus .time1, .time2 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.proximo-jogo-versus .time1 img, .time2 img {
+    width: 60px;
+}
+
+.proximo-jogo-versus .fa-xmark {
+    flex: 0.5;
+    font-size: 50px;
+}
+
+.proximo-jogo-versus .time2 {
+    flex: 1;
+    text-align: center;
+}
+
+.proximo-jogo .info-jogo {
+    text-align: center;
+    width: 60%;
+    margin: auto;
+}
+
+.info-jogo .local-info-jogo {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.info-jogo .dia-hora-info-jogo {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.info-jogo a {
+    background-color: #001A4A;
+    color: #f0f0f0;
+    font-size: 20px;
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.titulo-loja {
+    text-transform: uppercase;
+    text-align: center;
+    color: yellow;
+    margin-bottom: 16px;
+}
+
+.loja {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loja .carrossel {
+    display: flex;
+    overflow-x: auto;              /* habilita scroll horizontal */
+    -webkit-overflow-scrolling: touch; /* momentum no iOS */
+    padding-bottom: 8px;           /* evita cortar sombras / bordas */
+    scroll-behavior: smooth;       /* rolagem suave quando programática */
+}
+.carrossel {
+    scrollbar-width: none; /*esconde a barra de rolagem. Firefox, IE */
+    -ms-overflow-style: none;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 16px;
+}
+
+.carrossel a .card-carrossel { /* Estudar mais sobre esses comandos */
+    flex: 0 0 auto;                /* não encolhe, largura fixa */
+    width: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+    scroll-snap-align: start;      /* ponto de encaixe */
+    text-align: center;
+    color: #f0f0f0;
+}
+
+.card-carrossel .img-carrossel {
+    width: 80%;
+    border-radius: 16px;
+    margin-bottom: 12px;
+}
+
+.texto-card-carrossel {
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+@media (max-width: 700px) {
+    .card-carrossel {
+        width: calc(90vw); /* ocupa quase toda a tela no celular */
+    }  
+}
+
+.loja .btn-loja {
+    border: 2px solid #fff ;
+    border-radius: 12px;
+    padding: 16px;
+    color: yellow;
+    font-size: larger;
+}

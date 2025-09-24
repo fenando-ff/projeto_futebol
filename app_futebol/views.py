@@ -14,3 +14,12 @@ def tela_loja_detalhe(request):
 
 def tela_socio(request):
     return render(request, "app_futebol/socio.html")
+
+def tela_login(request):
+    return render(request, "app_futebol/login.html")
+
+def tela_cadastro(request):
+    return render(request, "app_futebol/cadastro.html")
+
+def tela_historia(request):
+    return render(request, "app_futebol/historia.html")
