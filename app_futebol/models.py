@@ -69,19 +69,15 @@ class EnderecoCliente(models.Model):
         db_table = 'endereco_cliente'
 
 
-class EnderecoFuncionarios(models.Model):
-    id_endereco_funcionarios = models.AutoField(db_column='id_ENDERECO_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
-    cep_endereco_funcionarios = models.CharField(db_column='cep_ENDERECO_FUNCIONARIOS', max_length=8)  # Field name made lowercase.
-    complemento_endereco_funcionarios = models.CharField(db_column='complemento_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    bairro_endereco_funcionarios = models.CharField(db_column='bairro_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    casa_endereco_funcionarios = models.CharField(db_column='casa_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    rua_endereco_funcionarios = models.CharField(db_column='rua_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    funcionarios_id_funcionarios = models.OneToOneField('Funcionarios', models.DO_NOTHING, db_column='funcionarios_id_funcionarios')
+class SetorFuncionarios(models.Model):
+    id_setor_funcionarios = models.AutoField(db_column='id_SETOR_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
+    nome_setor_funcionarios = models.CharField(db_column='nome_SETOR_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
+    descricao_setor = models.TextField()
 
     class Meta:
         managed = False
-        db_table = 'endereco_funcionarios'
-
+        db_table = 'setor_funcionarios'
+#
 
 class Funcionarios(models.Model):
     id_funcionarios = models.AutoField(db_column='id_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
@@ -91,11 +87,25 @@ class Funcionarios(models.Model):
     email_funcionarios = models.CharField(db_column='email_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
     sexo_funcionarios = models.CharField(db_column='sexo_FUNCIONARIOS', max_length=20)  # Field name made lowercase.
     nome_funcionarios = models.CharField(db_column='nome_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    setor_funcionarios_id_setor_funcionarios = models.ForeignKey('SetorFuncionarios', models.DO_NOTHING, db_column='SETOR_FUNCIONARIOS_id_SETOR_FUNCIONARIOS')  # Field name made lowercase.
+    setor_funcionarios_id_setor_funcionarios = models.ForeignKey(SetorFuncionarios, models.DO_NOTHING, db_column='SETOR_FUNCIONARIOS_id_SETOR_FUNCIONARIOS')  # Field name made lowercase.
 
     class Meta:
         managed = False
         db_table = 'funcionarios'
+        
+        
+class EnderecoFuncionarios(models.Model):
+    id_endereco_funcionarios = models.AutoField(db_column='id_ENDERECO_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
+    cep_endereco_funcionarios = models.CharField(db_column='cep_ENDERECO_FUNCIONARIOS', max_length=8)  # Field name made lowercase.
+    complemento_endereco_funcionarios = models.CharField(db_column='complemento_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
+    bairro_endereco_funcionarios = models.CharField(db_column='bairro_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
+    casa_endereco_funcionarios = models.CharField(db_column='casa_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
+    rua_endereco_funcionarios = models.CharField(db_column='rua_ENDERECO_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
+    funcionarios_id_funcionarios = models.OneToOneField(Funcionarios, models.DO_NOTHING, db_column='funcionarios_id_funcionarios')
+
+    class Meta:
+        managed = False
+        db_table = 'endereco_funcionarios'
 
 
 class Pedido(models.Model):
@@ -120,14 +130,3 @@ class Produtos(models.Model):
     class Meta:
         managed = False
         db_table = 'produtos'
-
-
-class SetorFuncionarios(models.Model):
-    id_setor_funcionarios = models.AutoField(db_column='id_SETOR_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
-    nome_setor_funcionarios = models.CharField(db_column='nome_SETOR_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
-    descricao_setor = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'setor_funcionarios'
-#
