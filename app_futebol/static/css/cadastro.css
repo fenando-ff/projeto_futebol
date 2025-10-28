@@ -1,0 +1,157 @@
+body{
+    height: 100vh;
+    height: 100vh;
+    background: radial-gradient(circle at center, #014ac9 10%, #001A4A 100%);
+    height: 100vh;
+}
+
+main{
+    height: 100vh;
+    margin: 0;
+    width: 0;
+    display: flex;
+    
+}
+
+.conteiner{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 120px 55px;
+    border-radius: 20px;
+    background: rgba(0, 28, 79, 0.3); /* cor semitransparente */
+    backdrop-filter: blur(50px); /* o blur no fundo */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+    
+    
+
+
+.conteiner h2{
+    position: absolute;
+    top: 10%;
+    color: #F7C02B ;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 16%;
+} 
+
+.caixa{
+    margin: 10px 45px;
+    border: 1px solid white;
+    color: transparent;
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid white ;
+    border-radius: 15px;
+}  
+
+
+
+
+.caixa input{
+    width: 170px;
+    height: 35px  ;
+    color: aliceblue; 
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-left: 40px;
+    margin-right: 20px;
+
+}
+
+.caixa input::placeholder{
+    color: aliceblue;
+    left: 100%;
+
+
+}
+
+
+input:focus {
+    outline: none;              /* tira a borda azul padrão */
+    background-color: transparent; /* deixa sem cor */
+    box-shadow: none;           /* remove brilho */
+}
+
+
+
+input[type="password"]::-ms-reveal {            /* trocando a cor do olho deixando inverso */
+    filter: invert(1);
+}
+
+
+.caixa i{
+    color: aliceblue;
+    position: absolute;
+    left: 60px;
+    margin-top: 9px;
+
+}
+
+.comando{
+    color: #F7C02B;
+    margin: 20px 80px 40px 0px;
+
+
+
+}
+
+
+.informando_o_sexo{
+    display: flex;
+
+
+}
+
+
+.caixinha{
+    display: flex;
+    border: 1px solid white;
+    border-radius: 15%;
+    margin: 0px 10px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.fa-mars {
+    color: rgb(0, 162, 255);
+    font-size: 40PX;
+}
+
+.fa-venus {
+    color: pink;
+    font-size: 40PX;
+}
+
+
+
+
+.botao{
+    margin-top: 30px;
+    width: 230px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    transition: 0.3s;
+}
+
+
+
+.botao:hover{
+    background-color: #b32108;
+    color: aliceblue;
+    scale: 1.0s;
+
+}
+
+
+
+
+
+
