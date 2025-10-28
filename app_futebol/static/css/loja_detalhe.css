@@ -1,0 +1,102 @@
+main {
+    background: linear-gradient(180deg,#001694 0%,#171717 60%);
+    color: #ffffff;
+    height: 90vh;
+}
+
+.fa-arrow-circle-left {
+    color: #ffffff;
+    font-size: 50px;
+    margin: 8px;
+}
+
+.card {
+    background-color: #101010;
+    width: 80%;
+    height: 30%;
+    border-radius: 28px;
+    margin: auto;
+    margin-top: 10%;
+    padding: 12px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card .detalhe-card {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    width: 10%;
+}
+
+.card img {
+    width: 50%;
+    border-radius: 16px;
+    background-color: #f0f0f0;
+}
+
+.card .detalhe-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.info-produto {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    
+}
+.conteudo-info-produto {
+    text-align: left;
+    font-weight: bold;
+}
+
+.conteudo-info-produto p .valor {
+    color: #ffff00;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 12px;
+    row-gap: 12px;
+}
+
+.container div{
+    text-align: center;
+    border: 1px solid #ffffff;
+    border-radius: 16px;
+    padding: 8px;
+    text-transform: uppercase;
+}
+
+.botao-compra  {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    justify-content: center;
+    padding: 20px;
+    gap: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.botao-compra button {   
+    border: 1px solid #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    font-size: large;
+    background-color: #171717;
+    color: #ffffff;
+    width: 55%;
+}
+

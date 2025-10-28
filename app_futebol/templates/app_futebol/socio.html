@@ -1,0 +1,111 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static "img/escudo_aguia_maraba.png" %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/socio.css" %}">
+
+    <title>Socios</title>
+</head>
+<body>
+    <header class="cabecalho">
+        <a class="logo" href="{% url "home" %}">
+            <img src="{% static "img/escudo_aguia_maraba.png" %}" alt="escudo do águia de marabá">
+            <h1>Águia de Marabá</h1>
+        </a>
+            <ul class="menu-hamburgue">
+                <li><a href="#">Login</a></li>
+                <li id="botao_hamburguer"><a href="#">Outros</a></li>
+                <li><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping" style="color: yellow;"></i></a></li>
+            </ul> 
+    </header>
+    <div class="nav">
+        <ul class="hamburguer-opcoes">
+            <li class="opcao-nav"><a href="{% url "loja_detalhe" %}">Loja</a></li>
+            <li class="opcao-nav"><a href="noticia;html">Notícias</a></li>
+            <li class="opcao-nav"><a href="historia.html">História</a></li>
+            <li class="opcao-nav"><a href="login.html">Login</a></li>
+            <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
+            <li class="opcao-nav"><a href="#">Sócios</a></li>
+        </ul>
+    </div>
+    <main>
+        <div id="area_seta">
+            <a href="{% url "home" %}"><i class="fa-solid fa-arrow-circle-left"></i></a>
+        </div>
+
+        <div class="campo-image-titulo">
+            <img class="imagem-titulo" src="{% static "img/imagem_titulo_socio.png" %}" alt="computador com descontos">
+        </div>
+
+        <div class="container-cards">
+            <div class="card card-azulao">
+                <img class="img-cartao-card" src="{% static "img/img_cartao_azulao.png" %}" alt="cartão azulão">
+                <h1 class="titulo-card">Azulão</h1>
+                <ul class="conteudo-vantagens">
+                    <li class="item-vantegem">Limitado a 500 vagas</li>
+                    <li class="item-vantegem">Plano anual</li>
+                    <li class="item-vantegem">30% de desconto na compra de 1º ingresso*</li>
+                    <li class="item-vantegem">App Sócio Águia 10% de desconto em produtos oficiais</li>
+                    <li class="item-vantegem">Clube Parceiro de Vantagens</li>
+                    <li class="item-vantegem">Participação em ações exclusivas</li>
+                    <li class="item-vantegem">Central de atendimento</li>
+                    <li class="item-vantegem">Carteirinha Digital</li>
+                </ul>
+                <div class="info-valor-card">
+                    <p>A partir de:</p>
+                    <h2 class="preco">R$20,00</h2>
+                    <a class="button-quero-este">quero este</a>
+                </div>
+            </div>
+
+            <div class="card card-campeao">
+                <img class="img-cartao-card" src="{% static "img/img_cartao_campeao_.png" %}" alt="cartão campeão">
+                <h1 class="titulo-card">Campeão</h1>
+                <ul class="conteudo-vantagens">
+                    <li class="item-vantegem">Limitado a 500 vagas</li>
+                    <li class="item-vantegem">Plano anual</li>
+                    <li class="item-vantegem">30% de desconto na compra de 1º ingresso*</li>
+                    <li class="item-vantegem">App Sócio Águia 10% de desconto em produtos oficiais</li>
+                    <li class="item-vantegem">Clube Parceiro de Vantagens</li>
+                    <li class="item-vantegem">Participação em ações exclusivas</li>
+                    <li class="item-vantegem">Central de atendimento</li>
+                    <li class="item-vantegem">Carteirinha Digital</li>
+                </ul>
+                <div class="info-valor-card">
+                    <p>A partir de:</p>
+                    <h2 class="preco">R$150,00</h2>
+                    <a class="button-quero-este">quero este</a>
+                </div>
+            </div>
+
+            <div class="card card-aguia">
+                <img class="img-cartao-card" src="{% static "img/img_cartao_aguia.png" %}" alt="cartão aguia">
+                <h1 class="titulo-card">Águia</h1>
+                <ul class="conteudo-vantagens">
+                    <li class="item-vantegem">Limitado a 500 vagas</li>
+                    <li class="item-vantegem">Plano anual</li>
+                    <li class="item-vantegem">30% de desconto na compra de 1º ingresso*</li>
+                    <li class="item-vantegem">App Sócio Águia 10% de desconto em produtos oficiais</li>
+                    <li class="item-vantegem">Clube Parceiro de Vantagens</li>
+                    <li class="item-vantegem">Participação em ações exclusivas</li>
+                    <li class="item-vantegem">Central de atendimento</li>
+                    <li class="item-vantegem">Carteirinha Digital</li>
+                </ul>
+                <div class="info-valor-card">
+                    <p>A partir de:</p>
+                    <h2 class="preco">R$50,00</h2>
+                    <a class="button-quero-este">quero este</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>&copy;2025 Senac</footer>
+
+    <script src="{% static "js/main.js" %}"></script>
+</body>
+</html>

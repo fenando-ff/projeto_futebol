@@ -1,0 +1,146 @@
+main {
+    width: 100%;
+    color: #ffffff;
+}
+
+.fa-arrow-circle-left{
+    color: #ffffff;
+    font-size: 50px;
+    padding: 8px;
+}
+
+body {
+    background-color: #001694;
+}
+
+.titulo {
+    text-align: center;
+    margin: auto;
+    padding: 10px;
+    border-bottom: 1px solid red;
+    width: 60%;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+}
+
+.container-itens {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.item {
+    width: 95%;
+    margin: auto;
+    padding: 8px;
+}
+
+.produto {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+.caixa-selecao {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#caixa[type="checkbox"] {
+  width: 20px; /* Define a largura do checkbox */
+  height: 20px; /* Define a altura do checkbox */
+  accent-color: white;
+}
+
+#caixa[type="checkbox"]:checked {
+    accent-color: red;
+}
+
+.img-descricao {
+    flex: 7;
+    width: 20%;
+    display: flex;
+    /* justify-content: center; */
+    padding: 4px;
+}
+
+.img-descricao .img {
+    width: 30%;
+    background-size: contain;
+    background-repeat: no-repeat;    
+}
+
+.img-descricao .img-1 {
+    background-image: url(../img/img_caneca.png);
+}
+
+.img-descricao .img-2 {
+    background-image: url(../img/img_mochila.png);
+}
+
+.img-descricao .img-3 {
+    background-image: url(../img/img_meias_treino.png);
+}
+
+.img-descricao .descricao {
+    text-align: start;
+    width: 50%;
+}
+
+.img-descricao .descricao .titulo-descricao {
+    font-size: 20px;
+}
+
+.descricao .titulo-descricao {
+    color: yellow;
+}
+
+.info-produto {
+    list-style: none;
+}
+
+.btn-qtd {
+    margin: auto;
+    width: 95%;
+    text-align: end;
+    padding: 8px;
+}
+
+.forma-pagamento {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 90%;
+    height: 50vh;
+    margin: auto;
+    padding: 8px;
+    text-align: center;
+    background-color: black;
+    border-radius: 16px;
+}
+
+.precos-totais {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-bottom: 40px;
+}
+
+
+
+.opcoes-pagamento {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.opcoes-pagamento .opcao-pag {
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 8px;
+    width: 50%;
+    text-transform: uppercase;
+}

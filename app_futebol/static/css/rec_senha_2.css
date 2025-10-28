@@ -1,0 +1,135 @@
+body{
+    height: 100vh;
+    background: radial-gradient(circle at center, #014ac9 10%, #001A4A 100%);
+
+}
+
+main{
+    height: 100vh;
+    margin: 0;
+    width: 0;
+    display: flex;
+    
+}
+
+.conteiner{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 100px 60px;
+    border-radius: 20px;
+    background: rgba(0, 28, 79, 0.3); 
+    backdrop-filter: blur(50px); 
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+    
+    
+
+
+.conteiner h2{
+    text-align: center;
+    color: #F7C02B ;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 1%;
+} 
+
+
+.termos{
+    font-size: 15px;
+    text-align: center;
+    color: aliceblue;
+}
+
+
+.logo_rec_senha{
+    transform: scale(1.9); 
+    text-align: center;
+    transform-origin: center; 
+    opacity: 90%;
+    width: 220px;
+    height: 140px;
+    margin-bottom: 25%;
+    margin-top: 25%;
+}
+
+.caixa{
+    margin: 10px 45px;
+    border: 1px solid white;
+    color: transparent;
+    text-decoration: none;
+    background-color: transparent;
+    border: 1px solid white ;
+    border-radius: 15px;
+}  
+
+
+
+
+.caixa input{
+    width: 170px;
+    height: 35px  ;
+    color: aliceblue; 
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-left: 40px;
+    margin-right: 20px;
+
+}
+
+.caixa input::placeholder{
+    color: aliceblue;
+    left: 100%;
+
+
+}
+
+
+input:focus {
+  outline: none;             
+  background-color: transparent; 
+  box-shadow: none;           
+}
+
+
+
+input[type="password"]::-ms-reveal {            
+  filter: invert(1);
+}
+
+
+.caixa i{
+    color: aliceblue;
+    position: absolute;
+    left: 60px;
+    margin-top: 9px;
+
+}
+
+
+.botao{
+    margin-top: 30px;
+    width: 230px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    transition: 0.3s;
+}
+
+
+
+.botao:hover{
+    background-color: #b32108;
+    color: aliceblue;
+    scale: 1.0s;
+
+}
+
+
+
+
+
