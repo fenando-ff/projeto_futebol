@@ -12,7 +12,9 @@ Thumbs.db
 # Ambiente virtual
 venv/
 .env/
+.env
 .venv/
+certs/
 
 # Configuração de IDEs/editores
 .vscode/
