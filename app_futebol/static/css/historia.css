@@ -1,20 +1,25 @@
-.noticias-main {
-    max-width: 380px;
+.corpinho {
+    background: linear-gradient(180deg,#222222 70%, #222222 90%,#f0f0f0 );
+    background-repeat: no-repeat;
+    min-height: 100vh; 
+}
+
+.historia-main {
+    max-width: 100%;
     margin: 0 auto;
-    padding: 20px 0 40px 0;
-    background: #fff;
+    padding: 20px 0 40px;
     min-height: 100vh;
 }
 
 .noticias-titulo {
-    background: #3d36c9;
-    color: #fff;
+    background: linear-gradient(90deg, #000000 1%, #6b0400 50%, #000000 99%);
+    color: #fff;    
     text-align: center;
     border-radius: 10px;
     padding: 12px 0;
     font-size: 1.8rem;
     margin-bottom: 30px;
-    width: 80%;
+    width: 72%;
     margin-left: auto;
     margin-right: auto;
     font-family: 'Bebas Neue', sans-serif;
@@ -22,70 +27,215 @@
     letter-spacing: 1px;
 }
 
-.noticia-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    gap: 15px;
-    margin-bottom: 35px;
-    padding: 0 15px;
+/* =================================
+   NOVO LAYOUT - HISTÓRIA DO TIME
+   ================================= */
+    
+.noticia-card, .noticia-card p, .card-mobile {
+    all: unset;
+    display: none;
+    visibility: hidden;
 }
 
-.card-mobile {
-    display: flex;
-    align-items: center;
+/* Contêiner principal da seção de história */
+.container-historia {
+    display: grid;
+    grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+    gap: 25px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilo de cada card */
+.card-historia {
+    position: relative; /* Essencial para o posicionamento do overlay */
+    display: block;
     width: 100%;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.noticia-img {
-    width: 198px;
-    height: 132px;
-    object-fit: cover;
+    height: 250px;
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    overflow: hidden; /* Garante que nada saia dos cantos arredondados */
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(100%); /* Efeito preto e branco inicial */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transição suave */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-decoration: none; /* Remove o sublinhado do link */
 }
 
-.noticia-subtitulo {
-    font-size: 1.2rem;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600; /* SemiBold */
-    margin: 0; 
-    color: #111;
-    line-height: 1.2;
-    flex: 1;
-    text-align: center;
+/* Efeito ao passar o mouse */
+.card-historia:hover {
+    filter: grayscale(0%); /* Remove o filtro, deixando a imagem colorida */
+    transform: translateY(-8px); /* Move o card um pouco para cima */
+    box-shadow: 0 12px 28px rgba(0,0,0,0.3);
 }
 
-.noticia-card p {
-    font-size: 0.95rem;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-weight: 400;
-    color: #222;
+/* Camada escura sobre a imagem */
+.card-historia-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.1) 80%);
+    display: flex;
+    align-items: flex-end; /* Alinha o texto na parte de baixo */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Contêiner do texto que vai animar */
+.card-historia-texto {
+    color: white;
+    transform: translateY(30px); /* Posição inicial: um pouco para baixo, fora da vista */
+    opacity: 0; /* Começa invisível */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Animação do texto no hover do card */
+.card-historia:hover .card-historia-texto {
+    transform: translateY(0); /* Posição final: volta ao normal */
+    opacity: 1; /* Fica visível */
+}
+
+.card-historia-titulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    margin: 0 0 5px 0;
+    letter-spacing: 1px;
+}
+
+.card-historia-descricao {
+    font-family: 'Roboto C  ondensed', sans-serif;
+    font-size: 0.9rem;
     margin: 0;
     line-height: 1.4;
-    text-align: left;
 }
 
-@media (min-width: 481px) {
-    .noticia-card {
-        flex-direction: row;
-        align-items: flex-start;
-        text-align: left;
+
+/* =================================
+   AJUSTES DE RESPONSIVIDADE
+   ================================= */
+
+/* TABLETS */
+@media (min-width: 768px) {
+    .container-historia {
+        grid-template-columns: repeat(2, 1fr); /* Duas colunas */
     }
-    .card-mobile {
-        display: block;
+
+    /* Efeito de layout "desalinhado" */
+    .container-historia .card-historia:nth-child(odd) {
+        margin-top: 30px;
     }
-    .noticia-img {
-        width: 180px;
-        height: 120px;
+    
+    .card-historia {
+        height: 350px;
     }
-    .noticia-subtitulo {
-        text-align: left;
-        margin-bottom: 6px;
+}
+
+/* DESKTOPS */
+@media (min-width: 1024px) {
+    .noticias-titulo {
+        font-size: 2.5rem;
     }
-    .noticia-card p {
-        text-align: left;
+
+    .card-historia-titulo {
+        font-size: 2.2rem;
     }
+
+    .card-historia-descricao {
+        font-size: 1rem;
+    }
+}
+
+/* =================================
+  ESTILOS DO POPUP (MODAL)
+  ================================= */
+
+/* O fundo escuro que cobre a tela */
+.historia-modal-overlay {
+  position: fixed; /* Fica fixo na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); /* Fundo preto semi-transparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+  
+  /* Escondido por padrão */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Classe que o JavaScript vai adicionar para mostrar o modal */
+.historia-modal-overlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* A caixa branca do conteúdo */
+.historia-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  padding: 25px;
+  width: 100%;
+  max-width: 600px; /* Largura máxima do popup */
+  max-height: 90vh; /* Altura máxima */
+  overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  
+  /* Animação de "zoom" */
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.historia-modal-overlay.active .historia-modal-content {
+  transform: scale(1);
+}
+
+/* O botão 'X' para fechar */
+.historia-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  line-height: 1;
+}
+.historia-modal-close:hover {
+  color: #000;
+}
+
+/* A imagem dentro do popup */
+.historia-modal-content #historia-modal-img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+/* O título dentro do popup */
+.historia-modal-content #historia-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+/* A descrição dentro do popup */
+.historia-modal-content #historia-modal-desc {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
 }

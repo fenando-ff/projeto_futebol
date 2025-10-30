@@ -8,13 +8,17 @@ body{
     font-family: 'Roboto Condensed', sans-serif;
 
 }
-.cabecalho {
-    background-color: #001A4A;
+
+/* novo estilo de navbar (opcional) */
+.cabecalho{
+    background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
     width: 100%;
     height: 50px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.6),
+    inset 450px 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .logo {
@@ -26,13 +30,13 @@ body{
 }
 
 .logo img {
-    width: 10%;
+    width: 17%;
     height: 20%;
-    max-width: 32px;
-    max-height: 36px;
+    min-width: 24px;
 }
 
 .logo h1 {
+    margin-left: 10px ;
     font-size: small;
     width: 100%;
     color: #ffffff;
@@ -56,11 +60,12 @@ body{
     justify-content: end;
     position: absolute;
     z-index: 9999;
+    margin-top: 13rem;
 }
 
 .hamburguer-opcoes {
     display: flex;
-    background-color: #001A4A;
+    background-color: #161616;
     flex-direction: column;
     list-style: none;
     gap: 4px;
@@ -70,6 +75,10 @@ body{
     margin-right: 16px;
     align-items: center;
 }
+
+.btn-esconde {
+        display: none;
+    }
 
 .hamburguer-opcoes a {
     text-decoration: none;
@@ -81,11 +90,62 @@ body{
     padding: 4px;
     text-align: start;
 }
+.hamburguer-opcoes .opcao-nav a {
+    transition: 0.3s;
+}
+
+.hamburguer-opcoes .opcao-nav a:hover {
+        color: #8F0000;
+    }
 
 footer {
-    background-color: #001A4A;
+    background-color: #161616;
     color: #ffffff;
     text-align: center;
     padding: 10px;
-    margin: 0px 0px 0px 0px;
+    margin: 8px 0px 0px 0px;
+}
+
+@media screen and (min-width: 768px) {
+    .cabecalho {
+        height: 80px;
+        display: flex;
+    }
+
+    .menu-hamburgue {
+        display: none;
+    }
+
+    .nav {
+        position: static;
+        width: 28rem;
+        display: flex;
+        justify-content: start;
+        margin-top: 0;
+    }
+    
+    .hamburguer-opcoes {
+        display: flex;
+        flex-direction: row;
+        background: none;
+        width: 28rem;
+    }
+
+    .hamburguer-opcoes .btn-esconde {
+        display: block;
+    }
+
+    .logo {
+        width: 24rem;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        text-decoration: none;
+        margin-right: 16rem;
+    }
+
+    .logo img {
+        max-width: 50px;
+    }
+    
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AguiaNews</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/noticias.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ======= CABEÇALHO ======= -->
+    <header class="cabecalho">
+        <a class="logo" href="index.html">
+            <img src="../img/escudo_aguia_maraba.png" alt="escudo do águia de marabá">
+            <h1>Águia de Marabá</h1>
+        </a>
+        <ul class="menu-hamburgue">
+            <li><a href="login.html">Login</a></li>
+            <li id="botao_hamburguer"><a href="#">Outros</a></li>
+            <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping" style="color: yellow;"></i></a></li>
+        </ul> 
+        <div class="nav">
+            <ul class="hamburguer-opcoes">
+                <li class="opcao-nav"><a href="loja_detalhe.html">Loja</a></li>
+                <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
+                <li class="opcao-nav"><a href="historia.html">História</a></li>
+                <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
+                <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
+                <li class="opcao-nav"><a href="socio.html">Sócios</a></li>
+                <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping" style="color: yellow;"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- ======= SEÇÃO NOTÍCIAS ======= -->
+    <section class="noticias">
+        <div class="voltar">
+            <i class='bx bx-left-arrow-alt'></i>
+        </div>
+        <h2 class="titulo">FIQUE POR DENTRO<br>DO NOSSO CLUBE</h2>
+
+        <div class="cards">
+            <!-- CARD 1 -->
+            <div class="card">
+                <div class="card-content">
+                    <img src="../img/NOTICIA.png" alt="Notícia" class="card-img">
+                    <div class="card-texto">
+                        <h3>RENOVAÇÃO DE CONTRATO</h3>
+                        <p>O jogador perez, decedi renovar com o clube até meados de 2027, o jogador diz que se sente 
+                        “confortável” ao atuar pelo clube Brasileiro</p>
+                        <span class="data">DATA 29/11/2007</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="card">
+                <div class="card-content">
+                    <img src="../img/NOTICIA.png" alt="Notícia" class="card-img">
+                    <div class="card-texto">
+                        <h3>RENOVAÇÃO DE CONTRATO</h3>
+                        <p>O jogador perez, decedi renovar com o clube até meados de 2027, o jogador diz que se sente 
+                        “confortável” ao atuar pelo clube Brasileiro</p>
+                        <span class="data">DATA 29/11/2007</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="card card-vermelho">
+                <div class="card-content">
+                    <img src="../img/NOTICIA.png" alt="Notícia" class="card-img">
+                    <div class="card-texto">
+                        <h3>RENOVAÇÃO DE CONTRATO</h3>
+                        <p>O jogador perez, decedi renovar com o clube até meados de 2027, o jogador diz que se sente 
+                        “confortável” ao atuar pelo clube Brasileiro</p>
+                        <span class="data">DATA 29/11/2007</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <p>&copy; 2025 Águia de Marabá FC. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- ======= SCRIPT MENU ======= -->
+    <script>
+        const botao = document.getElementById("botao_hamburguer");
+        const nav = document.querySelector(".nav");
+
+        botao.addEventListener("click", function() {
+            if (nav.style.display === "flex") {
+                nav.style.display = "none";
+            } else {
+                nav.style.display = "flex";
+            }
+        });
+    </script>
+</body>
+</html>

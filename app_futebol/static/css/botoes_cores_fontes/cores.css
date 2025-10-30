@@ -1,0 +1,22 @@
+  :root {
+  /* Cores de fundo*/
+  --cor-de-fundo-primaria: #3145B5;
+  --cor-de-fundo-secundaria: #f5f5f5;
+  --cor-de-fundo-terceiraria: #CF2923;
+  
+
+
+
+    /* Cores de elementos*/
+    --cor-navbar: #001A4A;
+    --cor-card-home:  #001A4A;
+  
+
+
+    /* fundo de gradientes de bloco de login é cadastro*/
+    --cor-gradiente-login: rgba(0, 28, 79, 0.3); /* cor semitransparente */
+    --blur-efeito-login: blur(50px); /* o blur no fundo */
+    --box-shadow-login: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+
+  }
