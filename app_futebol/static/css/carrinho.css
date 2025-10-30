@@ -1,146 +1,310 @@
-main {
-    width: 100%;
-    color: #ffffff;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-.fa-arrow-circle-left{
-    color: #ffffff;
-    font-size: 50px;
-    padding: 8px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #001694;
+  font-family: "Poppins", sans-serif;
+  background: #d5d5d5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #1a1a1a;
+}
+
+/* ====== MAIN ====== */
+main {
+  flex: 1;
+  padding: 40px 20px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2.5rem;
+  padding: 2rem;
+
+}
+
+
+
+
+
+/* ====== CARRINHO ====== */
+.carrinho {
+  background: #f9f9f9;
+  padding: 2.0rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: 0.5s;
+}
+
+.carrinho:hover{
+  transform: scale(1.02);
 }
 
 .titulo {
-    text-align: center;
-    margin: auto;
-    padding: 10px;
-    border-bottom: 1px solid red;
-    width: 60%;
-    text-transform: uppercase;
-    margin-bottom: 36px;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #b70000;
+  text-transform: uppercase;
 }
 
-.container-itens {
-    width: 100%;
-    margin-bottom: 40px;
+.cabecalho-lista {
+  display: grid;
+  grid-template-columns: 2fr 110px 0px 100px;
+  font-weight: 600;
+  color: #444;
+  padding: 0 10px;
+  margin: 20px 0 15px;
+  font-size: 18px;
+  padding-bottom: 5px;
 }
 
-.item {
-    width: 95%;
-    margin: auto;
-    padding: 8px;
+/* ====== ITEM DO CARRINHO ====== */
+.item-carrinho {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transition:s 0.1s;
 }
 
-.produto {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-}
-.caixa-selecao {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.item-carrinho:hover {
+  border: 2px solid #b70000;
+  transform: scale(1.05);
 }
 
-#caixa[type="checkbox"] {
-  width: 20px; /* Define a largura do checkbox */
-  height: 20px; /* Define a altura do checkbox */
-  accent-color: white;
-}
 
-#caixa[type="checkbox"]:checked {
-    accent-color: red;
-}
-
-.img-descricao {
-    flex: 7;
-    width: 20%;
-    display: flex;
-    /* justify-content: center; */
-    padding: 4px;
-}
-
-.img-descricao .img {
-    width: 30%;
-    background-size: contain;
-    background-repeat: no-repeat;    
-}
-
-.img-descricao .img-1 {
-    background-image: url(../img/img_caneca.png);
-}
-
-.img-descricao .img-2 {
-    background-image: url(../img/img_mochila.png);
-}
-
-.img-descricao .img-3 {
-    background-image: url(../img/img_meias_treino.png);
-}
-
-.img-descricao .descricao {
-    text-align: start;
-    width: 50%;
-}
-
-.img-descricao .descricao .titulo-descricao {
-    font-size: 20px;
-}
-
-.descricao .titulo-descricao {
-    color: yellow;
+.item-carrinho img {
+  width: 80px;
+  height: auto;
+  border-radius: 8px;
 }
 
 .info-produto {
-    list-style: none;
+  flex: 1;
+  margin-left: 1rem;
 }
 
-.btn-qtd {
-    margin: auto;
-    width: 95%;
-    text-align: end;
-    padding: 8px;
+.info-produto h3 {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
 }
 
-.forma-pagamento {
-    display: flex;
+.info-produto p {
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* ====== QUANTIDADE ====== */
+.quantidade {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.quantidade button {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.quantidade button:hover {
+  background-color: #b70000;
+  transform: scale(1.1);
+}
+
+.quantidade span {
+  background: #000;
+  color: #fff;
+  padding: 0.25rem 0.55rem;
+  border-radius: 50%;
+  user-select: none;
+}
+
+/* ====== PREÇO E LIXEIRA ====== */
+.preco {
+  font-weight: 600;
+  color: #222;
+  width: 90px;
+  text-align: right;
+}
+
+.lixeira {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #b70000;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.lixeira:hover {
+  color: #ff2b2b;
+  transform: scale(1.2);
+}
+
+/* ====== RESUMO DO PEDIDO ====== */
+.resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.bloco-resumo{
+  background: #fafafa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: 0.5s;
+}
+
+.bloco-resumo:hover{
+  transform: scale(1.03);
+
+}
+
+.bloco-pagamento {
+  background: #fafafa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: 0.5s;
+  
+}
+
+.bloco-pagamento:hover{
+  transform: scale(1.03);
+
+}
+
+.bloco-resumo h2,
+.bloco-pagamento h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #1a1a1a;
+}
+
+.bloco-resumo p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.4rem 0;
+  font-size: 1.5rem;
+}
+
+.total {
+  color: #b70000;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ====== FORMAS DE PAGAMENTO ====== */
+.formas {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.2rem 0;
+}
+
+.pix_logo{
+  width: 10px;
+  height: 200px;
+}
+
+.formas img {
+  width: 50px;
+  opacity: 0.9;
+  transition: transform 0.2s ease;
+}
+
+.formas img:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* ====== BOTÃO DE PAGAMENTO ====== */
+.btn-pagamento {
+  background: #b70000;
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background 0.3s ease, transform 0.2s;
+}
+
+.btn-pagamento:hover {
+  background: #ff0000;
+  transform: scale(1.03);
+}
+
+/* ====== FOOTER ====== */
+footer {
+  text-align: center;
+  padding: 1rem 0;
+  background: #222;
+  color: #fff;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  margin-top: auto;
+}
+
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 1000px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .carrinho {
+    order: 1;
+  }
+
+  .resumo {
+    order: 2;
+  }
+}
+
+@media (max-width: 650px) {
+  .item-carrinho {
     flex-direction: column;
-    justify-content: space-between;
-    width: 90%;
-    height: 50vh;
-    margin: auto;
-    padding: 8px;
-    text-align: center;
-    background-color: black;
-    border-radius: 16px;
-}
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
 
-.precos-totais {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-bottom: 40px;
-}
+  .cabecalho-lista {
+    display: none;
+  }
 
+  .quantidade {
+    margin-top: 0.5rem;
+  }
 
+  .preco {
+    text-align: left;
+  }
 
-.opcoes-pagamento {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.opcoes-pagamento .opcao-pag {
-    border: 1px solid white;
-    border-radius: 8px;
-    padding: 8px;
-    width: 50%;
-    text-transform: uppercase;
+  .btn-pagamento {
+    font-size: 0.95rem;
+  }
 }

@@ -1,6 +1,12 @@
-.corpo {
+/* .corpo {
     background: linear-gradient(180deg,#001BB2 70%,#F72B2B 95%,#f0f0f0 98%);
     background-repeat: no-repeat;
+} */
+
+.corpo {
+    background: linear-gradient(180deg,#222222 70%, #222222 90%,#f0f0f0 );
+    background-repeat: no-repeat;
+
 }
 
 a {
@@ -16,10 +22,8 @@ a {
     padding: 8px;
     gap: 16px;
     width: 90%;
-    margin: auto;
+    margin: 32px auto;
     text-align: center;
-    margin-bottom: 32px;
-    margin-top: 32px;
 }
 
 .titulo h1 {
@@ -28,7 +32,7 @@ a {
 
 .titulo .fa-star {
     color: yellow;
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .container-cards {
@@ -42,10 +46,10 @@ a {
 
 .container-cards .card {
     width: 60%;
-    height:16rem;
+    height: auto;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 12px;
     justify-content: center;
     padding: 16px;
     margin: auto;
@@ -53,12 +57,11 @@ a {
 }
 
 .container-cards .card1 {
-    background-color: #f0f0f0;
+    background-color: #444;
 }
 
-.card1 .link-jornal {
+.link-jornal {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,33 +70,34 @@ a {
 }
 
 .link-jornal .texto-noticia {
-    font-size: large;
-    color: black;
+    font-size: medium;
+    color: white;
+    text-align: center;
 }
 
 .container-cards .card2 {
-    background-color: #001A4A;
+    background-color: #CF2923;
     color: #f0f0f0;
 }
 
 .card2 .versus-jogo {
     display: flex;
     margin-bottom: 32px;
-}
-
-.versus-jogo .time-casa {
-    flex: 1;
+    flex-wrap: wrap;
     text-align: center;
 }
 
+.versus-jogo .time-casa,
 .versus-jogo .time-fora {
     flex: 1;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .versus-jogo .fa-xmark {
     flex: 1;
-    font-size: 50px;
+    font-size: 40px;
     align-self: center;
 }
 
@@ -121,39 +125,49 @@ a {
 
 .container-cards .card3 {
     justify-content: center;
-    background-color: #f0f0f0;
+    background-color: #444;
 }
 
-.card3 img {
-    width: 60%;
+.card3 .camisa-card3 {
+    width: 80%;
     margin: auto;
 }
 
 .card3 .titulo-card-produto {
+    color: white;
     text-align: center;
     font-weight: bold;
-    font-size: x-large;
+    font-size: large;
 }
 
 .card3 a {
     text-align: center;
     color: #f0f0f0;
     background-color: #001A4A;
-    width: 40%;
+    width: 60%;
     margin: auto;
     padding: 8px;
     border-radius: 16px;
     text-transform: uppercase;
 }
 
+/* ==============================
+   🏆 Próximo Jogo e Tabela
+   ============================== */
+.proximo-jogo-tabela {
+    display: flex;
+    margin-bottom: 100px;
+}
+
+/* Próximo jogo */
 .proximo-jogo {
+    flex: 1;
     display: flex;
     flex-direction: column;
     width: 100%;
     color: #f0f0f0;
     justify-content: center;
     gap: 32px;
-    margin-bottom: 100px;
 }
 
 .proximo-jogo h1 {
@@ -167,10 +181,11 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    flex-wrap: wrap;
 }
 
-.proximo-jogo-versus .time1, .time2 {
+.proximo-jogo-versus .time1,
+.proximo-jogo-versus .time2 {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -178,49 +193,133 @@ a {
     align-items: center;
 }
 
-.proximo-jogo-versus .time1 img, .time2 img {
+.proximo-jogo-versus img {
     width: 60px;
 }
 
 .proximo-jogo-versus .fa-xmark {
     flex: 0.5;
-    font-size: 50px;
-}
-
-.proximo-jogo-versus .time2 {
-    flex: 1;
-    text-align: center;
+    font-size: 40px;
 }
 
 .proximo-jogo .info-jogo {
     text-align: center;
-    width: 60%;
+    width: 90%;
     margin: auto;
+    padding-bottom: 16px;
 }
 
 .info-jogo .local-info-jogo {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     margin-bottom: 8px;
 }
 
 .info-jogo .dia-hora-info-jogo {
-    font-size: 32px;
+    font-size: 24px;
     margin-bottom: 16px;
 }
 
 .info-jogo a {
     background-color: #001A4A;
     color: #f0f0f0;
-    font-size: 20px;
-    padding: 12px;
+    font-size: 18px;
+    padding: 10px;
     border-radius: 12px;
 }
 
+.time1 img {
+    border-radius: 50%;
+    background: none;
+}
+
+/* Tabela */
+.tabelaBrasileirao {
+    flex: 1;
+}
+
+.tabelaBrasileirao h1,.tabelaBrasileirao #subtituloTabela {
+    text-align: center;
+    color: #9e2121;
+    text-transform: uppercase;
+    width: 20%;
+    margin: auto;
+}
+
+.hover-ativo span{
+    color: #9e2121;
+}
+
+.cor-1 {
+    transition: 0.3s;
+    color: #00ff00; /* Verde */
+}
+
+.cor-2 {
+    transition: 0.3s;
+    color: #ffd900; /* Ouro */
+}
+
+.cor-3 {
+    transition: 0.3s;
+    color: #0059ff; /* Seu vermelho original */
+}
+
+.cor-4 {
+    transition: 0.3s;
+    color: #f0f0f0; /* Seu branco/cinza claro */
+}
+
+.classificacao {
+    list-style: none;
+    width: 50%;
+    margin: auto;;
+}
+
+.card-tabela {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 12px 0px;
+    gap: 16px;
+}
+
+.brasao-time{
+    width: 10%;
+    min-width: 40px;
+}
+
+.palmeiras, .vasco, .criciuma, .gremio{
+    border-radius: 50%;
+}
+
+.info-time-tabela {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+
+.pontos, .posicao, .nome-time {
+    padding: 8px;
+}
+
+.pontos {
+    border-left: 1px solid black;
+}
+
+/* Garanta que o h2 não tenha uma cor que sobrescreva os spans */
+/* ==============================
+    Loja
+   ============================== */
 .titulo-loja {
     text-transform: uppercase;
     text-align: center;
-    color: yellow;
+    color: #E9E8E8;
     margin-bottom: 16px;
 }
 
@@ -230,27 +329,26 @@ a {
     justify-content: center;
     align-items: center;
 }
+
 .loja .carrossel {
     display: flex;
-    overflow-x: auto;              /* habilita scroll horizontal */
-    -webkit-overflow-scrolling: touch; /* momentum no iOS */
-    padding-bottom: 8px;           /* evita cortar sombras / bordas */
-    scroll-behavior: smooth;       /* rolagem suave quando programática */
-}
-.carrossel {
-    scrollbar-width: none; /*esconde a barra de rolagem. Firefox, IE */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
     -ms-overflow-style: none;
     width: 90%;
     margin: auto;
     margin-bottom: 16px;
 }
 
-.carrossel a .card-carrossel { /* Estudar mais sobre esses comandos */
-    flex: 0 0 auto;                /* não encolhe, largura fixa */
-    width: 300px;
+.carrossel a .card-carrossel {
+    flex: 0 0 auto;
+    width: 250px;
     border-radius: 20px;
     overflow: hidden;
-    scroll-snap-align: start;      /* ponto de encaixe */
+    scroll-snap-align: start;
     text-align: center;
     color: #f0f0f0;
 }
@@ -263,19 +361,250 @@ a {
 
 .texto-card-carrossel {
     text-transform: uppercase;
-    font-size: 20px;
-}
-
-@media (max-width: 700px) {
-    .card-carrossel {
-        width: calc(90vw); /* ocupa quase toda a tela no celular */
-    }  
+    font-size: 18px;
 }
 
 .loja .btn-loja {
-    border: 2px solid #fff ;
+    border: 1px solid #fff;
     border-radius: 12px;
     padding: 16px;
     color: yellow;
     font-size: larger;
+    margin-bottom: 64px;
+}
+
+/* ==============================
+    Notícias
+   ============================== */
+.noticias {
+    text-align: center;
+    padding: 16px;
+    width: 80%;
+    margin: auto;
+}
+
+.titulo-noticias {
+    color: #9e2121;
+    margin-bottom: 20px;
+}
+
+.manchete {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.carrossel-noticia {
+    overflow: hidden;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.manchete .texto-noticia {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    height: 15rem;
+    gap: 2rem;
+    flex: 2;
+}
+
+.manchete .texto-noticia .subtitulo-noticia {
+    text-transform: uppercase;
+}
+
+.manchete .texto-noticia p {
+    text-align: left;
+}
+
+.manchete .texto-noticia, .carrossel-noticia {
+    background-color: #444;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.slide {
+    display: flex;
+    margin-bottom: 16px;
+    width: 300%;
+    transition: transform 0.5s ease;
+    gap: 2rem;
+}
+
+.img-carrossel-noticia {
+    width: 33.333%; /* Cada imagem ocupa 1/3 da largura do container .slide (300%) */
+    min-width: 33.333%; /* Garante que ocupe a largura correta */
+    height: 15rem; /* Adicionado para garantir que ocupe o mesmo espaço que o texto-noticia */
+    border-radius: 8px;
+    margin: 0; /* Removido 'margin: auto;' para que fiquem lado a lado */
+  
+}
+
+.img-carrossel-noticia img{
+    width: 110%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.barra-carrossel {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.barra-carrossel .dot-carrossel {
+    width: 4rem;
+    height: 0.2rem;
+    border: none;
+    transition: 0.3s;
+}
+
+.barra-carrossel .ligado {
+    background-color: red;
+    width: 8rem;
+}
+
+/* ==============================
+   CELULARES
+   ============================== */
+@media screen and (max-width: 767px) {
+    .titulo .fa-star { 
+        font-size: 36px; 
+    }
+    
+    .card3 img { 
+        width: 50%;
+        max-width: 100px;
+    }
+
+    .card3 a { 
+        width: 80%; 
+    }
+
+    .card-carrossel { 
+        width: 85vw; 
+    }
+
+    .versus-jogo .fa-xmark { 
+        font-size: 36px; 
+    }
+
+    .info-jogo .dia-hora-info-jogo { 
+        font-size: 22px; 
+    }
+
+    .proximo-jogo-tabela {
+        flex-direction: column;
+    }
+
+    .tabelaBrasileirao {
+        width: 100%;
+    }
+
+    .tabelaBrasileirao h1, .tabelaBrasileirao #subtituloTabela {
+        width: 50%;
+    }
+
+    .tabelaBrasileirao .classificacao {
+        width: 90%;
+    }
+
+}
+
+/* ==============================
+   TABLETS
+   ============================== */
+@media screen and (min-width: 768px) {
+    .container-cards {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .container-cards .card {
+        width: 45%;
+    }
+
+    .card3 .camisa-card3 { 
+        width: 25%; 
+    }
+
+    .proximo-jogo .proximo-jogo-versus { 
+        width: 80%; 
+    }
+
+    .info-jogo .dia-hora-info-jogo { 
+        font-size: 28px; 
+    }
+
+    .manchete{
+        margin: auto;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .manchete .texto-noticia {
+        width: 50%;
+    }
+
+    .carrossel-noticia .slide{
+        margin-bottom: 12px;
+    }
+
+    .manchete .texto-noticia, .carrossel-noticia {
+        height: 16rem;
+    }
+
+}
+
+/* ==============================
+   DESKTOPS
+   ============================== */
+@media screen and (min-width: 1024px) {
+    .titulo h1 { 
+        font-size: 2rem; 
+    }
+
+    .container-cards {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .container-cards .card {
+        width: 30%;
+    }
+
+    .card3 img { 
+        width: 16%;
+        min-width: 50px;
+    }
+
+    .proximo-jogo .proximo-jogo-versus { 
+        width: 60%; 
+    }
+
+    .info-jogo {
+        width: 50%; 
+    }
+
+    .info-jogo .dia-hora-info-jogo {
+        font-size: 32px; 
+    }
+}
+
+/* ==============================
+   GRANDES TELAS
+   ============================== */
+@media screen and (min-width: 1920px) {
+    .container-cards .card { 
+        width: 25%; 
+    }
+
+    .info-jogo .dia-hora-info-jogo { 
+        font-size: 36px; 
+    }
 }

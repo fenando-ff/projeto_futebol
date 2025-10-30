@@ -1,0 +1,141 @@
+
+body{
+    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background-repeat: no-repeat;
+
+}
+
+main{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.conteiner{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 30px;
+    margin: 120px 65px;
+    border-radius: 20px;
+    background: #8F0000(0, 28, 79, 0.3); /* cor semitransparente */
+    backdrop-filter: blur(50px); /* o blur no fundo */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    max-width: 600px;
+}
+
+
+
+.conteiner h2{
+    text-align: center;
+    color: #e4e4e4 ;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 1%;
+} 
+
+.conta_criada{ 
+    text-align: center;
+    transform-origin: center; 
+    opacity: 90%;
+    width: 180px;
+    height: 170px;
+    margin: 0px 70px;
+    margin-bottom: 10%;
+    margin-top:10%;
+}
+
+
+
+
+.botao{
+    margin: 30px 0px 40px 0px;
+    width: 230px;
+    height: 50px;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    font-family: 'Oswald', sans-serif;
+    transition: 0.3s;
+}
+
+
+
+.botao:hover{
+    background-color: #b32108;
+    color: aliceblue;
+    scale: 1.0s;
+
+}
+
+.etapas {
+  display: flex; /* coloca tudo na horizontal */
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* espaçamento entre as etapas */
+}
+
+.etapa {
+  position: relative; /* necessário para o ::after se posicionar */
+}
+
+
+
+.circulo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d5d5d5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(53, 53, 53);
+  font-weight: bold;
+}
+
+
+.uxx{
+    background-color: #0F0F0F;
+
+
+}
+
+.doixx{
+    background-color: #0F0F0F;
+    color: #ffffff;
+}
+
+.trexx{
+    background-color: #0F0F0F;
+    color: #ffffff;
+}
+
+/* Linha entre as bolinhas */
+.etapa:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 40px;   /* comprimento da linha */
+  height: 4px;   /* espessura */
+  background-color: #c7c7c7;
+  transform: translateY(-50%);
+}
+
+.dois:not(:last-child)::after {
+    background-color: #0F0F0F;
+
+}
+
+.um:not(:last-child)::after {
+    background-color: #0F0F0F;
+
+}
+
+.tres:not(:last-child)::after {
+    background-color: #0F0F0F;
+
+}

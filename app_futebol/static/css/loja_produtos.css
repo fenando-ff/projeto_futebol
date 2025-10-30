@@ -1,0 +1,411 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto Condensed');
+
+/* ===============================
+   RESET BÁSICO – Remove margens e paddings padrão
+   =============================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===============================
+   ESTILO GERAL DO SITE
+   =============================== */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #a50000;
+  color: #111;
+}
+
+/* Container principal que centraliza o conteúdo */
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ===============================
+   BANNER SUPERIOR – Título + Carrossel (automático)
+   =============================== */
+.banner-wrapper {
+  display: flex;
+  align-items: center;
+  height: 350px;
+  margin-bottom: 20px;
+}
+
+/* TÍTULO à esquerda */
+.banner-title {
+  flex: 1;
+  background-color: #ffffff;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
+}
+
+.banner-title h2 {
+  font-size: 60px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue',sans-serif;
+  opacity: 90%;
+  letter-spacing: 7px; /* Aumenta o espaço entre letras */
+}
+
+/* CARROSSEL AUTOMÁTICO à direita */
+.banner-carousel {
+  flex: 2;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Slides do carrossel automático */
+.banner-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}
+
+.banner-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.banner-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===============================
+   SEÇÃO TEMPORADA 25/26
+   =============================== */
+.season {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background: #fff;
+  padding: 40px;
+  align-items: flex-start;
+}
+
+.season-text {
+  flex: 1 1 300px;
+}
+
+.season-text h2 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-family: 'Oswald',sans-serif;
+}
+
+.season-text p {
+  font-size: 19px;
+  line-height: 1.6;
+  color: #222;
+  font-family:'Roboto Condensed', sans-serif; 
+}
+
+/* Wrapper do carrossel + seta */
+.season-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.season-carousel {
+  overflow: hidden;
+  border-radius: 8px;
+  min-width: 350px;
+  height: 350px;
+  position: relative;
+}
+
+/* ======= CORREÇÃO E ANIMAÇÃO DO CARROSSEL ======= */
+.season-slide {
+  position: absolute;
+  top: 0;
+  left: 100%; /* começa fora da tela */
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+/* Slide ativo visível */
+.season-slide.active {
+  left: 0;
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Slide saindo pela esquerda */
+.season-slide.exit-left {
+  left: -100%;
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Garante que o primeiro slide apareça */
+.season-slide:first-child {
+  left: 0;
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Corrige os slides ocultos */
+.season-slide:not(.active):not(:first-child) {
+  left: 200%;
+  opacity: 0;
+}
+
+.season-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  filter: grayscale(100%);
+  transition: 0.7s;
+}
+
+.season-slide img:hover {
+  filter: grayscale(0%);
+  width: 103%;
+  height: 103%;
+}
+
+/* Botão da seta */
+.next-slide {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 80px;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+
+.next-slide:hover {
+  background-color: #d2d2d2;
+}
+
+/* ===============================
+   SEÇÃO PRODUTOS
+   =============================== */
+.produtos {
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.produtos h2 {
+  font-size: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Menu de filtros */
+.filter {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.filter a {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  transition: 0.3s;
+}
+
+.filter a:hover {
+  border-bottom: 2px solid #000;
+}
+
+/* ===============================
+   CARROSSEL DE PRODUTOS
+   =============================== */
+
+
+.carrossel-produtos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carrossel-produtos .flex {
+  flex: 1;
+  overflow-x: auto;
+  display: flex;
+  gap: 20px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+}
+
+.btn-prev,
+.btn-next {
+  background-color: transparent;
+  border: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 40px;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+
+.btn-prev:hover,
+.btn-next:hover {
+  background-color: #9d0808;
+}
+
+.flex {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.flex::-webkit-scrollbar {
+  display: none;
+}
+
+/* Cada produto como um card */
+.produto {
+  flex: 0 0 auto;
+  width: 300px;
+  background: #f9f9f9;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.produto img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.produto h3 {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+
+.produto p {
+  font-size: 14px;
+  color: #333;
+}
+
+.produto:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===============================
+   MEDIA QUERIES
+   =============================== */
+@media (max-width: 1024px) {
+  .season {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+  }
+
+  .season-text,
+  .season-wrapper {
+    flex: 1 1 100%;
+  }
+
+  .season-carousel {
+    height: 300px;
+  }
+
+  .season-slide img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .next-slide {
+    font-size: 60px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .season-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .season-carousel {
+    width: 100%;
+    height: 50px;
+    min-width: 250px;
+  }
+
+  .season-slide img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .next-slide {
+    font-size: 50px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .season-text h2 {
+    font-size: 24px;
+  }
+
+  .season-text p {
+    font-size: 14px;
+  }
+
+  .season-carousel {
+    height: 200px;
+    width: 200px;
+  }
+
+  .next-slide {
+    font-size: 40px;
+  }
+
+  .produto {
+    width: 180px;
+  }
+
+  .produtos h2 {
+    font-size: 20px;
+  }
+}

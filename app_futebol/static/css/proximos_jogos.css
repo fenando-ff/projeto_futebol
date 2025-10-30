@@ -1,0 +1,186 @@
+/* 🔷 Reset e fonte padrão */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #0d0d0d;
+  color: #ffffff;
+}
+
+/* 🔷 Rodapé */
+footer {
+  background-color: #161616;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+footer .redes-sociais a {
+  color: #ffffff;
+  margin: 0 8px;
+  font-size: 1.2rem;
+}
+
+/* 🔷 Estilo geral do conteúdo principal */
+main {
+  padding: 20px;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #8F0000;
+}
+
+.titulo-secundario {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin: 40px 0 20px 0;
+}
+
+/* 🔷 Destaque do próximo jogo */
+.jogo-destaque {
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  padding: 30px 20px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.rodada {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #8F0000;
+  margin-bottom: 20px;
+}
+
+.confronto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.time p {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.versus {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #8F0000;
+}
+
+.info-jogo {
+  font-size: 1rem;
+  color: #cccccc;
+  margin: 5px 0;
+}
+
+.btn-proximo {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #8F0000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-proximo:hover {
+  background-color: #a80000;
+}
+
+/* 🔷 Cards dos jogos futuros */
+.jogos-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.jogo-card {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.jogo-card:hover {
+  transform: scale(1.02);
+}
+
+.jogo-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #8F0000;
+}
+
+.jogo-card p {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #cccccc;
+}
+
+.btn-comprar {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #8F0000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background-color: #a80000;
+}
+
+/* 🔷 Responsivo para telas maiores */
+@media screen and (min-width: 768px) {
+  .jogos-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .jogo-card {
+    width: 45%;
+  }
+}

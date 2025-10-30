@@ -1,155 +1,320 @@
-body{
-    height: 100vh;
-    height: 100vh;
-    background: radial-gradient(circle at center, #014ac9 10%, #001A4A 100%);
-    height: 100vh;
+/* ---------- ESTILOS GERAIS (para mobile primeiro) ---------- */
+body {
+    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background-repeat: no-repeat;
 }
 
-main{
+main {
     height: 100vh;
-    margin: 0;
-    width: 0;
+    width: 100%;
     display: flex;
-    
+    justify-content: center;
+    align-items: center;
 }
 
-.conteiner{
+.conteiner {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
-    margin: 120px 55px;
+    padding: 20px;
+    margin: 20px;
+    width: 85%;
     border-radius: 20px;
-    background: rgba(0, 28, 79, 0.3); /* cor semitransparente */
-    backdrop-filter: blur(50px); /* o blur no fundo */
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    background: rgba(143, 0, 0, 0.3);
+    backdrop-filter: blur(50px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+                rgba(0, 0, 0, 0.12) 0px -12px 30px,
+                rgba(0, 0, 0, 0.12) 0px 4px 6px,
+                rgba(0, 0, 0, 0.17) 0px 12px 13px,
+                rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
-    
-    
 
+/* seta de voltar */
+.fa-arrow-left{
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  margin-right: 20px; /* margem menor e mais equilibrada */
+  width: 5%;
+  text-align: left;
+}
 
-.conteiner h2{
-    position: absolute;
-    top: 10%;
-    color: #F7C02B ;
+    
+#area_seta {
+    width: 100%;
+}
+
+/* título */
+.titulo_login {
+    margin: 30px 0 40px 0;
+    color: #d2d2d2;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 40px;
-    letter-spacing: 16%;
-} 
+    font-size: 35px;
+    text-align: center;
+}
 
-.caixa{
-    margin: 10px 45px;
+/* caixas de input */
+.caixa {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
     border: 1px solid white;
-    color: transparent;
-    text-decoration: none;
-    background-color: transparent;
-    border: 1px solid white ;
     border-radius: 15px;
-}  
+    padding: 10px 15px;
+    background-color: transparent;
+    width: 100%;
+}
 
-
-
-
-.caixa input{
-    width: 170px;
-    height: 35px  ;
-    color: aliceblue; 
+.caixa input {
+    flex: 1;
+    height: 1rem;
+    width: 1rem;
+    color: aliceblue;
     background-color: transparent;
     border: none;
     outline: none;
-    margin-left: 40px;
-    margin-right: 20px;
-
 }
 
-.caixa input::placeholder{
+.caixa input::placeholder {
     color: aliceblue;
-    left: 100%;
-
-
 }
 
-
-input:focus {
-    outline: none;              /* tira a borda azul padrão */
-    background-color: transparent; /* deixa sem cor */
-    box-shadow: none;           /* remove brilho */
-}
-
-
-
-input[type="password"]::-ms-reveal {            /* trocando a cor do olho deixando inverso */
-    filter: invert(1);
-}
-
-
-.caixa i{
+.caixa i {
     color: aliceblue;
-    position: absolute;
-    left: 60px;
-    margin-top: 9px;
-
+    font-size: 18px;
 }
 
-.comando{
-    color: #F7C02B;
-    margin: 20px 80px 40px 0px;
-
-
-
+/* texto comando */
+.comando {
+    color: #d2d2d2;
+    margin: 25px 0 15px 0;
+    text-align: center;
+    font-family: 1rem;
 }
 
-
-.informando_o_sexo{
+/* seleção de sexo */
+.informando_o_sexo {
     display: flex;
-
-
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
 }
 
 
-.caixinha{
+.caixa_indeciso input[type="checkbox"] {
+    width: 15px;
+    height: 20px;
+    accent-color: #f6f6f6; /* muda a cor quando marcada */
+    margin-right: 10px;
+    cursor: pointer;
+    color: #f6f6f6;
+}
+.caixa_indeciso label { 
+    color: #f6f6f6;
+    margin-top: 30px;
     display: flex;
-    border: 1px solid white;
-    border-radius: 15%;
-    margin: 0px 10px;
+    align-items: center;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+}
+
+.caixa_indeciso p{
+      font-size: 13px;
+}
+
+.ativo {
+    background-color: #f6f6f6;
+}
+
+.caixinha {
+    display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid white;
+    border-radius: 20%;
     padding: 20px;
+    transition: 0.3s;
+}
+
+.caixinha:hover {
+    transform: scale(1.1);
 }
 
 .fa-mars {
     color: rgb(0, 162, 255);
-    font-size: 40PX;
+    font-size: 35px;
 }
 
 .fa-venus {
-    color: pink;
-    font-size: 40PX;
+    color: rgb(255, 103, 128);
+    font-size: 35px;
 }
 
-
-
-
-.botao{
+/* botão próximo */
+.btn-terceiro {
     margin-top: 30px;
-    width: 230px;
-    height: 40px;
+    padding: 12px 40px;
     border: none;
-    border-radius: 20px;
-    font-size: 20px;
+    border-radius: 25px;
+    background-color: #8F0000;
+    color: white;
+    font-size: 18px;
     font-family: 'Oswald', sans-serif;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-
-
-.botao:hover{
+.btn-terceiro:hover {
     background-color: #b32108;
-    color: aliceblue;
-    scale: 1.0s;
-
+    scale: 1.05;
 }
 
+/* etapas */
+.etapas {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.etapa {
+    position: relative;
+}
+
+.circulo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #d5d5d5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(53, 53, 53);
+    font-weight: bold;
+}
+
+.um {
+    background-color: #0F0F0F;
+    color: #ffffff;
+}
+
+.etapa:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 40px;
+    height: 4px;
+    background-color: #c7c7c7;
+    transform: translateY(-50%);
+}
+
+/* ---------- MEDIA QUERIES ---------- */
+
+/* CELULAR */
+@media screen and (max-width: 768px) {
+    .conteiner {
+        width: 65%;
+        padding: 15px;
+    }
+
+    .titulo_login {
+        font-size: 30px;
+    }
+
+    .caixa {
+        width: 60%;
+        height: 1%
+    }
+
+    .caixa input {
+            height: 20px;
+            width: 10px;
+    }
+
+    .btn-terceiro {
+        width: 80%;
+        font-size: 16px;
+    }
+
+    .circulo {
+        width: 30px;
+        height: 30px;
+    }
+
+    .btn-terceiro{
+        transform: scale(0.9);
+    }
+}
+
+/* TABLET */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .conteiner {
+        width: 60%;
+        padding: 20px 40px;
+    }
+
+    .titulo_login {
+        font-size: 38px;
+    }
+
+    .caixa {
+        width: 35%;
+    }
+
+    .btn-terceiro {
+        width: 50%;
+    }
+
+    .btn-terceiro{
+        transform: scale(1.0);
+    }
+}
+
+/* PC */
+@media screen and (min-width: 1025px) {
+    .conteiner {
+        width: 40%;
+        padding: 30px 60px;
+    }
+
+    .titulo_login {
+        font-size: 42px;
+    }
+
+    .caixa {
+        width: 40%;
+    }
+
+    .btn-terceiro {
+        width: 40%;
+        font-size: 18px;
+    }
+
+    .circulo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .btn-terceiro{
+        transform: scale(1.1);
+    }
+
+    .caixinha {
+        transform: scale(1.2);
+    }
+
+    .comando{
+        font-size: 30px;
+    }
+
+    .informando_o_sexo{
+        gap: 30px;
+    }
+}
 
 
 
