@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drako Store</title>
+
+  <!-- Fontes e ícones -->
+  <link rel="shortcut icon" href="../img/escudo_aguia_maraba.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/loja_produtos.css">
+</head>
+<body>
+
+<header class="cabecalho">
+  <a class="logo" href="index.html">
+    <img src="../img/logo_time_drako 3.png" alt="escudo do águia de marabá">
+    <h1>DRAKOS FC</h1>
+  </a>
+  <ul class="menu-hamburgue">
+    <li><a href="login.html">Login</a></li>
+    <li id="botao_hamburguer"><a href="#">Outros</a></li>
+    <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+  </ul> 
+  <div class="nav">
+    <ul class="hamburguer-opcoes">
+      <li class="opcao-nav"><a href="loja_detalhe.html">Loja</a></li>
+      <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
+      <li class="opcao-nav"><a href="historia.html">História</a></li>
+      <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
+      <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
+      <li class="opcao-nav"><a href="socio.html">Sócios</a></li>
+      <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+    </ul>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Banner com título à esquerda e carrossel automático à direita -->
+  <section class="banner-wrapper">
+    <div class="banner-title">
+      <h2>DRAKO STORE</h2>
+    </div>
+
+    <div class="banner-carousel">
+      <div class="banner-slide active">
+        <img src="../img_produtos_loja/Property 1=Default.png" alt="Banner 1">
+      </div>
+      <div class="banner-slide">
+        <img src="../img_produtos_loja/Property 1=Variant2.png" alt="Banner 2">
+      </div>
+      <div class="banner-slide">
+        <img src="../img_produtos_loja/img_cassosel_temporario.png" alt="Banner 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção temporada com carrossel manual -->
+<section class="season">
+  <div class="season-text">
+    <h2>TEMPORADA 25/26</h2>
+    <p>
+      Os mantos da nova temporada já estão disponíveis. Sócios podem levar descontos de até 50%.<br>
+      Os uniformes feitos do material de vibranium, junto com um pequeno ingrediente.<br>
+      Se você for pobre, melhor sair dessa tela de produtos...<br>
+      Desde já, agradeço. Bye Bye
+    </p>
+  </div>
+
+  <!-- Container do carrossel e seta como flex -->
+  <div class="season-wrapper">
+    <div class="season-carousel">
+      <div class="season-slide active">
+        <img src="../img_produtos_loja/primerio_carrosel.png" alt="Slide 1">
+      </div>
+      <div class="season-slide">
+        <img src="../img_produtos_loja/uniforme_segundo_casrrosel.png" alt="Slide 2">
+      </div>
+      <div class="season-slide">
+        <img src="../img_produtos_loja/beckam_carrosel_dois(2) 2.png" alt="Slide 3">
+      </div>
+    </div>
+    <button class="next-slide">&#8250;</button>
+  </div>
+</section>
+
+  <!-- Seção de produtos -->
+  <section class="produtos">
+    <h2>PRODUTOS</h2>
+    <nav class="filter">
+      <a href="#">Camisas</a>
+      <a href="#">Shorts</a>
+      <a href="#">Acessórios</a>
+    </nav>
+
+
+
+<div class="carrossel-produtos 1">
+  <!-- Botão de voltar -->
+  <button class="btn-prev">&#10094;</button>
+
+  <!-- Container dos produtos -->
+  <div class="flex">
+    <div class="produto">
+
+      <a href="loja_detalhe.html">
+      <img src="../img_produtos_loja/Rectangle.png" alt="Produto 1">
+      </a>
+      <h3>Uniforme temp 24/25</h3>
+      <p>R$299,90</p>
+    </div>
+
+    <div class="produto">
+      <a href="loja_detalhe.html">
+      <img src="../img_produtos_loja/terceiro_uniforme.png" alt="Produto 2">
+      </a>
+      <h3>Uniforme Alternativo</h3>
+      <p>R$299,90</p>
+    </div>
+
+    <div class="produto">
+      <a href="loja_detalhe.html">
+      <img src="../img_produtos_loja/uniforme_braco.png" alt="Produto 3">
+      </a>
+      <h3>Uniforme Branco</h3>
+      <p>R$299,90</p>
+    </div>
+
+    <div class="produto">
+      <a href="loja_detalhe.html">
+      <img src="../img_produtos_loja/uniforme_personalizado.png" alt="Produto 4">
+      </a>
+      <h3>Chinelo Oficial</h3>
+      <p>R$99,90</p>
+    </div>
+
+    <div class="produto">
+      <a href="loja_detalhe.html">
+      <img src="../img_produtos_loja/somente_camisa_branca.png" alt="produto 5">
+      </a>
+      <h3>Adesivo Drako</h3>
+      <p>R$9,90</p>
+    </div>
+
+    <div class="produto">
+      <img src="../img_produtos_loja/uniforme classico.png" alt="Produto 6">
+      <h3>Bola Oficial</h3>
+      <p>R$199,90</p>
+    </div>
+  </div>
+
+  <!-- Botão de avançar -->
+  <button class="btn-next">&#10095;</button>
+</div>
+
+
+
+      <div class="carrossel-produtos 2">    
+        <button class="btn-prev">&#10094;</button>
+        <div class="flex">
+
+          <div class="produto">
+              <img src="../img_produtos_loja/item_chapeu.png" alt="Produto 1">
+              <h3>Uniforme temp 24/25</h3>
+              <p>R$299,90</p>
+          </div>
+
+        <div class="produto">
+              <img src="../img_produtos_loja/item_chaveiro.png" alt="Produto 2">
+              <h3>Uniforme Alternativo</h3>
+              <p>R$299,90</p>
+        </div>
+
+        <div class="produto">
+              <img src="../img_produtos_loja/escudo.png" alt="Produto 3">
+              <h3>Uniforme Branco</h3>
+              <p>R$299,90</p>
+        </div>
+
+        <div class="produto">
+              <img src="../img_produtos_loja/sandalia.png" alt="produto 4">
+              <h3>Chinelo Oficial</h3>
+              <p>R$99,90</p>
+        </div>
+
+        <div class="produto">
+            <img src="../img_produtos_loja/bola.png" alt="Produto 5">
+            <h3>Adesivo Drako</h3>
+            <p>R$9,90</p>
+      </div>
+
+      <div class="produto">
+            <img src="../img_produtos_loja/item _cachecol.png" alt="Produto 6">
+            <h3>Bola Oficial</h3>
+            <p>R$199,90</p>
+      </div> 
+        
+  </div>
+  <button class="btn-next">&#10095;</button>
+  </section>
+
+</main>  
+      <footer>&copy; 2025 Drako Store</footer>
+      <script src="../js/loja_produtos.js"></script>
+     
+</body>
+</html>

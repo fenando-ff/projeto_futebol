@@ -1,42 +1,53 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static "img/escudo_aguia_maraba.png" %}" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/escudo_aguia_maraba.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
-    <link rel="stylesheet" href="{% static "css/rec_senha.css" %}">
-    <title>Rec senha</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/rec_senha.css">
+    <link rel="stylesheet" href="../../botoes_cores_fontes/ver_botoes.css">
 </head>
 <body>
+
+
+
     <header class="cabecalho">
-        <a class="logo" href="{% url "home" %}">
-            <img src="{% static "img/escudo_aguia_maraba.png" %}" alt="escudo do águia de marabá">
-            <h1>Águia de Marabá</h1>
+        <a class="logo" href="index.html">
+            <img src="../img/logo_time_drako 3.png" alt="escudo do águia de marabá">
+            <h1>DRAKOS FC</h1>
         </a>
-            <ul class="menu-hamburgue">
-                <li><a href="bem_vindo.html">Login</a></li>
-                <li id="botao_hamburguer"><a href="#">Outros</a></li>
-                <li><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping" style="color: yellow;"></i></a></li>
-            </ul> 
+        <ul class="menu-hamburgue">
+            <li><a href="login.html">Login</a></li>
+            <li id="botao_hamburguer"><a href="#">Outros</a></li>
+            <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+        </ul> 
+        <div class="nav">
+            <ul class="hamburguer-opcoes">
+                <li class="opcao-nav"><a href="loja_detalhe.html">Loja</a></li>
+                <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
+                <li class="opcao-nav"><a href="historia.html">História</a></li>
+                <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
+                <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
+                <li class="opcao-nav"><a href="socio.html">Sócios</a></li>
+                <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            </ul>
+        </div>
     </header>
-    <div class="nav">
-        <ul class="hamburguer-opcoes">
-            <li class="opcao-nav"><a href="{% url "loja_detalhe" %}">Loja</a></li>
-            <li class="opcao-nav"><a href="noticia.html">Notícias</a></li>
-            <li class="opcao-nav"><a href="{% url "historia" %}">História</a></li>
-            <li class="opcao-nav"><a href="{% url "login" %}">Login</a></li>
-            <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
-            <li class="opcao-nav"><a href="{% url "socio" %}">Sócios</a></li>
-        </ul>
-    </div>
+    
+
     <main>
         <div class="conteiner">
+            <div id="area_seta">
+                <a href="login.html">
+                <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </div>
+            
             <div class = "titulo">
                 <h2>INFORME O CÓDIGO ENVIADO<br>PARA SEU EMAIL<br></h2>
-            <img class = "logo_email" src="{% static "img/gmail (1).png" %}" alt="imagem do logotipo do email dentro de caixas de texto">        
+            <img class = "logo_email" src="../img/gmail (1).png" alt="">        
             </div>
 
 
@@ -47,7 +58,9 @@
                 <input type="text" maxlength="1" id="input4"/>
             </div>
 
-                <a href="{% url "rec_senha_2" %}"><button class ="btn">CONTINUE</button></a>
+                <a href="Rec_senha_2.html">
+                <button class ="btn-primario">CONTINUE</button>
+                </a>
 
             <p class="duvida">Não recebeu o código?</p>
 
@@ -57,10 +70,11 @@
                 <a href="#" class="reenviar">Reenviar Código</a>
             </div>
     
-     </div>
-    </main>
-    <footer>&copy;2025 Senac</footer>
+     </div>   
+</main>
 
-    <script src="{% static "js/main.js" %}"></script>
+
+    <footer>&copy;</footer>
+    <script src="../js/main.js"></script>
 </body>
 </html>
