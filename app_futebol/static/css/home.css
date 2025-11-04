@@ -276,40 +276,12 @@ a {
     margin: auto;;
 }
 
-.card-tabela {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    padding: 8px;
-    margin: 12px 0px;
-    gap: 16px;
+.tabela {
+    transition: 0.3s;
 }
 
-.brasao-time{
-    width: 10%;
-    min-width: 40px;
-}
-
-.palmeiras, .vasco, .criciuma, .gremio{
-    border-radius: 50%;
-}
-
-.info-time-tabela {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-}
-
-
-.pontos, .posicao, .nome-time {
-    padding: 8px;
-}
-
-.pontos {
-    border-left: 1px solid black;
+.tabela:hover {
+    scale: 1.02;
 }
 
 /* Garanta que o h2 não tenha uma cor que sobrescreva os spans */

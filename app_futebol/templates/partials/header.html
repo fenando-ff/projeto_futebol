@@ -1,22 +1,23 @@
+{% load static %}
 <header class="cabecalho">
         <a class="logo" href="{% url "home" %}">
-            <img src="../img/logo_time_drako 3.png" alt="escudo do drakos">
+            <img src="{% static "img/icones/logo_time_drako 3.png" %}" alt="escudo do drakos">
             <h1>DRAKOS FC</h1>
         </a>
         <ul class="menu-hamburgue">
-            <li><a href= "{% url "login.html" %}">Login</a></li>
-            <li id="botao_hamburguer"> <a href="{% url "#" %}">Outros</a></li>
+            <li><a href= "{% url "login" %}">Login</a></li>
+            <li id="botao_hamburguer"> <a href="">Outros</a></li>
             <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
         </ul> 
         <div class="nav">
             <ul class="hamburguer-opcoes">
-                <li class="opcao-nav"><a href="{% url 'loja_produtos.html' %}">Loja</a></li>
-                <li class="opcao-nav"><a href="{% url 'noticias.html' %}">Notícias</a></li>
-                <li class="opcao-nav"><a href="{% url 'historia.html' %}">História</a></li>
-                <li class="opcao-nav btn-esconde">  <a href="{% url'login.html' %}">Login</a></li>
-                <li class="opcao-nav"><a href="{% url 'Tela_Ingresso.html' %}">Ingressos</a></li>
-                <li class="opcao-nav"><a href="{% url 'socio.html' %}">Sócios</a></li>
-                <li class="opcao-nav btn-esconde"><a href="{% url "carrinho.html" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                <li class="opcao-nav"><a href="{% url 'produtos' %}">Loja</a></li>
+                <li class="opcao-nav"><a href="{% url 'noticias' %}">Notícias</a></li>
+                <li class="opcao-nav"><a href="{% url 'historia' %}">História</a></li>
+                <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
+                <li class="opcao-nav"><a href="{% url 'ingresso' %}">Ingressos</a></li>
+                <li class="opcao-nav"><a href="{% url 'socio' %}">Sócios</a></li>
+                <li class="opcao-nav btn-esconde"><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
             </ul>
         </div>
     </header>
