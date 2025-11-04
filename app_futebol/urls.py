@@ -10,7 +10,6 @@ urlpatterns = [
     path('cadastro/', views.tela_cadastro, name='cadastro'),
     path('cadastro_2/', views.tela_rec_senha, name='cadastro2'),
     path('cadastro_3/', views.tela_rec_senha_2, name='cadastro3'),
-    path('carrinho/', views.tela_rec_senha_2, name='carrinho'),
     path('conta_criada/', views.tela_rec_senha_2, name='conta_criada'),
     path('historia/', views.tela_historia, name='historia'),
     path('loja_produtos/', views.tela_historia, name='produtos'),

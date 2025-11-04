@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -10,8 +12,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/loja_produtos.css">
+  <link rel="stylesheet" href="{% static '../css/style.css' %}">
+  <link rel="stylesheet" href="{% static '../css/loja_produtos.css' %}">
 </head>
 <body>
 
@@ -75,7 +77,7 @@
   <div class="season-wrapper">
     <div class="season-carousel">
       <div class="season-slide active">
-        <img src="../img_produtos_loja/primerio_carrosel.png" alt="Slide 1">
+        <img src="../img_produtos_loja/uniforme_segundo_casrrosel.png" alt="Slide 1">
       </div>
       <div class="season-slide">
         <img src="../img_produtos_loja/uniforme_segundo_casrrosel.png" alt="Slide 2">
