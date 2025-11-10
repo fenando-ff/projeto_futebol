@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -38,7 +40,7 @@
     <main>
         <div  class = "conteiner">
             <div id="area_seta">
-                <a href="index.html"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
             <h2 class = "titulo_login">Login</h2>
 
@@ -57,7 +59,7 @@
            
             
             <div class = "esqueceu_senha">
-                <a href="Rec_senha.html">
+                <a href="{% url 'recuperar_senha' %}">
                     <h4>Esqueceu senha?</h4>
                 </a>
              </div>
@@ -65,7 +67,7 @@
              <button id="botao" onclick="login()" class = "btn-terceiro">Entrar</button>
 
     
-            <p class="criar-conta">Não tem conta? <a href="cadastro.html">Cadastrar-se</a></p>
+            <p class="criar-conta">Não tem conta? <a href="{% url 'cadastro' %}">Cadastrar-se</a></p>
 
             <p id="aviso"></p>
         

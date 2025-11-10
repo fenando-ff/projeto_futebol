@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,7 +42,7 @@
     <main>
         <div  class = "conteiner">
             <div id="area_seta">
-                <a href="login.html"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
             
             <h2 class = "titulo_login">Cadastrar-se</h2>
@@ -80,7 +82,7 @@
         </div>
 
 
-            <a href="cadastro_2.html">
+            <a href= "{% url 'cadastro2' %}">
                 <button class = "btn-terceiro"> próximo </button>
              </a>
 

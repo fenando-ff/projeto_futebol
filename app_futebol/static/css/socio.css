@@ -1,82 +1,287 @@
-#area_seta {
-    margin-bottom: 24px;
+.socio-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 120px auto;
+  gap: 50px;
+  font-family: "Poppins", sans-serif;
 }
 
-.fa-arrow-circle-left {
-    color: #FFD700;
-    font-size: 50px;
-    margin: 8px;
+.text-area {
+  max-width: 400px;
 }
 
-.campo-image-titulo {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 48px;
+.text-area h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
 }
 
-.campo-image-titulo .imagem-titulo {
-    width: 90%;
+.text-area p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
 }
 
-.container-cards {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 80px;
+.btn-socio {
+  margin-top: 40px;
+  padding: 18px 60px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #7a0000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-socio:hover {
+  background-color: #a10000;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  gap: 20px;
+}
+
+.cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .card {
-    width: 70%;
-    height: 70%;
-    background: linear-gradient(180deg,#001A4A 30%,#173b70 30%);
-    border-radius: 16px;
-    display: flex;
+  width: 180px;
+  height: 110px;
+  border-radius: 12px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+
+.card.active {
+  width: 260px;
+  height: 160px;
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.arrow {
+  background-color: #ddd;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background-color: #ccc;
+}
+
+/* POPUP */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 400px;
+  text-align: center;
+}
+
+.popup-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.popup-card {
+  background-color: #eee;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.popup-card:hover {
+  background-color: #ccc;
+}
+
+/* ========================= */
+/* RESPONSIVIDADE */
+/* ========================= */
+
+/* Tablets e telas médias (até 1024px) */
+@media (max-width: 1024px) {
+  .socio-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 60px;
+    margin: 80px auto;
+  }
+
+  .text-area {
+    max-width: 90%;
+  }
+
+  .text-area h1 {
+    font-size: 2.4rem;
+  }
+
+  .text-area p {
+    font-size: 1rem;
+  }
+
+  .btn-socio {
+    padding: 16px 50px;
+    font-size: 1rem;
+  }
+
+  .cards {
+    gap: 15px;
+  }
+
+  .card.active {
+    width: 220px;
+    height: 140px;
+  }
+
+  .card {
+    width: 160px;
+    height: 100px;
+  }
+}
+
+/* Celulares (até 768px) */
+@media (max-width: 768px) {
+  .socio-container {
     flex-direction: column;
     align-items: center;
-    justify-content: start;
-    padding: 12px;
-}
+    justify-content: center;
+    width: 90%;
+    gap: 40px;
+    margin: 60px auto;
+    overflow: hidden; /* ✅ evita o conteúdo sair da tela */
+  }
 
-.titulo-card, .conteudo-vantagens {
-    width: 70%;
-    color: #ffffff;
-    margin-bottom: 20px;
-}
+  .text-area h1 {
+    font-size: 2rem;
+  }
 
-.card .img-cartao-card {
-    width: 50%;
-    border-radius: 12px;
+  .text-area p {
+    font-size: 0.95rem;
+  }
+
+  .btn-socio {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1rem;
+  }
+
+  /* ==== Ajuste do carrossel ==== */
+  .carousel {
     position: relative;
-    bottom: 40px;
-    transform: rotate(-16deg);
-}
-
-.titulo-card {
-    text-align: center;
-    margin-bottom: 32px;
-    margin-top: -12px;
-}
-
-.info-valor-card {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    text-align: center;
-    color: #ffffff;
     align-items: center;
+    overflow: hidden; /* ✅ mantém tudo dentro da tela */
+  }
+
+  .cards {
+    display: flex;
+    flex-direction: column; /* ✅ deixa os cards em coluna */
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .card {
+    width: 220px;
+    height: 130px;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  /* ==== Setas ==== */
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+    background-color: #e5e5e5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  #prev {
+    left: 10px;
+  }
+
+  #next {
+    right: 10px;
+  }
+
+  .popup-content {
+    width: 90%;
+    padding: 20px;
+  }
 }
 
-.preco {
-    font-size: 32px;
+/* Telas muito pequenas (até 480px) */
+@media (max-width: 480px) {
+  .text-area h1 {
+    font-size: 1.6rem;
+  }
+
+  .text-area p {
+    font-size: 0.9rem;
+  }
+
+  .btn-socio {
+    font-size: 0.95rem;
+    padding: 12px 0;
+  }
+
+  .card,
+  .card.active {
+    width: 200px;
+    height: 120px;
+    flex-direction: column;
+  }
+
+  .arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
 }
 
-.button-quero-este {
-    background-color: #5e99f1;
-    padding: 8px;
-    text-transform: uppercase;
-    border-radius: 8px;
-    width: 70%;
-    box-shadow: 2px 4px 8px #1a2e4d;
-}
