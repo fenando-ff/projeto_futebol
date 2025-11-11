@@ -54,7 +54,7 @@
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
-                        <img loading="lazy" src="../img/img_escudo_caParanaense.png" alt="brasão CA Paranaense">
+                        <img loading="lazy" src="{% static "img/icones/img_escudo_caParanaense.png" %}" alt="brasão CA Paranaense">
                         <span>CA Paranaense</span>
                     </div>
                 </div>
@@ -70,8 +70,8 @@
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
-                        <img loading="lazy" src="../img/escudo_aguia_maraba.png" alt="brasão CA Paranaense">
-                        <span>CA Paranaense</span>
+                        <img loading="lazy" src="{% static "img/icones/escudo_gremio.png" %}" alt="flamengo">
+                        <span>flamengo</span>
                     </div>
                 </div>
                 <div class="info-jogo">
@@ -85,7 +85,7 @@
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
-                        <img loading="lazy" src="../img/img_escudo_caParanaense.png" alt="brasão CA Paranaense">
+                        <img loading="lazy" src="{% static "img/icones/img_escudo_caParanaense.png" %}" alt="brasão CA Paranaense">
                         <span>CA Paranaense</span>
                     </div>
                 </div>
@@ -187,5 +187,5 @@
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-    <script src"{% static "js/main.js" %}"></script>
+    <script src"{% static 'js/main.js' %}"></script>
 {% endblock js_pagina %}
