@@ -30,17 +30,8 @@ main {
 }
 
 
-
-
-
 /* ====== CARRINHO ====== */
-.carrinho {
-  background: #f9f9f9;
-  padding: 2.0rem;
-  border-radius: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: 0.5s;
-}
+
 
 .carrinho:hover{
   transform: scale(1.02);
@@ -77,11 +68,12 @@ main {
   border-radius: 12px;
   margin-bottom: 1rem;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
-  transition:s 0.1s;
+transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+
 }
 
 .item-carrinho:hover {
-  border: 2px solid #b70000;
+  border: 1px solid #b70000;
   transform: scale(1.05);
 }
 
@@ -119,7 +111,7 @@ main {
   background: #1a1a1a;
   color: #fff;
   border: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.7rem 0.5rem;
   cursor: pointer;
   border-radius: 50%;
   transition: background 0.2s, transform 0.2s;
@@ -127,7 +119,7 @@ main {
 
 .quantidade button:hover {
   background-color: #b70000;
-  transform: scale(1.1);
+  transform: scale(1.4);
 }
 
 .quantidade span {
