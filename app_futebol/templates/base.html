@@ -10,7 +10,7 @@
     {% block css_extra %}
     {% comment %} css da página {% endcomment %}
     {% endblock css_extra %}
-    <title>Home</title>
+    <title> {% block titulo %} Home {% endblock titulo %}</title>
 </head>
 <body class="corpo">
     {% include "partials/header.html" %}
