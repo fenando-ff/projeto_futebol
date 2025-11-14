@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{% static 'css/loja_produtos.css'%}">
 {% endblock css_extra %}
 
+{% block titulo %} Loja {% endblock %}
+
 
 
 
@@ -51,10 +53,10 @@
          <img src= "{% static "img/pessoas_modelos/primerio_carrosel.png" %}" alt="Slide 1">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/pessoas_modelos/beckham_carrosel.png" %}" alt="Slide 2">
+        <img src= "{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 2">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/pessoas_modelos/uniforme_branco.png" %}" alt="Slide 3">
+        <img src= "{% static "img/pessoas_modelos/uniforme_braco.png" %}" alt="Slide 3">
       </div>
     </div>
     <button class="next-slide">&#8250;</button>
@@ -179,7 +181,7 @@
 
       <div class="produto">
         <a href= "{% url 'loja_detalhe' %}">
-            <img src= "{% static "" %}" alt="Produto 6">
+            <img src= "{% static "img/produtos/acessorios/bola.png" %}" alt="Produto 6">
             <h3>Bola Oficial</h3>
         </a>
             <p>R$199,90</p>
@@ -191,8 +193,10 @@
 
 </main>  
 {% endblock conteudo_pagina %}
-      <footer>&copy; 2025 Drako Store</footer>
-      <script src="../js/loja_produtos.js"></script>
+
+{% block js_pagina %}
+  <script src="{% static "js/loja_produtos.js" %}"></script>
+{% endblock js_pagina %}
      
 </body>
 </html>

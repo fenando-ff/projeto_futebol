@@ -73,12 +73,10 @@
             </div>            
         </div>
      </main>
-{% endblock conteudo_pagina %}    
+{% endblock conteudo_pagina %}
 
-
-
-    <footer>&copy;</footer>
-    <script src="../js/main.js"></script>
-    <script src="../js/cadastro.js"></script>
+{% block js_pagina %}
+    <script src="{% static "js/cadastro.js" %}"></script>
+{% endblock %}
 </body>
 </html>

@@ -4,9 +4,9 @@
 {% block css_extra %}
     <link rel="stylesheet" href="{% static 'css/loja_detalhe.css' %}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    
-    
 {% endblock css_extra %}
+
+{% block titulo %} Detalhes {% endblock titulo %}
 
 
 <body>
@@ -53,8 +53,10 @@
     </section>
   </main>
 {% endblock conteudo_pagina %}
-  <footer>&copy;2025 Drako Store</footer>
-  <script src="../js/loja_detalhe.js"></script>
+
+{% block js_pagina %}
+  <script src="{% static "js/loja_detalhe.js" %}"></script>
+{% endblock js_pagina %}
 </body>
 </html>
 
