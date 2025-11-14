@@ -21,9 +21,9 @@
         {% endblock conteudo_pagina %}
     </main>
     {% include "partials/footer.html" %}
-    <script src"{% static 'js/main.js' %}"></script> {% comment %} js do menu hamburguer {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script> {% comment %} js do menu hamburguer {% endcomment %}
     {% block js_pagina %}
     {% comment %} js da página {% endcomment %}
-    {% endblock js_pagina %}
+    {% endblock %}
 </body>
 </html>
