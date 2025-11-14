@@ -1,7 +1,7 @@
 // ==========================
 // CARRINHO.JS — DRAKO STORE
 // ==========================
-
+// Passando pra testar o js do carrinho
 // ==========================================
 // CARRINHO — Carregar itens do localStorage
 // ==========================================
