@@ -11,19 +11,19 @@
     {% block css_extra %}
     {% comment %} css da página {% endcomment %}
     {% endblock css_extra %}
-    <title> {% block titulo %} Home {% endblock titulo %}</title>
+    <title> {% block titulo %} Home {% endblock %}</title>
 </head>
 <body class="corpo">
     {% include "partials/header.html" %}
     <main>
         {% block conteudo_pagina %}
 
-        {% endblock conteudo_pagina %}
+        {% endblock %}
     </main>
     {% include "partials/footer.html" %}
     <script src"{% static 'js/main.js' %}"></script> {% comment %} js do menu hamburguer {% endcomment %}
     {% block js_pagina %}
     {% comment %} js da página {% endcomment %}
-    {% endblock js_pagina %}
+    {% endblock %}
 </body>
 </html>
