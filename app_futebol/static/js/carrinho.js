@@ -8,50 +8,50 @@
 const listaCarrinho = document.querySelector(".carrinho");
 const produtosSalvos = JSON.parse(localStorage.getItem("carrinhoDrako")) || [];
 
-if (produtosSalvos.length > 0) {
-  // Remove os itens de exemplo HTML (se existirem)
-  const itensHTML = document.querySelectorAll(".item-carrinho");
-  itensHTML.forEach(el => el.remove());
+function montarCarrinho() {
+  if (produtosSalvos.length > 0) {
+    const itensHTML = document.querySelectorAll(".item-carrinho");
+    itensHTML.forEach(el => el.remove());
 
-  // Adiciona produtos do localStorage
-  produtosSalvos.forEach((item) => {
-    const itemHTML = document.createElement("div");
-    itemHTML.classList.add("item-carrinho");
-    itemHTML.innerHTML = `
-      <img src="${item.imagem}" alt="${item.nome}">
-      <div class="info-produto">
-        <h3>${item.nome}</h3>
-        <p>Tamanho: ${item.tamanho}</p>
-      </div>
-      <div class="quantidade">
-        <button class="menos"><</button>
-        <span>${item.quantidade}</span>
-        <button class="mais">></button>
-      </div>
-      <div class="preco">R$${item.preco}</div>
-      <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-    `;
+    produtosSalvos.forEach((item) => {
+      const itemHTML = document.createElement("div");
+      itemHTML.classList.add("item-carrinho");
+      itemHTML.innerHTML = `
+        <img src="${item.imagem}" alt="${item.nome}">
+        <div class="info-produto">
+          <h3>${item.nome}</h3>
+          <p>Tamanho: ${item.tamanho}</p>
+        </div>
+        <div class="quantidade">
+          <button class="menos"><</button>
+          <span>${item.quantidade}</span>
+          <button class="mais">></button>
+        </div>
+        <div class="preco">R$${item.preco}</div>
+        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
+      `;
 
-    listaCarrinho.appendChild(itemHTML);
-  });
-} else {
-  // Se carrinho estiver vazio
-  const vazio = document.createElement("p");
-  vazio.textContent = "🛍️ Seu carrinho está vazio!";
-  vazio.style.textAlign = "center";
-  vazio.style.marginTop = "30px";
-  listaCarrinho.appendChild(vazio);
+      listaCarrinho.appendChild(itemHTML);
+    });
+  } else {
+    const vazio = document.createElement("p");
+    vazio.textContent = "🛍️ Seu carrinho está vazio!";
+    vazio.style.textAlign = "center";
+    vazio.style.marginTop = "30px";
+    listaCarrinho.appendChild(vazio);
+  }
 }
 
+montarCarrinho();
 
-// Seletores principais
-const itensCarrinho = document.querySelectorAll('.item-carrinho');
+// Atualiza a lista após montar HTML
+let itensCarrinho = document.querySelectorAll('.item-carrinho');
+
 const subtotalEl = document.querySelector('.bloco-resumo p:nth-child(3) span + span');
 const descontoEl = document.querySelector('.bloco-resumo p:nth-child(4) span + span');
 const totalEl = document.querySelector('.total span + span');
 
-// Caso queira, pode definir um desconto fixo
-let descontoFixo = 20.00; // R$20 de desconto, só pra exemplo
+let descontoFixo = 20.00;
 
 // ==========================
 // Atualiza totais automaticamente
@@ -69,55 +69,68 @@ function atualizarTotais() {
   const desconto = descontoFixo;
   const total = subtotal - desconto;
 
-  // Atualiza os textos formatados
-  document.querySelector('.bloco-resumo p:nth-child(3)').innerHTML = `<span>Subtotal:</span> R$${subtotal.toFixed(2)}`;
-  document.querySelector('.bloco-resumo p:nth-child(4)').innerHTML = `<span>Desconto:</span> R$${desconto.toFixed(2)}`;
-  document.querySelector('.total').innerHTML = `<span>Total:</span> R$${total.toFixed(2)}`;
+  document.querySelector('.bloco-resumo p:nth-child(3)').innerHTML =
+    `<span>Subtotal:</span> R$${subtotal.toFixed(2)}`;
+
+  document.querySelector('.bloco-resumo p:nth-child(4)').innerHTML =
+    `<span>Desconto:</span> R$${desconto.toFixed(2)}`;
+
+  document.querySelector('.total').innerHTML =
+    `<span>Total:</span> R$${total.toFixed(2)}`;
 }
 
 // ==========================
 // Controle de quantidade
 // ==========================
-itensCarrinho.forEach(item => {
-  const btnMenos = item.querySelector('.quantidade button:first-child');
-  const btnMais = item.querySelector('.quantidade button:last-child');
-  const qtdEl = item.querySelector('.quantidade span');
+function ativarControleQuantidade() {
+  itensCarrinho.forEach(item => {
+    const btnMenos = item.querySelector('.quantidade button:first-child');
+    const btnMais = item.querySelector('.quantidade button:last-child');
+    const qtdEl = item.querySelector('.quantidade span');
 
-  btnMais.addEventListener('click', () => {
-    let valor = parseInt(qtdEl.textContent);
-    valor++;
-    qtdEl.textContent = valor;
-    atualizarTotais();
-  });
-
-  btnMenos.addEventListener('click', () => {
-    let valor = parseInt(qtdEl.textContent);
-    if (valor > 1) {
-      valor--;
+    btnMais.addEventListener('click', () => {
+      let valor = parseInt(qtdEl.textContent);
+      valor++;
       qtdEl.textContent = valor;
       atualizarTotais();
-    }
+    });
+
+    btnMenos.addEventListener('click', () => {
+      let valor = parseInt(qtdEl.textContent);
+      if (valor > 1) {
+        valor--;
+        qtdEl.textContent = valor;
+        atualizarTotais();
+      }
+    });
   });
-});
+}
+
+ativarControleQuantidade();
 
 // ==========================
 // Remover item do carrinho
 // ==========================
-itensCarrinho.forEach(item => {
-  const btnLixeira = item.querySelector('.lixeira');
+function ativarRemocao() {
+  itensCarrinho.forEach(item => {
+    const btnLixeira = item.querySelector('.lixeira');
 
-  btnLixeira.addEventListener('click', () => {
-    item.classList.add('removendo');
-    item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-    item.style.opacity = '0';
-    item.style.transform = 'translateX(-20px)';
+    btnLixeira.addEventListener('click', () => {
+      item.classList.add('removendo');
+      item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      item.style.opacity = '0';
+      item.style.transform = 'translateX(-20px)';
 
-    setTimeout(() => {
-      item.remove();
-      atualizarTotais();
-    }, 400);
+      setTimeout(() => {
+        item.remove();
+        itensCarrinho = document.querySelectorAll('.item-carrinho');
+        atualizarTotais();
+      }, 400);
+    });
   });
-});
+}
+
+ativarRemocao();
 
 // ==========================
 // Efeito de entrada (fade-in)
@@ -137,12 +150,98 @@ window.addEventListener('load', () => {
   atualizarTotais();
 });
 
-// ==========================
-// Botão de pagamento
-// ==========================
-const btnPagamento = document.querySelector('.btn-pagamento');
+// =========================
+// POP-UP DE PAGAMENTO
+// =========================
+const paymentOverlay = document.getElementById("paymentOverlay");
+const openPayment = document.getElementById("openPayment");
+const closePaymentRight = document.getElementById("closePaymentRight");
+const closePaymentLeft = document.getElementById("closePaymentLeft");
+const payMethods = document.querySelectorAll(".pay-method");
 
-btnPagamento.addEventListener('click', () => {
-  const totalTexto = document.querySelector('.total').textContent;
-  alert(`💳 Pagamento de ${totalTexto.replace('Total:', '').trim()} realizado com sucesso!\nObrigado por comprar na Drako Store!`);
+const payTitle = document.getElementById("payTitle");
+const paySubtitle = document.getElementById("paySubtitle");
+const payForm = document.getElementById("payForm");
+const paySubmit = document.getElementById("paySubmit");
+const paySuccess = document.getElementById("paySuccess");
+
+// =========================
+// CORREÇÃO DO PROBLEMA
+// =========================
+// Impede que o botão envie o formulário
+openPayment.addEventListener("click", (e) => {
+  e.preventDefault();
+  paymentOverlay.classList.add("show");
+});
+
+// fechar popup
+function closePayment() {
+  paymentOverlay.classList.remove("show");
+  payForm.innerHTML = "";
+  paySubmit.style.display = "none";
+  paySuccess.style.display = "none";
+  payMethods.forEach(m => m.classList.remove("selected"));
+  payTitle.textContent = "Nenhuma forma selecionada";
+  paySubtitle.textContent = "Escolha um método de pagamento.";
+}
+
+closePaymentRight.addEventListener("click", closePayment);
+closePaymentLeft.addEventListener("click", closePayment);
+
+// selecionar método
+payMethods.forEach(btn => {
+  btn.addEventListener("click", () => {
+    payMethods.forEach(m => m.classList.remove("selected"));
+    btn.classList.add("selected");
+
+    const tipo = btn.dataset.method;
+    loadPaymentForm(tipo);
+  });
+});
+
+// carregar formulário
+function loadPaymentForm(tipo) {
+  paySubmit.style.display = "block";
+
+  if (tipo === "visa" || tipo === "mastercard") {
+    payTitle.textContent = `Pagamento com ${tipo.toUpperCase()}`;
+    paySubtitle.textContent = "Preencha os dados do cartão:";
+    payForm.innerHTML = `
+      <label>Nome do titular</label>
+      <input type="text" placeholder="Nome no cartão">
+
+      <label>Número do cartão</label>
+      <input type="text" maxlength="19" placeholder="0000 0000 0000 0000">
+
+      <div class="row">
+        <div>
+          <label>Validade</label>
+          <input type="text" maxlength="5" placeholder="MM/AA">
+        </div>
+
+        <div>
+          <label>CVV</label>
+          <input type="text" maxlength="4" placeholder="123">
+        </div>
+      </div>
+    `;
+  }
+
+  if (tipo === "paypal") {
+    payTitle.textContent = "Pagamento com PayPal";
+    paySubtitle.textContent = "Informe o e-mail da conta:";
+    payForm.innerHTML = `
+      <label>E-mail</label>
+      <input type="email" placeholder="email@exemplo.com">
+
+      <label>Confirmar e-mail</label>
+      <input type="email" placeholder="email@exemplo.com">
+    `;
+  }
+}
+
+// confirmar pagamento
+paySubmit.addEventListener("click", () => {
+  paySuccess.style.display = "block";
+  setTimeout(closePayment, 1500);
 });
