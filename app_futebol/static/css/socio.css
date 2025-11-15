@@ -1,11 +1,23 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.socio-container {
+  flex: 2; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
+}
+
+
 .socio-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
-  margin: 120px auto;
+  width: 100%;
+  margin: 180px auto;
   gap: 50px;
   font-family: "Poppins", sans-serif;
+  
 }
 
 .text-area {

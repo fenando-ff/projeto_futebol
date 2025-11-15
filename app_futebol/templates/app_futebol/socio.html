@@ -1,41 +1,16 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="../img/escudo_aguia_maraba.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/socio.css">
-  <title>Sócios</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load static %}
 
-  <header class="cabecalho">
-    <a class="logo" href="index.html">
-      <img src="../img/logo_time_drako 3.png" alt="escudo do águia de marabá">
-      <h1>DRAKOS FC</h1>
-    </a>
-    <ul class="menu-hamburgue">
-      <li><a href="login.html">Login</a></li>
-      <li id="botao_hamburguer"><a href="#">Outros</a></li>
-      <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-    </ul> 
-    <div class="nav">
-      <ul class="hamburguer-opcoes">
-        <li class="opcao-nav"><a href="loja_detalhe.html">Loja</a></li>
-        <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
-        <li class="opcao-nav"><a href="historia.html">História</a></li>
-        <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
-        <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
-        <li class="opcao-nav"><a href="socio.html" class="ativo">Sócios</a></li>
-        <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-      </ul>
-    </div>
-  </header>
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/socio.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <main class="socio-container">
+
+
+<!-- CONTEÚDO PRINCIPAL -->
+{% block conteudo_pagina %}    
+<main class="socio-container">
     <div class="text-area">
       <h1>TORNA-SE SÓCIO</h1>
       
@@ -58,7 +33,8 @@
 
       <button class="arrow" id="next">→</button>
     </div>
-  </main>
+
+  
 
   <!-- POPUP -->
   <div class="popup" id="popup">
@@ -72,7 +48,12 @@
       <button id="closePopup">Fechar</button>
     </div>
   </div>
+</main>
+{% endblock conteudo_pagina %}  
 
-  <script src="../js/socios.js"></script>
+{% block js_pagina %}
+    <script src="{% static "js/socios.js" %}"></script>
+{% endblock js_pagina %}
+
 </body>
 </html>
