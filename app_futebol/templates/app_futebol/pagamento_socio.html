@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/pagamento_socio.css' %}">
+{% endblock css_extra %}
+
+{% block conteudo_pagina %}
+<main class="pagamento-container">
+
+    <h1>Tornar-se Sócio</h1>
+
+    <!-- DADOS DO USUÁRIO -->
+    <section class="box">
+        <h2>Seus Dados</h2>
+
+        <div class="dados-usuario">
+            <p><strong>Nome:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+            <p><strong>Email:</strong> {{ request.user.email }}</p>
+            <p><strong>CPF:</strong> {{ user_profile.cpf }}</p>
+            <p><strong>Telefone:</strong> {{ user_profile.telefone }}</p>
+        </div>
+    </section>
+
+    <!-- PLANO -->
+    <section class="box">
+        <h2>Plano Selecionado</h2>
+        <div class="plano-info">
+            <p><strong>Plano:</strong> {{ plano|capfirst }}</p>
+
+            {% if plano == "prata" %}
+                <p>Valor: R$ 19,90/mês</p>
+            {% elif plano == "ouro" %}
+                <p>Valor: R$ 39,90/mês</p>
+            {% elif plano == "diamante" %}
+                <p>Valor: R$ 59,90/mês</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- FORMAS DE PAGAMENTO -->
+    <section class="box">
+        <h2>Forma de Pagamento</h2>
+
+        <div class="buttons-pay">
+            <button class="pay-btn" data-type="cartao">Cartão de Crédito</button>
+            <button class="pay-btn" data-type="paypal">PayPal</button>
+        </div>
+
+        <!-- CARTÃO -->
+        <form id="form-cartao" class="form-pay" style="display:none;">
+            <h3>Pagamento com Cartão</h3>
+            <input type="text" placeholder="Número do cartão">
+            <input type="text" placeholder="Nome impresso no cartão">
+            <div class="dupla">
+                <input type="text" placeholder="Validade (MM/AA)">
+                <input type="text" placeholder="CVV">
+            </div>
+
+            <button class="confirmar">Confirmar Assinatura</button>
+        </form>
+
+        <!-- PAYPAL -->
+        <div id="form-paypal" class="form-pay" style="display:none;">
+            <h3>Pagamento via PayPal</h3>
+            <button class="paypal-btn">Pagar com PayPal</button>
+        </div>
+
+    </section>
+</main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+<script>
+    const botoes = document.querySelectorAll('.pay-btn');
+    const formCartao = document.getElementById('form-cartao');
+    const formPaypal = document.getElementById('form-paypal');
+
+    botoes.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.type === "cartao") {
+                formCartao.style.display = "block";
+                formPaypal.style.display = "none";
+            } else {
+                formPaypal.style.display = "block";
+                formCartao.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock js_pagina %}

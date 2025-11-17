@@ -5,7 +5,7 @@ body {
 }
 
 .socio-container {
-  flex: 2; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
+  flex: 1; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
 }
 
 
@@ -13,12 +13,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  margin: 180px auto;
+  width: 80%;
+  margin: 160px;
   gap: 50px;
   font-family: "Poppins", sans-serif;
-  
 }
+
+
 
 .text-area {
   max-width: 400px;

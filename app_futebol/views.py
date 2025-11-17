@@ -61,3 +61,7 @@ def tela_ingressos(request):
 
 def tela_historia(request):
     return render(request, "app_futebol/historia.html")
+
+
+def pagamento_socio(request):
+    return render(request, "app_futebol/pagamento_socio.html")
