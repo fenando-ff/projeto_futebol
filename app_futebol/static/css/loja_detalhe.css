@@ -1,7 +1,5 @@
 /* ---------- BASE ---------- */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
@@ -190,17 +188,6 @@ body {
 .carrinho:hover {
   background: #000;
   color: #fff;
-}
-
-/* ---------- RODAPÉ ---------- */
-footer {
-  background: #000;
-  color: #fff;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: auto;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
 }
 
 /* ---------- RESPONSIVIDADE ---------- */

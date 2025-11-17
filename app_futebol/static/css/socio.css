@@ -1,12 +1,25 @@
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.socio-container {
+  flex: 1; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
+}
+
+
 .socio-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 80%;
-  margin: 120px auto;
+  margin: 160px;
   gap: 50px;
   font-family: "Poppins", sans-serif;
 }
+
+
 
 .text-area {
   max-width: 400px;

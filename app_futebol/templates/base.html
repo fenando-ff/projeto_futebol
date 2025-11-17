@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="../img/logo_time_drako 3.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static "img/icones/logo_time_drako 3.png" %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@600&family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% comment %} css do header e do footer {% endcomment %}
     {% block css_extra %}
     {% comment %} css da página {% endcomment %}
     {% endblock css_extra %}
-    <title>Home</title>
+    <title> {% block titulo %} Home {% endblock titulo %}</title>
 </head>
 <body class="corpo">
     {% include "partials/header.html" %}
@@ -20,9 +21,9 @@
         {% endblock conteudo_pagina %}
     </main>
     {% include "partials/footer.html" %}
-    <script src"{% static 'js/main.js' %}"></script> {% comment %} js do menu hamburguer {% endcomment %}
+    <script src="{% static 'js/main.js' %}"></script> {% comment %} js do menu hamburguer {% endcomment %}
     {% block js_pagina %}
     {% comment %} js da página {% endcomment %}
-    {% endblock js_pagina %}
+    {% endblock %}
 </body>
 </html>

@@ -1,47 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Drako Store</title>
+{% extends "base.html" %}
+{% load static %}
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="../img/escudo_aguia_maraba.png" type="image/x-icon">
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/carrinho.css">
-</head>
-<body>
-
-<header class="cabecalho">
-  <a class="logo" href="index.html">
-    <img src="../img/logo_time_drako 3.png" alt="escudo do águia de marabá">
-    <h1>DRAKOS FC</h1>
-  </a>
-  <ul class="menu-hamburgue">
-    <li><a href="login.html">Login</a></li>
-    <li id="botao_hamburguer"><a href="#">Outros</a></li>
-    <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-  </ul> 
-  <div class="nav">
-    <ul class="hamburguer-opcoes">
-      <li class="opcao-nav"><a href="loja_detalhe.html">Loja</a></li>
-      <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
-      <li class="opcao-nav"><a href="historia.html">História</a></li>
-      <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
-      <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
-      <li class="opcao-nav"><a href="socio.html">Sócios</a></li>
-      <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-    </ul>
-  </div>
-</header>
-
+{% block conteudo_pagina %}
 <main>
   <div class="container">
+
     <!-- Seção do Carrinho -->
     <section class="carrinho">
       <h1 class="titulo">CARRINHO</h1>
@@ -52,83 +20,78 @@
         <span>Preço</span>
       </div>
 
-      <!-- Itens do carrinho -->
+      <!-- Itens estáticos (serão substituídos caso haja localStorage) -->
       <div class="item-carrinho">
-        <img src="../img_produtos_loja/camisa_retro.webp" alt="Uniforme Drakos">
+        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Uniforme Drakos">
         <div class="info-produto">
-          <h3>Uniforme Retro</h3>
-          <p>Uniforme Retro, temporada 2005/2007 </p>
+          <h3>Uniforme Retrô</h3>
+          <p>Uniforme Retrô, temporada 2005/2007</p>
           <p>Tamanho: P</p>
         </div>
         <div class="quantidade">
-          <button><</button>
+          <button>&lt;</button>
           <span>1</span>
-          <button>></button>
+          <button>&gt;</button>
         </div>
-        <div class="preco">R$299.00</div>
+        <div class="preco">R$299,00</div>
         <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
       </div>
 
       <div class="item-carrinho">
-        <img src="../img_produtos_loja/somente_camisa_branca.png" alt="Uniforme Drakos">
+        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Uniforme Drakos">
         <div class="info-produto">
-          <h3>2° Uniforme fc</h3>
-          <p>Uniforme Branco, feito de mãos de crianças chinesas</p>
+          <h3>2° Uniforme FC</h3>
+          <p>Uniforme branco, estilo clássico da equipe.</p>
           <p>Tamanho: M</p>
         </div>
         <div class="quantidade">
-          <button><</button>
+          <button>&lt;</button>
           <span>1</span>
-          <button>></button>
+          <button>&gt;</button>
         </div>
-        <div class="preco">R$299.00</div>
+        <div class="preco">R$299,00</div>
         <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
       </div>
 
       <div class="item-carrinho">
-        <img src="../img_produtos_loja/escudo.png" alt="Uniforme Drakos">
+        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Escudo Drakos">
         <div class="info-produto">
           <h3>Escudo Drako</h3>
-          <p>Item decorativo, de pro seu pai fanatico por futebol</p>
+          <p>Item decorativo para fãs do clube.</p>
         </div>
         <div class="quantidade">
-          <button><</button>
+          <button>&lt;</button>
           <span>1</span>
-          <button>></button>
+          <button>&gt;</button>
         </div>
-        <div class="preco">R$299.00</div>
+        <div class="preco">R$299,00</div>
         <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
       </div>
 
-
-      
       <div class="item-carrinho">
-        <img src="../img_produtos_loja/item _cachecol.png" alt="Uniforme Drakos">
+        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Cachecol Milan">
         <div class="info-produto">
           <h3>Cachecol Milan</h3>
-          <p>Estilo, aconselhavel usar no friozinho de 52° Graus</p>
+          <p>Ideal para o frio — item oficial de torcida.</p>
         </div>
         <div class="quantidade">
-          <button><</button>
+          <button>&lt;</button>
           <span>1</span>
-          <button>></button>
+          <button>&gt;</button>
         </div>
-        <div class="preco">R$299.00</div>
+        <div class="preco">R$299,00</div>
         <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
       </div>
     </section>
-
-
-    
 
     <!-- Resumo do pedido -->
     <aside class="resumo">
       <div class="bloco-resumo">
         <h2>RESUMO DO PEDIDO</h2>
         <hr>
-        <p><span>Subtotal:</span> R$598.00</p>
-        <p><span>Desconto:</span> R$20.00</p>
-        <p class="total"><span>Total:</span> R$578.00</p>
+        <p><span>Subtotal:</span> R$1.196,00</p>
+        <p><span>Desconto:</span> R$20,00</p>
+        <p class="total"><span>Total:</span> R$1.176,00</p>
       </div>
 
       <div class="bloco-pagamento">
@@ -137,17 +100,65 @@
           <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
           <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
           <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
-
-
         </div>
-        <button class="btn-pagamento">Realizar pagamento</button>
+
+        <!-- BOTÃO QUE ABRE O POP-UP -->
+        <button id="openPayment" class="btn-pagamento" type="button">
+          Escolher forma de pagamento
+        </button>
+
       </div>
+
     </aside>
   </div>
 </main>
 
-<footer>&copy;2025 Senac</footer>
-<script src="../js/main.js"></script>
-<script src="../js/carrinho.js"></script>
-</body>
-</html>
+<!-- ========== POP-UP DE PAGAMENTO (FUNCIONAL) ========== -->
+<div id="paymentOverlay" class="payment-overlay">
+  <div class="payment-modal">
+
+    <!-- Lado esquerdo - seleção -->
+    <div class="payment-left">
+      <h2>Escolha a forma de pagamento</h2>
+
+      <div class="payment-methods">
+        <div class="pay-method" data-method="visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png">
+          <span>Visa</span>
+        </div>
+
+        <div class="pay-method" data-method="mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+          <span>Mastercard</span>
+        </div>
+
+        <div class="pay-method" data-method="paypal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
+          <span>PayPal</span>
+        </div>
+      </div>
+
+      <button id="closePaymentLeft" class="close-btn">Fechar</button>
+    </div>
+
+    <!-- Lado direito - formulário -->
+    <div class="payment-right">
+      <h3 id="payTitle">Nenhuma forma selecionada</h3>
+      <p id="paySubtitle">Escolha um método de pagamento.</p>
+
+      <div id="payForm"></div>
+
+      <button id="paySubmit" class="submit-btn" style="display:none;">Confirmar Pagamento</button>
+      <button id="closePaymentRight" class="close-btn">Cancelar</button>
+
+      <p id="paySuccess" class="success">Pagamento aprovado!</p>
+    </div>
+
+  </div>
+</div>
+<!-- ===================================================== -->
+
+{% endblock conteudo_pagina %}
+{% block js_pagina %}
+  <script src="{% static 'js/carrinho.js' %}"></script>
+{% endblock js_pagina %}
