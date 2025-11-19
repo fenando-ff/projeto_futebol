@@ -269,19 +269,18 @@ a {
     transition: 0.3s;
     color: #f0f0f0; /* Seu branco/cinza claro */
 }
-
-.classificacao {
-    list-style: none;
-    width: 50%;
-    margin: auto;;
+.tabelaBrasileirao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-
 .tabela {
-    transition: 0.3s;
-}
-
-.tabela:hover {
-    scale: 1.02;
+    border-radius:0.75rem; 
+    background:transparent; 
+    overflow:hidden; 
+    width:320px; 
+    height:560px; 
+    margin: auto;
 }
 
 /* Garanta que o h2 não tenha uma cor que sobrescreva os spans */
@@ -565,6 +564,16 @@ a {
 
     .info-jogo .dia-hora-info-jogo {
         font-size: 32px; 
+    }
+
+    .tabela {
+        width: 520px;
+        height: 720px;
+        margin-top: -0;
+    }
+
+    .carrossel {
+        justify-content: center;
     }
 }
 
