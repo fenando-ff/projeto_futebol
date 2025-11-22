@@ -2,81 +2,101 @@
 {% load static %}
 
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
-    <link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 {% endblock css_extra %}
 
+{% block conteudo_pagina %}
 
-{% block conteudo_pagina %}    
-    <main>
-        <div  class = "conteiner">
+<main>
+    <div class="conteiner">
+        <!-- ETAPA 1: Nome e Sexo -->
+        <section class="etapa_cadastro" id="etapa1">
             <div id="area_seta">
                 <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
             
-            <h2 class = "titulo_login">Cadastrar-se</h2>
+            <h2 class="titulo_login">Cadastrar-se</h2>
 
-            <div class = "caixa usuario">
+            <div class="caixa usuario">
                 <i class='bx bx-user'></i>
-                <input  placeholder="Nome" type="text">
+                <input id="nome" placeholder="Nome" type="text" required>
             </div>
-
-
-            <div class = "caixa senha">
-                <i class='bx bx-user'></i>
-                <input  placeholder="Sobrenome" type="text">
-            </div>
-            
 
             <h3 class="comando">Selecione seu sexo:</h3>
 
-
-        <div  class ="informando_o_sexo" >
-            <div class = "caixinha masculino" id="caixa_m">  
-                <i class="fa-solid fa-mars"></i>
+            <div class="informando_o_sexo">
+                <div class="caixinha masculino" id="caixa_m">
+                    <i class="fa-solid fa-mars"></i>
+                </div>
+                <div class="caixinha feminino" id="caixa_f">
+                    <i class="fa-solid fa-venus"></i>
+                </div>
             </div>
-            
-            
-            <div class = "caixinha  feminino" id="caixa_f">
-                <i class ="fa-solid fa-venus"></i>
+
+            <div class="caixa_indeciso">
+                <label>
+                    <input type="checkbox" id="check">
+                    <p>PREFIRO NÃO INFORMAR</p>
+                </label>
             </div>
-        </div>  
 
+            <button class="btn-terceiro" onclick="proximaEtapa(2)">Próximo</button>
+        </section>
 
-        <div class="caixa_indeciso">
-            <label>
-            <input type="checkbox" id="check">
-                <p>PREFIRO NÃO INFORMAR</p>
-            </label>
-        </div>
+        <!-- ETAPA 2: Email, Telefone e CPF -->
+        <section class="etapa_cadastro" id="etapa2" style="display:none;">
+            <div id="area_seta">
+                <a href="#" onclick="proximaEtapa(1)"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
 
+            <h2 class="titulo_login">Quase lá</h2>
 
-            <a href= "{% url 'cadastro2' %}">
-                <button class = "btn-terceiro"> próximo </button>
-             </a>
+            <div class="caixa email">
+                <i class='bx bx-envelope-open'></i>
+                <input id="email" placeholder="Email" type="email" required>
+            </div>
 
+            <div class="caixa telefone">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <input id="telefone" placeholder="Telefone (opcional)" type="tel">
+            </div>
 
-            <div class="etapas">
+            <div class="caixa cpf">
+                <i class="fa-regular fa-address-book"></i>
+                <input id="cpf" placeholder="CPF" type="text" maxlength="14" required>
+            </div>
 
-                <div class="etapa">
-                    <div class="circulo um">1</div>
-                </div>
+            <button class="btn-terceiro" onclick="proximaEtapa(3)">Próximo</button>
+        </section>
 
-                <div class="etapa">
-                    <div class="circulo dois">2</div>
-                </div>
+        <!-- ETAPA 3: Senha -->
+        <section class="etapa_cadastro" id="etapa3" style="display:none;">
+            <div id="area_seta">
+                <a href="#" onclick="proximaEtapa(2)"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
 
-                <div class="etapa">
-                    <div class="circulo tres">3</div>             
-                </div>
-            </div>            
-        </div>
-     </main>
+            <h2 class="titulo_login">Por fim</h2>
+
+            <div class="caixa senha" >
+                <i  id="caixa_f" class="fa-solid fa-lock" style="color: #dddddd;"></i>
+                <input id="senha" placeholder="Crie uma Senha" type="password" required>
+            </div>
+
+            <div class="caixa confirmar_senha">
+                <i class="fa-regular fa-address-book"></i>
+                <input id="confirmSenha" placeholder="Confirme sua Senha" type="password" required>
+            </div>
+
+            <button class="btn-terceiro" onclick="validarCadastro()">Confirmar</button>
+        </section>
+
+    </div>
+</main>
+
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-    <script src="{% static "js/cadastro.js" %}"></script>
-{% endblock %}
-</body>
-</html>
+
+<script src="{% static 'js/cadastro.js' %}"></script>
+{% endblock js_pagina %}
