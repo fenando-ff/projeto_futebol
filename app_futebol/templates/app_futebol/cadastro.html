@@ -8,7 +8,13 @@
 {% endblock css_extra %}
 
 
+<form method="POST">
+     {% csrf_token %}%
+
 {% block conteudo_pagina %}    
+
+
+    
     <main>
         <div  class = "conteiner">
             <div id="area_seta">
@@ -19,13 +25,13 @@
 
             <div class = "caixa usuario">
                 <i class='bx bx-user'></i>
-                <input  placeholder="Nome" type="text">
+                <input name = "nome" placeholder="Nome" type="text" required>
             </div>
 
 
             <div class = "caixa senha">
                 <i class='bx bx-user'></i>
-                <input  placeholder="Sobrenome" type="text">
+                <input name ="sobrenome" placeholder="Sobrenome" type="text" required>
             </div>
             
 
@@ -33,12 +39,12 @@
 
 
         <div  class ="informando_o_sexo" >
-            <div class = "caixinha masculino" id="caixa_m">  
+            <div class = "caixinha masculino" name="sexo" id="caixa_m" hidden>  
                 <i class="fa-solid fa-mars"></i>
             </div>
             
             
-            <div class = "caixinha  feminino" id="caixa_f">
+            <div class = "caixinha  feminino" name="sexo" id="caixa_f" hidden>
                 <i class ="fa-solid fa-venus"></i>
             </div>
         </div>  
@@ -46,7 +52,7 @@
 
         <div class="caixa_indeciso">
             <label>
-            <input type="checkbox" id="check">
+            <input type="checkbox" name ="sexo_indefinido" id="check">
                 <p>PREFIRO NÃO INFORMAR</p>
             </label>
         </div>

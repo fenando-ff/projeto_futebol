@@ -9,7 +9,14 @@
 {% endblock css_extra %}
 
 
+<form method="POST">
+    {% csrf_token %}
+
+
+
 {% block conteudo_pagina %}   
+
+    
     <main>
         <div  class = "conteiner">
             <div id="area_seta">
@@ -21,21 +28,21 @@
 
             <div class = "caixa email">
                 <i class='bx  bx-envelope-open'  ></i>
-                <input  placeholder="Email" type="text">
+                <input name="email" placeholder="Email" type="email" required>
                  
             </div>
 
             
             <div class = "caixa telefone">
                 <i class="fa-solid fa-mobile-screen-button"></i>
-                <input  placeholder="Telefone" type="text">
+                <input name="telefone" placeholder="Telefone" type="text">
             </div>
-            <p class = "informando">campo não obrigatorio.</p> 
+            <p class = "informando">Tel não obrigatorio.</p> 
 
 
             <div class = "caixa cpf">
                 <i class="fa-regular fa-address-book"></i>
-                <input  placeholder="CPF" type="text">   
+                <input name="cpf" placeholder="CPF" type="text" required>   
             </div>
 
             
