@@ -1,44 +1,15 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Compra de Ingressos</title>
-  <link rel="shortcut icon" href="../img/logo_time_drako 3.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/proximos_jogos.css">
-</head>
+{% extends "base.html" %}
+{% load static %}
 
-<body>
-  <!-- 🔷 CABEÇALHO -->
-  <header class="cabecalho">
-    <a class="logo" href="index.html">
-      <img src="../img/logo_time_drako 3.png" alt="Escudo do Drakos FC">
-      <h1>DRAKOS FC</h1>
-    </a>
+{% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/proximos_jogos.css' %}">
+{% endblock css_extra %}
 
-    <ul class="menu-hamburgue">
-      <li><a href="socio.html">Sócios</a></li>
-      <li><a href="login.html">Login</a></li>
-      <li><a href="loja_detalhe.html">Loja</a></li>
-      <li id="botao_hamburguer"><a href="#">Outros</a></li>
-    </ul>
+{% block titulo %}Próximo Jogo{% endblock titulo %}
 
-    <div class="nav">
-      <ul class="hamburguer-opcoes">
-        <li class="opcao-nav"><a href="noticias.html">Notícias</a></li>
-        <li class="opcao-nav"><a href="historia.html">História</a></li>
-        <li class="opcao-nav btn-esconde"><a href="login.html">Login</a></li>
-        <li class="opcao-nav"><a href="ingresso.html">Ingressos</a></li>
-        <li class="btn-esconde"><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
-      </ul>
-    </div>
-  </header>
 
-  <!-- 🔷 CONTEÚDO PRINCIPAL -->
-  <main>
-    <section class="jogos-wrapper">
+{% block conteudo_pagina %}
+  <section class="jogos-wrapper">
       <!-- 🔷 JOGO EM DESTAQUE -->
       <section class="jogo-destaque">
         <p class="rodada">19ª RODADA</p>
@@ -92,16 +63,6 @@
         </div>
       </aside>
     </section>
-  </main>
-
-  <!-- 🔷 RODAPÉ -->
-  <footer class="rodape">
-    <p>&copy; 2025 Drakos FC. Todos os direitos reservados.</p>
-    <div class="redes-sociais">
-      <a href="#"><i class="fa-brands fa-instagram"></i></a>
-      <a href="#"><i class="fa-brands fa-facebook"></i></a>
-      <a href="#"><i class="fa-brands fa-twitter"></i></a>
-    </div>
-  </footer>
+{% endblock conteudo_pagina %}
 </body>
 </html>

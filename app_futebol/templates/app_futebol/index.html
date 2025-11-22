@@ -5,7 +5,6 @@
 {% endblock css_extra %}
 
 {% block conteudo_pagina %}
-<main>
         <div class="titulo">
             <h1>Somos mais que um clube!</h1>
             <i class="fa-solid fa-star"></i>
@@ -13,7 +12,7 @@
 
         <section class="container-cards">
             <div class="card card1">
-                <a href="#" class="link-jornal">
+                <a href="{% url "noticias" %}" class="link-jornal">
                     <img loading="lazy" src="{% static "img/icones/img_jornal.png" %}" alt="">
                     <span class="texto-noticia">Notícias recentes do clube</span>
                 </a>
@@ -23,7 +22,7 @@
                 <div class="versus-jogo">
                     <div class="time-casa">
                         <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão do drakos">
-                        <span class="nome-time">águia de marabá</span>
+                        <span class="nome-time">Dracos FC</span>
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time-fora">
@@ -33,14 +32,14 @@
                 </div>
                 <div class="dia-hora">
                     <span class="dataEhora">24/04 - 19:00</span>
-                    <a href="#">ver todos</a>
+                    <a href="{% url "jogos" %}">ver todos</a>
                 </div>
             </div>
             
             <div class="card card3">
                 <img class="camisa-card3" loading="lazy" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="">
                 <span class="titulo-card-produto">Produtos</span>
-                <a href="loja_produtos.html" class="link-loja">loja</a>
+                <a href="{% url "produtos" %}" class="link-loja">loja</a>
             </div>
         </section>
         
@@ -50,7 +49,7 @@
                 <div class="proximo-jogo-versus">
                     <div class="time1">
                         <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos">
-                        <span>Águia de Marabá</span>
+                        <span>Drakos FC</span>
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
@@ -65,12 +64,12 @@
                 </div>
                 <div class="proximo-jogo-versus">
                     <div class="time1">
-                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão águia de marabá">
-                        <span>Águia de Marabá</span>
+                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos FC">
+                        <span>Drakos FC</span>
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
-                        <img loading="lazy" src="{% static "img/icones/" %}" alt="flamengo">
+                        <img loading="lazy" src="{% static "img/icones/escudo_flamengo.jpg" %}" alt="flamengo">
                         <span>flamengo</span>
                     </div>
                 </div>
@@ -81,7 +80,7 @@
                 <div class="proximo-jogo-versus">
                     <div class="time1">
                         <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos">
-                        <span>Águia de Marabá</span>
+                        <span>Drakos FC</span>
                     </div>
                     <i class="fa-solid fa-xmark"></i>
                     <div class="time2">
@@ -96,94 +95,59 @@
             </div>
 
             <div class="tabelaBrasileirao" id="tabelaBrasileirao">
-                <h1>Tabela</h1>
-                <h2 id="subtituloTabela">BRASILEIRÃO</h2>
-                <ul class="classificacao">
-                   <iframe
-                        src="https://widget.api-futebol.com.br/embed/widget_486b38c931e3fe03"
-                        title="API Futebol — Widget"
-                        loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        sandbox="allow-scripts allow-same-origin allow-popups"
-                        class="tabela"
-                        style="border-radius:0.75rem; background:transparent; overflow:hidden; width:500px; height:760px; margin:auto; border:1px solid #ffffff; opacity:90%;">
-                    </iframe>
-                </ul>
-                <!-- <a class="btn-tabela" href="#">veja tabela completa</a> -->
+                <div class="titulos">
+                    <h1>Tabela</h1>
+                    <h2 id="subtituloTabela">BRASILEIRÃO</h2>
+                </div>
+                <iframe class="tabela"
+                    src="https://widget.api-futebol.com.br/embed/widget_486b38c931e3fe03"
+                    title="API Futebol — Widget"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    sandbox="allow-scripts allow-same-origin allow-popups">
+                </iframe>
             </div>
         </section>
         <h1 class="titulo-loja">loja torcedor</h1>
         <section class="loja">
             <div class="carrossel" tabindex="0">
-                <a href="#">
-                    <div class="card-carrossel card-carrossel1 ">
-                        <img class="img-carrossel" src="../img/uniforme1.png" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Águia<br> 1º uniforme</p>
+                <a href="{% url "loja_detalhe" %}">
+                    <div class="card-carrossel card-carrossel1">
+                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
+                        <p class="texto-card-carrossel">Drakos<br> 1º uniforme</p>
                     </div>    
                 </a>
 
-                <a href="#">
-                    <div class="card-carrossel card-carrossel2 ">
-                        <img class="img-carrossel" src="../img/uniforme2.png" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Águia<br> 2º uniforme</p>
+                <a href="{% url "loja_detalhe" %}">
+                    <div class="card-carrossel card-carrossel2">
+                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="" loading="lazy">
+                        <p class="texto-card-carrossel">Drakos<br> 2º uniforme</p>
                     </div>    
                 </a>
 
-                <a href="#">
-                    <div class="card-carrossel card-carrossel3 ">
-                        <img class="img-carrossel" src="../img/uniforme3.png" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Águia<br> 3º uniforme</p>
+                <a href="{% url "loja_detalhe" %}">
+                    <div class="card-carrossel card-carrossel3">
+                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
+                        <p class="texto-card-carrossel">Drakos<br> 3º uniforme</p>
                     </div>    
                 </a>
 
-                <a href="#">
-                    <div class="card-carrossel card-carrossel4 ">
-                        <img class="img-carrossel" src="../img/novo_time_drako/camisa_branca.jpg" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Águia<br> 4º uniforme</p>
+                <a href="{% url "loja_detalhe" %}">
+                    <div class="card-carrossel card-carrossel4">
+                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="" loading="lazy">
+                        <p class="texto-card-carrossel">Drakos<br> 4º uniforme</p>
                     </div>    
                 </a>
 
-                <a href="#">
-                    <div class="card-carrossel card-carrossel5 ">
-                        <img class="img-carrossel" src="../img/novo_time_drako/camisa_preta_drakos.png" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Águia<br> 5º uniforme</p>
+                <a href="{% url "loja_detalhe" %}">
+                    <div class="card-carrossel card-carrossel5">
+                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
+                        <p class="texto-card-carrossel">Drakos<br> 5º uniforme</p>
                     </div>    
                 </a>
             </div>
-            <a class="btn-loja" href="Tela_Loja.html"><i class="fa-solid fa-plus"></i>Produtos</a>
+            <a class="btn-loja" href="{% url "produtos" %}"><i class="fa-solid fa-plus"></i>Produtos</a>
         </section>
-        <section class="noticias">
-            <h1 class="titulo-noticias">Notícias</h1>
-            <div class="manchete">
-                <div class="texto-noticia">
-                    <h2 class="subtitulo-noticia"></h2>
-                    <p></p>
-                </div>
-                <div id="carrossel-noticia" class="carrossel-noticia">
-                    <div class="slide">
-                        <div class="img-carrossel-noticia img1-carrossel">
-                            <img src="../img/novo_time_drako/img1_noticia_carrossel.png" alt="imgc1">
-                        </div>
-    
-                        <div class="img-carrossel-noticia img2-carrossel">
-                            <img src="../img/novo_time_drako/camisa_preta_drakos.png" alt="imgc2">
-                        </div>
-    
-                        <div class="img-carrossel-noticia img3-carrossel">
-                            <img src="../img/novo_time_drako/img1_noticia_carrossel.png" alt="imgc3">
-                        </div>
-                    </div>
-
-                    <div class="barra-carrossel">
-                        <button class="dot-carrossel dot1"></button>
-                        <button class="dot-carrossel dot2"></button>
-                        <button class="dot-carrossel dot3"></button>
-                    </div>
-                </div>
-            </div>
-            <a href="noticias.html" class="btn-primario"><i class="fa-solid fa-plus"></i>noticias</a>
-        </section>
-    </main>
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
