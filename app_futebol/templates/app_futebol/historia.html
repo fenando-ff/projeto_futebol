@@ -1,64 +1,81 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static "css/historia.css" %}">
+<link rel="stylesheet" href="{% static 'css/historia.css' %}">
 {% endblock css_extra %}
 
 {% block titulo %} História {% endblock titulo %}
 
 {% block conteudo_pagina %}
-    <main class="historia-main">
-        <h2 class="noticias-titulo">HISTÓRIA</h2>
+<main class="historia-main">
 
-        <div class="container-historia">
-            <a href="#" class="card-historia" 
-               style="background-image: url('{% static "img/historia/drakos_time.png" %}');"
-               data-image-src="{% static "img/historia/drakos_time.png" %}">
-                <div class="card-historia-overlay">
-                    <div class="card-historia-texto">
-                        <h3 class="card-historia-titulo">O ESQUADRÃO</h3>
-                        <p class="card-historia-descricao">O grande elenco de 2002, temido por suas sequências de vitórias e campeão Paraense do mesmo ano.</p>
-                    </div>
-                </div>
-            </a>
+    <div class="container-eventos">
 
-            <a href="#" class="card-historia" 
-               style="background-image: url('{% static "img/historia/drakos_abraco.png" %}');"
-               data-image-src="{% static "img/historia/drakos_abraco.png" %}">
-                <div class="card-historia-overlay">
-                    <div class="card-historia-texto">
-                        <h3 class="card-historia-titulo">TREINO INTENSIVO</h3>
-                        <p class="card-historia-descricao">O Drakos FC disputará a final contra o Paysandu, disposto a dar o “Sangue” para levantar a taça.</p>
-                    </div>
-                </div>
-            </a>
+        <h1 class="historia-titulo">Nossa História</h1>
+        <p class="historia-subtitulo">Os principais marcos e conquistas do Drakos FC ao longo dos anos.</p>
 
-            <a href="#" class="card-historia" 
-               style="background-image: url('{% static "img/historia/drakos_campeao.png" %}');"
-               data-image-src="{% static "img/historia/drakos_campeao.png" %}">
-                <div class="card-historia-overlay">
-                    <div class="card-historia-texto">
-                        <h3 class="card-historia-titulo">DRAKOS FC CAMPEÃO</h3>
-                        <p class="card-historia-descricao">Drakos FC vence o Paysandu, ganha o Paraense 2024 com raça e quebra o jejum de títulos.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </main>
+        <!-- EVENTO 1 -->
+        <section class="historia-evento">
+            <div class="evento-icone-bloco">
+                <div class="evento-icone">🏆</div> 
+                <span class="evento-ano">2002</span>
+            </div>
 
-    <div class="historia-modal-overlay" id="historia-modal-overlay">
-        <div class="historia-modal-content">
-            <span class="historia-modal-close" id="historia-modal-close">&times;</span>
-            <img src="" alt="História do Drakos FC" id="historia-modal-img">
-            <h3 id="historia-modal-title"></h3>
-            <p id="historia-modal-desc"></p>
-        </div>
+            <div class="evento-texto-bloco">
+                <h3>O ESQUADRÃO</h3>
+                <img src="{% static 'img/historia/drakos_time.png' %}" alt="Foto do time de 2002">
+                <p>
+                    O grande elenco de 2002 marcou uma era dourada para o clube. Temido por suas sequências 
+                    de vitórias e demonstrando uma força tática inigualável, este time culminou sua performance 
+                    levantando a taça de <strong>Campeão Paraense</strong> do mesmo ano, quebrando um longo 
+                    jejum de títulos e consolidando o Drakos FC como uma potência regional.
+                </p>
+            </div>
+        </section>
+
+        <!-- EVENTO 2 -->
+        <section class="historia-evento">
+            <div class="evento-icone-bloco">
+                <div class="evento-icone">💪</div> 
+                <span class="evento-ano">2024</span>
+            </div>
+
+            <div class="evento-texto-bloco">
+                <h3>A JORNADA DA GRANDE FINAL</h3>
+                <img src="{% static 'img/historia/drakos_abraco.png' %}" alt="Jogadores treinando intensivamente">
+                <p>
+                    Após anos de reconstrução e esforço, o Drakos FC garantiu sua vaga na final do Campeonato 
+                    Paraense contra o rival Paysandu. A preparação foi intensa e dedicada, com o elenco disposto 
+                    a dar o "Sangue" em campo para mais uma vez levantar a taça e reafirmar o seu nome na 
+                    história do futebol paraense.
+                </p>
+            </div>
+        </section>
+
+        <!-- EVENTO 3 -->
+        <section class="historia-evento">
+            <div class="evento-icone-bloco">
+                <div class="evento-icone">🥇</div> 
+                <span class="evento-ano">2024</span>
+            </div>
+
+            <div class="evento-texto-bloco">
+                <h3>O RETORNO DA GLÓRIA</h3>
+                <img src="{% static 'img/historia/drakos_campeao.png' %}" alt="Time comemorando o título">
+                <p>
+                    Em uma partida emocionante e disputada até o último minuto, o Drakos FC superou o Paysandu. 
+                    Com raça, garra e um desempenho tático impecável, o time se sagrou 
+                    <strong>Campeão Paraense de 2024</strong>, encerrando um novo jejum e iniciando uma nova era 
+                    de conquistas para a torcida.
+                </p>
+            </div>
+        </section>
+
     </div>
+
+</main>
 {% endblock conteudo_pagina %}
 
-
 {% block js_pagina %}
-    <script src="{% static "js/historia.js" %}"></script>
 {% endblock js_pagina %}
-</body>
-</html>
