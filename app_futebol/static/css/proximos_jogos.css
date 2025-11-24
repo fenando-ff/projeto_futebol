@@ -29,10 +29,10 @@ footer .redes-sociais a {
 /* 🔷 Estilo geral do conteúdo principal */
 main {
   padding: 20px;
-  min-height: 80vh;
+  min-height: 83vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* removido align-items:center */
 }
 
 main h1 {
@@ -42,12 +42,15 @@ main h1 {
   color: #8F0000;
 }
 
+/* 🔧 Título dos próximos jogos — agora centralizado e alinhado com o grid */
 .titulo-secundario {
-  text-align: center;
+  width: 100%;
+  max-width: 1200px;    /* mesma largura do container dos cards */
+  margin: 40px auto 20px auto;
+  text-align: center;    /* centralizado para combinar com os cards */
   font-size: 1.8rem;
   font-weight: bold;
   color: #ffffff;
-  margin: 40px 0 20px 0;
 }
 
 /* 🔷 Destaque do próximo jogo */
@@ -59,6 +62,7 @@ main h1 {
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   text-align: center;
+  margin: 0 auto;
 }
 
 .rodada {
@@ -125,18 +129,31 @@ main h1 {
 /* 🔷 Cards dos jogos futuros */
 .jogos-container {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;   /* impede cards desalinhados */
+
   gap: 20px;
-  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 
 .jogo-card {
   background-color: #1a1a1a;
   border: 1px solid #333;
   border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
+
+  flex: 1 1 calc(100% - 20px); /* 1 coluna no mobile */
+
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  min-height: 180px; /* deixa todos com altura semelhante */
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
 }
@@ -172,15 +189,16 @@ main h1 {
   background-color: #a80000;
 }
 
-/* 🔷 Responsivo para telas maiores */
+/* 🔷 Responsivo para telas médias */
 @media screen and (min-width: 768px) {
-  .jogos-container {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
   .jogo-card {
-    width: 45%;
+    flex: 1 1 calc(50% - 20px); /* 2 cards por linha */
+  }
+}
+
+/* 🔷 Responsivo para telas grandes */
+@media screen and (min-width: 1024px) {
+  .jogo-card {
+    flex: 1 1 calc(33.333% - 20px); /* 3 cards por linha */
   }
 }
