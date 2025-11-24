@@ -14,7 +14,7 @@
 
 {% block conteudo_pagina %}
     <main>
-        <form  class = "conteiner" method="post">
+        <form  class = "conteiner" method="POST">
             {% csrf_token %}
             <div id="area_seta">
                 <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
@@ -24,14 +24,14 @@
             
             <div class = "caixa usuario">
                 <i class='bx bx-user'></i>
-                <input id="email" placeholder="Email / CPF" type="text" required>
+                <input id="email" name="email" placeholder="Email / CPF" type="text" required>
                 
             </div>
 
 
             <div class = "caixa senha">
                 <i class='bx bx-lock'></i>
-                <input id="senha"  placeholder="Senha" type="password" required>
+                <input id="senha" name="senha"  placeholder="Senha" type="password" required>
             </div>
            
             
