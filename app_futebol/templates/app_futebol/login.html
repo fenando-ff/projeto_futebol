@@ -1,63 +1,60 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 {% endblock css_extra %}
-{% block titulo %} login {% endblock titulo %}
 
-
-
+{% block titulo %}Login{% endblock titulo %}
 
 {% block conteudo_pagina %}
-    <main>
-        <form  class = "conteiner" method="POST">
-            {% csrf_token %}
-            <div id="area_seta">
-                <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
-            </div>
-            <h2 class = "titulo_login">Login</h2>
+<main>
 
-            
-            <div class = "caixa usuario">
-                <i class='bx bx-user'></i>
-                <input id="email" name="email" placeholder="Email / CPF" type="text" required>
-                
-            </div>
+    <!-- MENSAGENS -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
 
+    <form class="conteiner" method="POST">
+        {% csrf_token %}
 
-            <div class = "caixa senha">
-                <i class='bx bx-lock'></i>
-                <input id="senha" name="senha"  placeholder="Senha" type="password" required>
-            </div>
-           
-            
-            <div class = "esqueceu_senha">
-                <a href="{% url 'recuperar_senha' %}">
-                    <h4>Esqueceu senha?</h4>
-                </a>
-             </div>
+        <div id="area_seta">
+            <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
 
-             <button id="botao" onclick="login()" class="btn-terceiro" type:"submit">Entrar</button>
+        <h2 class="titulo_login">Login</h2>
 
-    
-            <p class="criar-conta">Não tem conta? <a href="{% url 'cadastro' %}">Cadastrar-se</a></p>
+        <div class="caixa usuario">
+            <i class='bx bx-user'></i>
+            <input name="email" placeholder="Email" type="text" required>
+        </div>
 
-            <p id="aviso"></p>
-        
+        <div class="caixa senha">
+            <i class='bx bx-lock'></i>
+            <input name="senha" placeholder="Senha" type="password" required>
+        </div>
 
-            
-            </form>
-     </main>
+        <div class="esqueceu_senha">
+            <a href="{% url 'recuperar_senha' %}">
+                <h4>Esqueceu senha?</h4>
+            </a>
+        </div>
 
-     {% endblock conteudo_pagina %}
-    <footer>&copy;</footer>
+        <button class="btn-terceiro" type="submit">Entrar</button>
 
-    
-    <script src="../js/main.js"></script>
-    <script src="../js/login.js"></script>
-</body>
-</html>
+        <p class="criar-conta">Não tem conta? 
+            <a href="{% url 'cadastro' %}">Cadastrar-se</a>
+        </p>
+
+    </form>
+</main>
+
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock conteudo_pagina %}

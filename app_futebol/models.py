@@ -16,6 +16,9 @@ class CategoriaCliente(models.Model):
     class Meta:
         managed = False
         db_table = 'categoria_cliente'
+        
+    def __str__(self):
+        return f"{self.nome_categoria_clientes}"
 
 
 class CategoriaProdutos(models.Model):
@@ -29,7 +32,7 @@ class CategoriaProdutos(models.Model):
 
 class Clientes(models.Model):
     id_clientes = models.AutoField(db_column='id_CLIENTES', primary_key=True)  # Field name made lowercase.
-    senha_clientes = models.CharField(db_column='senha_CLIENTES', max_length=20)  # Field name made lowercase.
+    senha_clientes = models.CharField(db_column='senha_CLIENTES', max_length=255)  # Field name made lowercase.
     sexo_clientes = models.CharField(db_column='sexo_CLIENTES', max_length=20)  # Field name made lowercase.
     telefone_clientes = models.CharField(db_column='telefone_CLIENTES', max_length=15)  # Field name made lowercase.
     email_clientes = models.CharField(db_column='email_CLIENTES', max_length=50)  # Field name made lowercase.
@@ -40,7 +43,7 @@ class Clientes(models.Model):
     categoria_cliente_id_categoria_cliente = models.ForeignKey(CategoriaCliente, models.DO_NOTHING, db_column='CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'clientes'
         
     def __str__(self):
@@ -80,6 +83,9 @@ class SetorFuncionarios(models.Model):
     class Meta:
         managed = False
         db_table = 'setor_funcionarios'
+        
+    def __str__(self):
+        return self.nome_setor_funcionarios
 #
 
 class Funcionarios(models.Model):
@@ -123,6 +129,9 @@ class Pedido(models.Model):
     class Meta:
         managed = False
         db_table = 'pedido'
+    
+    def __str__(self):
+        return f"{self.clientes_id_clientes.nome_clientes}"
 
 
 class Produtos(models.Model):

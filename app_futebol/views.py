@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from . import models
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 
 # Create your views here.
 
@@ -21,6 +21,7 @@ def tela_conta_finalizada(request):
     return render(request, "app_futebol/conta_criada.html")
 
 
+
 def tela_login(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -28,16 +29,17 @@ def tela_login(request):
 
         try:
             cliente = models.Clientes.objects.get(email_clientes=email)
+            # clientes = models.Clientes.objects.get(senha_clientes=senha)
         except models.Clientes.DoesNotExist:
             messages.error(request, "Cliente não encontrado!")
             return render(request, "app_futebol/login.html")
 
         if check_password(senha, cliente.senha_clientes):
-            request.session["cliente_id"] = cliente.id_clientes
-            return redirect(home)
+            request.session["id_clientes"] = cliente.id_clientes
+            return redirect(home)  # nome de url
         else:
             messages.error(request, "Senha incorreta!")
-            return render(request, "app_futebol/login.html")
+
     return render(request, "app_futebol/login.html")
 
 
