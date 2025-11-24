@@ -1,19 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from . import models
 from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 
 def home(request):
     return render(request, "app_futebol/index.html")
-
-
-def tela_cadastro2(request):
-    return render(request, "app_futebol/cadastro_2.html")
-
-
-def tela_cadastro3(request):
-    return render(request, "app_futebol/cadastro_3.html")
-
 
 def tela_cadastro(request):
     return render(request, "app_futebol/cadastro.html")
@@ -28,6 +22,22 @@ def tela_conta_finalizada(request):
 
 
 def tela_login(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        senha = request.POST.get("senha")
+
+        try:
+            cliente = models.Clientes.objects.get(email_clientes=email)
+        except models.Clientes.DoesNotExist:
+            messages.error(request, "Cliente não encontrado!")
+            return render(request, "app_futebol/login.html")
+
+        if check_password(senha, cliente.senha_clientes):
+            request.session["cliente_id"] = cliente.id_clientes
+            return redirect(home)
+        else:
+            messages.error(request, "Senha incorreta!")
+            return render(request, "app_futebol/login.html")
     return render(request, "app_futebol/login.html")
 
 

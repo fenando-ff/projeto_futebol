@@ -1,72 +1,74 @@
-// puxando para o DOM
-// let caixa_masculina = document.getElementById("caixa_m");
-// let caixa_feminina = document.getElementById("caixa_f");
-// let caixa_check = document.getElementById("check");
-// let sexo = document.querySelectorAll(".caixinha");
 
-// function marcarSexo(){
-//     sexo.forEach( icone =>{
-//         icone.addEventListener("click", ()=> {
-//             if (!icone.classList.contains("ativo")) {
-//                 sexo.forEach(doido =>{
-//                     doido.classList.remove("ativo")
-//                 });
-//                 icone.classList.add("ativo");
-//             } else {
-//                 icone.classList.remove("ativo")
-//             };
-//         });
-//     });
+function proximaEtapa(numero) {
+    document.querySelectorAll('.etapa_cadastro').forEach((el, idx) => {
+        el.style.display = (idx + 1 === numero) ? 'block' : 'none';
+    });
+}
 
-//     caixa_check.addEventListener("change", () =>{
-//         if (caixa_check.checked) {
-//             sexo.forEach(i => i.classList.remove("ativo"));
-//         } else {
-//             marcarSexo();
-//         }
-//     });
-// };
+// Validação básica antes do envio
+function validarCadastro() {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const cpf = document.getElementById('cpf').value.trim();
+    const senha = document.getElementById('senha').value;
+    const confirmSenha = document.getElementById('confirmSenha').value;
+
+    if(!nome || !email || !cpf || !senha || !confirmSenha) {
+        alert('Por favor, preencha todos os campos obrigatórios.');
+        return;
+    }
+
+    if(senha !== confirmSenha) {
+        alert('As senhas não coincidem.');
+        return;
+    }
+
+    // Validação simples de CPF (formato XXX.XXX.XXX-XX)
+    const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+    if(!cpfRegex.test(cpf)) {
+        alert('CPF inválido.');
+        return;
+    }
+
+    alert('Cadastro realizado com sucesso!');
+    // Aqui você pode enviar o formulário via AJAX ou redirecionar
+
+}
 
 
-// marcarSexo()
-
-
-
-// selecionando elementos
+// pega os elementos
 const caixaMasculina = document.getElementById("caixa_m");
 const caixaFeminina = document.getElementById("caixa_f");
 const checkbox = document.getElementById("check");
 const caixinhas = document.querySelectorAll(".caixinha");
 
-// função para marcar sexo
+// função para selecionar sexo
 function marcarSexo() {
     caixinhas.forEach(icone => {
         icone.addEventListener("click", () => {
-            // se o checkbox estiver marcado, desmarca
+
+            // desmarca o checkbox se estiver marcado
             if (checkbox.checked) {
                 checkbox.checked = false;
             }
 
-            // toggle ativo
-            if (!icone.classList.contains("ativo")) {
-                caixinhas.forEach(i => i.classList.remove("ativo"));
-                icone.classList.add("ativo");
-            } else {
-                icone.classList.remove("ativo");
-            }
+            // ativa somente quem foi clicado
+            caixinhas.forEach(i => i.classList.remove("active"));
+            icone.classList.add("active");
         });
     });
 }
 
-// resetar caixinhas ao marcar o checkbox
+// quando marca "prefiro não informar"
 checkbox.addEventListener("change", () => {
     if (checkbox.checked) {
-        caixinhas.forEach(i => i.classList.remove("ativo"));
-    };
+        caixinhas.forEach(i => i.classList.remove("active"));
+    }
 });
 
-// inicializa
+// iniciar função
 marcarSexo();
+
 
 
 // "" = vazio
