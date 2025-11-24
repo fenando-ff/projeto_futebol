@@ -1,19 +1,11 @@
 from django.shortcuts import render
+from . import models
 from django.http import HttpResponse
 
 # Create your views here.
 
 def home(request):
     return render(request, "app_futebol/index.html")
-
-
-def tela_cadastro2(request):
-    return render(request, "app_futebol/cadastro_2.html")
-
-
-def tela_cadastro3(request):
-    return render(request, "app_futebol/cadastro_3.html")
-
 
 def tela_cadastro(request):
     return render(request, "app_futebol/cadastro.html")

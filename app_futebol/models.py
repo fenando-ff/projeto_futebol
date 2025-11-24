@@ -42,6 +42,9 @@ class Clientes(models.Model):
     class Meta:
         managed = False
         db_table = 'clientes'
+        
+    def __str__(self):
+        return f"{self.nome_clientes} {self.sobrenome_clientes}"
 
 
 class Compra(models.Model):
@@ -93,6 +96,9 @@ class Funcionarios(models.Model):
         managed = False
         db_table = 'funcionarios'
         
+    def __str__(self):
+        return self.nome_funcionarios
+        
         
 class EnderecoFuncionarios(models.Model):
     id_endereco_funcionarios = models.AutoField(db_column='id_ENDERECO_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
@@ -130,3 +136,6 @@ class Produtos(models.Model):
     class Meta:
         managed = False
         db_table = 'produtos'
+        
+    def __str__(self):
+        return self.nome_produtos
