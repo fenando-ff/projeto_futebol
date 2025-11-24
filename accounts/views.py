@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .models import Perfil
-
+from django.contrib.auth.hashers import make_password
+from app_futebol import models
 
 # fique um tempao batendo cabeca com essa porra aqui, peguei algumas coisa do chat
 
@@ -48,4 +49,44 @@ def register_user(request):
         messages.success(request, 'Conta criada com sucesso!')
         return redirect('login')
 
-    return render(request, 'accounts/register.html')
+    return render(request, 'acconts/cadastro.html')
+
+
+# -------------------- codigo pra estudar e aplicar ----------------------
+def cadastro(request):
+    if request.method == "POST":
+
+        nome = request.POST.get("nome")
+        sobrenome = request.POST.get("sobrenome")
+        email = request.POST.get("email")
+        cpf = request.POST.get("cpf")
+        telefone = request.POST.get("telefone")
+        senha = request.POST.get("senha")
+        sexo = request.POST.get("sexo")
+
+        # verificação de duplicidade
+        if models.Clientes.objects.filter(email_clientes=email).exists():
+            messages.error(request, "Esse email já está cadastrado.")
+            return render(request, "acconts/cadastro.html")
+
+        if models.Clientes.objects.filter(cpf_clientes=cpf).exists():
+            messages.error(request, "Esse CPF já está cadastrado.")
+            return render(request, "acconts/cadastro.html")
+
+        cliente = models.Clientes(
+            nome_clientes=nome,
+            sobrenome_clientes=sobrenome,
+            email_clientes=email,
+            cpf_clientes=cpf,
+            telefone_clientes=telefone,
+            sexo_clientes=sexo,
+            status_clientes=1,
+            categoria_cliente_id_categoria_cliente_id=1,  # exemplo
+            senha_clientes=make_password(senha),  # <-- AQUI O HASH ✔️
+        )
+        cliente.save()
+
+        messages.success(request, "Cadastro realizado com sucesso!")
+        return redirect("login")
+
+    return render(request, "acconts/cadastro.html")
