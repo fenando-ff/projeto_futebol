@@ -16,6 +16,10 @@ class CategoriaCliente(models.Model):
     class Meta:
         managed = False
         db_table = 'categoria_cliente'
+        
+    def __str__(self):
+        return self.nome_categoria_clientes
+
 
 
 class CategoriaProdutos(models.Model):
@@ -26,6 +30,8 @@ class CategoriaProdutos(models.Model):
         managed = False
         db_table = 'categoria_produtos'
 
+    def __str__(self):
+        return self.nome_categoria_produtos
 
 class Clientes(models.Model):
     id_clientes = models.AutoField(db_column='id_CLIENTES', primary_key=True)  # Field name made lowercase.
@@ -70,6 +76,9 @@ class EnderecoCliente(models.Model):
     class Meta:
         managed = False
         db_table = 'endereco_cliente'
+
+    def __str__(self):
+        return f"{self.cliente_id_cliente.nome_clientes} {self.cliente_id_cliente.sobrenome_clientes}"
 
 
 class SetorFuncionarios(models.Model):

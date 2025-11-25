@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .models import Perfil
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password # Isso aqui importa a ferramenta pra criar criptografia e ler criptografia
 from app_futebol import models
 
 # fique um tempao batendo cabeca com essa porra aqui, peguei algumas coisa do chat
@@ -50,8 +50,6 @@ from app_futebol import models
 #         return redirect('login')
 
 #     return render(request, 'acconts/cadastro.html')
-
-
 # -------------------- codigo pra estudar e aplicar ----------------------
 def cadastro(request):
     if request.method == "POST":
@@ -63,6 +61,7 @@ def cadastro(request):
         cpf = request.POST.get("cpf")
         senha = request.POST.get("senha")
         sexo = request.POST.get("sexo")
+        categoria_cliente = 5
 
         # verificação de duplicidade
         if models.Clientes.objects.filter(email_clientes=email).exists():
@@ -81,12 +80,12 @@ def cadastro(request):
             telefone_clientes=telefone,
             sexo_clientes=sexo,
             status_clientes=1,
-            categoria_cliente_id_categoria_cliente_id=1,  # exemplo
-            senha_clientes=make_password(senha),  # <-- AQUI O HASH ✔️
+            categoria_cliente_id_categoria_cliente_id=categoria_cliente,  # exemplo
+            senha_clientes=make_password(senha),  # Isso aqui criptografa a senha
         )
         cliente.save()
 
         messages.success(request, "Cadastro realizado com sucesso!")
-        return redirect("login")
+        return redirect("home")
 
     return render(request, "acconts/cadastro.html")
