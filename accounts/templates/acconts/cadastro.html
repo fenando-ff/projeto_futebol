@@ -37,11 +37,11 @@
             <div class="informando_o_sexo">
                 <div class="caixinha masculino" id="caixa_m">
                     <i class="fa-solid fa-mars"></i>
-                    <input type="radio" name="" id="" value="Masculino">
+                    <input type="radio" name="sexo" id="" value="Masculino">
                 </div>
                 <div class="caixinha feminino" id="caixa_f">
                     <i class="fa-solid fa-venus"></i>
-                    <input type="radio" name="" id="" value="Masculino">
+                    <input type="radio" name="sexo" id="" value="Feminino">
                 </div>
             </div>
 
@@ -70,12 +70,12 @@
 
             <div class="caixa telefone">
                 <i class="fa-solid fa-mobile-screen-button"></i>
-                <input id="telefone" placeholder="Telefone (opcional)" type="tel">
+                <input id="telefone" name="telefone" placeholder="Telefone (opcional)" type="tel">
             </div>
 
             <div class="caixa cpf">
                 <i class="fa-regular fa-address-book"></i>
-                <input id="cpf" placeholder="CPF" type="text" maxlength="14" required>
+                <input id="cpf" name="cpf" placeholder="CPF" type="text" maxlength="14" required>
             </div>
 
             <button class="btn-terceiro" onclick="proximaEtapa(3)">Próximo</button>
@@ -91,7 +91,7 @@
 
             <div class="caixa senha" >
                 <i  id="caixa_f" class="fa-solid fa-lock" style="color: #dddddd;"></i>
-                <input id="senha" placeholder="Crie uma Senha" type="password" required>
+                <input id="senha" name="senha" placeholder="Crie uma Senha" type="password" required>
             </div>
 
             <div class="caixa confirmar_senha">
