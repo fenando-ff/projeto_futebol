@@ -86,6 +86,6 @@ def cadastro(request):
         cliente.save()
 
         messages.success(request, "Cadastro realizado com sucesso!")
-        return redirect("home")
+        return redirect("login")
 
     return render(request, "acconts/cadastro.html")
