@@ -7,6 +7,11 @@
 {% endblock css_extra %}
 
 {% block conteudo_pagina %}
+  {% if nome %}
+    <h2>Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+  {% else %}
+    <h2>Bem-vindo, visitante!</h2>
+  {% endif %}
 <main>
   <div class="container">
 

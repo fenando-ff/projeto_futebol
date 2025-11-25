@@ -5,6 +5,11 @@
 {% endblock css_extra %}
 
 {% block conteudo_pagina %}
+            {% if nome %}
+                <h2>Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+            {% else %}
+                <h2>Bem-vindo, visitante!</h2>
+            {% endif %}
         <div class="titulo">
             <h1>Somos mais que um clube!</h1>
             <i class="fa-solid fa-star"></i>

@@ -1,20 +1,32 @@
+from django.contrib.auth.hashers import check_password
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from . import models
-from django.http import HttpResponse
-from django.contrib import messages
-from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 
 def home(request):
-    return render(request, "app_futebol/index.html")
+    nome = request.session.get("cliente_nome")
+    sobrenome = request.session.get("cliente_sobrenome")
+    return render(request, "app_futebol/index.html", {
+        "nome": nome,
+        "sobrenome":sobrenome,
+    })
 
 def tela_cadastro(request):
     return render(request, "app_futebol/cadastro.html")
 
 
 def tela_carrinho(request):
-    return render(request, "app_futebol/carrinho.html")
+    if not request.session.get("cliente_id"):
+        return redirect("login")
+    
+    nome = request.session.get("cliente_nome")
+    sobrenome = request.session.get("cliente_sobrenome")
+    return render(request, "app_futebol/carrinho.html",{
+        "nome":nome,
+        "sobrenome":sobrenome,
+    })
 
 
 def tela_conta_finalizada(request):
@@ -34,12 +46,18 @@ def tela_login(request):
 
         if check_password(senha, cliente.senha_clientes):
             request.session["cliente_id"] = cliente.id_clientes
+            request.session["cliente_nome"] = cliente.nome_clientes
+            request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
             return redirect(home)
         else:
             messages.error(request, "Senha incorreta!")
             return render(request, "app_futebol/login.html")
     return render(request, "app_futebol/login.html")
 
+def logout_view(request):
+    request.session.flush()
+
+    return redirect("home") 
 
 def tela_loja_detalhe(request):
     return render(request, "app_futebol/loja_detalhe.html")
