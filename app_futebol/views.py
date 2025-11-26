@@ -1,6 +1,7 @@
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from . import models
 
 # Create your views here.
