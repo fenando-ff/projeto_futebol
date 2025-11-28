@@ -15,10 +15,10 @@
         <h2>Seus Dados</h2>
 
         <div class="dados-usuario">
-            <p><strong>Nome:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
-            <p><strong>Email:</strong> {{ request.user.email }}</p>
-            <p><strong>CPF:</strong> {{ user_profile.cpf }}</p>
-            <p><strong>Telefone:</strong> {{ user_profile.telefone }}</p>
+            <p><strong>Nome:</strong> {{ nome }} {{ sobrenome }}</p>
+            <p><strong>Email:</strong> {{ email }} </p>
+            <p><strong>CPF:</strong> {{ cpf }} </p>
+            <p><strong>Telefone:</strong> {{ telefone }} </p>
         </div>
     </section>
 

@@ -1,33 +1,53 @@
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from . import models
 
-# Create your views here.
+# -------------------------------
+# Helpers
+# -------------------------------
+
+def login_cliente(request, cliente):
+    # Salva os dados do cliente na sessão.
+    request.session["cliente_id"] = cliente.id_clientes
+    request.session["cliente_nome"] = cliente.nome_clientes
+    request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
+    request.session["cliente_email"] = cliente.email_clientes
+    request.session["cliente_telefone"] = cliente.telefone_clientes
+    request.session["cliente_cpf"] = cliente.cpf_clientes
+
+
+def get_cliente_logado(request):
+    # Retorna os dados do cliente logado ou None se não estiver logado.
+    if not request.session.get("cliente_id"):
+        return None
+    return {
+        "id": request.session.get("cliente_id"),
+        "nome": request.session.get("cliente_nome"),
+        "sobrenome": request.session.get("cliente_sobrenome"),
+        "email": request.session.get("cliente_email"),
+        "telefone": request.session.get("cliente_telefone"),
+        "cpf": request.session.get("cliente_cpf"),
+    }
+
+# -------------------------------
+# Views
+# -------------------------------
 
 def home(request):
-    nome = request.session.get("cliente_nome")
-    sobrenome = request.session.get("cliente_sobrenome")
-    return render(request, "app_futebol/index.html", {
-        "nome": nome,
-        "sobrenome":sobrenome,
-    })
+    cliente = get_cliente_logado(request)
+    return render(request, "app_futebol/index.html", cliente or {})
+
 
 def tela_cadastro(request):
     return render(request, "app_futebol/cadastro.html")
 
 
 def tela_carrinho(request):
-    if not request.session.get("cliente_id"):
+    cliente = get_cliente_logado(request)
+    if not cliente:
         return redirect("login")
-    
-    nome = request.session.get("cliente_nome")
-    sobrenome = request.session.get("cliente_sobrenome")
-    return render(request, "app_futebol/carrinho.html",{
-        "nome":nome,
-        "sobrenome":sobrenome,
-    })
+    return render(request, "app_futebol/carrinho.html", cliente)
 
 
 def tela_conta_finalizada(request):
@@ -46,19 +66,19 @@ def tela_login(request):
             return render(request, "app_futebol/login.html")
 
         if check_password(senha, cliente.senha_clientes):
-            request.session["cliente_id"] = cliente.id_clientes
-            request.session["cliente_nome"] = cliente.nome_clientes
-            request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
-            return redirect(home)
+            login_cliente(request, cliente)
+            return redirect("home")
         else:
             messages.error(request, "Senha incorreta!")
             return render(request, "app_futebol/login.html")
+
     return render(request, "app_futebol/login.html")
+
 
 def logout_view(request):
     request.session.flush()
+    return redirect("home")
 
-    return redirect("home") 
 
 def tela_loja_detalhe(request):
     return render(request, "app_futebol/loja_detalhe.html")
@@ -93,7 +113,11 @@ def tela_historia(request):
 
 
 def pagamento_socio(request):
-    return render(request, "app_futebol/pagamento_socio.html")
+    cliente = get_cliente_logado(request)
+    if not cliente:
+        return redirect("login")
+    return render(request, "app_futebol/pagamento_socio.html", cliente)
+
 
 def tela_proximo_jogo(request):
-    return render(request,"app_futebol/proximos_jogos.html")
+    return render(request, "app_futebol/proximos_jogos.html")
