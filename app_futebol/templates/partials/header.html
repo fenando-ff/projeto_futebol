@@ -11,14 +11,14 @@
         </ul> 
         <div class="nav">
             <ul class="hamburguer-opcoes">
+                {% if request.session.cliente_id %}
+                <li class="opcao-nav btn-esconde">  <a href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
                 <li class="opcao-nav"><a href="{% url 'produtos' %}">Loja</a></li>
                 <li class="opcao-nav"><a href="{% url 'noticias' %}">Notícias</a></li>
                 <li class="opcao-nav"><a href="{% url 'historia' %}">História</a></li>
-                {% if request.session.cliente_id %}
-                    <li class="opcao-nav btn-esconde">  <a href="{% url 'logout' %}">Sair</a></li>
-                {% else %}
-                    <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
                 <li class="opcao-nav"><a href="{% url 'ingresso' %}">Ingressos</a></li>
                 <li class="opcao-nav"><a href="{% url 'socio' %}">Sócios</a></li>
                 <li class="opcao-nav btn-esconde"><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
