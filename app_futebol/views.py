@@ -15,6 +15,7 @@ def login_cliente(request, cliente):
     request.session["cliente_email"] = cliente.email_clientes
     request.session["cliente_telefone"] = cliente.telefone_clientes
     request.session["cliente_cpf"] = cliente.cpf_clientes
+    request.session["plano_socio"] = cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes
 
 
 def get_cliente_logado(request):
@@ -28,6 +29,7 @@ def get_cliente_logado(request):
         "email": request.session.get("cliente_email"),
         "telefone": request.session.get("cliente_telefone"),
         "cpf": request.session.get("cliente_cpf"),
+        "plano": request.session.get("plano_socio"),
     }
 
 # -------------------------------
