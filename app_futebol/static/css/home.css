@@ -174,13 +174,11 @@ a{
     width: 300px;
 }
 
-.product-card.dois .product-image.dois img {
+.product-card.dois .product-image.dois img, .product-card.tres .product-image.tres img {
     width: 325px;
 }
 
-.product-card.tres .product-image.tres img {
-    width: 325""px;
-}
+
 
 
 
