@@ -16,6 +16,10 @@ class CategoriaCliente(models.Model):
     class Meta:
         managed = False
         db_table = 'categoria_cliente'
+        
+    def __str__(self):
+        return self.nome_categoria_clientes
+
 
 
 class CategoriaProdutos(models.Model):
@@ -26,6 +30,8 @@ class CategoriaProdutos(models.Model):
         managed = False
         db_table = 'categoria_produtos'
 
+    def __str__(self):
+        return self.nome_categoria_produtos
 
 class Clientes(models.Model):
     id_clientes = models.AutoField(db_column='id_CLIENTES', primary_key=True)  # Field name made lowercase.
@@ -42,17 +48,11 @@ class Clientes(models.Model):
     class Meta:
         managed = False
         db_table = 'clientes'
+        
+    def __str__(self):
+        return f"{self.nome_clientes} {self.sobrenome_clientes}"
 
 
-class Compra(models.Model):
-    produtos_id_produtos = models.ForeignKey('Produtos', models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
-    pedido_id_pedido = models.ForeignKey('Pedido', models.DO_NOTHING, db_column='PEDIDO_id_PEDIDO')  # Field name made lowercase.
-    quantidade_pedido = models.IntegerField(db_column='quantidade_PEDIDO')  # Field name made lowercase.
-    valor_compra = models.DecimalField(max_digits=10, decimal_places=0)
-
-    class Meta:
-        managed = False
-        db_table = 'compra'
 
 
 class EnderecoCliente(models.Model):
@@ -67,6 +67,9 @@ class EnderecoCliente(models.Model):
     class Meta:
         managed = False
         db_table = 'endereco_cliente'
+
+    def __str__(self):
+        return f"{self.cliente_id_cliente.nome_clientes} {self.cliente_id_cliente.sobrenome_clientes}"
 
 
 class SetorFuncionarios(models.Model):
@@ -93,6 +96,9 @@ class Funcionarios(models.Model):
         managed = False
         db_table = 'funcionarios'
         
+    def __str__(self):
+        return self.nome_funcionarios
+        
         
 class EnderecoFuncionarios(models.Model):
     id_endereco_funcionarios = models.AutoField(db_column='id_ENDERECO_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
@@ -118,6 +124,8 @@ class Pedido(models.Model):
         managed = False
         db_table = 'pedido'
 
+    def __str__(self):
+        return f"{self.clientes_id_clientes.nome_clientes} {self.clientes_id_clientes.sobrenome_clientes} - {self.data_pedido.strftime('%d/%m/%Y')}"
 
 class Produtos(models.Model):
     id_produtos = models.AutoField(db_column='id_PRODUTOS', primary_key=True)  # Field name made lowercase.
@@ -130,3 +138,20 @@ class Produtos(models.Model):
     class Meta:
         managed = False
         db_table = 'produtos'
+        
+    def __str__(self):
+        return self.nome_produtos
+    
+    
+class Compra(models.Model):
+    produtos_id_produtos = models.ForeignKey(Produtos, models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
+    pedido_id_pedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='PEDIDO_id_PEDIDO')  # Field name made lowercase.
+    quantidade_pedido = models.IntegerField(db_column='quantidade_PEDIDO')  # Field name made lowercase.
+    valor_compra = models.DecimalField(max_digits=10, decimal_places=0)
+
+    class Meta:
+        managed = False
+        db_table = 'compra'
+        
+    def __str__(self):
+        return f"{self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"

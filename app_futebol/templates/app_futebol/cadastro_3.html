@@ -7,10 +7,12 @@
 {% endblock css_extra %}
 
 
-{% block conteudo_pagina %}   
-    <main>
-            
+<form method="POST">
+    {% csrf_token %}
 
+{% block conteudo_pagina %}
+
+    <main>
         <div  class = "conteiner">
             <div id="area_seta">
                 <a href= "{% url "cadastro2" %}"><i class="fa-solid fa-arrow-left"></i></a>
@@ -24,12 +26,12 @@
 
             <div class = "caixa senha">
                 <i class="fa-solid fa-lock" style="color: #dddddd;"></i>
-                <input  placeholder="Crie uma Senha" type="password">
+                <input  name="senha" placeholder="Crie uma Senha" type="password" required>
             </div>
 
             <div class = "caixa confirmar_senha">
                 <i class="fa-regular fa-address-book"></i>
-                <input  placeholder="Confirme sua Senha" type="password">
+                <input name="confirmar_senha" placeholder="Confirme sua Senha" type="password" required>
             </div>
             
             

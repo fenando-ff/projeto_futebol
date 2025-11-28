@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
+
+
+{% block conteudo_pagina %}
+
+<form method="POST">
+    {% csrf_token %}
+
+<main>
+    <div class="conteiner">
+        <!-- ETAPA 1: Nome e Sexo -->
+        <section class="etapa_cadastro" id="etapa1">
+            <div id="area_seta">
+                <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+            
+            <h2 class="titulo_login">Cadastrar-se</h2>
+
+            <div class="caixa usuario">
+                <i class='bx bx-user'></i>
+                <input id="nome" name="nome" placeholder="Nome" type="text" required>
+            </div>
+
+            <div class="caixa usuario">
+                <i class='bx bx-user'></i>
+                <input id="nome" name="sobrenome" placeholder="Sobrenome" type="text" required>
+            </div>
+
+            <h3 class="comando">Selecione seu sexo:</h3>
+
+            <div class="informando_o_sexo">
+                <div class="caixinha masculino" id="caixa_m">
+                    <i class="fa-solid fa-mars"></i>
+                    <input type="radio" name="sexo" id="" value="Masculino">
+                </div>
+                <div class="caixinha feminino" id="caixa_f">
+                    <i class="fa-solid fa-venus"></i>
+                    <input type="radio" name="sexo" id="" value="Feminino">
+                </div>
+            </div>
+
+            <div class="caixa_indeciso">
+                <label>
+                    <input type="checkbox" id="check">
+                    <p>PREFIRO NÃO INFORMAR</p>
+                </label>
+            </div>
+
+            <button class="btn-terceiro" onclick="proximaEtapa(2)">Próximo</button>
+        </section>
+
+        <!-- ETAPA 2: Email, Telefone e CPF -->
+        <section class="etapa_cadastro" id="etapa2" style="display:none;">
+            <div id="area_seta">
+                <a href="#" onclick="proximaEtapa(1)"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+
+            <h2 class="titulo_login">Quase lá</h2>
+
+            <div class="caixa email">
+                <i class='bx bx-envelope-open'></i>
+                <input name="email" id="email" placeholder="Email" type="email" required>
+            </div>
+
+            <div class="caixa telefone">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <input id="telefone" name="telefone" placeholder="Telefone (opcional)" type="tel">
+            </div>
+
+            <div class="caixa cpf">
+                <i class="fa-regular fa-address-book"></i>
+                <input id="cpf" name="cpf" placeholder="CPF" type="text" maxlength="14" required>
+            </div>
+
+            <button class="btn-terceiro" onclick="proximaEtapa(3)">Próximo</button>
+        </section>
+
+        <!-- ETAPA 3: Senha -->
+        <section class="etapa_cadastro" id="etapa3" style="display:none;">
+            <div id="area_seta">
+                <a href="#" onclick="proximaEtapa(2)"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+
+            <h2 class="titulo_login">Por fim</h2>
+
+            <div class="caixa senha" >
+                <i  id="caixa_f" class="fa-solid fa-lock" style="color: #dddddd;"></i>
+                <input id="senha" name="senha" placeholder="Crie uma Senha" type="password" required>
+            </div>
+
+            <div class="caixa confirmar_senha">
+                <i class="fa-regular fa-address-book"></i>
+                <input id="confirmSenha" placeholder="Confirme sua Senha" type="password" required>
+            </div>
+
+            <button class="btn-terceiro" onclick="validarCadastro()">Confirmar</button>
+        </section>
+    </div>
+</form>
+</main>
+
+{% comment %} <form method="POST">
+    {% csrf_token %}
+    
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="text" name="sobrenome" placeholder="Sobrenome" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="cpf" placeholder="CPF" required>
+    <input type="text" name="telefone" placeholder="Telefone" required>
+
+    <select name="sexo" required>
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select>
+
+    <input type="password" name="senha" placeholder="Senha" required>
+
+    <button type="submit">Cadastrar</button>
+
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{ msg }}</p>
+        {% endfor %}
+    {% endif %}
+</form> {% endcomment %}
+
+
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+
+<script src="{% static 'js/cadastro.js' %}"></script>
+{% endblock js_pagina %}
