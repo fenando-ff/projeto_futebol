@@ -13,7 +13,7 @@ h1, h2, h3 {
 }
 
 a{
-text-decoration: none;
+    text-decoration: none;
 }
 
 /* BOTÕES */
@@ -27,7 +27,8 @@ text-decoration: none;
 }
 
 .btn-primary:hover {
-    background: #aa1a1a;
+    background: #eaeaea;
+    color:#870000;
 }
 
 .btn-secondary {
@@ -60,7 +61,7 @@ text-decoration: none;
 
 .hero-text h1 {
     font-size: 3rem;
-    margin-bottom: 12px;
+    margin-bottom: 22px;
 }
 
 .hero-text p {
@@ -68,8 +69,6 @@ text-decoration: none;
     margin-bottom: 24px;
     opacity: 0.8;
 }
-
-
 
 .hero-banner img {
     width: 880px;
@@ -96,7 +95,6 @@ text-decoration: none;
     background: #1a1a1a;
     padding: 24px;
     border-radius: 16px;
-    text-align: center;
     transition: 0.3s;
     gap: 1.0rem;
 }
@@ -142,55 +140,139 @@ text-decoration: none;
     opacity: 0.9;
 }
 
-/* ======================= CARROSSEL PRODUTOS ======================= */
+/* ======================= PRODUTOS ======================= */
 .produtos {
     text-align: center;
     padding: 64px 0;
 }
 
-.produtos-carrossel {
+.cards-produtos-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 30px 0px;
 }
 
-.produtos-track {
-    display: flex;
+.product-card {
+    width: 390px;
+    background: #ffffff;
+    border-radius: 20px;
     overflow: hidden;
-    width: 70%;
-    gap: 32px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    transition: 0.3s;
+    position: relative;
+    transform: scale(0.80);
+    gap: 20px;
 }
 
-.item {
-    min-width: 200px;
-    background: #222;
-    padding: 20px;
-    border-radius: 14px;
+.product-card:hover {
+    transform: scale(0.82)translateY(-8px);
+}
+
+.product-card.um .product-image.um img {
+    width: 300px;
+}
+
+.product-card.dois .product-image.dois img {
+    width: 325px;
+}
+
+.product-card.tres .product-image.tres img {
+    width: 325""px;
+}
+
+
+
+.product-image {
+    background: linear-gradient(180deg, #681313, #3d0b0b);
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.product-image img {
+    width: 260px;
+    transform: rotate(-12deg);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.product-image img:hover {
+    transform: rotate(-0deg);
+}
+
+.product-info {
+    padding: 20px 24px;
+    color: #111;
+}
+
+.product-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.product-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.tag {
+    background: #eee;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.desc {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-bottom: 0; 
     transition: 0.3s;
 }
 
-.item:hover {
-    transform: scale(1.05);
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.4s ease;
 }
 
-.item img {
-    width: 100%;
-    border-radius: 12px;
+.product-card:hover .bottom {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.btn-prev, .btn-next {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 32px;
-    cursor: pointer;
-    transition: 0.2s;
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #8c0000;
 }
 
-.btn-prev:hover, .btn-next:hover {
-    transform: scale(1.2);
+.btn-add {
+    background: #870000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
 }
+
+.btn-add:hover {
+    background: #151515;
+}
+
+.product-card:hover .desc {
+    margin-bottom: 20px;
+}
+
 
 /* ======================= NOTÍCIAS ======================= */
 .noticias {
@@ -201,16 +283,24 @@ text-decoration: none;
 .noticia-cards {
     display: flex;
     justify-content: center;
-    gap: 32px;
+    align-items: center;
+    text-align: center;
+    gap: 42px;
     flex-wrap: wrap;
 }
 
 .noticia {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
     background: #222;
     width: 300px;
     border-radius: 16px;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     transition: 0.3s;
+    gap: 1.0rem;
 }
 
 .noticia:hover {
@@ -238,4 +328,8 @@ text-decoration: none;
         width: 90%;
     }
 }
+
+/* ================================================================= */
+/* ======================= NOVOS CARDS DE PRODUTOS ================= */
+/* ================================================================= */
 

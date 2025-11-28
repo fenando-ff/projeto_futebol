@@ -74,43 +74,76 @@
     <section class="produtos">
         <h2>PRODUTOS</h2>
         
-        <div class="produtos-carrossel">
-            <button class="btn-prev">&#10094;</button>
+<div class="cards-produtos-container">
 
-            <div class="produtos-track">
-
-                <div class="item">
-                    <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}">
-                    <h3>Camisa Retro</h3>
-                    <p>R$ 299,90</p>
-                </div>
-
-                <div class="item">
-                    <img src="{% static 'img/produtos/camisas/uniforme_personalizado.png' %}">
-                    <h3>Uniforme Branco</h3>
-                    <p>R$ 299,90</p>
-                </div>
-
-                <div class="item">
-                    <img src="{% static 'img/produtos/acessorios/item_chaveiro.png' %}">
-                    <h3>Chaveiro Oficial</h3>
-                    <p>R$ 19,90</p>
-                </div>
-
-                <div class="item">
-                    <img src="{% static 'img/pessoas_modelos/uniforme_braco.png' %}">
-                    <h3>Uniforme Alternativo</h3>
-                    <p>R$ 299,90</p>
-                </div>
-
-            </div>
-
-            <button class="btn-next">&#10095;</button>
+    <div class="product-card um">
+        <div class="product-image um">
+            <img src="{% static 'img/camisa_home_figma.png' %}">
         </div>
 
-        <a href="{% url 'produtos' %}" class="btn-primary ver-mais">Ver todos os produtos</a>
+        <div class="product-info">
+            <h3>Camisa Retro</h3>
 
-    </section>
+            <div class="product-tags">
+                <span class="tag">MASCULINO</span>
+                <span class="tag">PRETO/BRANCO</span>
+            </div>
+
+            <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+            <div class="bottom">
+                <div class="price">R$ 299,90</div>
+                <a href="#" class="btn-add">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card dois">
+        <div class="product-image dois">
+            <img src="{% static 'img/garrafa_home_figma.png' %}">
+        </div>
+
+        <div class="product-info">
+            <h3>Camisa Retro</h3>
+
+            <div class="product-tags">
+                <span class="tag">MASCULINO</span>
+                <span class="tag">PRETO/BRANCO</span>
+            </div>
+
+            <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+            <div class="bottom">
+                <div class="price">R$ 299,90</div>
+                <a href="#" class="btn-add">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-card tres">
+        <div class="product-image tres">
+            <img src="{% static 'img/short_home_figma.png' %}">
+        </div>
+
+        <div class="product-info">
+            <h3>Chaveiro Oficial</h3>
+
+            <div class="product-tags">
+                <span class="tag">ACESSÓRIO</span>
+                <span class="tag">OFICIAL</span>
+            </div>
+
+            <p class="desc">Chaveiro metálico resistente com escudo personalizado do Drako FC.</p>
+
+            <div class="bottom">
+                <div class="price">R$ 19,90</div>
+                <a href="#" class="btn-add">Adicionar</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
     <!-- ======================== NOTÍCIAS =============================== -->
     <section class="noticias">
