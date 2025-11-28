@@ -12,9 +12,10 @@ class CategoriaCliente(models.Model):
     id_categoria_cliente = models.AutoField(db_column='id_CATEGORIA_CLIENTE', primary_key=True)  # Field name made lowercase.
     nome_categoria_clientes = models.CharField(db_column='nome_CATEGORIA_CLIENTES', max_length=45)  # Field name made lowercase.
     descricao_categ_cli = models.TextField()
+    preco_categoria = models.FloatField(db_column='preco_categ')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'categoria_cliente'
         
     def __str__(self):

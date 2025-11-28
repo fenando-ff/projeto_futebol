@@ -29,7 +29,7 @@ def get_cliente_logado(request):
         "email": request.session.get("cliente_email"),
         "telefone": request.session.get("cliente_telefone"),
         "cpf": request.session.get("cliente_cpf"),
-        "plano": request.session.get("plano_socio"),
+        "plano_cliente": request.session.get("plano_socio"),
     }
 
 # -------------------------------
@@ -103,7 +103,8 @@ def tela_rec_senha_2(request):
 
 
 def tela_socio(request):
-    return render(request, "app_futebol/socio.html")
+    planos = models.CategoriaCliente.objects.all()
+    return render(request, "app_futebol/socio.html",{"planos":planos})
 
 
 def tela_ingressos(request):
@@ -118,7 +119,8 @@ def pagamento_socio(request):
     cliente = get_cliente_logado(request)
     if not cliente:
         return redirect("login")
-    return render(request, "app_futebol/pagamento_socio.html", cliente)
+    plano = tela_socio(request)
+    return render(request, "app_futebol/pagamento_socio.html", cliente, plano)
 
 
 def tela_proximo_jogo(request):

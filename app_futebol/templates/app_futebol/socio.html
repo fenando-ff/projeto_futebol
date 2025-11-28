@@ -40,9 +40,9 @@
 <div class="popup" id="popup">
   <div class="popup-content">
       <h2>Escolha seu plano</h2>
-      <a href="{% url 'confirmar_socio' %}?plano=diamante" class="popup-card" id="diamante">Sócio Diamante</a>
-      <a href="{% url 'confirmar_socio' %}?plano=ouro" class="popup-card" id="ouro">Sócio Ouro</a>
-      <a href="{% url 'confirmar_socio' %}?plano=prata" class="popup-card" id="prata">Sócio Prata</a>
+      {% for plano in planos %}
+        <a href="{% url 'confirmar_socio' %}" class="popup-card" >{{ plano.nome_categoria_clientes}}</a>
+      {% endfor %}
   </div>
 </div>
 

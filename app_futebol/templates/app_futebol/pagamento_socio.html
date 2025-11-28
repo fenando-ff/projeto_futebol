@@ -24,16 +24,23 @@
 
     <!-- PLANO -->
     <section class="box">
+        <h2>Plano Atual</h2>
+        <div class="plano-info">
+            <p><strong>Plano:</strong> {{ plano_cliente }}</p>
+        </div>
+    </section>
+
+    <section class="box">
         <h2>Plano Selecionado</h2>
         <div class="plano-info">
-            <p><strong>Plano:</strong> {{ plano }}</p>
+            <p><strong>Plano:</strong> {{ planos.nome_categoria_clientes }}</p>
 
-            {% if plano == "prata" %}
-                <p>Valor: R$ 19,90/mês</p>
-            {% elif plano == "ouro" %}
-                <p>Valor: R$ 39,90/mês</p>
-            {% elif plano == "diamante" %}
-                <p>Valor: R$ 59,90/mês</p>
+            {% if planos.nome_categoria_clientes == "Sócio Drakos - Prata" %}
+                <p>Valor: R$ {{ planos.preco_categ}}</p>
+            {% elif planos.nome_categoria_clientes == "Sócio Drakos - Ouro" %}
+                <p>Valor: R$ {{ planos.preco_categ}}</p>
+            {% elif planos.nome_categoria_clientes == "Sócio Drakos - Diamante" %}
+                <p>Valor: R$ {{ planos.preco_categ}}</p>
             {% endif %}
         </div>
     </section>
