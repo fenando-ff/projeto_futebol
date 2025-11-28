@@ -19,8 +19,24 @@
             <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
         </div>
 
-        <div class="hero-banner">
-            <img src="{% static 'img/banners/banner1.png' %}" alt="Banner hero">
+        <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
+        <div class="hero-carousel">
+            
+            <!-- Imagens -->
+            <div class="carousel-track">
+                <img src="{% static 'img/banners/banner1_home.png' %}" class="carousel-img active">
+                <img src="{% static 'img/banners/banner2_home.png' %}" class="carousel-img">
+                <img src="{% static 'img/banners/banner3_home.png' %}" class="carousel-img">
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="carousel-progress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <!-- Botões -->
+            <button class="carousel-btn left">&#10094;</button>
+            <button class="carousel-btn right">&#10095;</button>
         </div>
     </section>
 
@@ -70,80 +86,80 @@
         <a href="#" class="btn-primary">Comprar Ingressos</a>
     </section>
 
-    <!-- ======================== CARROSSEL DE PRODUTOS =============================== -->
+    <!-- ======================== PRODUTOS =============================== -->
     <section class="produtos">
         <h2>PRODUTOS</h2>
         
-<div class="cards-produtos-container">
+        <div class="cards-produtos-container">
 
-    <div class="product-card um">
-        <div class="product-image um">
-            <img src="{% static 'img/camisa_home_figma.png' %}">
-        </div>
+            <div class="product-card um">
+                <div class="product-image um">
+                    <img src="{% static 'img/camisa_home_figma.png' %}">
+                </div>
 
-        <div class="product-info">
-            <h3>Camisa Retro</h3>
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
 
-            <div class="product-tags">
-                <span class="tag">MASCULINO</span>
-                <span class="tag">PRETO/BRANCO</span>
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
+                    </div>
+
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
             </div>
 
-            <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+            <div class="product-card dois">
+                <div class="product-image dois">
+                    <img src="{% static 'img/garrafa_home_figma.png' %}">
+                </div>
 
-            <div class="bottom">
-                <div class="price">R$ 299,90</div>
-                <a href="#" class="btn-add">Adicionar</a>
-            </div>
-        </div>
-    </div>
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
 
-    <div class="product-card dois">
-        <div class="product-image dois">
-            <img src="{% static 'img/garrafa_home_figma.png' %}">
-        </div>
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
+                    </div>
 
-        <div class="product-info">
-            <h3>Camisa Retro</h3>
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
 
-            <div class="product-tags">
-                <span class="tag">MASCULINO</span>
-                <span class="tag">PRETO/BRANCO</span>
-            </div>
-
-            <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
-
-            <div class="bottom">
-                <div class="price">R$ 299,90</div>
-                <a href="#" class="btn-add">Adicionar</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="product-card tres">
-        <div class="product-image tres">
-            <img src="{% static 'img/short_home_figma.png' %}">
-        </div>
-
-        <div class="product-info">
-            <h3>Chaveiro Oficial</h3>
-
-            <div class="product-tags">
-                <span class="tag">ACESSÓRIO</span>
-                <span class="tag">OFICIAL</span>
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
             </div>
 
-            <p class="desc">Chaveiro metálico resistente com escudo personalizado do Drako FC.</p>
+            <div class="product-card tres">
+                <div class="product-image tres">
+                    <img src="{% static 'img/short_home_figma.png' %}">
+                </div>
 
-            <div class="bottom">
-                <div class="price">R$ 19,90</div>
-                <a href="#" class="btn-add">Adicionar</a>
+                <div class="product-info">
+                    <h3>Chaveiro Oficial</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">ACESSÓRIO</span>
+                        <span class="tag">OFICIAL</span>
+                    </div>
+
+                    <p class="desc">Chaveiro metálico resistente com escudo personalizado do Drako FC.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 19,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
             </div>
+
         </div>
-    </div>
-
-</div>
-
+    </section>
 
     <!-- ======================== NOTÍCIAS =============================== -->
     <section class="noticias">
@@ -171,6 +187,7 @@
                 <p>Nova identidade visual surpreende torcedores...</p>
                 <a href="#" class="btn-secondary">Ler mais</a>
             </article>
+
         </div>
 
     </section>
