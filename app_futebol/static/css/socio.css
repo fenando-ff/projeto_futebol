@@ -121,7 +121,7 @@ body {
   background: #fff;
   padding: 30px;
   border-radius: 15px;
-  width: 400px;
+  width: 600px;
   text-align: center;
 }
 
@@ -133,15 +133,18 @@ body {
 }
 
 .popup-card {
-  background-color: #eee;
+  flex: 1;
+  background-color: #7a0000;
+  color: #f0f0f0;
   padding: 15px;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s;
+  text-decoration: none;
 }
 
 .popup-card:hover {
-  background-color: #ccc;
+  background-color: #a10000;
 }
 
 /* ========================= */
