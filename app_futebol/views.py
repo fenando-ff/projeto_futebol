@@ -115,12 +115,23 @@ def tela_historia(request):
     return render(request, "app_futebol/historia.html")
 
 
-def pagamento_socio(request):
-    cliente = get_cliente_logado(request)
-    if not cliente:
+def pagamento_socio(request, plano_id):
+    try:
+        plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
+    except models.CategoriaCliente.DoesNotExist:
+        messages.error(request, "Plano não encontrado!")
+        return redirect("tela_socio")
+    
+    cliente_id = request.session.get("cliente_id")
+    if not cliente_id:
         return redirect("login")
-    plano = tela_socio(request)
-    return render(request, "app_futebol/pagamento_socio.html", cliente, plano)
+
+    cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+
+    return render(request, "app_futebol/pagamento_socio.html", {
+        "cliente": cliente,
+        "plano": plano,
+    })
 
 
 def tela_proximo_jogo(request):

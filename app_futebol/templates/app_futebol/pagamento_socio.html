@@ -15,10 +15,10 @@
         <h2>Seus Dados</h2>
 
         <div class="dados-usuario">
-            <p><strong>Nome:</strong> {{ nome }} {{ sobrenome }}</p>
-            <p><strong>Email:</strong> {{ email }} </p>
-            <p><strong>CPF:</strong> {{ cpf }} </p>
-            <p><strong>Telefone:</strong> {{ telefone }} </p>
+            <p><strong>Nome:</strong> {{ cliente.nome_clientes }} {{ cliente.sobrenome_clientes }}</p>
+            <p><strong>Email:</strong> {{ cliente.email_clientes }} </p>
+            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }} </p>
+            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }} </p>
         </div>
     </section>
 
@@ -26,22 +26,15 @@
     <section class="box">
         <h2>Plano Atual</h2>
         <div class="plano-info">
-            <p><strong>Plano:</strong> {{ plano_cliente }}</p>
+            <p><strong>Plano:</strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
         </div>
     </section>
 
     <section class="box">
         <h2>Plano Selecionado</h2>
         <div class="plano-info">
-            <p><strong>Plano:</strong> {{ planos.nome_categoria_clientes }}</p>
-
-            {% if planos.nome_categoria_clientes == "Sócio Drakos - Prata" %}
-                <p>Valor: R$ {{ planos.preco_categ}}</p>
-            {% elif planos.nome_categoria_clientes == "Sócio Drakos - Ouro" %}
-                <p>Valor: R$ {{ planos.preco_categ}}</p>
-            {% elif planos.nome_categoria_clientes == "Sócio Drakos - Diamante" %}
-                <p>Valor: R$ {{ planos.preco_categ}}</p>
-            {% endif %}
+            <p><strong>Plano:</strong>{{ plano.nome_categoria_clientes }}</p>
+            <p>Valor: R$ {{ plano.preco_categoria|floatformat:2}}</p>
         </div>
     </section>
 

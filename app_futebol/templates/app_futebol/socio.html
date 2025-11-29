@@ -41,7 +41,7 @@
   <div class="popup-content">
       <h2>Escolha seu plano</h2>
       {% for plano in planos %}
-        <a href="{% url 'confirmar_socio' %}" class="popup-card" >{{ plano.nome_categoria_clientes}}</a>
+        <a href="{% url 'confirmar_socio' plano.id_categoria_cliente %}" class="popup-card" >{{ plano.nome_categoria_clientes}}</a>
       {% endfor %}
   </div>
 </div>

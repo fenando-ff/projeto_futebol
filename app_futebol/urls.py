@@ -17,6 +17,7 @@ urlpatterns = [
     path('rec_senha2/', views.tela_rec_senha_2, name='recuperar_senha2'),
     path('ingresso/', views.tela_ingressos,name='ingresso'),
     path('socio/', views.tela_socio, name='socio'),
-    path('pagamento_socio/', views.pagamento_socio,name='confirmar_socio'),
+    path('pagamento_socio/<int:plano_id>/', views.pagamento_socio, name='confirmar_socio'),
+
 ]
 
