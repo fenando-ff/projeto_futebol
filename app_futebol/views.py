@@ -112,9 +112,9 @@ def tela_rec_senha(request):
         )
 
         send_mail(
-            "Código de recuperação de senha",
-            f"Seu código: {codigo}",
-            os.environ.get("EMAIL_HOST_USER"),
+            "Código de recuperação de senha", # titulo
+            f"Seu código: {codigo}", # conteudo
+            os.environ.get("EMAIL_HOST_USER"), # remetente
             [email],
         )
 
