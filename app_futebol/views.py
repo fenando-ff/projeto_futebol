@@ -41,10 +41,6 @@ def home(request):
     return render(request, "app_futebol/index.html", cliente or {})
 
 
-def tela_cadastro(request):
-    return render(request, "app_futebol/cadastro.html")
-
-
 def tela_carrinho(request):
     cliente = get_cliente_logado(request)
     if not cliente:
@@ -95,6 +91,7 @@ def tela_noticias(request):
 
 
 def tela_rec_senha(request):
+    email = get_cliente_logado(request)
     return render(request, "app_futebol/rec_senha.html")
 
 
