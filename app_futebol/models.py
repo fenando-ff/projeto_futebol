@@ -6,7 +6,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.utils import timezone
+from datetime import timedelta
 
 class CategoriaCliente(models.Model):
     id_categoria_cliente = models.AutoField(db_column='id_CATEGORIA_CLIENTE', primary_key=True)  # Field name made lowercase.
@@ -15,7 +16,7 @@ class CategoriaCliente(models.Model):
     preco_categoria = models.FloatField(db_column='preco_categ')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'categoria_cliente'
         
     def __str__(self):
@@ -36,7 +37,7 @@ class CategoriaProdutos(models.Model):
 
 class Clientes(models.Model):
     id_clientes = models.AutoField(db_column='id_CLIENTES', primary_key=True)  # Field name made lowercase.
-    senha_clientes = models.CharField(db_column='senha_CLIENTES', max_length=20)  # Field name made lowercase.
+    senha_clientes = models.CharField(db_column='senha_CLIENTES', max_length=255)  # Field name made lowercase.
     sexo_clientes = models.CharField(db_column='sexo_CLIENTES', max_length=20)  # Field name made lowercase.
     telefone_clientes = models.CharField(db_column='telefone_CLIENTES', max_length=15)  # Field name made lowercase.
     email_clientes = models.CharField(db_column='email_CLIENTES', max_length=50)  # Field name made lowercase.
@@ -156,3 +157,16 @@ class Compra(models.Model):
         
     def __str__(self):
         return f"{self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"
+    
+
+class RecuperacaoSenha(models.Model):
+        cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE, db_column='cliente_id')
+        codigo = models.CharField(max_length=6)
+        criado_em = models.DateTimeField(auto_now_add=True)
+
+        class Meta:
+            db_table = 'recuperacao_senha'
+            managed = True
+
+        def expirado(self):
+            return timezone.now() > self.criado_em + timedelta(minutes=10)

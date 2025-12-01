@@ -17,6 +17,13 @@
                 </a>
             </div>
             
+            <form method="POST">
+                {% csrf_token %}
+                <input type="email" name="email" placeholder="Digite seu email" required>
+                <button type="submit">Enviar código</button>
+            </form>
+
+
             <div class = "titulo">
                 <h2>INFORME O CÓDIGO ENVIADO<br>PARA SEU EMAIL<br></h2>
             <img class = "logo_email" src="{% static "img/icones/logo_email.png" %} " >       

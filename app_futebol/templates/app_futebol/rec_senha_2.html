@@ -3,13 +3,20 @@
 {% load static %}
 
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
+<link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
 {% endblock css_extra %}
 
 
 {% block conteudo_pagina %}   
-    <main>
-        <div  class = "conteiner">
+<main>
+    
+    
+    <div  class = "conteiner">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="text" name="codigo" placeholder="Código recebido" required>
+                <button type="submit">Validar</button>
+            </form>
             <div id="area_seta"> 
                 <a href = "{% url 'recuperar_senha' %}"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
