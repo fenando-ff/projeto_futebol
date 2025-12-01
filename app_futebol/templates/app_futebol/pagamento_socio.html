@@ -35,6 +35,7 @@
         <div class="plano-info">
             <p><strong>Plano: </strong>{{ plano.nome_categoria_clientes }}</p>
             <p><strong>Valor: </strong>R${{ plano.preco_categoria|floatformat:2}}</p> {% comment %} 'floatformat:2' é para deixar dois numeros depois da vírgula {% endcomment %}
+            <p><strong>Descrição: </strong>{{ plano.descricao_categ_cli}}</p>
         </div>
     </section>
 
