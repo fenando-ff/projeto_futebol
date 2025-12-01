@@ -58,13 +58,13 @@ main h1 {
 .jogo-destaque {
   background: linear-gradient(180deg, #2a2a2a, #1a1a1a); /* 🔧 gradiente crescente mais claro */
   border-radius: 12px;
-  padding: 40px 15px;
+  padding: 40px 20px; /* 🔧 padding ajustado para ficar proporcional aos cards */
   max-width: 595px;
   width: 95%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   text-align: center;
 
-  margin: 40px auto 40px auto; /* 🔧 subiu mais um tiquinho */
+  margin: 40px auto 40px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -114,7 +114,7 @@ main h1 {
   font-size: 1rem;
   color: #cccccc;
   margin: 5px 0;
-  text-align: center; /* 🔥 centraliza infos */
+  text-align: center;
 }
 
 .btn-proximo {
@@ -147,26 +147,26 @@ main h1 {
 
 /* 🔥 Cards reformulados + correções */
 .jogo-card {
-  background: linear-gradient(145deg, #2a2a2a, #1e1e1e); /* 🔧 gradiente mais claro */
-  border: 1px solid #333333; /* 🔧 borda mais clara */
+  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  border: 1px solid #333333;
   border-radius: 12px;
 
   flex: 1 1 calc(100% - 20px);
   max-width: 360px;
 
-  padding: 25px;
+  padding: 20px; /* 🔧 padding uniforme */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 10px;
+  justify-content: space-between; /* 🔧 distribui melhor conteúdo */
+  gap: 12px;
 
   min-height: 230px;
-  max-height: 230px; 
-  overflow: hidden;  
+  max-height: 230px;
+  overflow: hidden;
 
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  text-align: center; 
+  text-align: center;
 }
 
 .jogo-card:hover {
@@ -176,11 +176,11 @@ main h1 {
 
 /* Correção: Imagens dentro dos cards não quebram layout */
 .jogo-card img {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   object-fit: contain;
   display: block;
-  margin: 0 auto 5px auto; /*centraliza imagem */
+  margin: 0 auto 5px auto;
 }
 
 .jogo-card h2 {
