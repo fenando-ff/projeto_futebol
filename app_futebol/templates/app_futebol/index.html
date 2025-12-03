@@ -161,28 +161,36 @@
         </div>
     </section>
 
-    <!-- NOTÍCIAS  -->
-    <section class="noticias">
-        <h2>ÚLTIMAS NOTÍCIAS</h2>
+    {% comment %} noticias {% endcomment %}
 
-        <div class="noticia-cards">
+   <section class="noticias">
+    <h2 class = "titulo_noticias">ÚLTIMAS NOTÍCIAS</h2>
 
-    <article class="noticia-card">
-            <div class="noticia-img">
-            <img src="{% static 'img/noticias/img1_noticia_carrossel.png' %}">
+    <div class="noticia-cards">
+
+        <article class="news-card-big">
+            <img src="{% static 'img/noticias/img_noticias.jpg' %}" class="news-img-big">
+
+            <div class="news-content">
+                <h3>New Construction technology awareness.</h3>
+                <p>Ellingar her has secure far twenty eat object...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <img src="{% static 'img/noticias/tottenham_hotspur_v_ac_milan_round_of_16_second_leg_-_uefa_champions_league.webp' %}" class="news-img">
+
+            <div class="news-content">
+                <h3>Building your dreams with quality material.</h3>
+                <p>Know how to choose the correct materials...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
     </div>
+</section>
 
-    <div class="noticia-content">
-            <h3>Drako vence clássico fora de casa</h3>
-            <p>Uma atuação dominante garantiu a vitória...</p>
-            <a href="#" class="btn-read">Ler mais</a>
-        </div>
-    </article>
-
-
-        </div>
-
-    </section>
 
 </main>
 

@@ -1,4 +1,8 @@
 /* ======================= GERAL ======================= */
+main{
+    height: 100% ;
+}
+
 .home-container {
     width: 100%;
     padding: 0;
@@ -116,9 +120,6 @@ a{
 
 }
 
-
-
-
 .carousel-track {
     width: 100%;
     height: 100%;
@@ -155,12 +156,6 @@ a{
     background: #f0f0f0;
     transition: width linear;
 }
-
-/* Botões */
-
-
-
-
 
 /* ======================= DESTAQUES ======================= */
 .destaques {
@@ -265,7 +260,6 @@ a{
     justify-content: center;
 }
 
-/* Correção para imagens estouradas */
 .product-image img {
     width: 100%;
     max-width: 260px;
@@ -280,24 +274,8 @@ a{
     transform: rotate(0deg);
 }
 
-/* Ajustes específicos para imagens */
-.product-card.um .product-image.um img {
-    max-width: 260px;
-}
-
-.product-card.dois .product-image.dois img,
-.product-card.tres .product-image.tres img {
-    max-width: 260px;
-}
-
 .product-info {
     padding: 20px 24px;
-    color: #111;
-}
-
-.product-info h3 {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
     color: #111;
 }
 
@@ -314,13 +292,6 @@ a{
     border-radius: 6px;
     font-size: 0.75rem;
     font-weight: 600;
-}
-
-.desc {
-    font-size: 0.9rem;
-    opacity: 0.8;
-    margin-bottom: 0; 
-    transition: 0.3s;
 }
 
 .bottom {
@@ -361,7 +332,13 @@ a{
     margin-bottom: 20px;
 }
 
-/* ======================= NOTÍCIAS ======================= */
+/* ======================= NOVO LAYOUT DE NOTÍCIAS ======================= */
+
+.titulo_noticias{
+    margin: 0px 0px 30px 0px;
+    text-align: center;
+}
+
 .noticia-cards {
     display: flex;
     justify-content: center;
@@ -369,79 +346,65 @@ a{
     gap: 40px;
 }
 
-/* CARD PREMIUM */
-.noticia-card {
-    width: 330px;
-    background: #111;
-    border-radius: 20px;
+/* CARD LIMPO (igual ao layout da imagem) */
+.news-card {
+    width: 350px;
+    background: #ffffff;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
     transition: 0.35s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 
-/* Imagem */
-.noticia-card .noticia-img {
-    width: 100%;
-    height: 190px;
+.news-card-big {
+    width: 730px; /* card grande horizontal como na imagem modelo */
+    background: #ffffff;
+    border-radius: 16px;
     overflow: hidden;
+    display: flex;
+    flex-direction: row; /* imagem à esquerda / texto à direita */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transition: 0.35s ease;
+    cursor: pointer;
+    position: relative;   
 }
 
-.noticia-card img {
+.news-card-big .news-img-big {
     width: 100%;
-    height: 100%;
+    height: 335px;
     object-fit: cover;
-    transition: 0.45s ease;
+    transition: 0.35s ease;
 }
 
-/* Conteúdo */
-.noticia-content {
-    padding: 22px;
-    color: #fff;
+.news-card-big .news-content {
+    padding: 24px;
+    width: 50%;
+    color: #222;
 }
 
-.noticia-content h3 {
-    font-size: 1.25rem;
-    margin-bottom: 8px;
-    font-weight: 700;
+
+.news-card-big img{
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
 }
 
-.noticia-content p {
-    opacity: 0.8;
-    font-size: 0.95rem;
-    margin-bottom: 20px;
+.news-card-big:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 
-.noticia-content .btn-read {
-    display: inline-block;
-    background: #F72B2B;
-    padding: 10px 18px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: 0.3s;
+.news-card-big img:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 
-.noticia-content .btn-read:hover {
-    background: #fff;
-    color: #8c0000;
-}
-
-/* Hover Avançado */
-.noticia-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.45);
-}
-
-.noticia-card:hover img {
-    transform: scale(1.12);
-    filter: brightness(1.15);
-}
-
-/* Linha embaixo aparece como detalhe */
-.noticia-card::after {
+.news-card-big::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -452,10 +415,69 @@ a{
     transition: width 0.35s ease;
 }
 
-.noticia-card:hover::after {
+/* Imagem */
+.news-card .news-img {
     width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
 }
 
+/* Conteúdo */
+.news-content {
+    padding: 18px;
+    color: #222;
+}
+
+.news-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #111;
+    font-weight: 700;
+}
+
+.news-content p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-bottom: 14px;
+}
+
+.news-link {
+    color: #b30101;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.news-link:hover {
+    color: #b50000;
+}
+
+/* Hover premium */
+.news-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card:hover .news-img {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+/* Linha inferior animada */
+.news-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #F72B2B, #910000);
+    transition: width 0.35s ease;
+}
+
+.news-card:hover::after {
+    width: 100%;
+}
 
 /* ======================= RESPONSIVO ======================= */
 @media (max-width: 1200px) {
@@ -538,5 +560,9 @@ a{
 
     .product-image img {
         max-width: 200px;
+    }
+
+    .news-card {
+        width: 92%;
     }
 }

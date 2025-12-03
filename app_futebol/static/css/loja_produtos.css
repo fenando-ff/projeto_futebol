@@ -305,11 +305,15 @@ body {
   cursor: pointer;
 }
 
+.produto a{
+  min-height: 200px ;
+}
+
 .produto img {
   width: 100%;
-  height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
+  min-height: 200px;
 }
 
 .produto h3 {
