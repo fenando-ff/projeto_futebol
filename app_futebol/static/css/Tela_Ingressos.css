@@ -2,27 +2,27 @@
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.5;
-    background: linear-gradient(135deg, #2a2a2a 45%, #b30000 100%); 
+    background: linear-gradient(135deg, #2a2a2a 45%, #b30000 100%);
     color: #f4f4f4; /* texto claro para contraste */
 }
 
 /* 🏟️ Conteúdo Principal */
 main {
     padding: 3rem 1rem 1rem;
-    max-width: 1000px; /* 🔧 aumentado para comportar layout lado a lado */
+    max-width: 1000px;
     margin: 0 auto;
 }
 main h1 {
     font-size: 1.9rem;
     text-align: center;
-    color: #ffffff; /* título em branco */
+    color: #ffffff;
     margin-bottom: 2.1rem;
 }
 
 /* 🎫 Tela de Ingressos */
 .titulo-ingresso h2 {
     font-size: 1.5rem;
-    color: #f4f4f4; 
+    color: #f4f4f4;
     text-align: center;
     margin-bottom: 1.5rem;
     font-weight: bold;
@@ -42,10 +42,10 @@ main h1 {
 /* 🆚 Logos dos Times */
 .logos-times {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;       /* escudos lado a lado */
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     margin-bottom: 1rem;
 }
 .logos-times img {
@@ -76,7 +76,7 @@ main h1 {
 .form-setor select,
 #quantidade {
     padding: 0.75rem;
-    border: none; /* sem borda */
+    border: none;
     border-radius: 5px;
     font-size: 1.1rem;
     line-height: 1.5;
@@ -125,7 +125,7 @@ main h1 {
     margin-top: 1.5rem;
     padding: 1rem;
     border-radius: 8px;
-    background-color: #1a1a1a; /* fundo escuro */
+    background-color: #1a1a1a;
     color: #ffffff;
 }
 .resumo-compra h3 {
@@ -143,7 +143,7 @@ main h1 {
     margin-top: 1.5rem;
     padding: 1rem;
     border-radius: 6px;
-    background-color: #1a1a1a; /* fundo escuro */
+    background-color: #1a1a1a;
 }
 .lista-ingressos h3 {
     color: #ffffff;
@@ -195,27 +195,25 @@ main h1 {
 /* 🗺️ Mapa do Estádio */
 .mapa-estadio {
     flex: 1 1 300px;
-    max-width: 48%;
+    /* max-width: 48%; */
     margin-top: 0;
     border-radius: 6px;
-    background: linear-gradient(to right, #8F0000 0%, #2a2a2a 55%);
+    background: linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
     padding: 1rem;
 }
 .mapa-estadio h3 {
     text-align: center;
-    color: #ffffff; /* título em branco para contraste */
+    color: #ffffff;
     margin-bottom: 0.75rem;
 }
-
 .mapa-estadio img {
-    max-width: 350px;  /* 🔧 limite de largura */
-    width: 100%;       /* ocupa o espaço disponível até esse limite */
+    max-width: 300px;          /* imagem menor */
+    width: 100%;
     height: auto;
     display: block;
     margin: 0 auto;
     border-radius: 6px;
 }
-
 
 /* 🎫 Lado Direito - Compra de Ingressos */
 .lado-direito-ingressos {
@@ -229,7 +227,7 @@ main h1 {
 /* 📱 Responsivo */
 @media (max-width: 1024px) {
     .container-estadio-ingressos {
-        gap: 2rem; /* 🔧 reduz o espaço em telas médias */
+        gap: 2rem;
     }
     .mapa-estadio,
     .lado-direito-ingressos {
@@ -240,13 +238,13 @@ main h1 {
 @media (max-width: 768px) {
     .container-estadio-ingressos {
         flex-direction: column;
-        align-items: center;   /* 🔧 centraliza os blocos */
+        align-items: center;
         text-align: center;
     }
-    .mapa-estadio, /* 🔧 corrigido seletor */
+    .mapa-estadio,
     .lado-direito-ingressos {
         max-width: 100%;
-        margin-left: 0;        /* 🔧 remove deslocamento no mobile */
+        margin-left: 0;
     }
 }
 
@@ -255,15 +253,17 @@ main h1 {
         padding: 2rem 1rem;
     }
     .logos-times {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;   /* mantém lado a lado no mobile */
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 0.5rem;           /* escudos mais próximos */
     }
     .logos-times img {
         width: 50px;
         height: 50px;
     }
     .logos-times span {
-        font-size: 1.3rem;
+        font-size: 1.3rem;     /* texto "x" menor no celular */
     }
     .form-setor select,
     .botao-comprar,
@@ -274,11 +274,11 @@ main h1 {
     }
     .lista-ingressos .item-ingresso {
         flex-direction: column;
-        align-items: center;   /* 🔧 centraliza itens */
+        align-items: center;
         text-align: center;
     }
     .lista-ingressos .botao-excluir {
         margin-top: 0.5rem;
-        align-self: center;    /* 🔧 botão centralizado */
+        align-self: center;
     }
 }
