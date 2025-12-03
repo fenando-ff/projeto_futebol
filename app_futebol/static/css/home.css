@@ -1,591 +1,568 @@
-/* .corpo {
-    background: linear-gradient(180deg,#001BB2 70%,#F72B2B 95%,#f0f0f0 98%);
-    background-repeat: no-repeat;
-} */
-
-.corpo {
-    background: linear-gradient(180deg,#222222 70%, #222222 90%,#f0f0f0 );
-    background-repeat: no-repeat;
-
+/* ======================= GERAL ======================= */
+main{
+    height: 100% ;
 }
 
-a {
+.home-container {
+    width: 100%;
+    padding: 0;
+    background: linear-gradient(180deg, #8c0000, #111);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+a{
     text-decoration: none;
 }
 
-.titulo {
-    display: flex;
-    flex-direction: column;
-    color: #f0f0f0;
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
-    gap: 16px;
-    width: 90%;
-    margin: 32px auto;
-    text-align: center;
-}
-
-.titulo h1 {
-    text-transform: uppercase;
-}
-
-.titulo .fa-star {
-    color: yellow;
-    font-size: 40px;
-}
-
-.container-cards {
-    width: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    margin-bottom: 32px;
-}
-
-.container-cards .card {
-    width: 60%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    justify-content: center;
-    padding: 16px;
-    margin: auto;
+/* BOTÕES */
+.btn-primary {
+    background: #F72B2B;
+    padding: 12px 20px;
     border-radius: 8px;
-}
-
-.container-cards .card1 {
-    background-color: #444;
-}
-
-.link-jornal {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.link-jornal .texto-noticia {
-    font-size: medium;
     color: white;
-    text-align: center;
-}
-
-.container-cards .card2 {
-    background-color: #CF2923;
-    color: #f0f0f0;
-}
-
-.card2 .versus-jogo {
-    display: flex;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    text-align: center;
-}
-
-.versus-jogo .time-casa,
-.versus-jogo .time-fora {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.versus-jogo .fa-xmark {
-    flex: 1;
-    font-size: 40px;
-    align-self: center;
-}
-
-.card2 .versus-jogo img {
-    width: 48px;
-}
-
-.card2 .dia-hora {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.dia-hora a {
-    width: 100px;
-    color: #f0f0f0;
-    padding: 8px;
-    background-color: #F72B2B;
-    border-radius: 32px;
-    font-size: larger;
-    text-align: center;
-}
-
-.container-cards .card3 {
-    justify-content: center;
-    background-color: #444;
-}
-
-.card3 .camisa-card3 {
-    width: 80%;
-    margin: auto;
-}
-
-.card3 .titulo-card-produto {
-    color: white;
-    text-align: center;
     font-weight: bold;
-    font-size: large;
+    transition: 0.3s;
 }
 
-.card3 a {
-    text-align: center;
-    color: #f0f0f0;
-    background-color: #001A4A;
-    width: 60%;
-    margin: auto;
-    padding: 8px;
-    border-radius: 16px;
-    text-transform: uppercase;
+.btn-primary:hover {
+    background: #eaeaea;
+    color:#870000;
 }
 
-/* ==============================
-   🏆 Próximo Jogo e Tabela
-   ============================== */
-.proximo-jogo-tabela {
+.btn-secondary {
+    border: 1px solid #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: 0.3s;
+    background-color: #eeeeee;
+    color: #111;
+}
+
+.btn-secondary:hover {
+    background: #1b1b1b;
+    color: rgb(232, 232, 232);
+}
+
+/* ======================= HERO ======================= */
+.hero {
     display: flex;
-    margin-bottom: 100px;
-}
-
-/* Próximo jogo */
-.proximo-jogo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    color: #f0f0f0;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 64px 5%;
     gap: 32px;
 }
 
-.proximo-jogo h1 {
-    text-align: center;
-    text-transform: uppercase;
+.hero-text {
+    flex: 1;
 }
 
-.proximo-jogo .proximo-jogo-versus {
-    width: 90%;
-    margin: auto;
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 22px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    opacity: 0.8;
+}
+
+/* HERO CARROSSEL */
+.hero-carousel {
+    position: relative;
+    width: 880px;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 0 12px #000;
+    flex-shrink: 0;
+    transition: 0.5s;
+}
+
+.hero-carousel:hover {
+    .carousel-btn.left {
+    left: 16px;
+    opacity: 100%;
+    }
+
+    .carousel-btn.left:hover {
+    background-color: #000;
+    }
+    .carousel-btn.right:hover {
+    background: rgba(0, 0, 0, 0.75);
+    }
+
+    .carousel-btn.right {
+    right: 16px;
+    opacity: 100%;
+    }
+
+    .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border: none;
+    font-size: 32px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.5s ease;
+    z-index: 15;
+    }
+
+}
+
+.carousel-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-track img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-img.active {
+    opacity: 1;
+}
+
+/* Barra de progresso */
+.carousel-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #f0f0f0;
+    transition: width linear;
+}
+
+/* ======================= DESTAQUES ======================= */
+.destaques {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 32px;
+    margin: 48px auto;
     flex-wrap: wrap;
 }
 
-.proximo-jogo-versus .time1,
-.proximo-jogo-versus .time2 {
-    flex: 1;
+.card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.proximo-jogo-versus img {
-    width: 60px;
-}
-
-.proximo-jogo-versus .fa-xmark {
-    flex: 0.5;
-    font-size: 40px;
-}
-
-.proximo-jogo .info-jogo {
-    text-align: center;
-    width: 90%;
-    margin: auto;
-    padding-bottom: 16px;
-}
-
-.info-jogo .local-info-jogo {
-    font-weight: bold;
-    font-size: 18px;
-    margin-bottom: 8px;
-}
-
-.info-jogo .dia-hora-info-jogo {
-    font-size: 24px;
-    margin-bottom: 16px;
-}
-
-.info-jogo a {
-    background-color: #001A4A;
-    color: #f0f0f0;
-    font-size: 18px;
-    padding: 10px;
-    border-radius: 12px;
-}
-
-.time1 img {
-    border-radius: 50%;
-    background: none;
-}
-
-/* Tabela */
-.tabelaBrasileirao {
-    flex: 1;
-}
-
-.tabelaBrasileirao h1,.tabelaBrasileirao #subtituloTabela {
-    text-align: center;
-    color: #9e2121;
-    text-transform: uppercase;
-    width: 20%;
-    margin: auto;
-}
-
-.hover-ativo span{
-    color: #9e2121;
-}
-
-.cor-1 {
-    transition: 0.3s;
-    color: #00ff00; /* Verde */
-}
-
-.cor-2 {
-    transition: 0.3s;
-    color: #ffd900; /* Ouro */
-}
-
-.cor-3 {
-    transition: 0.3s;
-    color: #0059ff; /* Seu vermelho original */
-}
-
-.cor-4 {
-    transition: 0.3s;
-    color: #f0f0f0; /* Seu branco/cinza claro */
-}
-.tabelaBrasileirao {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.tabela {
-    border-radius:0.75rem; 
-    background:transparent; 
-    overflow:hidden; 
-    width:320px; 
-    height:560px; 
-    margin: auto;
-}
-
-/* Garanta que o h2 não tenha uma cor que sobrescreva os spans */
-/* ==============================
-    Loja
-   ============================== */
-.titulo-loja {
-    text-transform: uppercase;
-    text-align: center;
-    color: #E9E8E8;
-    margin-bottom: 16px;
-}
-
-.loja {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.loja .carrossel {
-    display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 8px;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    width: 90%;
-    margin: auto;
-    margin-bottom: 16px;
-}
-
-.carrossel a .card-carrossel {
-    flex: 0 0 auto;
-    width: 250px;
-    border-radius: 20px;
-    overflow: hidden;
-    scroll-snap-align: start;
-    text-align: center;
-    color: #f0f0f0;
-}
-
-.card-carrossel .img-carrossel {
-    width: 80%;
+    width: 340px;
+    height: 220px;
+    background: #1a1a1a;
+    padding: 24px;
     border-radius: 16px;
+    transition: 0.3s;
+    gap: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    background: #fbfbfb;
+    color: #8c0000;
+}
+
+.card i {
+    font-size: 40px;
     margin-bottom: 12px;
 }
 
-.texto-card-carrossel {
-    text-transform: uppercase;
-    font-size: 18px;
-}
-
-.loja .btn-loja {
-    border: 1px solid #fff;
-    border-radius: 12px;
-    padding: 16px;
-    color: yellow;
-    font-size: larger;
-    margin-bottom: 64px;
-}
-
-/* ==============================
-    Notícias
-   ============================== */
-.noticias {
+/* ======================= PRÓXIMO JOGO ======================= */
+.proximo-jogo {
     text-align: center;
-    padding: 16px;
-    width: 80%;
-    margin: auto;
+    padding: 64px 0;
 }
 
-.titulo-noticias {
-    color: #9e2121;
-    margin-bottom: 20px;
-}
-
-.manchete {
+.jogo-card {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.carrossel-noticia {
-    overflow: hidden;
-    margin-bottom: 1rem;
-    flex: 1;
-}
-
-.manchete .texto-noticia {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #fff;
-    height: 15rem;
-    gap: 2rem;
-    flex: 2;
+    gap: 48px;
+    margin: 44px auto;
 }
 
-.manchete .texto-noticia .subtitulo-noticia {
-    text-transform: uppercase;
+.jogo-card img {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 50%;
 }
 
-.manchete .texto-noticia p {
-    text-align: left;
+.versus {
+    font-size: 48px;
+    font-weight: bold;
 }
 
-.manchete .texto-noticia, .carrossel-noticia {
-    background-color: #444;
-    padding: 12px;
-    border-radius: 8px;
+.info {
+    font-size: 20px;
+    margin-bottom: 24px;
+    opacity: 0.9;
 }
 
-.slide {
-    display: flex;
-    margin-bottom: 16px;
-    width: 300%;
-    transition: transform 0.5s ease;
-    gap: 2rem;
+/* ======================= PRODUTOS ======================= */
+.produtos {
+    text-align: center;
+    padding: 64px 0;
 }
 
-.img-carrossel-noticia {
-    width: 33.333%; /* Cada imagem ocupa 1/3 da largura do container .slide (300%) */
-    min-width: 33.333%; /* Garante que ocupe a largura correta */
-    height: 15rem; /* Adicionado para garantir que ocupe o mesmo espaço que o texto-noticia */
-    border-radius: 8px;
-    margin: 0; /* Removido 'margin: auto;' para que fiquem lado a lado */
-  
-}
-
-.img-carrossel-noticia img{
-    width: 110%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.barra-carrossel {
+.cards-produtos-container {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 30px 0px;
 }
 
-.barra-carrossel .dot-carrossel {
-    width: 4rem;
-    height: 0.2rem;
-    border: none;
+.product-card {
+    width: 390px;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    position: relative;
+    transform: scale(0.80);
+    transition: 0.3s;
+    gap: 20px;
+}
+
+.product-card:hover {
+    transform: scale(0.82) translateY(-8px);
+}
+
+.product-image {
+    background: linear-gradient(180deg, #681313, #3d0b0b);
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    object-fit: contain;
+    transform: rotate(-12deg);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.product-image img:hover {
+    transform: rotate(0deg);
+}
+
+.product-info {
+    padding: 20px 24px;
+    color: #111;
+}
+
+.product-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.tag {
+    background: #eee;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.4s ease;
+}
+
+.product-card:hover .bottom {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #8c0000;
+}
+
+.btn-add {
+    background: #870000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
     transition: 0.3s;
 }
 
-.barra-carrossel .ligado {
-    background-color: red;
-    width: 8rem;
+.btn-add:hover {
+    background: #151515;
 }
 
-/* ==============================
-   CELULARES
-   ============================== */
-@media screen and (max-width: 767px) {
-    .titulo .fa-star { 
-        font-size: 36px; 
+.product-card:hover .desc {
+    margin-bottom: 20px;
+}
+
+/* ======================= NOVO LAYOUT DE NOTÍCIAS ======================= */
+
+.titulo_noticias{
+    margin: 0px 0px 30px 0px;
+    text-align: center;
+}
+
+.noticia-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+/* CARD LIMPO (igual ao layout da imagem) */
+.news-card {
+    width: 350px;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transition: 0.35s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.news-card-big {
+    width: 730px; /* card grande horizontal como na imagem modelo */
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row; /* imagem à esquerda / texto à direita */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transition: 0.35s ease;
+    cursor: pointer;
+    position: relative;   
+}
+
+.news-card-big .news-img-big {
+    width: 100%;
+    height: 335px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+.news-card-big .news-content {
+    padding: 24px;
+    width: 50%;
+    color: #222;
+}
+
+
+.news-card-big img{
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+.news-card-big:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card-big img:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card-big::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #F72B2B, #ff7070);
+    transition: width 0.35s ease;
+}
+
+/* Imagem */
+.news-card .news-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+/* Conteúdo */
+.news-content {
+    padding: 18px;
+    color: #222;
+}
+
+.news-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #111;
+    font-weight: 700;
+}
+
+.news-content p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-bottom: 14px;
+}
+
+.news-link {
+    color: #b30101;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.news-link:hover {
+    color: #b50000;
+}
+
+/* Hover premium */
+.news-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card:hover .news-img {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+/* Linha inferior animada */
+.news-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #F72B2B, #910000);
+    transition: width 0.35s ease;
+}
+
+.news-card:hover::after {
+    width: 100%;
+}
+
+/* ======================= RESPONSIVO ======================= */
+@media (max-width: 1200px) {
+    .hero-carousel {
+        width: 700px;
+        height: 330px;
     }
-    
-    .card3 img { 
-        width: 50%;
-        max-width: 100px;
+    .carousel-btn {
+        font-size: 26px;
+        padding: 5px 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 18px;
     }
 
-    .card3 a { 
-        width: 80%; 
+    .hero-carousel {
+        width: 95%;
+        height: 260px;
     }
 
-    .card-carrossel { 
-        width: 85vw; 
+    .hero-text h1 {
+        font-size: 2.2rem;
     }
 
-    .versus-jogo .fa-xmark { 
-        font-size: 36px; 
+    .carousel-btn {
+        font-size: 24px;
+        padding: 4px 10px;
     }
+}
 
-    .info-jogo .dia-hora-info-jogo { 
-        font-size: 22px; 
-    }
-
-    .proximo-jogo-tabela {
-        flex-direction: column;
-    }
-
-    .tabelaBrasileirao {
+@media (max-width: 600px) {
+    .hero-carousel {
         width: 100%;
+        height: 210px;
     }
 
-    .tabelaBrasileirao h1, .tabelaBrasileirao #subtituloTabela {
-        width: 50%;
+    .carousel-btn {
+        font-size: 22px;
+        padding: 4px 8px;
     }
 
-    .tabelaBrasileirao .classificacao {
-        width: 90%;
-    }
-
-}
-
-/* ==============================
-   TABLETS
-   ============================== */
-@media screen and (min-width: 768px) {
-    .container-cards {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .container-cards .card {
-        width: 45%;
-    }
-
-    .card3 .camisa-card3 { 
-        width: 25%; 
-    }
-
-    .proximo-jogo .proximo-jogo-versus { 
-        width: 80%; 
-    }
-
-    .info-jogo .dia-hora-info-jogo { 
-        font-size: 28px; 
-    }
-
-    .manchete{
-        margin: auto;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    .manchete .texto-noticia {
-        width: 50%;
-    }
-
-    .carrossel-noticia .slide{
-        margin-bottom: 12px;
-    }
-
-    .manchete .texto-noticia, .carrossel-noticia {
-        height: 16rem;
-    }
-
-}
-
-/* ==============================
-   DESKTOPS
-   ============================== */
-@media screen and (min-width: 1024px) {
-    .titulo h1 { 
-        font-size: 2rem; 
-    }
-
-    .container-cards {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .container-cards .card {
-        width: 30%;
-    }
-
-    .card3 img { 
-        width: 16%;
-        min-width: 50px;
-    }
-
-    .proximo-jogo .proximo-jogo-versus { 
-        width: 60%; 
-    }
-
-    .info-jogo {
-        width: 50%; 
-    }
-
-    .info-jogo .dia-hora-info-jogo {
-        font-size: 32px; 
-    }
-
-    .tabela {
-        width: 520px;
-        height: 720px;
-        margin-top: -0;
-    }
-
-    .carrossel {
-        justify-content: center;
+    .progress-bar {
+        height: 5px;
     }
 }
 
-/* ==============================
-   GRANDES TELAS
-   ============================== */
-@media screen and (min-width: 1920px) {
-    .container-cards .card { 
-        width: 25%; 
+@media (max-width: 450px) {
+
+    .hero-carousel {
+        height: 180px;
     }
 
-    .info-jogo .dia-hora-info-jogo { 
-        font-size: 36px; 
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .carousel-btn {
+        font-size: 18px;
+        padding: 4px 8px;
+    }
+
+    /* Ajuste dos produtos no mobile */
+    .product-card {
+        width: 92%;
+        transform: scale(1);
+    }
+
+    .product-image {
+        padding: 20px;
+    }
+
+    .product-image img {
+        max-width: 200px;
+    }
+
+    .news-card {
+        width: 92%;
     }
 }

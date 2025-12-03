@@ -1,160 +1,206 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-{% endblock css_extra %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block titulo %} Home {% endblock %}
 
 {% block conteudo_pagina %}
+
+<main class="home-container">
+
+    <!-- ======================== HERO =============================== -->
+    <section class="hero">
+        <div class="hero-text">
             {% if nome %}
                 <h2 style="color: #f0f0f0;">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
             {% else %}
                 <h2 style="color: #f0f0f0;">Bem-vindo!</h2>
             {% endif %}
-        <div class="titulo">
-            <h1>Somos mais que um clube!</h1>
-            <i class="fa-solid fa-star"></i>
+            <h1>DRAKO FUTEBOL CLUBE</h1>
+            <p>A força do dragão dentro e fora de campo.</p>
+            <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
         </div>
 
-        <section class="container-cards">
-            <div class="card card1">
-                <a href="{% url "noticias" %}" class="link-jornal">
-                    <img loading="lazy" src="{% static "img/icones/img_jornal.png" %}" alt="">
-                    <span class="texto-noticia">Notícias recentes do clube</span>
-                </a>
-            </div>
-
-            <div class="card card2">
-                <div class="versus-jogo">
-                    <div class="time-casa">
-                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão do drakos">
-                        <span class="nome-time">Dracos FC</span>
-                    </div>
-                    <i class="fa-solid fa-xmark"></i>
-                    <div class="time-fora">
-                        <img loading="lazy" src="{% static "img/icones/escudo_fluminense.png" %}" alt="brasão do fluminense">
-                        <span class="nome-time">fluminense</span>
-                    </div>
-                </div>
-                <div class="dia-hora">
-                    <span class="dataEhora">24/04 - 19:00</span>
-                    <a href="{% url "jogos" %}">ver todos</a>
-                </div>
-            </div>
+        <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
+        <div class="hero-carousel">
             
-            <div class="card card3">
-                <img class="camisa-card3" loading="lazy" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="">
-                <span class="titulo-card-produto">Produtos</span>
-                <a href="{% url "produtos" %}" class="link-loja">loja</a>
+            <!-- Imagens -->
+            <div class="carousel-track">
+                <img src="{% static 'img/banners/banner1_home.png' %}" class="carousel-img active">
+                <img src="{% static 'img/banners/banner2_home.png' %}" class="carousel-img">
+                <img src="{% static 'img/banners/banner3_home.png' %}" class="carousel-img">
             </div>
-        </section>
+
+            <!-- Barra de progresso -->
+            <div class="carousel-progress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <!-- Botões -->
+            <button class="carousel-btn left">&#10094;</button>
+            <button class="carousel-btn right">&#10095;</button>
+        </div>
+    </section>
+
+    <!-- ======================== CARDS DE DESTAQUE =============================== -->
+    <section class="destaques">
+        <div class="card destaque1">
+            <i class="fa-solid fa-newspaper"></i>
+            <h3>Últimas Notícias</h3>
+            <p>Fique por dentro do que acontece no clube.</p>
+            <a href="#" class="btn-secondary">Ver notícias</a>
+        </div>
+
+        <div class="card destaque2">
+            <i class="fa-solid fa-shirt"></i>
+            <h3>Nova Coleção</h3>
+            <p>Os mantos 25/26 já estão disponíveis.</p>
+            <a href="{% url 'produtos' %}" class="btn-secondary">Visitar loja</a>
+        </div>
+
+        <div class="card destaque3">
+            <i class="fa-solid fa-calendar"></i>
+            <h3>Próximo Jogo</h3>
+            <p>Confira data, local e onde assistir.</p>
+            <a href="#" class="btn-secondary">Ver detalhes</a>
+        </div>
+    </section>
+
+    <!-- ======================== PRÓXIMO JOGO =============================== -->
+    <section class="proximo-jogo">
+        <h2>PRÓXIMO JOGO</h2>
+
+        <div class="jogo-card">
+            <div class="time">
+                <img src="{% static 'img/icones/logo_time_drako 3.png' %}">
+                <span>Drako FC</span>
+            </div>
+
+            <div class="versus">X</div>
+
+            <div class="time">
+                <span>Rivais FC</span>
+                <img src="{% static 'img/icones/escudo_palmeiras.png' %}">
+            </div>
+        </div>
+
+        <p class="info">Estádio Dragão • 28 JAN • 20:00</p>
+        <a href="#" class="btn-primary">Comprar Ingressos</a>
+    </section>
+
+    <!-- ======================== PRODUTOS =============================== -->
+    <section class="produtos">
+        <h2>PRODUTOS</h2>
         
-        <section class="proximo-jogo-tabela">
-            <div class="proximo-jogo">
-                <h1>próximo jogo</h1>
-                <div class="proximo-jogo-versus">
-                    <div class="time1">
-                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos">
-                        <span>Drakos FC</span>
-                    </div>
-                    <i class="fa-solid fa-xmark"></i>
-                    <div class="time2">
-                        <img loading="lazy" src="{% static "img/icones/img_escudo_caParanaense.png" %}" alt="brasão CA Paranaense">
-                        <span>CA Paranaense</span>
-                    </div>
+        <div class="cards-produtos-container">
+
+            <div class="product-card um">
+                <div class="product-image um">
+                    <img src="{% static 'img/camisa_home_figma.png' %}">
                 </div>
-                <div class="info-jogo">
-                    <p class="local-info-jogo">Mangueirão</p>
-                    <p class="dia-hora-info-jogo">09/04 - 19:00</p>
-                    <a href="{% url "ingresso" %}">comprar ingresso</a>
-                </div>
-                <div class="proximo-jogo-versus">
-                    <div class="time1">
-                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos FC">
-                        <span>Drakos FC</span>
+
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
                     </div>
-                    <i class="fa-solid fa-xmark"></i>
-                    <div class="time2">
-                        <img loading="lazy" src="{% static "img/icones/escudo_flamengo.jpg" %}" alt="flamengo">
-                        <span>flamengo</span>
+
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
                     </div>
-                </div>
-                <div class="info-jogo">
-                    <p class="local-info-jogo">Mangueirão</p>
-                    <p class="dia-hora-info-jogo">15/04 - 15:00</p>
-                </div>
-                <div class="proximo-jogo-versus">
-                    <div class="time1">
-                        <img loading="lazy" src="{% static "img/icones/logo_time_drako 3.png" %}" alt="brasão Drakos">
-                        <span>Drakos FC</span>
-                    </div>
-                    <i class="fa-solid fa-xmark"></i>
-                    <div class="time2">
-                        <img loading="lazy" src="{% static "img/icones/img_escudo_caParanaense.png" %}" alt="brasão CA Paranaense">
-                        <span>CA Paranaense</span>
-                    </div>
-                </div>
-                <div class="info-jogo">
-                    <p class="local-info-jogo">Mangueirão</p>
-                    <p class="dia-hora-info-jogo">22/04 - 20:00</p>
                 </div>
             </div>
 
-            <div class="tabelaBrasileirao" id="tabelaBrasileirao">
-                <div class="titulos">
-                    <h1>Tabela</h1>
-                    <h2 id="subtituloTabela">BRASILEIRÃO</h2>
+            <div class="product-card dois">
+                <div class="product-image dois">
+                    <img src="{% static 'img/garrafa_home_figma.png' %}">
                 </div>
-                <iframe class="tabela"
-                    src="https://widget.api-futebol.com.br/embed/widget_486b38c931e3fe03"
-                    title="API Futebol — Widget"
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    sandbox="allow-scripts allow-same-origin allow-popups">
-                </iframe>
+
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
+                    </div>
+
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
             </div>
-        </section>
-        <h1 class="titulo-loja">loja torcedor</h1>
-        <section class="loja">
-            <div class="carrossel" tabindex="0">
-                <a href="{% url "loja_detalhe" %}">
-                    <div class="card-carrossel card-carrossel1">
-                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Drakos<br> 1º uniforme</p>
-                    </div>    
-                </a>
 
-                <a href="{% url "loja_detalhe" %}">
-                    <div class="card-carrossel card-carrossel2">
-                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Drakos<br> 2º uniforme</p>
-                    </div>    
-                </a>
+            <div class="product-card tres">
+                <div class="product-image tres">
+                    <img src="{% static 'img/short_home_figma.png' %}">
+                </div>
 
-                <a href="{% url "loja_detalhe" %}">
-                    <div class="card-carrossel card-carrossel3">
-                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Drakos<br> 3º uniforme</p>
-                    </div>    
-                </a>
+                <div class="product-info">
+                    <h3>Chaveiro Oficial</h3>
 
-                <a href="{% url "loja_detalhe" %}">
-                    <div class="card-carrossel card-carrossel4">
-                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_preta_drakos.png" %}" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Drakos<br> 4º uniforme</p>
-                    </div>    
-                </a>
+                    <div class="product-tags">
+                        <span class="tag">ACESSÓRIO</span>
+                        <span class="tag">OFICIAL</span>
+                    </div>
 
-                <a href="{% url "loja_detalhe" %}">
-                    <div class="card-carrossel card-carrossel5">
-                        <img class="img-carrossel" src="{% static "img/produtos/camisas/camisa_branca.jpg" %}" alt="" loading="lazy">
-                        <p class="texto-card-carrossel">Drakos<br> 5º uniforme</p>
-                    </div>    
-                </a>
+                    <p class="desc">Chaveiro metálico resistente com escudo personalizado do Drako FC.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 19,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
             </div>
-            <a class="btn-loja" href="{% url "produtos" %}"><i class="fa-solid fa-plus"></i>Produtos</a>
-        </section>
-{% endblock conteudo_pagina %}
+
+        </div>
+    </section>
+
+    {% comment %} noticias {% endcomment %}
+
+   <section class="noticias">
+    <h2 class = "titulo_noticias">ÚLTIMAS NOTÍCIAS</h2>
+
+    <div class="noticia-cards">
+
+        <article class="news-card-big">
+            <img src="{% static 'img/noticias/img_noticias.jpg' %}" class="news-img-big">
+
+            <div class="news-content">
+                <h3>New Construction technology awareness.</h3>
+                <p>Ellingar her has secure far twenty eat object...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <img src="{% static 'img/noticias/tottenham_hotspur_v_ac_milan_round_of_16_second_leg_-_uefa_champions_league.webp' %}" class="news-img">
+
+            <div class="news-content">
+                <h3>Building your dreams with quality material.</h3>
+                <p>Know how to choose the correct materials...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+
+</main>
+
+{% endblock %}
 
 {% block js_pagina %}
-    <script src="{% static 'js/home.js' %}"></script>
-{% endblock  %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

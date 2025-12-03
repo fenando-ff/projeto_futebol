@@ -1,53 +1,50 @@
-const subtituloTabela = document.getElementById("subtituloTabela");
+document.addEventListener("DOMContentLoaded", () => {
 
-// 1. Função para montar o HTML com cores intercaladas (Rodar uma vez)
-function inicializarCoresIntercaladas() {
-    const cores = ['cor-1', 'cor-2', 'cor-3', 'cor-4'];
-    
-    if (subtituloTabela) {
-        // Pega o texto original antes de ser modificado
-        const textoOriginal = subtituloTabela.textContent.trim();
-        const letras = textoOriginal.split('');
-        
-        let novoHTML = '';
-    
-        letras.forEach((letra, index) => {
-            const indiceCor = index % cores.length; 
-            const classeCor = cores[indiceCor];
-            if (letra === ' ') {
-                novoHTML += ' ';
-            } else {
-                // Cria o <span> com a classe de cor fixa
-                novoHTML += `<span class="${classeCor}">${letra}</span>`;
-            }
-        });
-    
-        subtituloTabela.innerHTML = novoHTML;
+    const images = document.querySelectorAll(".carousel-img");
+    const progressBar = document.querySelector(".progress-bar");
+    const btnLeft = document.querySelector(".carousel-btn.left");
+    const btnRight = document.querySelector(".carousel-btn.right");
+
+    let index = 0;
+    let duration = 5000; // tempo de cada slide
+
+    function showSlide(i) {
+        images.forEach(img => img.classList.remove("active"));
+        images[i].classList.add("active");
+
+        // reiniciar barra
+        progressBar.style.transition = "none";
+        progressBar.style.width = "0%";
+
+        setTimeout(() => {
+            progressBar.style.transition = `width ${duration}ms linear`;
+            progressBar.style.width = "100%";
+        }, 50);
     }
-}
 
-// 2. Função de Hover/Mouseout (Apenas adiciona/remove classe)
-function handleMouseOver() {
-    subtituloTabela.classList.remove('hover-ativo');
-}
+    function nextSlide() {
+        index = (index + 1) % images.length;
+        showSlide(index);
+    }
 
-function handleMouseOut() {
-    subtituloTabela.classList.add('hover-ativo');
-}
+    let interval = setInterval(nextSlide, duration);
 
+    // controles manuais
+    btnLeft.addEventListener("click", () => {
+        clearInterval(interval);
+        index = (index - 1 + images.length) % images.length;
+        showSlide(index);
+        interval = setInterval(nextSlide, duration);
+    });
 
-// --- Execução ---
+    btnRight.addEventListener("click", () => {
+        clearInterval(interval);
+        index = (index + 1) % images.length;
+        showSlide(index);
+        interval = setInterval(nextSlide, duration);
+    });
 
-// Execute a função de inicialização UMA VEZ.
-inicializarCoresIntercaladas(); 
+    // inicia o primeiro
+    showSlide(index);
 
-// Adiciona os Event Listeners
-subtituloTabela.addEventListener("mouseover", handleMouseOver);
-subtituloTabela.addEventListener("mouseout", handleMouseOut);
-
-// E no seu CSS, defina o que 'hover-ativo' faz:
-/*
-#subtituloTabela.hover-ativo span {
-    color: #f0f0f0 !important;
-}
-*/
+});
