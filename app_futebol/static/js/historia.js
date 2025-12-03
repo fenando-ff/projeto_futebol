@@ -1,37 +1,30 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const events = document.querySelectorAll('.timeline-event');
-    const overlay = document.getElementById('historia-modal-overlay');
-    const modalImg = document.getElementById('historia-modal-img');
-    const modalTitle = document.getElementById('historia-modal-title');
-    const modalDesc = document.getElementById('historia-modal-desc');
-    const closeBtn = document.getElementById('historia-modal-close');
+// Script para animar a entrada dos elementos ao rolar a página (Scroll Reveal)
 
-    if (!overlay || !modalImg) return;
+document.addEventListener("DOMContentLoaded", function() {
+    
+    // Seleciona todas as linhas da timeline
+    const rows = document.querySelectorAll('.timeline-row');
 
-    events.forEach(function(eventElement) {
-        eventElement.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const imageSrc = eventElement.getAttribute('data-image-src');
-            const titleText = eventElement.getAttribute('data-title');
-            const descText = eventElement.getAttribute('data-description');
+    // Opções do observador (quando 15% do elemento aparecer, dispara)
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
 
-            modalImg.src = imageSrc || '';
-            modalTitle.textContent = titleText || '';
-            modalDesc.textContent = descText || '';
-            
-            overlay.classList.add('active');
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Adiciona a classe que faz o elemento subir e aparecer
+                entry.target.classList.add('visivel');
+                // Para de observar depois que já apareceu (opcional)
+                observer.unobserve(entry.target);
+            }
         });
+    }, options);
+
+    // Manda o observador vigiar cada linha
+    rows.forEach(row => {
+        observer.observe(row);
     });
-
-    function closeModal() {
-        overlay.classList.remove('active');
-        modalImg.src = '';
-        modalTitle.textContent = '';
-        modalDesc.textContent = '';
-    }
-
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 });
