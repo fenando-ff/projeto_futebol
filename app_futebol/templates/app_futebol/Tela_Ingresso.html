@@ -38,13 +38,10 @@
       <form class="form-setor">
         <label for="setor">Setor:</label>
         <select id="setor" name="setor">
-          <option value="ladoA_arquibancada_anda">Lado A Arquibancada Anda</option>
-          <option value="ladoA_cadeira_cativa">Lado A Cadeira Cativa</option>
-          <option value="ladoA_arquibancada_cima">Lado A Arquibancada Cima</option>
-          <option value="ladoB_arquibancada_anda">Lado B Arquibancada Anda</option>
-          <option value="ladoB_cadeira_cativa">Lado B Cadeira Cativa</option>
-          <option value="ladoB_arquibancada_cima">Lado B Arquibancada Cima</option>
-          <option value="ladoA_cadeira_ladoB_cima">Lado A Cadeira / Lado B Arquibancada Cima</option>
+          <option value="ladoA_arquibancada_anda">Selecione</option>
+          {% for ingresso in ingressos %}
+            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">{{ ingresso.nome_produtos }}  -  R${{ ingresso.valor_produtos }}</option>
+          {% endfor %}
         </select>
 
         <label for="quantidade">Quantidade (1 a 10):</label>

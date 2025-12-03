@@ -108,7 +108,10 @@ def tela_socio(request):
 
 
 def tela_ingressos(request):
-    return render(request, "app_futebol/Tela_ingresso.html")
+    ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10)
+    return render(request, "app_futebol/Tela_ingresso.html", {
+        "ingressos": ingresso
+    })
 
 
 def tela_historia(request):
