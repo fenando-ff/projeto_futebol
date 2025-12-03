@@ -1,35 +1,31 @@
-/* 🔰 Reset e Fonte Base */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* 🎨 Configurações Globais */
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.5;
-    background-color: #fff;
-    color: #000;
+    background: linear-gradient(135deg, #2a2a2a 45%, #b30000 100%);
+    color: #f4f4f4; /* texto claro para contraste */
 }
 
 /* 🏟️ Conteúdo Principal */
 main {
     padding: 3rem 1rem 1rem;
-    max-width: 600px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 main h1 {
-    font-size: 2rem;
+    font-size: 1.9rem;
     text-align: center;
-    color: #001A4A;
-    margin-bottom: 2rem;
+    color: #ffffff;
+    margin-bottom: 2.1rem;
 }
 
 /* 🎫 Tela de Ingressos */
 .titulo-ingresso h2 {
     font-size: 1.5rem;
-    color: #001A4A;
+    color: #f4f4f4;
     text-align: center;
     margin-bottom: 1.5rem;
+    font-weight: bold;
 }
 
 /* 🏁 Rodada */
@@ -38,18 +34,18 @@ main h1 {
     margin: -0.5rem 0 1rem;
 }
 .rodada-info h3 {
-    font-size: 1.3rem;
-    color: #001A4A;
+    font-size: 1.5rem;
+    color: #ff2222;
     font-weight: bold;
 }
 
 /* 🆚 Logos dos Times */
 .logos-times {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;       /* escudos lado a lado */
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     margin-bottom: 1rem;
 }
 .logos-times img {
@@ -60,7 +56,7 @@ main h1 {
 .logos-times span {
     font-size: 1.6rem;
     font-weight: bold;
-    color: #001A4A;
+    color: #ffffff;
 }
 
 /* 🧾 Formulário de Compra */
@@ -75,13 +71,19 @@ main h1 {
 #preco-total {
     width: 100%;
     font-size: 1rem;
+    color: #ffffff;
 }
 .form-setor select,
 #quantidade {
     padding: 0.75rem;
-    border: 2px solid #ccc;
+    border: none;
     border-radius: 5px;
     font-size: 1.1rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+    height: 45px;
+    background-color: #1a1a1a;
+    color: #ffffff;
 }
 #quantidade {
     appearance: auto;
@@ -96,17 +98,17 @@ main h1 {
 /* 💰 Preço */
 .preco-ingresso {
     font-size: 1.2rem;
-    color: #333;
+    color: #e0e0e0;
 }
 #preco-total {
     font-weight: bold;
-    color: #001A4A;
+    color: #ff3333;
 }
 
 /* 🛒 Botão de Compra */
 .botao-comprar {
-    background-color: #000;
-    color: white;
+    background-color: #8F0000;
+    color: #ffffff;
     border: none;
     padding: 0.75rem;
     font-size: 1rem;
@@ -115,36 +117,36 @@ main h1 {
     transition: background-color 0.3s;
 }
 .botao-comprar:hover {
-    background-color: #003080;
+    background-color: #a80000;
 }
 
 /* 📋 Resumo da Compra */
 .resumo-compra {
     margin-top: 1.5rem;
     padding: 1rem;
-    border: 2px solid #001A4A;
     border-radius: 8px;
-    background-color: #f5f5f5;
+    background-color: #1a1a1a;
+    color: #ffffff;
 }
 .resumo-compra h3 {
-    color: #001A4A;
+    color: #ffffff;
     margin-bottom: 0.75rem;
 }
 .resumo-compra p {
     font-size: 1rem;
     margin-bottom: 0.5rem;
+    color: #cccccc;
 }
 
 /* 📑 Lista de Ingressos */
 .lista-ingressos {
     margin-top: 1.5rem;
     padding: 1rem;
-    border: 1px solid #ccc;
     border-radius: 6px;
-    background-color: #fafafa;
+    background-color: #1a1a1a;
 }
 .lista-ingressos h3 {
-    color: #000;
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 .lista-ingressos ul {
@@ -156,19 +158,19 @@ main h1 {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #ccc;
     border-radius: 6px;
     padding: 0.75rem;
     margin-bottom: 0.5rem;
-    background-color: #f9f9f9;
+    background-color: #2a2a2a;
 }
 .lista-ingressos .info-ingresso p {
     margin: 2px 0;
     font-size: 0.95rem;
+    color: #cccccc;
 }
 .lista-ingressos .botao-excluir {
-    background-color: #000;
-    color: white;
+    background-color: #8F0000;
+    color: #ffffff;
     border: none;
     padding: 0.5rem 0.75rem;
     border-radius: 4px;
@@ -177,47 +179,91 @@ main h1 {
     transition: background-color 0.3s;
 }
 .lista-ingressos .botao-excluir:hover {
-    background-color: #001A4A;
+    background-color: #a80000;
+}
+
+/* 🔹 Container Estádio + Ingressos */
+.container-estadio-ingressos {
+    display: flex;
+    gap: 8rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 2rem;
+    flex-wrap: wrap;
 }
 
 /* 🗺️ Mapa do Estádio */
 .mapa-estadio {
-    margin-top: 2rem;
+    flex: 1 1 300px;
+    /* max-width: 48%; */
+    margin-top: 0;
+    border-radius: 6px;
+    background: linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
+    padding: 1rem;
 }
 .mapa-estadio h3 {
     text-align: center;
-    color: #001A4A;
+    color: #ffffff;
     margin-bottom: 0.75rem;
 }
 .mapa-estadio img {
+    max-width: 300px;          /* imagem menor */
     width: 100%;
-    max-width: 550px;
     height: auto;
     display: block;
     margin: 0 auto;
+    border-radius: 6px;
 }
 
-/* 📌 Rodapé */
-footer {
-    background-color: #000;
-    color: white;
-    text-align: center;
-    padding: 1.25rem;
-    margin-top: 2.5rem;
-    font-size: 0.9rem;
+/* 🎫 Lado Direito - Compra de Ingressos */
+.lado-direito-ingressos {
+    flex: 1 1 300px;
+    max-width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 /* 📱 Responsivo */
+@media (max-width: 1024px) {
+    .container-estadio-ingressos {
+        gap: 2rem;
+    }
+    .mapa-estadio,
+    .lado-direito-ingressos {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-estadio-ingressos {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .mapa-estadio,
+    .lado-direito-ingressos {
+        max-width: 100%;
+        margin-left: 0;
+    }
+}
+
 @media (max-width: 600px) {
     main {
         padding: 2rem 1rem;
+    }
+    .logos-times {
+        flex-direction: row;   /* mantém lado a lado no mobile */
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 0.5rem;           /* escudos mais próximos */
     }
     .logos-times img {
         width: 50px;
         height: 50px;
     }
     .logos-times span {
-        font-size: 1.3rem;
+        font-size: 1.3rem;     /* texto "x" menor no celular */
     }
     .form-setor select,
     .botao-comprar,
@@ -228,14 +274,11 @@ footer {
     }
     .lista-ingressos .item-ingresso {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
     .lista-ingressos .botao-excluir {
         margin-top: 0.5rem;
-        align-self: flex-end;
-    }
-    footer {
-        font-size: 0.8rem;
-        padding: 1rem;
+        align-self: center;
     }
 }

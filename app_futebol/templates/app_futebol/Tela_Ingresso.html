@@ -2,86 +2,89 @@
 {% load static %}
 
 {% block css_extra %}
-  <link rel="stylesheet" href="{% static 'css/Tela_ingressos.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}">
 {% endblock css_extra %}
 
 {% block conteudo_pagina %}
-  <main>
-    <h1>Compra de Ingressos</h1>
+<main>
+  <h1>Compra de Ingressos</h1>
 
-    <section class="titulo-ingresso">
-      <div class="rodada-info">
-        <h3>19ª Rodada</h3>
-      </div>
-      <h2>Drakos FC x Flamengo</h2>
-      <div class="logos-times">
-        <img src="{% static "img/icones/logo_time_drako 3.png" %}" alt="Drakos FC">
-        <span>vs</span>
-        <img src="{% static "img/icones/escudo_flamengo.jpg" %}" alt="Flamengo">
-      </div>
+  <!-- 🔹 Título e Rodada -->
+  <section class="titulo-ingresso">
+    <div class="rodada-info">
+      <h3>19ª Rodada</h3>
+    </div>
+    <h2>Drakos FC x Fluminense</h2>
+    <div class="logos-times">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Drakos FC">
+      <span>vs</span>
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
+    </div>
+  </section>
+
+  <!-- 🔹 Container Flexível para layout lateral -->
+  <div class="container-estadio-ingressos">
+
+    <!-- 🗺️ Mapa do Estádio -->
+    <section class="mapa-estadio">
+      <h3>Mapa do Estádio</h3>
+      <img src="{% static 'img/icones/mapa_estadio.png' %}" alt="Mapa do Estádio com setores">
     </section>
 
+    <!-- 🎫 Lado Direito - Compra de Ingressos -->
+    <section class="lado-direito-ingressos">
 
-    <div class="container-estadio-ingressos">
+      <!-- 🧾 Formulário -->
+      <form class="form-setor">
+        <label for="setor">Setor:</label>
+        <select id="setor" name="setor">
+          <option value="ladoA_arquibancada_anda">Lado A Arquibancada Anda</option>
+          <option value="ladoA_cadeira_cativa">Lado A Cadeira Cativa</option>
+          <option value="ladoA_arquibancada_cima">Lado A Arquibancada Cima</option>
+          <option value="ladoB_arquibancada_anda">Lado B Arquibancada Anda</option>
+          <option value="ladoB_cadeira_cativa">Lado B Cadeira Cativa</option>
+          <option value="ladoB_arquibancada_cima">Lado B Arquibancada Cima</option>
+          <option value="ladoA_cadeira_ladoB_cima">Lado A Cadeira / Lado B Arquibancada Cima</option>
+        </select>
 
+        <label for="quantidade">Quantidade (1 a 10):</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" max="10">
 
-      <section class="mapa-estadio">
-        <h3>Mapa do Estádio</h3>
-        <img src="../img/mapa_estadio.png" alt="Mapa do Estádio com setores">
+        <p class="preco-ingresso">
+          Preço total: <strong id="preco-total">R$60,00</strong>
+        </p>
+
+        <button type="submit" class="botao-comprar">Comprar Ingresso</button>
+      </form>
+
+      <!-- 📑 Lista de Ingressos -->
+      <section class="lista-ingressos">
+        <h3>Ingressos Selecionados</h3>
+        <ul>
+          <li class="item-ingresso">
+            <div class="info-ingresso">
+              <p><strong>Setor:</strong> Lado A Arquibancada Anda</p>
+              <p><strong>Quantidade:</strong> 2</p>
+              <p><strong>Preço:</strong> R$120,00</p>
+            </div>
+            <button class="botao-excluir">Excluir</button>
+          </li>
+          <li class="item-ingresso">
+            <div class="info-ingresso">
+              <p><strong>Setor:</strong> Lado B Cadeira Cativa</p>
+              <p><strong>Quantidade:</strong> 1</p>
+              <p><strong>Preço:</strong> R$60,00</p>
+            </div>
+            <button class="botao-excluir">Excluir</button>
+          </li>
+        </ul>
       </section>
 
-
-      <section class="lado-direito-ingressos">
-
-        <form class="form-setor">
-          <label for="setor">Setor:</label>
-          <select id="setor" name="setor">
-            <option value="ladoA_arquibancada_anda">Lado A Arquibancada Anda</option>
-            <option value="ladoA_cadeira_cativa">Lado A Cadeira Cativa</option>
-            <option value="ladoA_arquibancada_cima">Lado A Arquibancada Cima</option>
-            <option value="ladoB_arquibancada_anda">Lado B Arquibancada Anda</option>
-            <option value="ladoB_cadeira_cativa">Lado B Cadeira Cativa</option>
-            <option value="ladoB_arquibancada_cima">Lado B Arquibancada Cima</option>
-            <option value="ladoA_cadeira_ladoB_cima">Lado A Cadeira / Lado B Arquibancada Cima</option>
-          </select>
-
-          <label for="quantidade">Quantidade (1 a 10):</label>
-          <input type="number" id="quantidade" name="quantidade" min="1" max="10">
-
-          <p class="preco-ingresso">Preço total: <strong id="preco-total">R$60,00</strong></p>
-
-          <button type="submit" class="botao-comprar">Comprar Ingresso</button>
-        </form>
-
-        <section class="lista-ingressos">
-          <h3>Ingressos Selecionados</h3>
-          <ul>
-            <li class="item-ingresso">
-              <div class="info-ingresso">
-                <p><strong>Setor:</strong> Lado A Arquibancada Anda</p>
-                <p><strong>Quantidade:</strong> 2</p>
-                <p><strong>Preço:</strong> R$120,00</p>
-              </div>
-              <button class="botao-excluir">Excluir</button>
-            </li>
-            <li class="item-ingresso">
-              <div class="info-ingresso">
-                <p><strong>Setor:</strong> Lado B Cadeira Cativa</p>
-                <p><strong>Quantidade:</strong> 1</p>
-                <p><strong>Preço:</strong> R$60,00</p>
-              </div>
-              <button class="botao-excluir">Excluir</button>
-            </li>
-          </ul>
-        </section>
-
-      </section>
-    </div>
-  </main>
+    </section>
+  </div>
+</main>
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-  <script src="{% static "js/" %}"></script>
+  <script src="{% static 'js/Tela_ingressos.js' %}"></script>
 {% endblock js_pagina %}
-</body>
-</html>
