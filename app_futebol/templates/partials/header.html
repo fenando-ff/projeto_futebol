@@ -1,0 +1,27 @@
+{% load static %}
+<header class="cabecalho">
+        <a class="logo" href="{% url "home" %}">
+            <img src="{% static "img/icones/Escudo_Drakos.png" %}" alt="escudo do drakos">
+            <h1>DRAKOS FC</h1>
+        </a>
+        <ul class="menu-hamburgue">
+            <li><a href= "{% url "login" %}">Login</a></li>
+            <li id="botao_hamburguer"> <a href="#">Outros</a></li>
+            <li><a href="carrinho.html"><i class="fa-solid fa-cart-shopping"></i></a></li>
+        </ul> 
+        <div class="nav">
+            <ul class="hamburguer-opcoes">
+                {% if request.session.cliente_id %}
+                <li class="opcao-nav btn-esconde">  <a href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+                <li class="opcao-nav"><a href="{% url 'produtos' %}">Loja</a></li>
+                <li class="opcao-nav"><a href="{% url 'noticias' %}">Notícias</a></li>
+                <li class="opcao-nav"><a href="{% url 'historia' %}">História</a></li>
+                <li class="opcao-nav"><a href="{% url 'ingresso' %}">Ingressos</a></li>
+                <li class="opcao-nav"><a href="{% url 'socio' %}">Sócios</a></li>
+                <li class="opcao-nav btn-esconde"><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+            </ul>
+        </div>
+    </header>

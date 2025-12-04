@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/loja_detalhe.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
+
+{% block titulo %} Detalhes {% endblock titulo %}
+
+
+<body>
+  {% block conteudo_pagina %}
+  <header class="topo">
+    <a href= "{% url "produtos" %}" class="voltar"><i class="fa-solid fa-arrow-left"></i></a>
+    <h1 class="marca">DRAKOS FC</h1>
+  </header>
+
+  <main class="produto-container">
+    <!-- IMAGEM DO PRODUTO -->
+    <section class="galeria">
+      <img class="imagem-principal" src="{% static "img/produtos/camisas/uniforme_frente.webp" %}" alt="Camisa Drakos" />
+
+      <div class="miniaturas">
+        <img src="{% static "img/produtos/camisas/uniforme_frente.webp" %}" alt="Thumb 1">
+        <img src="{% static "img/produtos/camisas/uniforme_costa.webp" %}" alt="Thumb 2">
+        <img src="{% static "img/produtos/camisas/detalhes/empresa_uniforme.jpg" %}" alt="Thumb 3">
+        <img src="{% static "img/produtos/camisas/detalhes/marca_uniforme.webp" %}" alt="Thumb 4">
+        </div>
+        </section>
+
+        <!-- DETALHes -->
+    <section class="detalhes">
+      <h2 class="titulo">DRAKOS 3° UNIFORME</h2>
+
+      <p class="fabricante">Fabricado por <span>Puma</span></p>
+      <p class="preco">R$ 356,11</p>
+
+      <div class="tamanhos">    
+        <h3>Selecionar tamanho</h3>
+        <div class="botoes-tamanho">
+          <button>P</button>
+          <button>M</button>
+          <button>L</button>
+          <button>GG</button>
+        </div>
+      </div>
+
+      <div class="acoes">
+        <button class="btn comprar">Comprar agora</button>
+        <button class="btn carrinho"><i class="fa-solid fa-cart-shopping"></i> Adicionar ao carrinho</button>
+      </div>
+    </section>
+  </main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+  <script src="{% static "js/loja_detalhe.js" %}"></script>
+{% endblock js_pagina %}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

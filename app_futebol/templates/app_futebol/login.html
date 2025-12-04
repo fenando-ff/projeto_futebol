@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
+{% block titulo %} login {% endblock titulo %}
+
+
+
+
+{% block conteudo_pagina %}
+    <main>
+        <form  class = "conteiner" method="POST">
+            {% csrf_token %}
+            <div id="area_seta">
+                <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+            <h2 class = "titulo_login">Login</h2>
+
+            
+            <div class = "caixa usuario">
+                <i class='bx bx-user'></i>
+                <input id="email" name="email" placeholder="Email / CPF" type="text" required>
+                
+            </div>
+
+
+            <div class = "caixa senha">
+                <i class='bx bx-lock'></i>
+                <input id="senha" name="senha"  placeholder="Senha" type="password" required>
+            </div>
+           
+            
+            <div class = "esqueceu_senha">
+                <a href="{% url 'recuperar_senha' %}">
+                    <h4>Esqueceu senha?</h4>
+                </a>
+             </div>
+
+             <button id="botao" onclick="login()" class="btn-terceiro" type:"submit">Entrar</button>
+
+    
+            <p class="criar-conta">Não tem conta? <a href="{% url 'register' %}">Cadastrar-se</a></p>
+
+            <p id="aviso"></p>
+        
+
+            
+            </form>
+     </main>
+
+     {% endblock conteudo_pagina %}
+    <footer>&copy;</footer>
+
+    
+    <script src="../js/main.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>

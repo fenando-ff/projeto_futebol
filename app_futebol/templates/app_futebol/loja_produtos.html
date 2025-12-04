@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/loja_produtos.css'%}">
+{% endblock css_extra %}
+
+{% block titulo %} Loja {% endblock %}
+
+
+
+
+{% block conteudo_pagina %}
+
+<main class="container">
+
+  <!-- Banner com título à esquerda e carrossel automático à direita -->
+  <section class="banner-wrapper">
+    <div class="banner-title">
+      <h2>DRAKO STORE</h2>
+    </div>
+
+    <div class="banner-carousel">
+      <div class="banner-slide active">
+        <img src= "{% static "img/banners/banner1.png" %}" alt="Banner 1">
+      </div>
+      <div class="banner-slide">
+        <img src= "{% static "img/banners/banner2.png" %}" alt="Banner 2">
+      </div>
+      <div class="banner-slide">
+        <img src= "{% static "img/banners/banner3.png" %}" alt="Banner 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção temporada com carrossel manual -->
+<section class="season">
+  <div class="season-text">
+    <h2>TEMPORADA 25/26</h2>
+    <p>
+      Os mantos da nova temporada já estão disponíveis. Sócios podem levar descontos de até 50%.<br>
+      Os uniformes feitos do material de vibranium, junto com um pequeno ingrediente.<br>
+      Se você for pobre, melhor sair dessa tela de produtos...<br>
+      Desde já, agradeço. Bye Bye
+    </p>
+  </div>
+
+  <!-- Containe do carrossel e seta como flex -->
+  <div class="season-wrapper">
+    <div class="season-carousel">
+      <div class="season-slide active">
+         <img src= "{% static "img/pessoas_modelos/primerio_carrosel.png" %}" alt="Slide 1">
+      </div>
+      <div class="season-slide">
+        <img src= "{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 2">
+      </div>
+      <div class="season-slide">
+        <img src= "{% static "img/pessoas_modelos/uniforme_braco.png" %}" alt="Slide 3">
+      </div>
+    </div>
+    <button class="next-slide">&#8250;</button>
+  </div>
+</section>
+
+  <!-- Seção de produtos -->
+  <section class="produtos">
+    <h2>PRODUTOS</h2>
+    <nav class="filter">
+      <a href="#">Todos</a>
+      {% for categoria, produtos in produtos_por_categoria.items %}
+      <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
+      {% endfor %}
+    </nav>
+
+    {% for categoria, produtos in produtos_por_categoria.items %}
+    {% if produtos %}
+    <section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
+      <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
+      <div class="carrossel-produtos">
+        <!-- Botão de voltar -->
+        <button class="btn-prev">&#10094;</button>
+
+        <!-- Container dos produtos -->
+        <div class="flex">
+          {% for produto in produtos %}
+          <div class="produto">
+            <a href="{% url 'loja_detalhe' %}">
+              {% if produto.imagem_produtos %}
+                <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+              {% else %}
+                <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+              {% endif %}
+            </a>
+            <h3>{{ produto.nome_produtos }}</h3>
+            <p>R${{ produto.valor_produtos|floatformat:2 }}</p>
+            <button class="btn-adicionar" data-id="{{ produto.id_produtos }}" data-nome="{{ produto.nome_produtos }}">
+              Adicionar ao Carrinho
+            </button>
+          </div>
+          {% empty %}
+          <p style="color: #fff;">Nenhum produto nesta categoria</p>
+          {% endfor %}
+        </div>
+
+        <!-- Botão de avançar -->
+        <button class="btn-next">&#10095;</button>
+      </div>
+    </section>
+    {% endif %}
+    {% endfor %}
+
+</section>
+
+</main>  
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+  <script src="{% static "js/loja_produtos.js" %}"></script>
+{% endblock js_pagina %}
+     
+</body>
+</html>

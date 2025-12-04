@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/proximos_jogos.css' %}">
+{% endblock css_extra %}
+
+{% block titulo %}Próximo Jogo{% endblock titulo %}
+
+{% block conteudo_pagina %}
+  <section class="jogos-wrapper">
+      
+      <!-- 🔷 JOGO EM DESTAQUE -->
+      <section class="jogo-destaque">
+        <p class="rodada">19ª RODADA</p>
+
+        <div class="confronto">
+          <div class="time">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos FC">
+            <p>Drakos FC</p>
+          </div>
+
+          <span class="versus">X</span>
+
+          <div class="time">
+            <img src= "{% static "img/icones/Escudo_Flamengo.png" %}">
+            <p>Flamengo</p>
+          </div>
+        </div>
+
+        <p class="info-jogo">09/04 - 19:00</p>
+        <p class="info-jogo">Mangueirão</p>
+
+        <a href="ingresso.html" class="btn-proximo">Próximo</a>
+      </section>
+
+      <!-- 🔷 PRÓXIMOS JOGOS -->
+      <section class="jogos-container">
+        <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
+
+        <div class="jogo-card">
+          <img src="{% static 'img/icones/Gremio.png' %}" alt="Grêmio">
+          <h2>Grêmio vs Drakos FC</h2>
+          <p><strong>Data:</strong> 02 de Maio de 2025</p>
+          <p><strong>Horário:</strong> 20h00</p>
+          <a href="ingresso.html" class="btn-comprar">Comprar Ingresso</a>
+        </div>
+
+        <div class="jogo-card">
+          <img src="{% static 'img/icones/Palmeiras.png' %}" alt="Palmeiras">
+          <h2>Palmeiras vs Drakos FC</h2>
+          <p><strong>Data:</strong> 06 de Maio de 2025</p>
+          <p><strong>Horário:</strong> 20h00</p>
+          <a href="ingresso.html" class="btn-comprar">Comprar Ingresso</a>
+        </div>
+
+        <div class="jogo-card">
+          <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
+          <h2>Fluminense vs Drakos FC</h2>
+          <p><strong>Data:</strong> 10 de Maio de 2025</p>
+          <p><strong>Horário:</strong> 20h00</p>
+          <a href="ingresso.html" class="btn-comprar">Comprar Ingresso</a>
+        </div>
+      </section>
+    </section>
+{% endblock conteudo_pagina %}

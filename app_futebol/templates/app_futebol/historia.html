@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <!-- Linkando o novo CSS atualizado -->
+    <link rel="stylesheet" href="{% static 'css/historia.css' %}">
+{% endblock css_extra %}
+
+{% block titulo %} História | Drakos FC {% endblock titulo %}
+
+{% block conteudo_pagina %}
+<main class="historia-main">
+
+    <!-- HEADER COM FUNDO TRANSPARENTE -->
+    <header class="header-hero">
+        <h1 class="historia-titulo">Nossa História</h1>
+        <p class="historia-subtitulo">Sangue, Suor e Glória Eterna</p>
+    </header>
+
+    <div class="timeline-container">
+
+        <!-- ==========================================
+             2002: O INÍCIO DA LENDA
+             ========================================== -->
+        <article class="timeline-row">
+            <div class="col-ano">
+                <span class="ano-destaque">2002</span>
+            </div>
+            <div class="col-conteudo">
+                <h2 class="titulo-evento">O Esquadrão Imortal</h2>
+                <img src="{% static 'img/historia/drakos_time.png' %}" alt="Drakos FC Campeão 2002" class="img-evento">
+                <p class="texto-evento">
+                    O ano que definiu nossa identidade no fogo da batalha. O grande elenco de 2002 não apenas jogava, mas dominava.
+                    Temido por rivais e amado pela multidão, este time culminou sua performance levantando a taça de 
+                    <strong>Campeão Paraense</strong>, quebrando um longo jejum e tingindo o estado de vermelho e preto.
+                </p>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             2024: A BATALHA
+             ========================================== -->
+        <article class="timeline-row">
+            <div class="col-ano">
+                <span class="ano-destaque">2024</span>
+            </div>
+            <div class="col-conteudo">
+                <h2 class="titulo-evento">A Batalha Final</h2>
+                <img src="{% static 'img/historia/drakos_abraco.png' %}" alt="Preparação para a final" class="img-evento">
+                <p class="texto-evento">
+                    O reencontro com o destino. Após anos de reconstrução nas sombras, o Drakos FC emergiu para garantir sua vaga na grande final 
+                    contra o rival Paysandu. A atmosfera era de guerra, e o elenco estava pronto para deixar a vida em campo.
+                </p>
+            </div>
+        </article>
+
+        <!-- ==========================================
+             2024: O ÁPICE
+             ========================================== -->
+        <article class="timeline-row">
+            <div class="col-ano">
+                <span class="ano-destaque">2024</span>
+            </div>
+            <div class="col-conteudo">
+                <h2 class="titulo-evento">O Retorno do Rei</h2>
+                <img src="{% static 'img/historia/drakos_campeao.png' %}" alt="Levantando a taça" class="img-evento">
+                <p class="texto-evento">
+                    Em uma partida cinematográfica sob chuva e tensão, o Drakos FC superou as probabilidades. 
+                    Com tática impecável e coração pulsante, sagrou-se <strong>Campeão Paraense</strong> novamente. 
+                    O grito ecoou pelos quatro cantos: O Drakos voltou ao seu trono.
+                </p>
+            </div>
+        </article>
+
+    </div>
+</main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+    <script src="{% static 'js/historia.js' %}"></script>
+{% endblock js_pagina %}

@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
+{% endblock css_extra %}
+
+
+{% block conteudo_pagina %}   
+<main>
+    <div class="conteiner">
+        <div id="area_seta"> 
+            <a href="{% url 'recuperar_senha' %}"><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        
+        <h2 class="titulo_login">Validar Código</h2>
+
+        <div class="termos">
+            <p>Digite o código recebido</p>
+            <p>no seu email!</p>
+        </div>
+
+        <div class="logo_rec_senha">
+            <img class="logo_rec_senha" src="{% static 'img/icones/logo_rec_senha_2.png' %}"> 
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="caixa codigo">
+                <i class='bx bx-key'></i>
+                <input type="text" name="codigo" placeholder="Código de 6 dígitos" required maxlength="6">
+            </div>
+            <button type="submit" class="btn-primario">Validar Código</button>
+        </form>
+    </div>
+</main>
+{% endblock conteudo_pagina %}

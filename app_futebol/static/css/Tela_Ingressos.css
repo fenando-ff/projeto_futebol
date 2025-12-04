@@ -1,0 +1,284 @@
+/* 🎨 Configurações Globais */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.5;
+    background: linear-gradient(135deg, #2a2a2a 45%, #b30000 100%);
+    color: #f4f4f4; /* texto claro para contraste */
+}
+
+/* 🏟️ Conteúdo Principal */
+main {
+    padding: 3rem 1rem 1rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+main h1 {
+    font-size: 1.9rem;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 2.1rem;
+}
+
+/* 🎫 Tela de Ingressos */
+.titulo-ingresso h2 {
+    font-size: 1.5rem;
+    color: #f4f4f4;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+}
+
+/* 🏁 Rodada */
+.rodada-info {
+    text-align: center;
+    margin: -0.5rem 0 1rem;
+}
+.rodada-info h3 {
+    font-size: 1.5rem;
+    color: #ff2222;
+    font-weight: bold;
+}
+
+/* 🆚 Logos dos Times */
+.logos-times {
+    display: flex;
+    flex-direction: row;       /* escudos lado a lado */
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.logos-times img {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+.logos-times span {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* 🧾 Formulário de Compra */
+.form-setor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.form-setor label,
+.form-setor select,
+#quantidade,
+#preco-total {
+    width: 100%;
+    font-size: 1rem;
+    color: #ffffff;
+}
+.form-setor select,
+#quantidade {
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+    height: 45px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+#quantidade {
+    appearance: auto;
+    -moz-appearance: textfield;
+}
+#quantidade::-webkit-inner-spin-button,
+#quantidade::-webkit-outer-spin-button {
+    opacity: 1;
+    width: 16px;
+}
+
+/* 💰 Preço */
+.preco-ingresso {
+    font-size: 1.2rem;
+    color: #e0e0e0;
+}
+#preco-total {
+    font-weight: bold;
+    color: #ff3333;
+}
+
+/* 🛒 Botão de Compra */
+.botao-comprar {
+    background-color: #8F0000;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.botao-comprar:hover {
+    background-color: #a80000;
+}
+
+/* 📋 Resumo da Compra */
+.resumo-compra {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+.resumo-compra h3 {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+.resumo-compra p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: #cccccc;
+}
+
+/* 📑 Lista de Ingressos */
+.lista-ingressos {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #1a1a1a;
+}
+.lista-ingressos h3 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+.lista-ingressos ul {
+    list-style: none;
+    padding-left: 0;
+}
+.lista-ingressos .item-ingresso {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: #2a2a2a;
+}
+.lista-ingressos .info-ingresso p {
+    margin: 2px 0;
+    font-size: 0.95rem;
+    color: #cccccc;
+}
+.lista-ingressos .botao-excluir {
+    background-color: #8F0000;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+.lista-ingressos .botao-excluir:hover {
+    background-color: #a80000;
+}
+
+/* 🔹 Container Estádio + Ingressos */
+.container-estadio-ingressos {
+    display: flex;
+    gap: 8rem;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+/* 🗺️ Mapa do Estádio */
+.mapa-estadio {
+    flex: 1 1 300px;
+    /* max-width: 48%; */
+    margin-top: 0;
+    border-radius: 6px;
+    background: linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
+    padding: 1rem;
+}
+.mapa-estadio h3 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+.mapa-estadio img {
+    max-width: 300px;          /* imagem menor */
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 6px;
+}
+
+/* 🎫 Lado Direito - Compra de Ingressos */
+.lado-direito-ingressos {
+    flex: 1 1 300px;
+    max-width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* 📱 Responsivo */
+@media (max-width: 1024px) {
+    .container-estadio-ingressos {
+        gap: 2rem;
+    }
+    .mapa-estadio,
+    .lado-direito-ingressos {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-estadio-ingressos {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .mapa-estadio,
+    .lado-direito-ingressos {
+        max-width: 100%;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 2rem 1rem;
+    }
+    .logos-times {
+        flex-direction: row;   /* mantém lado a lado no mobile */
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 0.5rem;           /* escudos mais próximos */
+    }
+    .logos-times img {
+        width: 50px;
+        height: 50px;
+    }
+    .logos-times span {
+        font-size: 1.3rem;     /* texto "x" menor no celular */
+    }
+    .form-setor select,
+    .botao-comprar,
+    #quantidade,
+    #preco-total {
+        font-size: 1rem;
+        height: auto;
+    }
+    .lista-ingressos .item-ingresso {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .lista-ingressos .botao-excluir {
+        margin-top: 0.5rem;
+        align-self: center;
+    }
+}

@@ -1,0 +1,39 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
+{% endblock css_extra %}
+
+
+{% block conteudo_pagina %}   
+    <main>
+        <div class="conteiner">
+            <div id="area_seta"> 
+                <a href="{% url 'recuperar_senha' %}"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+
+            <h2 class="titulo_login">Criar Nova Senha</h2>
+
+            <div class="termos">
+               <p>Atenção, ao digitar sua</p>
+               <p>nova senha!</p>
+            </div>
+
+            <div class="logo_rec_senha">
+                <img class="logo_rec_senha" src="{% static 'img/icones/logo_rec_senha_2.png' %}"> 
+            </div>
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="caixa usuario">
+                    <i class='bx bx-lock'></i>
+                    <input type="password" name="senha" placeholder="Nova senha" required>
+                </div>
+
+                <button type="submit" class="btn-primario">Atualizar Senha</button>
+            </form>
+        </div>
+    </main>
+{% endblock conteudo_pagina %}

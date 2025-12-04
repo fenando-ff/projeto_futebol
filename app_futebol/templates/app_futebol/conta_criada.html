@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/conta_criada.css' %}">
+    <link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
+{% endblock css_extra %}
+
+
+{% block conteudo_pagina %}   
+    <main>
+        <div  class = "conteiner">
+            <h2 class = "titulo_login">Conta criada!</h2>
+
+            <img class = "conta_criada" src="{% static "img/icones/correto.png" %} ">
+
+            
+
+            <a href= "{% url 'home' %}">
+                <button class = "btn-terceiro"> Voltar </button>
+            </a>
+
+
+
+
+            <div class="etapas">
+                <div class="etapa um">
+                    <div class="circulo uxx">
+                    <i class="fa-solid fa-check" style="color: #ffffff;"></i></div>
+                </div>
+
+                <div class="etapa dois">
+                    <div class="circulo doixx"><i class="fa-solid fa-check" style="color: #ffffff;"></i></div>
+                </div>
+
+                <div class="etapa tres">
+                    <div class="circulo trexx"><i class="fa-solid fa-check" style="color: #ffffff;"></i></div></div>   
+
+                </div>
+
+            </div>
+
+        </div>
+     </main>
+      {% endblock conteudo_pagina %}   
+    <footer>&copy;</footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

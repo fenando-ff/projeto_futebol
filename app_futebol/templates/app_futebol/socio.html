@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/socio.css' %}">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
+
+
+
+<!-- CONTEÚDO PRINCIPAL -->
+{% block conteudo_pagina %}    
+    <main class="socio-container">
+        <div class="text-area">
+          <h1>TORNA-SE SÓCIO</h1>
+      
+          <h2 id="tipo_socioText">Planos</h2>
+          <p id="beneficio-text">
+            Venha se tornar sócio e aproveite vantagens exclusivas:<br>
+            descontos em produtos, valores reduzidos de ingressos e benefícios especiais para membros.
+          </p>
+          <button class="btn-socio" id="btnSocio">SEJA SÓCIO</button>
+        </div>
+
+         <div class="carousel">
+          <button class="arrow" id="prev">←</button>
+
+            <div class="cards">
+              <img src="{% static "img/icones/card_branco.png" %}" alt="Card Branco" class="card active" data-index="0">
+              <img src="{% static "img/icones/card_preto.png" %}" alt="Card Preto" class="card" data-index="1">
+              <img src="{% static "img/icones/card_red.png" %}" alt="Card Vermelho" class="card" data-index="2">
+        </div>
+
+              <button class="arrow" id="next">→</button>
+        </div>
+
+  
+
+  <!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+      <h2>Escolha seu plano</h2>
+      <div class="popup-cards">
+        {% for plano in planos %}
+          <a href="{% url 'confirmar_socio' plano.id_categoria_cliente %}" class="popup-card" >{{ plano.nome_categoria_clientes}}</a>
+        {% endfor %}
+      </div>
+  </div>
+</div>
+
+</main>
+
+
+{% endblock conteudo_pagina %}  
+
+{% block js_pagina %}
+    <script src="{% static "js/socios.js" %}"></script>
+{% endblock js_pagina %}
+
+</body>
+</html>

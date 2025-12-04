@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}">
+{% endblock css_extra %}
+
+{% block conteudo_pagina %}
+<main>
+  <h1>Compra de Ingressos</h1>
+
+  <!-- 🔹 Título e Rodada -->
+  <section class="titulo-ingresso">
+    <div class="rodada-info">
+      <h3>19ª Rodada</h3>
+    </div>
+    <h2>Drakos FC x Fluminense</h2>
+    <div class="logos-times">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Drakos FC">
+      <span>vs</span>
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
+    </div>
+  </section>
+
+  <!-- 🔹 Container Flexível para layout lateral -->
+  <div class="container-estadio-ingressos">
+
+    <!-- 🗺️ Mapa do Estádio -->
+    <section class="mapa-estadio">
+      <h3>Mapa do Estádio</h3>
+      <img src="{% static 'img/icones/mapa_estadio.png' %}" alt="Mapa do Estádio com setores">
+    </section>
+
+    <!-- 🎫 Lado Direito - Compra de Ingressos -->
+    <section class="lado-direito-ingressos">
+
+      <!-- 🧾 Formulário -->
+      <form class="form-setor">
+        <label for="setor">Setor:</label>
+        <select id="setor" name="setor">
+          <option value="ladoA_arquibancada_anda">Selecione</option>
+          {% comment %} loop de repetição com os ingressos do banco de dados {% endcomment %}
+          {% for ingresso in ingressos %}
+            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">{{ ingresso.nome_produtos }} -  R${{ ingresso.valor_produtos }}</option>
+          {% endfor %}
+        </select>
+
+        <label for="quantidade">Quantidade (1 a 10):</label>
+        <input type="number" id="quantidade" name="quantidade" min="1" max="10">
+
+        <p class="preco-ingresso">
+          Preço total: <strong id="preco-total">R$60,00</strong>
+        </p>
+
+        <button type="submit" class="botao-comprar">Comprar Ingresso</button>
+      </form>
+
+      <!-- 📑 Lista de Ingressos -->
+      <section class="lista-ingressos">
+        <h3>Ingressos Selecionados</h3>
+        <ul>
+          <li class="item-ingresso">
+            <div class="info-ingresso">
+              <p><strong>Setor:</strong> Lado A Arquibancada Anda</p>
+              <p><strong>Quantidade:</strong> 2</p>
+              <p><strong>Preço:</strong> R$120,00</p>
+            </div>
+            <button class="botao-excluir">Excluir</button>
+          </li>
+          <li class="item-ingresso">
+            <div class="info-ingresso">
+              <p><strong>Setor:</strong> Lado B Cadeira Cativa</p>
+              <p><strong>Quantidade:</strong> 1</p>
+              <p><strong>Preço:</strong> R$60,00</p>
+            </div>
+            <button class="botao-excluir">Excluir</button>
+          </li>
+        </ul>
+      </section>
+
+    </section>
+  </div>
+</main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+  <script src="{% static 'js/Tela_ingressos.js' %}"></script>
+{% endblock js_pagina %}

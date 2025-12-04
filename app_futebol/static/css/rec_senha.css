@@ -1,0 +1,187 @@
+ body {
+    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background-repeat: no-repeat;
+
+    }
+
+
+main{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+    
+
+.conteiner{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 0px;
+    margin: 120px 100px;
+    border-radius: 20px;
+    background: #8F0000(0, 28, 79, 0.3); /* cor semitransparente */
+    backdrop-filter: blur(50px); /* o blur no fundo */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    max-width: 400px;
+}
+
+
+  .fa-arrow-left{
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  margin-right: 20px; /* margem menor e mais equilibrada */
+  width: 5%;
+  text-align: left;
+  }
+
+  #area_seta {
+    width: 100%;
+  }
+
+    .titulo{
+    font-size: 1.1em;
+    color: aliceblue;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    }
+
+
+
+    .logo_email{
+      margin-top: 20px;
+      width: 90px;
+      height: 90px;
+      opacity: 100%;
+    }
+
+
+
+    .verificacao {
+      display: flex;
+      margin: 0px 30px;
+      gap:20px; /* espaço entre caixas */
+      border: 1px white;
+    }
+
+    .verificacao input {
+      margin-top: 80px;
+      margin-bottom: 40px;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      text-align: center;
+      border: 2px solid #dbdbdb;
+      border-radius: 1px;
+      outline: none;
+      border: none;                /* tira a borda */
+      border-bottom: 2px solid #fdfdfd; /* só a linha embaixo */
+      background: transparent;     /* fundo transparente */
+      outline: none;               /* tira a borda azul padrão */
+      color: #dbdbdb;
+    }
+
+
+    .verificacao input:focus {
+      border-color: rgb(23, 23, 23);
+
+    }
+
+
+    
+    .duvida{
+      color: #dbdbdb;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      
+
+    }
+
+    .reenviar{
+        color: #F7C02B ;
+        font-size: 20px;
+    }
+
+
+
+
+
+    /* celular foi o que mais deu  trabalho e eu nao sei o por que kkkkk*/
+  @media screen and (max-width: 768px){
+    .conteiner {
+        width: 40%;
+        padding: 30px 50px;
+
+  }
+      .titulo{
+        font-size: 15px;
+      }
+    
+    /* .fa-arrow-left{
+        margin: 0rem 190px 0px 0px; 
+    } */
+    .verificacao{
+        gap: 10px;
+      }
+    .verificacao input{
+        width: 50px;  
+    }
+      
+     .btn-primario{
+      transform: scale(0.8);  /* usado para disminuir o tamanho  */
+        width: 100px;
+        height: 20px;
+        margin: 5px 5px;
+     }
+     
+}
+
+
+    /* tablete */
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .conteiner {
+      padding: 35px 50px;
+        width: 50%;
+    }
+    
+
+    /* .fa-arrow-left{
+        margin: 0rem 300px 0px 0px;
+    } */
+    }
+    
+
+    /* PC  */
+    @media screen and (min-width: 1025px) and (max-width: 1920px){
+
+      .conteiner{
+        padding: 40px 100px;
+
+      }
+      /* .fa-arrow-left{
+         margin: 0rem 400px 0px 0px;
+          } */
+          
+      .logo_email{
+        width: 130px;
+        height: 130px;
+          }
+      
+      .verificacao{
+        gap: 50px;
+      }
+      .verificacao input{
+        width: 70px;
+      
+
+      }
+  }
+
+
+

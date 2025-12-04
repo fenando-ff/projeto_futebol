@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+<link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+{% endblock css_extra %}
+
+{% block conteudo_pagina %}
+  {% if nome %}
+    <h2>Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+  {% else %}
+    <h2>Bem-vindo, visitante!</h2>
+  {% endif %}
+<main>
+  <div class="container">
+
+    <!-- Seção do Carrinho -->
+    <section class="carrinho">
+      <h1 class="titulo">CARRINHO</h1>
+      <hr>
+      <div class="cabecalho-lista">
+        <span>Produto</span>
+        <span>Quant.</span>
+        <span>Preço</span>
+      </div>
+
+      <!-- Itens do carrinho dinâmicos -->
+      {% if itens %}
+        {% for item in itens %}
+        <div class="item-carrinho" data-id="{{ item.produto.id_produtos }}">
+          <img src="{% static item.produto.imagem_produtos }}" alt="{{ item.produto.nome_produtos }}">
+          <div class="info-produto">
+            <h3>{{ item.produto.nome_produtos }}</h3>
+            <p>{{ item.produto.descricao_produtos }}</p>
+          </div>
+          <div class="quantidade">
+            <button type="button" class="btn-menos">-</button>
+            <span class="qtd">{{ item.quantidade }}</span>
+            <button type="button" class="btn-mais">+</button>
+            <span class="preco-item">R$<span class="preco-linha">{{ item.preco_linha|floatformat:2 }}</span></span>
+          </div>
+          <a href="{% url 'remover_carrinho' item.produto.id_produtos %}" class="lixeira">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div style="color:#fff; text-align:center; padding:40px;">
+          <h3>Seu carrinho está vazio!</h3>
+          <p><a href="{% url 'produtos' %}" style="color:#ffd700;">Ver produtos</a></p>
+        </div>
+      {% endif %}
+    </section>
+
+    <!-- Resumo do pedido -->
+    <aside class="resumo">
+      <div class="bloco-resumo">
+        <h2>RESUMO DO PEDIDO</h2>
+        <hr>
+        <p><strong>Plano atual:</strong> {{ plano_cliente|default:'Nenhum' }}</p>
+        <hr>
+        <p id="subtotal"><span>Subtotal:</span> <span class="valor">R${{ total|floatformat:2 }}</span></p>
+        <p id="desconto"><span>Desconto <span id="desconto-percent">{% if desconto_percent %}({{ desconto_percent }}%){% endif %}</span>:</span> <span class="valor">R${{ desconto|floatformat:2 }}</span></p>
+        <p class="total" id="total"><span>Total:</span> <span class="valor">R${{ total_com_desconto|floatformat:2 }}</span></p>
+      </div>
+
+      <div class="bloco-pagamento">
+        <h2>FORMA DE PAGAMENTO:</h2>
+        <div class="formas">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa">
+        </div>
+
+        <!-- BOTÃO QUE ABRE O POP-UP -->
+        <button id="openPayment" class="btn-pagamento" type="button">
+          Escolher forma de pagamento
+        </button>
+
+      </div>
+
+    </aside>
+  </div>
+</main>
+
+<!-- ========== POP-UP DE PAGAMENTO (FUNCIONAL) ========== -->
+<div id="paymentOverlay" class="payment-overlay">
+  <div class="payment-modal">
+
+    <!-- Lado esquerdo - seleção -->
+    <div class="payment-left">
+      <h2>Escolha a forma de pagamento</h2>
+
+      <div class="payment-methods">
+        <div class="pay-method" data-method="visa">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png">
+          <span>Visa</span>
+        </div>
+
+        <div class="pay-method" data-method="mastercard">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
+          <span>Mastercard</span>
+        </div>
+
+        <div class="pay-method" data-method="paypal">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
+          <span>PayPal</span>
+        </div>
+      </div>
+
+      <button id="closePaymentLeft" class="close-btn">Fechar</button>
+    </div>
+
+    <!-- Lado direito - formulário -->
+    <div class="payment-right">
+      <h3 id="payTitle">Nenhuma forma selecionada</h3>
+      <p id="paySubtitle">Escolha um método de pagamento.</p>
+
+      <div id="payForm"></div>
+
+      <button id="paySubmit" class="submit-btn" style="display:none;">Confirmar Pagamento</button>
+      <button id="closePaymentRight" class="close-btn">Cancelar</button>
+
+      <p id="paySuccess" class="success">Pagamento aprovado!</p>
+    </div>
+
+  </div>
+</div>
+<!-- ===================================================== -->
+
+{% endblock conteudo_pagina %}
+{% block js_pagina %}
+  <script src="{% static 'js/carrinho.js' %}"></script>
+{% endblock js_pagina %}

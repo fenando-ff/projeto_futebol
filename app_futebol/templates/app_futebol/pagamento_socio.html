@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/pagamento_socio.css' %}">
+{% endblock css_extra %}
+
+{% block conteudo_pagina %}
+<main class="pagamento-container">
+
+    <h1>Tornar-se Sócio</h1>
+
+    <!-- DADOS DO USUÁRIO -->
+    <section class="box">
+        <h2>Seus Dados</h2>
+
+        <div class="dados-usuario">
+            <p><strong>Nome:</strong> {{ cliente.nome_clientes }} {{ cliente.sobrenome_clientes }}</p>
+            <p><strong>Email:</strong> {{ cliente.email_clientes }} </p>
+            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }} </p>
+            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }} </p>
+        </div>
+    </section>
+
+    <!-- PLANO -->
+    <section class="box">
+        <h2>Plano Atual</h2>
+        <div class="plano-info">
+            <p><strong>Plano: </strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
+        </div>
+    </section>
+
+    <section class="box">
+        <h2>Plano Selecionado</h2>
+        <div class="plano-info">
+            <p><strong>Plano: </strong>{{ plano.nome_categoria_clientes }}</p>
+            <p><strong>Valor: </strong>R${{ plano.preco_categoria|floatformat:2}}</p> {% comment %} 'floatformat:2' é para deixar dois numeros depois da vírgula {% endcomment %}
+            <p><strong>Descrição: </strong>{{ plano.descricao_categ_cli}}</p>
+        </div>
+    </section>
+
+    <!-- FORMAS DE PAGAMENTO -->
+    <section class="box">
+        <h2>Forma de Pagamento</h2>
+
+        <div class="buttons-pay">
+            <button type="button" class="pay-btn" data-type="cartao">Cartão de Crédito</button>
+            <button type="button" class="pay-btn" data-type="paypal">PayPal</button>
+        </div>
+
+        <!-- CARTÃO -->
+        <form id="form-cartao" class="form-pay" method="POST" style="display:none;">
+            {% csrf_token %}
+            <h3>Pagamento com Cartão</h3>
+            <input type="text" name="card_number" placeholder="Número do cartão" required>
+            <input type="text" name="card_name" placeholder="Nome impresso no cartão" required>
+            <div class="dupla">
+                <input type="text" name="card_valid" placeholder="Validade (MM/AA)" required>
+                <input type="text" name="card_cvv" placeholder="CVV" required>
+            </div>
+
+            <button type="submit" class="confirmar">Confirmar Assinatura</button>
+        </form>
+
+        <!-- PAYPAL -->
+        <form id="form-paypal" class="form-pay" method="POST" style="display:none;">
+            {% csrf_token %}
+            <h3>Pagamento via PayPal</h3>
+            <input type="hidden" name="paypal" value="1">
+            <button type="submit" class="paypal-btn">Pagar com PayPal</button>
+        </form>
+
+    </section>
+</main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+<script>
+    const botoes = document.querySelectorAll('.pay-btn');
+    const formCartao = document.getElementById('form-cartao');
+    const formPaypal = document.getElementById('form-paypal');
+
+    botoes.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (btn.dataset.type === "cartao") {
+                formCartao.style.display = "block";
+                formPaypal.style.display = "none";
+            } else {
+                formPaypal.style.display = "block";
+                formCartao.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock js_pagina %}

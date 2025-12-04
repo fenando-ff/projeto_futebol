@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block titulo %} Home {% endblock %}
+
+{% block conteudo_pagina %}
+
+<main class="home-container">
+
+    <!-- ======================== HERO =============================== -->
+    <section class="hero">
+        <div class="hero-text">
+            {% if nome %}
+                <h2 style="color: #f0f0f0;">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+            {% else %}
+                <h2 style="color: #f0f0f0;">Bem-vindo!</h2>
+            {% endif %}
+            <h1>DRAKO FUTEBOL CLUBE</h1>
+            <p>A força do dragão dentro e fora de campo.</p>
+            <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
+        </div>
+
+        <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
+        <div class="hero-carousel">
+            
+            <!-- Imagens -->
+            <div class="carousel-track">
+                <img src="{% static 'img/banners/banner1_home.png' %}" class="carousel-img active">
+                <img src="{% static 'img/banners/banner2_home.png' %}" class="carousel-img">
+                <img src="{% static 'img/banners/banner3_home.png' %}" class="carousel-img">
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="carousel-progress">
+                <div class="progress-bar"></div>
+            </div>
+
+            <!-- Botões -->
+            <button class="carousel-btn left">&#10094;</button>
+            <button class="carousel-btn right">&#10095;</button>
+        </div>
+    </section>
+
+    <!-- ======================== CARDS DE DESTAQUE =============================== -->
+    <section class="destaques">
+        <div class="card destaque1">
+            <i class="fa-solid fa-newspaper"></i>
+            <h3>Últimas Notícias</h3>
+            <p>Fique por dentro do que acontece no clube.</p>
+            <a href="#" class="btn-secondary">Ver notícias</a>
+        </div>
+
+        <div class="card destaque2">
+            <i class="fa-solid fa-shirt"></i>
+            <h3>Nova Coleção</h3>
+            <p>Os mantos 25/26 já estão disponíveis.</p>
+            <a href="{% url 'produtos' %}" class="btn-secondary">Visitar loja</a>
+        </div>
+
+        <div class="card destaque3">
+            <i class="fa-solid fa-calendar"></i>
+            <h3>Próximo Jogo</h3>
+            <p>Confira data, local e onde assistir.</p>
+            <a href="#" class="btn-secondary">Ver detalhes</a>
+        </div>
+    </section>
+
+    <!-- ======================== PRÓXIMO JOGO =============================== -->
+    <section class="proximo-jogo">
+        <h2>PRÓXIMO JOGO</h2>
+
+        <div class="jogo-card">
+            <div class="time">
+                <img src="{% static 'img/icones/escudo_Drakos.png' %}">
+                <span>Drako FC</span>
+            </div>
+
+            <div class="versus">X</div>
+
+            <div class="time">
+                <span>Rivais FC</span>
+                <img src="{% static 'img/icones/escudo_palmeiras.png' %}">
+            </div>
+        </div>
+
+        <p class="info">Estádio Dragão • 28 JAN • 20:00</p>
+        <a href="#" class="btn-primary">Comprar Ingressos</a>
+    </section>
+
+    <!-- ======================== PRODUTOS =============================== -->
+    <section class="produtos">
+        <h2>PRODUTOS</h2>
+        
+        <div class="cards-produtos-container">
+
+            <div class="product-card um">
+                <div class="product-image um">
+                    <img src="{% static 'img/camisa_home_figma.png' %}">
+                </div>
+
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
+                    </div>
+
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card dois">
+                <div class="product-image dois">
+                    <img src="{% static 'img/garrafa_home_figma.png' %}">
+                </div>
+
+                <div class="product-info">
+                    <h3>Camisa Retro</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">MASCULINO</span>
+                        <span class="tag">PRETO/BRANCO</span>
+                    </div>
+
+                    <p class="desc">Estilo clássico com material premium e conforto para o dia a dia.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 299,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card tres">
+                <div class="product-image tres">
+                    <img src="{% static 'img/short_home_figma.png' %}">
+                </div>
+
+                <div class="product-info">
+                    <h3>Chaveiro Oficial</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">ACESSÓRIO</span>
+                        <span class="tag">OFICIAL</span>
+                    </div>
+
+                    <p class="desc">Chaveiro metálico resistente com escudo personalizado do Drako FC.</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ 19,90</div>
+                        <a href="#" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    {% comment %} noticias {% endcomment %}
+
+   <section class="noticias">
+    <h2 class = "titulo_noticias">ÚLTIMAS NOTÍCIAS</h2>
+
+    <div class="noticia-cards">
+
+        <article class="news-card-big">
+            <img src="{% static 'img/noticias/img_noticias.jpg' %}" class="news-img-big">
+
+            <div class="news-content">
+                <h3>New Construction technology awareness.</h3>
+                <p>Ellingar her has secure far twenty eat object...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <img src="{% static 'img/noticias/tottenham_hotspur_v_ac_milan_round_of_16_second_leg_-_uefa_champions_league.webp' %}" class="news-img">
+
+            <div class="news-content">
+                <h3>Building your dreams with quality material.</h3>
+                <p>Know how to choose the correct materials...</p>
+                <a href="#" class="news-link">Ler mais</a>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+
+</main>
+
+{% endblock %}
+
+{% block js_pagina %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

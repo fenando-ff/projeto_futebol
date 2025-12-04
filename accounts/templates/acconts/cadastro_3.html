@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/cadastro2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/botoes_cores_fontes/ver_botoes.css' %}">
+{% endblock css_extra %}
+
+
+<form method="POST">
+    {% csrf_token %}
+
+{% block conteudo_pagina %}
+
+    <main>
+        <div  class = "conteiner">
+            <div id="area_seta">
+                <a href= "{% url "cadastro2" %}"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+            <h2 class = "titulo_login">Por fim</h2>
+
+
+
+            <img class = "img_senha" src="../img/senha-essa.png" alt="">
+
+
+            <div class = "caixa senha">
+                <i class="fa-solid fa-lock" style="color: #dddddd;"></i>
+                <input  name="senha" placeholder="Crie uma Senha" type="password" required>
+            </div>
+
+            <div class = "caixa confirmar_senha">
+                <i class="fa-regular fa-address-book"></i>
+                <input name="confirmar_senha" placeholder="Confirme sua Senha" type="password" required>
+            </div>
+            
+            
+            <a href= "{% url 'conta_criada' %}">
+             <button class = "btn-terceiro"> Confirmar </button>
+            </a>
+
+
+
+
+            <div class="etapas">
+                <div class="etapa um">
+                    <div class="circulo uxx">
+                    <i class="fa-solid fa-check" style="color: #ffffff;"></i></div>
+                </div>
+
+                <div class="etapa dois">
+                    <div class="circulo doixx"><i class="fa-solid fa-check" style="color: #ffffff;"></i></div>
+                </div>
+
+                <div class="etapa tres">
+                    <div class="circulo trexx">3</div>   
+                              
+                </div>
+
+            </div>
+
+
+
+
+            
+        </div>
+     </main>
+     {% endblock conteudo_pagina %}   
+
+     
+    <footer>&copy;</footer>
+    <script src="../js/main.js"></script>
+</body>
+</html>

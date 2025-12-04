@@ -1,0 +1,218 @@
+:root {
+    --text-color: #ffffff;
+    --accent-color: #e31b23; /* Vermelho Drakos Vivo */
+    --dark-red: #2b0000;     /* Vermelho Sangue Escuro (Fundo) */
+    --black-bg: #050505;     /* Preto Quase Absoluto */
+    --gray-text: #cccccc;
+    --card-bg: rgba(20, 0, 0, 0.6); /* Fundo semi-transparente para leitura */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    color: var(--text-color);
+    height: 100%;
+    
+    /* O EFEITO DE COR NA PÁGINA INTEIRA */
+    background-color: var(--black-bg);
+    /* Um gradiente dramático: Topo vermelho escuro descendo para o preto */
+    background: linear-gradient(180deg, var(--dark-red) 0%, var(--black-bg) 40%, var(--black-bg) 100%);
+    background-attachment: fixed; /* O fundo fica parado enquanto o texto rola */
+}
+
+.historia-main {
+    padding-bottom: 100px;
+    /* Removemos o background sólido para deixar o gradiente do body aparecer */
+    background: transparent;
+}
+
+/* --- HEADER DA PÁGINA --- */
+.header-hero {
+    text-align: center;
+    padding: 100px 20px 60px;
+    /* Gradiente suave para dar leitura no título, mas mantendo o fundo visível */
+    background: radial-gradient(circle at center, rgba(227, 27, 35, 0.15) 0%, transparent 70%);
+}
+
+.historia-titulo {
+    font-size: 4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin: 0;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.historia-subtitulo {
+    color: var(--accent-color);
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0,0,0,1);
+}
+
+/* --- CONTAINER GERAL --- */
+.timeline-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* --- O BLOCO DO EVENTO (ROW) --- */
+.timeline-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 120px; /* Mais espaço para drama */
+    position: relative;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.timeline-row.visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- COLUNA DA ESQUERDA: O ANO (STICKY) --- */
+.col-ano {
+    width: 25%;
+    position: relative;
+}
+
+.ano-destaque {
+    position: sticky;
+    top: 100px; /* Ajustado para não colar no teto */
+    font-size: 6rem;
+    font-weight: 900;
+    color: transparent;
+    /* O contorno agora tem um leve tom avermelhado muito sutil */
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.3);
+    line-height: 1;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+    display: block;
+}
+
+/* Efeito ao passar o mouse na linha */
+.timeline-row:hover .ano-destaque {
+    opacity: 1;
+    color: var(--text-color);
+    -webkit-text-stroke: 0px;
+    /* Brilho vermelho no texto */
+    text-shadow: 0 0 20px var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* --- COLUNA DA DIREITA: CONTEÚDO --- */
+.col-conteudo {
+    width: 70%;
+    padding-left: 50px;
+    /* A linha agora é um gradiente sutil */
+    border-left: 1px solid rgba(227, 27, 35, 0.3);
+    position: relative;
+}
+
+/* A "Bolinha" da linha do tempo */
+.col-conteudo::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 25px;
+    width: 11px;
+    height: 11px;
+    background-color: var(--black-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--accent-color);
+    transition: background-color 0.3s ease;
+}
+
+.timeline-row:hover .col-conteudo::before {
+    background-color: var(--accent-color);
+    box-shadow: 0 0 25px var(--accent-color), 0 0 50px var(--accent-color);
+}
+
+.titulo-evento {
+    margin: 0 0 20px 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.img-evento {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    margin-bottom: 25px;
+    /* Imagem começa escura e com pouco contraste */
+    filter: grayscale(80%) contrast(120%) brightness(80%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.5s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.timeline-row:hover .img-evento {
+    /* Ao passar o mouse, ela ganha vida */
+    filter: grayscale(0%) contrast(100%) brightness(100%);
+    box-shadow: 0 15px 40px rgba(227, 27, 35, 0.2); /* Glow vermelho na foto */
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+}
+
+.texto-evento {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--gray-text);
+    margin: 0;
+    background: var(--card-bg); /* Fundo sutil atrás do texto para leitura */
+    padding: 20px;
+    border-left: 3px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.timeline-row:hover .texto-evento {
+    border-left: 3px solid var(--accent-color);
+}
+
+/* --- RESPONSIVIDADE (MOBILE) --- */
+@media screen and (max-width: 768px) {
+    .timeline-row {
+        flex-direction: column;
+        margin-bottom: 80px;
+    }
+
+    .col-ano {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .ano-destaque {
+        position: static;
+        font-size: 4rem;
+        opacity: 1;
+        color: var(--text-color);
+        -webkit-text-stroke: 0px;
+        text-shadow: 2px 2px 0 var(--accent-color);
+    }
+
+    .col-conteudo {
+        width: 100%;
+        padding-left: 20px;
+        border-left: 2px solid var(--accent-color);
+    }
+    
+    .col-conteudo::before {
+        display: none;
+    }
+    
+    .historia-titulo {
+        font-size: 2.5rem;
+    }
+}
