@@ -14,21 +14,25 @@ function getCookie(name) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const itensCarrinho = document.querySelectorAll('.item-carrinho');
+  console.log('Itens encontrados:', itensCarrinho.length);
 
-  // adiciona listeners que chamam a função do servidor via AJAX
   itensCarrinho.forEach(item => {
-    const btnMenos = item.querySelector('.quantidade button:first-child');
-    const btnMais = item.querySelector('.quantidade button:last-child');
-    const qtdEl = item.querySelector('.quantidade span');
-    const precoUnitarioEl = item.querySelector('.preco-unitario');
+    // Seleciona os botões CORRETAMENTE pela classe
+    const btnMenos = item.querySelector('.btn-menos');
+    const btnMais = item.querySelector('.btn-mais');
+    const qtdEl = item.querySelector('.qtd'); // Encontra o <span class="qtd">
     const precoLinhaEl = item.querySelector('.preco-linha');
-    const precoTotalEl = item.querySelector('.preco-total');
-    const produtoId = item.querySelector('a.lixeira') ? item.querySelector('a.lixeira').getAttribute('href').match(/\/(\d+)\//) : null;
-    let id = null;
-    if (produtoId && produtoId[1]) id = produtoId[1];
+    
+    // Extrai ID do produto do atributo data-id
+    const id = item.getAttribute('data-id');
+
+    console.log(`ID: ${id}, btnMenos: ${!!btnMenos}, btnMais: ${!!btnMais}, qtdEl: ${!!qtdEl}`);
 
     function postQuantidade(novaQtd) {
-      if (!id) return;
+      if (!id) {
+        console.error('ID não encontrado!');
+        return;
+      }
       const url = `/atualizar/${id}/`;
       const formData = new FormData();
       formData.append('quantidade', novaQtd);
@@ -44,82 +48,98 @@ document.addEventListener('DOMContentLoaded', () => {
       }).then(r => r.json())
         .then(data => {
           console.log('Resposta do servidor:', data);
-          if (!data.success) return;
+          if (!data.success) {
+            console.error('Erro:', data);
+            return;
+          }
 
-          // atualiza quantidade no DOM
           if (novaQtd <= 0) {
+            // Remove item do DOM se quantidade for 0
             item.remove();
           } else {
-            qtdEl.textContent = novaQtd;
+            // Atualiza quantidade no DOM
+            if (qtdEl) {
+              qtdEl.textContent = novaQtd;
+            }
             
-            // Atualiza o preço da linha (quantidade x preço unitário)
-            if (precoUnitarioEl && precoLinhaEl && precoTotalEl) {
-              const precoUnitario = parseFloat(precoUnitarioEl.textContent);
-              const precoLinha = precoUnitario * novaQtd;
-              precoLinhaEl.textContent = precoLinha.toFixed(2);
-              precoTotalEl.textContent = novaQtd;
+            // Atualiza preço da linha se existir
+            if (precoLinhaEl && data.itens) {
+              const itemServidor = data.itens.find(i => String(i.id) === String(id));
+              if (itemServidor && itemServidor.subtotal) {
+                precoLinhaEl.textContent = itemServidor.subtotal.toFixed(2);
+              }
             }
           }
 
-          // atualiza resumo (subtotal, desconto e total)
-          const subtotalEl = document.getElementById('subtotal');
-          const descontoEl = document.getElementById('desconto');
-          const descontoPercentEl = document.getElementById('desconto-percent');
-          const totalEl = document.getElementById('total');
-          
-          console.log('descontoEl:', descontoEl);
-          console.log('descontoPercentEl:', descontoPercentEl);
-          
-          if (subtotalEl) {
-            const valorEl = subtotalEl.querySelector('.valor');
-            console.log('Atualizando subtotal valor:', `R$${data.total.toFixed(2)}`);
-            if (valorEl) valorEl.textContent = `R$${data.total.toFixed(2)}`;
-          }
-          
-          if (descontoEl) {
-            const valorEl = descontoEl.querySelector('.valor');
-            console.log('Atualizando desconto valor:', `R$${data.desconto.toFixed(2)}`);
-            console.log('Atualizando desconto percent:', `(${data.desconto_percent}%)`);
-            if (valorEl) valorEl.textContent = `R$${data.desconto.toFixed(2)}`;
-            if (descontoPercentEl) {
-              descontoPercentEl.textContent = `(${data.desconto_percent}%)`;
-            }
-          }
-          
-          if (totalEl) {
-            const valorEl = totalEl.querySelector('.valor');
-            if (valorEl) valorEl.textContent = `R$${data.total_com_desconto.toFixed(2)}`;
-          }
+          // Atualiza resumo com dados do servidor
+          atualizarResumo(data);
         })
-        .catch(err => console.error('Erro ao atualizar carrinho:', err));
+        .catch(err => console.error('Erro na requisição:', err));
     }
 
+    // Botão MAIS
     if (btnMais) {
-      btnMais.addEventListener('click', () => {
+      btnMais.addEventListener('click', (e) => {
+        e.preventDefault();
         const valor = parseInt(qtdEl.textContent) + 1;
+        console.log(`Clicou em MAIS: ${valor}`);
         postQuantidade(valor);
       });
     }
 
+    // Botão MENOS
     if (btnMenos) {
-      btnMenos.addEventListener('click', () => {
+      btnMenos.addEventListener('click', (e) => {
+        e.preventDefault();
         const valor = parseInt(qtdEl.textContent) - 1;
-        // permitir zero para remoção
+        console.log(`Clicou em MENOS: ${valor}`);
         postQuantidade(valor);
       });
     }
   });
 
-  // remover via ícone lixeira (link padrão já faz redirect). Interceptamos para chamada AJAX.
+  // Função para atualizar resumo (subtotal, desconto, total)
+  function atualizarResumo(data) {
+    const subtotalEl = document.getElementById('subtotal');
+    const descontoEl = document.getElementById('desconto');
+    const descontoPercentEl = document.getElementById('desconto-percent');
+    const totalEl = document.getElementById('total');
+
+    if (subtotalEl) {
+      const valorEl = subtotalEl.querySelector('.valor');
+      if (valorEl) {
+        valorEl.textContent = `R$${(data.total || 0).toFixed(2)}`;
+      }
+    }
+
+    if (descontoEl) {
+      const valorEl = descontoEl.querySelector('.valor');
+      if (valorEl) {
+        valorEl.textContent = `R$${(data.desconto || 0).toFixed(2)}`;
+      }
+      if (descontoPercentEl) {
+        descontoPercentEl.textContent = `(${data.desconto_percent || 0}%)`;
+      }
+    }
+
+    if (totalEl) {
+      const valorEl = totalEl.querySelector('.valor');
+      if (valorEl) {
+        valorEl.textContent = `R$${(data.total_com_desconto || 0).toFixed(2)}`;
+      }
+    }
+  }
+
+  // remover via ícone lixeira
   const lixeiras = document.querySelectorAll('a.lixeira');
   lixeiras.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       const href = link.getAttribute('href');
-      const m = href.match(/\/(\d+)\/\s*$/);
+      const m = href.match(/\/(\d+)\//);
       const id = m ? m[1] : null;
       if (!id) return;
-      // remover chamando quantidade 0
+
       const itemEl = link.closest('.item-carrinho');
       const formData = new FormData();
       formData.append('quantidade', 0);
@@ -136,28 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
           if (data.success) {
             if (itemEl) itemEl.remove();
-            const subtotalEl = document.getElementById('subtotal');
-            const descontoEl = document.getElementById('desconto');
-            const descontoPercentEl = document.getElementById('desconto-percent');
-            const totalEl = document.getElementById('total');
-            
-            if (subtotalEl) {
-              const valorEl = subtotalEl.querySelector('.valor');
-              if (valorEl) valorEl.textContent = `R$${data.total.toFixed(2)}`;
-            }
-            
-            if (descontoEl) {
-              const valorEl = descontoEl.querySelector('.valor');
-              if (valorEl) valorEl.textContent = `R$${data.desconto.toFixed(2)}`;
-              if (descontoPercentEl) {
-                descontoPercentEl.textContent = `(${data.desconto_percent}%)`;
-              }
-            }
-            
-            if (totalEl) {
-              const valorEl = totalEl.querySelector('.valor');
-              if (valorEl) valorEl.textContent = `R$${data.total_com_desconto.toFixed(2)}`;
-            }
+            atualizarResumo(data);
           }
         }).catch(err => console.error(err));
     });

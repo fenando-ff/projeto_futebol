@@ -134,6 +134,17 @@ def tela_carrinho(request):
 
 
 def adicionar_carrinho(request, produto_id):
+    # Não permite adicionar sem cliente logado
+    if not request.session.get("cliente_id"):
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "success": False,
+                "needs_login": True,
+                "message": "Faça login para adicionar ao carrinho."
+            }, status=401)
+        messages.error(request, "Faça login para adicionar ao carrinho!")
+        return redirect("login")
+
     try:
         produto = models.Produtos.objects.get(id_produtos=produto_id)
     except models.Produtos.DoesNotExist:
@@ -141,25 +152,20 @@ def adicionar_carrinho(request, produto_id):
             return JsonResponse({"success": False, "message": "Produto não encontrado!"})
         messages.error(request, "Produto não encontrado!")
         return redirect("produtos")
-    
+
     carrinho = request.session.get("carrinho", {})
-    produto_id_str = str(produto_id)
-    
-    if produto_id_str in carrinho:
-        carrinho[produto_id_str] += 1
-    else:
-        carrinho[produto_id_str] = 1
-    
+    pid = str(produto_id)
+    carrinho[pid] = carrinho.get(pid, 0) + 1
     request.session["carrinho"] = carrinho
-    
-    # Se for AJAX, retorna JSON
+
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({
             "success": True,
             "message": f"{produto.nome_produtos} adicionado ao carrinho!",
-            "produto_nome": produto.nome_produtos
+            "produto_nome": produto.nome_produtos,
+            "quantidade": carrinho[pid]
         })
-    
+
     messages.success(request, f"{produto.nome_produtos} adicionado ao carrinho!")
     return redirect("produtos")
 
@@ -177,80 +183,71 @@ def remover_carrinho(request, produto_id):
 
 
 def atualizar_quantidade_carrinho(request, produto_id):
-    if request.method == "POST":
+    # Simplificado: aceita apenas POST para atualizar quantidade
+    if request.method != "POST":
+        return redirect("carrinho")
+
+    try:
         quantidade = int(request.POST.get("quantidade", 1))
-        carrinho = request.session.get("carrinho", {})
-        produto_id_str = str(produto_id)
-        
-        if quantidade <= 0:
-            if produto_id_str in carrinho:
-                del carrinho[produto_id_str]
-        else:
-            carrinho[produto_id_str] = quantidade
-        
-        request.session["carrinho"] = carrinho
-        # Se for requisição AJAX, devolve os totais atualizados em JSON
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            total = 0
-            itens = []
-            for pid_str, qtd in carrinho.items():
-                try:
-                    p = models.Produtos.objects.get(id_produtos=pid_str)
-                    subtotal = p.valor_produtos * qtd
-                    total += subtotal
-                    itens.append({
-                        'id': p.id_produtos,
-                        'nome': p.nome_produtos,
-                        'quantidade': qtd,
-                        'subtotal': subtotal,
-                    })
-                except models.Produtos.DoesNotExist:
-                    continue
+    except (TypeError, ValueError):
+        quantidade = 1
 
-            # Calcula desconto baseado no plano do cliente (prefere id em sessão)
+    carrinho = request.session.get("carrinho", {})
+    pid = str(produto_id)
+
+    if quantidade <= 0:
+        # remove do carrinho
+        if pid in carrinho:
+            del carrinho[pid]
+    else:
+        carrinho[pid] = quantidade
+
+    request.session["carrinho"] = carrinho
+
+    # Recalcula totais e monta lista de itens
+    total = 0.0
+    itens = []
+    for prod_id_str, qtd in carrinho.items():
+        try:
+            prod = models.Produtos.objects.get(id_produtos=int(prod_id_str))
+        except models.Produtos.DoesNotExist:
+            continue
+        subtotal = prod.valor_produtos * qtd
+        total += subtotal
+        itens.append({
+            "id": prod.id_produtos,
+            "nome": prod.nome_produtos,
+            "preco_unit": prod.valor_produtos,
+            "quantidade": qtd,
+            "subtotal": subtotal
+        })
+
+    # Aplicar desconto simples baseado no plano em sessão (se houver)
+    desconto_percent = 0.0
+    plano_id = request.session.get('plano_socio_id')
+    if plano_id:
+        try:
+            plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
+            nome = (plano.nome_categoria_clientes or "").lower()
+            if "ouro" in nome:
+                desconto_percent = 0.15
+            elif "sócio" in nome or "socio" in nome:
+                desconto_percent = 0.10
+        except models.CategoriaCliente.DoesNotExist:
             desconto_percent = 0.0
-            plano_id = request.session.get('plano_socio_id')
-            plano_nome = request.session.get('plano_socio_nome')
-            if not plano_id and request.session.get('cliente_id'):
-                try:
-                    cliente_obj = models.Clientes.objects.get(id_clientes=request.session.get('cliente_id'))
-                    plano_obj = cliente_obj.categoria_cliente_id_categoria_cliente
-                    if plano_obj:
-                        plano_id = plano_obj.id_categoria_cliente
-                        plano_nome = plano_obj.nome_categoria_clientes
-                        request.session['plano_socio_id'] = plano_id
-                        request.session['plano_socio_nome'] = plano_nome
-                except models.Clientes.DoesNotExist:
-                    plano_id = None
 
-            if plano_id:
-                try:
-                    plano_obj = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
-                    nome_lower = plano_obj.nome_categoria_clientes.strip().lower()
-                    # Comparação por nomes exatos (insensível a maiúsculas e acentos)
-                    if nome_lower == 'socio drakos - diamante':
-                        desconto_percent = 0.20
-                    elif nome_lower == 'socio drakos - ouro':
-                        desconto_percent = 0.10
-                    elif nome_lower == 'socio drakos - prata':
-                        desconto_percent = 0.05
-                    elif nome_lower == 'nao socio':
-                        desconto_percent = 0.0
-                    plano_nome = plano_obj.nome_categoria_clientes
-                except models.CategoriaCliente.DoesNotExist:
-                    desconto_percent = 0.0
+    desconto_valor = total * desconto_percent
+    total_com_desconto = total - desconto_valor
 
-            desconto_valor = total * desconto_percent
-            total_com_desconto = total - desconto_valor
-
-            return JsonResponse({
-                'success': True,
-                'total': round(total, 2),
-                'desconto': round(desconto_valor, 2),
-                'desconto_percent': int(desconto_percent * 100),
-                'total_com_desconto': round(total_com_desconto, 2),
-                'itens': itens,
-            })
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            "success": True,
+            "itens": itens,
+            "total": total,
+            "desconto": desconto_valor,
+            "desconto_percent": int(desconto_percent * 100),
+            "total_com_desconto": total_com_desconto
+        })
 
     return redirect("carrinho")
 
@@ -326,12 +323,18 @@ def tela_rec_senha(request):
             codigo=codigo,
         )
 
-        send_mail(
-            "Código de recuperação de senha", # titulo
-            f"Seu código: {codigo}", # conteudo
-            os.environ.get("EMAIL_HOST_USER"), # remetente
-            [email],
-        )
+        try:
+            send_mail(
+                "Código de recuperação de senha", # titulo
+                f"Seu código: {codigo}", # conteudo
+                os.environ.get("EMAIL_HOST_USER"), # remetente
+                [email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            print(f"Erro ao enviar email: {e}")
+            messages.error(request, f"Erro ao enviar email: {str(e)}")
+            return redirect("recuperar_senha")
 
         request.session["recuperacao_email"] = email
         messages.success(request, "Código enviado ao seu email!")
