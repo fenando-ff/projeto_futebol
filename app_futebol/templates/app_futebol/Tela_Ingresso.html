@@ -39,8 +39,9 @@
         <label for="setor">Setor:</label>
         <select id="setor" name="setor">
           <option value="ladoA_arquibancada_anda">Selecione</option>
+          {% comment %} loop de repetição com os ingressos do banco de dados {% endcomment %}
           {% for ingresso in ingressos %}
-            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">{{ ingresso.nome_produtos }}  -  R${{ ingresso.valor_produtos }}</option>
+            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">{{ ingresso.nome_produtos }} -  R${{ ingresso.valor_produtos }}</option>
           {% endfor %}
         </select>
 

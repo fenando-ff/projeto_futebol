@@ -170,3 +170,5 @@ class RecuperacaoSenha(models.Model):
 
         def expirado(self):
             return timezone.now() > self.criado_em + timedelta(minutes=10)
+
+

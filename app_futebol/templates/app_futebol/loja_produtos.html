@@ -67,129 +67,43 @@
   <section class="produtos">
     <h2>PRODUTOS</h2>
     <nav class="filter">
-      <a href="#">Camisas</a>
-      <a href="#">Shorts</a>
-      <a href="#">Acessórios</a>
+      <a href="#">Todos</a>
+      {% for categoria, produtos in produtos_por_categoria.items %}
+      <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
+      {% endfor %}
     </nav>
 
-
-
-<div class="carrossel-produtos 1">
-  <!-- Botão de voltar -->
-  <button class="btn-prev">&#10094;</button>
-
-  <!-- Container dos produtos -->
-  <div class="flex">
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-      <img src= "{% static "img/produtos/camisas/camisa_retro.webp" %}" alt="Produto 1">
-      </a>
-      <h3>Uniforme temp 24/25</h3>
-      <p>R$299,90</p>
-    </div>
-
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-        <img src= "{% static "img/pessoas_modelos/uniforme_braco.png" %}" alt="Produto 2">
-      </a>
-      <h3>Uniforme Alternativo</h3>
-      <p>R$299,90</p>
-    </div>
-    
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-        <img src= "{% static "img/produtos/camisas/uniforme_personalizado.png" %}" alt="Produto 3">
-      </a>
-      <h3>Uniforme Branco</h3>
-      <p>R$299,90</p>
-    </div>
-
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-      <img src= "{% static "img/pessoas_modelos/terceiro_uniforme.png" %}" alt="produto 4">
-      </a>
-      <h3>Chinelo Oficial</h3>
-      <p>R$99,90</p>
-    </div>
-
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-      <img src= "{% static "img/pessoas_modelos/modeloh_camisa_branca.jpg" %}" alt="produto 5">
-      </a>
-      <h3>Adesivo Drako</h3>
-      <p>R$9,90</p>
-    </div>
-
-    <div class="produto">
-      <a href= "{% url 'loja_detalhe' %}">
-      <img src= "{% static "img/pessoas_modelos/modeloh_camisa_branca.jpg" %}" alt="Produto 6">
-      </a>
-      <h3>Bola Oficial</h3>
-      <p>R$199,90</p>
-    </div>
-  </div>
-
-  <!-- Botão de avançar -->
-  <button class="btn-next">&#10095;</button>
-</div>
-
-
-
-      <div class="carrossel-produtos 2">    
+    {% for categoria, produtos in produtos_por_categoria.items %}
+    {% if produtos %}
+    <section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
+      <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
+      <div class="carrossel-produtos">
+        <!-- Botão de voltar -->
         <button class="btn-prev">&#10094;</button>
+
+        <!-- Container dos produtos -->
         <div class="flex">
-
+          {% for produto in produtos %}
           <div class="produto">
-            <a href= "{% url 'loja_detalhe' %}">
-              <img src= "{% static "img/produtos/acessorios/item _cachecol.png" %}" alt="Produto 1">
-            </a>  
-              <h3>Uniforme temp 24/25</h3>
-              <p>R$299,90</p>
+            <a href="{% url 'loja_detalhe' %}">
+              <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+            </a>
+            <h3>{{ produto.nome_produtos }}</h3>
+            <p>R${{ produto.valor_produtos|floatformat:2 }}</p>
           </div>
-
-        <div class="produto">
-          <a href= "{% url 'loja_detalhe' %}">
-              <img src= "{% static "img/produtos/acessorios/item_chapeu.png" %}" alt="Produto 2">
-          </a> 
-              <h3>Uniforme Alternativo</h3>
-              <p>R$299,90</p>
+          {% empty %}
+          <p style="color: #fff;">Nenhum produto nesta categoria</p>
+          {% endfor %}
         </div>
 
-        <div class="produto">
-          <a href= "{% url 'loja_detalhe' %}"> 
-              <img src= "{% static "img/produtos/acessorios/item_chaveiro.png" %}" alt="Produto 3">
-              <h3>Uniforme Branco</h3>
-          </a> 
-              <p>R$299,90</p>
-        </div>
-
-        <div class="produto">
-          <a href= "{% url 'loja_detalhe' %}">
-              <img src= "{% static "img/produtos/acessorios/escudo.png" %}" alt="produto 4">
-              <h3>Chinelo Oficial</h3>
-          </a>
-              <p>R$99,90</p>
-        </div>
-
-        <div class="produto">
-          <a href= "{% url 'loja_detalhe' %}">
-            <img src= "{% static "img/produtos/acessorios/bola.png" %}" alt="Produto 5">
-            <h3>Adesivo Drako</h3>
-          </a>
-            <p>R$9,90</p>
+        <!-- Botão de avançar -->
+        <button class="btn-next">&#10095;</button>
       </div>
+    </section>
+    {% endif %}
+    {% endfor %}
 
-      <div class="produto">
-        <a href= "{% url 'loja_detalhe' %}">
-            <img src= "{% static "img/produtos/acessorios/bola.png" %}" alt="Produto 6">
-            <h3>Bola Oficial</h3>
-        </a>
-            <p>R$199,90</p>
-      </div> 
-        
-  </div>
-  <button class="btn-next">&#10095;</button>
-  </section>
+</section>
 
 </main>  
 {% endblock conteudo_pagina %}

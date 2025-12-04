@@ -87,7 +87,19 @@ def tela_loja_detalhe(request):
 
 
 def tela_loja_produtos(request):
-    return render(request, "app_futebol/loja_produtos.html")
+    todas_categorias = models.CategoriaProdutos.objects.all()
+    produtos_por_categoria = {}
+    
+    for categoria in todas_categorias:
+        produtos_por_categoria[categoria] = models.Produtos.objects.filter(
+            categoria_produtos_id_categoria_produtos=categoria
+        )
+    
+    cliente = get_cliente_logado(request)
+    return render(request, "app_futebol/loja_produtos.html", {
+        "produtos_por_categoria": produtos_por_categoria,
+        **(cliente or {})
+    })
 
 
 def tela_noticias(request):
@@ -118,7 +130,7 @@ def tela_rec_senha(request):
             [email],
         )
 
-        request.session["rec_email"] = email
+        request.session["recuperacao_email"] = email
         messages.success(request, "Código enviado ao seu email!")
         return redirect("recuperar_senha2")
     return render(request, "app_futebol/rec_senha.html")
@@ -150,32 +162,35 @@ def tela_rec_senha_2(request):
             return redirect("recuperar_senha2")
 
         request.session["codigo_validado"] = True
-        return redirect("recuperare_senha3")
+        return redirect("recuperar_senha3")
 
     return render(request, "app_futebol/rec_senha_2.html")
 
 
 def tela_rec_senha_3(request):
     if not request.session.get("codigo_validado"):
-        return redirect("tela_rec_senha")
+        return redirect("recuperar_senha")
 
     if request.method == "POST":
         nova_senha = request.POST.get("senha")
 
         email = request.session.get("recuperacao_email")
-        cliente = models.Clientes.objects.get(email_clientes=email)
+        try:
+            cliente = models.Clientes.objects.get(email_clientes=email)
+            cliente.senha_clientes = make_password(nova_senha)
+            cliente.save()
 
-        cliente.senha_clientes = make_password(nova_senha)
-        cliente.save()
+            # Limpa sessão
+            request.session.pop("recuperacao_email", None)
+            request.session.pop("codigo_validado", None)
 
-        # Limpa sessão
-        request.session.pop("recuperacao_email", None)
-        request.session.pop("codigo_validado", None)
+            messages.success(request, "Senha alterada com sucesso!")
+            return redirect("login")
+        except models.Clientes.DoesNotExist:
+            messages.error(request, "Cliente não encontrado!")
+            return redirect("recuperar_senha")
 
-        messages.success(request, "Senha alterada com sucesso!")
-        return redirect("login")
-
-    return render(request, "app_futebol/rec_senha_3.html")
+    return render(request, "app_futebol/rec_senha3.html")
 
 
 def tela_socio(request):

@@ -66,19 +66,29 @@ main{
   height: auto;
   transform: scale(1.5); /* aumenta 30% sem afetar o layout */
   transform-origin: center;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+
+.logo_rec_senha img {
+  display: block;
+  pointer-events: none;
 }
 
 
 .caixa{
     display: flex;
     align-items: center;
-    gap: auto;                   /* Espaço entre ícone e input */
-    margin: 10px 0PX;
+    gap: 15px;                   /* Espaço entre ícone e input */
+    margin: 20px 0;
     border: 1px solid white;
     border-radius: 15px;
     padding: 8px 30px;
     background-color: transparent;
     max-width: 300px;
+    cursor: text;
+    z-index: 10;
+    position: relative;
 }
 
 
@@ -91,15 +101,16 @@ main{
     background-color: transparent;
     border: none;
     outline: none;
+    cursor: text;
+    padding: 5px 0;
 }
 
 .caixa input::placeholder{
     color: aliceblue;
-    left: 100%;
 }
 
 
-input:focus {
+.caixa input:focus {
   outline: none;              /* tira a borda azul padrão */
   background-color: transparent; /* deixa sem cor */
   box-shadow: none;           /* remove brilho */
