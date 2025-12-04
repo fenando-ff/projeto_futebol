@@ -1,247 +1,257 @@
 // ==========================
 // CARRINHO.JS — DRAKO STORE
-// ==========================
-// Passando pra testar o js do carrinho
-// ==========================================
-// CARRINHO — Carregar itens do localStorage
-// ==========================================
-const listaCarrinho = document.querySelector(".carrinho");
-const produtosSalvos = JSON.parse(localStorage.getItem("carrinhoDrako")) || [];
+/* carrinho.js — AJAX-friendly cart
+   - Usa fetch() para POST /atualizar/<id>/ com header X-Requested-With
+   - Atualiza quantidades e o resumo (.bloco-resumo) com os valores retornados pelo servidor
+   - Mantém apenas UX (popup e animações) client-side
+*/
 
-function montarCarrinho() {
-  if (produtosSalvos.length > 0) {
-    const itensHTML = document.querySelectorAll(".item-carrinho");
-    itensHTML.forEach(el => el.remove());
-
-    produtosSalvos.forEach((item) => {
-      const itemHTML = document.createElement("div");
-      itemHTML.classList.add("item-carrinho");
-      itemHTML.innerHTML = `
-        <img src="${item.imagem}" alt="${item.nome}">
-        <div class="info-produto">
-          <h3>${item.nome}</h3>
-          <p>Tamanho: ${item.tamanho}</p>
-        </div>
-        <div class="quantidade">
-          <button class="menos"><</button>
-          <span>${item.quantidade}</span>
-          <button class="mais">></button>
-        </div>
-        <div class="preco">R$${item.preco}</div>
-        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-      `;
-
-      listaCarrinho.appendChild(itemHTML);
-    });
-  } else {
-    const vazio = document.createElement("p");
-    vazio.textContent = "🛍️ Seu carrinho está vazio!";
-    vazio.style.textAlign = "center";
-    vazio.style.marginTop = "30px";
-    listaCarrinho.appendChild(vazio);
-  }
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-montarCarrinho();
+document.addEventListener('DOMContentLoaded', () => {
+  const itensCarrinho = document.querySelectorAll('.item-carrinho');
 
-// Atualiza a lista após montar HTML
-let itensCarrinho = document.querySelectorAll('.item-carrinho');
-
-const subtotalEl = document.querySelector('.bloco-resumo p:nth-child(3) span + span');
-const descontoEl = document.querySelector('.bloco-resumo p:nth-child(4) span + span');
-const totalEl = document.querySelector('.total span + span');
-
-let descontoFixo = 20.00;
-
-// ==========================
-// Atualiza totais automaticamente
-// ==========================
-function atualizarTotais() {
-  let subtotal = 0;
-
-  itensCarrinho.forEach(item => {
-    const precoTexto = item.querySelector('.preco').textContent.replace('R$', '').replace(',', '.');
-    const precoUnitario = parseFloat(precoTexto) || 0;
-    const quantidade = parseInt(item.querySelector('.quantidade span').textContent);
-    subtotal += precoUnitario * quantidade;
-  });
-
-  const desconto = descontoFixo;
-  const total = subtotal - desconto;
-
-  document.querySelector('.bloco-resumo p:nth-child(3)').innerHTML =
-    `<span>Subtotal:</span> R$${subtotal.toFixed(2)}`;
-
-  document.querySelector('.bloco-resumo p:nth-child(4)').innerHTML =
-    `<span>Desconto:</span> R$${desconto.toFixed(2)}`;
-
-  document.querySelector('.total').innerHTML =
-    `<span>Total:</span> R$${total.toFixed(2)}`;
-}
-
-// ==========================
-// Controle de quantidade
-// ==========================
-function ativarControleQuantidade() {
+  // adiciona listeners que chamam a função do servidor via AJAX
   itensCarrinho.forEach(item => {
     const btnMenos = item.querySelector('.quantidade button:first-child');
     const btnMais = item.querySelector('.quantidade button:last-child');
     const qtdEl = item.querySelector('.quantidade span');
+    const precoUnitarioEl = item.querySelector('.preco-unitario');
+    const precoLinhaEl = item.querySelector('.preco-linha');
+    const precoTotalEl = item.querySelector('.preco-total');
+    const produtoId = item.querySelector('a.lixeira') ? item.querySelector('a.lixeira').getAttribute('href').match(/\/(\d+)\//) : null;
+    let id = null;
+    if (produtoId && produtoId[1]) id = produtoId[1];
 
-    btnMais.addEventListener('click', () => {
-      let valor = parseInt(qtdEl.textContent);
-      valor++;
-      qtdEl.textContent = valor;
-      atualizarTotais();
-    });
+    function postQuantidade(novaQtd) {
+      if (!id) return;
+      const url = `/atualizar/${id}/`;
+      const formData = new FormData();
+      formData.append('quantidade', novaQtd);
 
-    btnMenos.addEventListener('click', () => {
-      let valor = parseInt(qtdEl.textContent);
-      if (valor > 1) {
-        valor--;
-        qtdEl.textContent = valor;
-        atualizarTotais();
-      }
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken') || ''
+        },
+        body: formData,
+        credentials: 'same-origin'
+      }).then(r => r.json())
+        .then(data => {
+          console.log('Resposta do servidor:', data);
+          if (!data.success) return;
+
+          // atualiza quantidade no DOM
+          if (novaQtd <= 0) {
+            item.remove();
+          } else {
+            qtdEl.textContent = novaQtd;
+            
+            // Atualiza o preço da linha (quantidade x preço unitário)
+            if (precoUnitarioEl && precoLinhaEl && precoTotalEl) {
+              const precoUnitario = parseFloat(precoUnitarioEl.textContent);
+              const precoLinha = precoUnitario * novaQtd;
+              precoLinhaEl.textContent = precoLinha.toFixed(2);
+              precoTotalEl.textContent = novaQtd;
+            }
+          }
+
+          // atualiza resumo (subtotal, desconto e total)
+          const subtotalEl = document.getElementById('subtotal');
+          const descontoEl = document.getElementById('desconto');
+          const descontoPercentEl = document.getElementById('desconto-percent');
+          const totalEl = document.getElementById('total');
+          
+          console.log('descontoEl:', descontoEl);
+          console.log('descontoPercentEl:', descontoPercentEl);
+          
+          if (subtotalEl) {
+            const valorEl = subtotalEl.querySelector('.valor');
+            console.log('Atualizando subtotal valor:', `R$${data.total.toFixed(2)}`);
+            if (valorEl) valorEl.textContent = `R$${data.total.toFixed(2)}`;
+          }
+          
+          if (descontoEl) {
+            const valorEl = descontoEl.querySelector('.valor');
+            console.log('Atualizando desconto valor:', `R$${data.desconto.toFixed(2)}`);
+            console.log('Atualizando desconto percent:', `(${data.desconto_percent}%)`);
+            if (valorEl) valorEl.textContent = `R$${data.desconto.toFixed(2)}`;
+            if (descontoPercentEl) {
+              descontoPercentEl.textContent = `(${data.desconto_percent}%)`;
+            }
+          }
+          
+          if (totalEl) {
+            const valorEl = totalEl.querySelector('.valor');
+            if (valorEl) valorEl.textContent = `R$${data.total_com_desconto.toFixed(2)}`;
+          }
+        })
+        .catch(err => console.error('Erro ao atualizar carrinho:', err));
+    }
+
+    if (btnMais) {
+      btnMais.addEventListener('click', () => {
+        const valor = parseInt(qtdEl.textContent) + 1;
+        postQuantidade(valor);
+      });
+    }
+
+    if (btnMenos) {
+      btnMenos.addEventListener('click', () => {
+        const valor = parseInt(qtdEl.textContent) - 1;
+        // permitir zero para remoção
+        postQuantidade(valor);
+      });
+    }
+  });
+
+  // remover via ícone lixeira (link padrão já faz redirect). Interceptamos para chamada AJAX.
+  const lixeiras = document.querySelectorAll('a.lixeira');
+  lixeiras.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = link.getAttribute('href');
+      const m = href.match(/\/(\d+)\/\s*$/);
+      const id = m ? m[1] : null;
+      if (!id) return;
+      // remover chamando quantidade 0
+      const itemEl = link.closest('.item-carrinho');
+      const formData = new FormData();
+      formData.append('quantidade', 0);
+
+      fetch(`/atualizar/${id}/`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken') || ''
+        },
+        body: formData,
+        credentials: 'same-origin'
+      }).then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            if (itemEl) itemEl.remove();
+            const subtotalEl = document.getElementById('subtotal');
+            const descontoEl = document.getElementById('desconto');
+            const descontoPercentEl = document.getElementById('desconto-percent');
+            const totalEl = document.getElementById('total');
+            
+            if (subtotalEl) {
+              const valorEl = subtotalEl.querySelector('.valor');
+              if (valorEl) valorEl.textContent = `R$${data.total.toFixed(2)}`;
+            }
+            
+            if (descontoEl) {
+              const valorEl = descontoEl.querySelector('.valor');
+              if (valorEl) valorEl.textContent = `R$${data.desconto.toFixed(2)}`;
+              if (descontoPercentEl) {
+                descontoPercentEl.textContent = `(${data.desconto_percent}%)`;
+              }
+            }
+            
+            if (totalEl) {
+              const valorEl = totalEl.querySelector('.valor');
+              if (valorEl) valorEl.textContent = `R$${data.total_com_desconto.toFixed(2)}`;
+            }
+          }
+        }).catch(err => console.error(err));
     });
   });
-}
 
-ativarControleQuantidade();
+  // POP-UP DE PAGAMENTO (mantido)
+  const paymentOverlay = document.getElementById("paymentOverlay");
+  const openPayment = document.getElementById("openPayment");
+  const closePaymentRight = document.getElementById("closePaymentRight");
+  const closePaymentLeft = document.getElementById("closePaymentLeft");
+  const payMethods = document.querySelectorAll(".pay-method");
 
-// ==========================
-// Remover item do carrinho
-// ==========================
-function ativarRemocao() {
-  itensCarrinho.forEach(item => {
-    const btnLixeira = item.querySelector('.lixeira');
+  const payTitle = document.getElementById("payTitle");
+  const paySubtitle = document.getElementById("paySubtitle");
+  const payForm = document.getElementById("payForm");
+  const paySubmit = document.getElementById("paySubmit");
+  const paySuccess = document.getElementById("paySuccess");
 
-    btnLixeira.addEventListener('click', () => {
-      item.classList.add('removendo');
-      item.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-      item.style.opacity = '0';
-      item.style.transform = 'translateX(-20px)';
-
-      setTimeout(() => {
-        item.remove();
-        itensCarrinho = document.querySelectorAll('.item-carrinho');
-        atualizarTotais();
-      }, 400);
+  if (openPayment) {
+    openPayment.addEventListener("click", (e) => {
+      e.preventDefault();
+      paymentOverlay.classList.add("show");
     });
-  });
-}
+  }
 
-ativarRemocao();
-
-// ==========================
-// Efeito de entrada (fade-in)
-// ==========================
-window.addEventListener('load', () => {
-  itensCarrinho.forEach((item, i) => {
-    item.style.opacity = '0';
-    item.style.transform = 'translateY(15px)';
-    item.style.transition = 'all 0.4s ease';
-
-    setTimeout(() => {
-      item.style.opacity = '1';
-      item.style.transform = 'translateY(0)';
-    }, i * 100);
-  });
-
-  atualizarTotais();
-});
-
-// =========================
-// POP-UP DE PAGAMENTO
-// =========================
-const paymentOverlay = document.getElementById("paymentOverlay");
-const openPayment = document.getElementById("openPayment");
-const closePaymentRight = document.getElementById("closePaymentRight");
-const closePaymentLeft = document.getElementById("closePaymentLeft");
-const payMethods = document.querySelectorAll(".pay-method");
-
-const payTitle = document.getElementById("payTitle");
-const paySubtitle = document.getElementById("paySubtitle");
-const payForm = document.getElementById("payForm");
-const paySubmit = document.getElementById("paySubmit");
-const paySuccess = document.getElementById("paySuccess");
-
-// =========================
-// CORREÇÃO DO PROBLEMA
-// =========================
-// Impede que o botão envie o formulário
-openPayment.addEventListener("click", (e) => {
-  e.preventDefault();
-  paymentOverlay.classList.add("show");
-});
-
-// fechar popup
-function closePayment() {
-  paymentOverlay.classList.remove("show");
-  payForm.innerHTML = "";
-  paySubmit.style.display = "none";
-  paySuccess.style.display = "none";
-  payMethods.forEach(m => m.classList.remove("selected"));
-  payTitle.textContent = "Nenhuma forma selecionada";
-  paySubtitle.textContent = "Escolha um método de pagamento.";
-}
-
-closePaymentRight.addEventListener("click", closePayment);
-closePaymentLeft.addEventListener("click", closePayment);
-
-// selecionar método
-payMethods.forEach(btn => {
-  btn.addEventListener("click", () => {
+  function closePayment() {
+    if (!paymentOverlay) return;
+    paymentOverlay.classList.remove("show");
+    if (payForm) payForm.innerHTML = "";
+    if (paySubmit) paySubmit.style.display = "none";
+    if (paySuccess) paySuccess.style.display = "none";
     payMethods.forEach(m => m.classList.remove("selected"));
-    btn.classList.add("selected");
+    if (payTitle) payTitle.textContent = "Nenhuma forma selecionada";
+    if (paySubtitle) paySubtitle.textContent = "Escolha um método de pagamento.";
+  }
 
-    const tipo = btn.dataset.method;
-    loadPaymentForm(tipo);
+  if (closePaymentRight) closePaymentRight.addEventListener("click", closePayment);
+  if (closePaymentLeft) closePaymentLeft.addEventListener("click", closePayment);
+
+  payMethods.forEach(btn => {
+    btn.addEventListener('click', () => {
+      payMethods.forEach(m => m.classList.remove("selected"));
+      btn.classList.add("selected");
+      const tipo = btn.dataset.method;
+      loadPaymentForm(tipo);
+    });
   });
-});
 
-// carregar formulário
-function loadPaymentForm(tipo) {
-  paySubmit.style.display = "block";
+  function loadPaymentForm(tipo) {
+    if (!paySubmit || !payForm || !payTitle || !paySubtitle) return;
+    paySubmit.style.display = "block";
 
-  if (tipo === "visa" || tipo === "mastercard") {
-    payTitle.textContent = `Pagamento com ${tipo.toUpperCase()}`;
-    paySubtitle.textContent = "Preencha os dados do cartão:";
-    payForm.innerHTML = `
-      <label>Nome do titular</label>
-      <input type="text" placeholder="Nome no cartão">
+    if (tipo === "visa" || tipo === "mastercard") {
+      payTitle.textContent = `Pagamento com ${tipo.toUpperCase()}`;
+      paySubtitle.textContent = "Preencha os dados do cartão:";
+      payForm.innerHTML = `
+        <label>Nome do titular</label>
+        <input type="text" placeholder="Nome no cartão">
 
-      <label>Número do cartão</label>
-      <input type="text" maxlength="19" placeholder="0000 0000 0000 0000">
+        <label>Número do cartão</label>
+        <input type="text" maxlength="19" placeholder="0000 0000 0000 0000">
 
-      <div class="row">
-        <div>
-          <label>Validade</label>
-          <input type="text" maxlength="5" placeholder="MM/AA">
+        <div class="row">
+          <div>
+            <label>Validade</label>
+            <input type="text" maxlength="5" placeholder="MM/AA">
+          </div>
+
+          <div>
+            <label>CVV</label>
+            <input type="text" maxlength="4" placeholder="123">
+          </div>
         </div>
+      `;
+    }
 
-        <div>
-          <label>CVV</label>
-          <input type="text" maxlength="4" placeholder="123">
-        </div>
-      </div>
-    `;
+    if (tipo === "paypal") {
+      payTitle.textContent = "Pagamento com PayPal";
+      paySubtitle.textContent = "Informe o e-mail da conta:";
+      payForm.innerHTML = `
+        <label>E-mail</label>
+        <input type="email" placeholder="email@exemplo.com">
+
+        <label>Confirmar e-mail</label>
+        <input type="email" placeholder="email@exemplo.com">
+      `;
+    }
   }
 
-  if (tipo === "paypal") {
-    payTitle.textContent = "Pagamento com PayPal";
-    paySubtitle.textContent = "Informe o e-mail da conta:";
-    payForm.innerHTML = `
-      <label>E-mail</label>
-      <input type="email" placeholder="email@exemplo.com">
-
-      <label>Confirmar e-mail</label>
-      <input type="email" placeholder="email@exemplo.com">
-    `;
+  if (paySubmit) {
+    paySubmit.addEventListener("click", () => {
+      if (paySuccess) paySuccess.style.display = "block";
+      setTimeout(closePayment, 1500);
+    });
   }
-}
 
-// confirmar pagamento
-paySubmit.addEventListener("click", () => {
-  paySuccess.style.display = "block";
-  setTimeout(closePayment, 1500);
 });

@@ -86,10 +86,17 @@
           {% for produto in produtos %}
           <div class="produto">
             <a href="{% url 'loja_detalhe' %}">
-              <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+              {% if produto.imagem_produtos %}
+                <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+              {% else %}
+                <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+              {% endif %}
             </a>
             <h3>{{ produto.nome_produtos }}</h3>
             <p>R${{ produto.valor_produtos|floatformat:2 }}</p>
+            <button class="btn-adicionar" data-id="{{ produto.id_produtos }}" data-nome="{{ produto.nome_produtos }}">
+              Adicionar ao Carrinho
+            </button>
           </div>
           {% empty %}
           <p style="color: #fff;">Nenhum produto nesta categoria</p>

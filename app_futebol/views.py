@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
 from django.shortcuts import render, redirect
@@ -19,13 +19,30 @@ def login_cliente(request, cliente):
     request.session["cliente_email"] = cliente.email_clientes
     request.session["cliente_telefone"] = cliente.telefone_clientes
     request.session["cliente_cpf"] = cliente.cpf_clientes
-    request.session["plano_socio"] = cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes
+    # Armazena o id do plano e o nome para exibição
+    try:
+        plano_obj = cliente.categoria_cliente_id_categoria_cliente
+        request.session["plano_socio_id"] = plano_obj.id_categoria_cliente
+        request.session["plano_socio_nome"] = plano_obj.nome_categoria_clientes
+    except Exception:
+        request.session.pop("plano_socio_id", None)
+        request.session.pop("plano_socio_nome", None)
 
 
 def get_cliente_logado(request):
     # Retorna os dados do cliente logado ou None se não estiver logado.
     if not request.session.get("cliente_id"):
         return None
+    # Resolve nome do plano a partir do id em sessão, se necessário
+    plano_nome = request.session.get('plano_socio_nome')
+    if not plano_nome and request.session.get('plano_socio_id'):
+        try:
+            plano = models.CategoriaCliente.objects.get(id_categoria_cliente=request.session.get('plano_socio_id'))
+            plano_nome = plano.nome_categoria_clientes
+            request.session['plano_socio_nome'] = plano_nome
+        except models.CategoriaCliente.DoesNotExist:
+            plano_nome = None
+
     return {
         "id": request.session.get("cliente_id"),
         "nome": request.session.get("cliente_nome"),
@@ -33,7 +50,7 @@ def get_cliente_logado(request):
         "email": request.session.get("cliente_email"),
         "telefone": request.session.get("cliente_telefone"),
         "cpf": request.session.get("cliente_cpf"),
-        "plano_cliente": request.session.get("plano_socio"),
+        "plano_cliente": plano_nome,
     }
 
 # -------------------------------
@@ -49,7 +66,193 @@ def tela_carrinho(request):
     cliente = get_cliente_logado(request)
     if not cliente:
         return redirect("login")
-    return render(request, "app_futebol/carrinho.html", cliente)
+    
+    carrinho = request.session.get("carrinho", {})
+    total = 0
+    itens = []
+    
+    for produto_id, quantidade in carrinho.items():
+        try:
+            produto = models.Produtos.objects.get(id_produtos=produto_id)
+            subtotal = produto.valor_produtos * quantidade
+            total += subtotal
+            itens.append({
+                "produto": produto,
+                "quantidade": quantidade,
+                "subtotal": subtotal,
+                "preco_linha": subtotal
+            })
+        except models.Produtos.DoesNotExist:
+            pass
+
+    # Determina o plano do cliente: prefere o id em sessão, caso contrário busca no DB
+    desconto_percent = 0.0
+    plano_id = request.session.get('plano_socio_id')
+    plano_nome = request.session.get('plano_socio_nome')
+    if not plano_id and request.session.get('cliente_id'):
+        try:
+            cliente_obj = models.Clientes.objects.get(id_clientes=request.session.get('cliente_id'))
+            plano_obj = cliente_obj.categoria_cliente_id_categoria_cliente
+            if plano_obj:
+                plano_id = plano_obj.id_categoria_cliente
+                plano_nome = plano_obj.nome_categoria_clientes
+                request.session['plano_socio_id'] = plano_id
+                request.session['plano_socio_nome'] = plano_nome
+        except models.Clientes.DoesNotExist:
+            plano_id = None
+
+    # Se temos o objeto do plano, podemos decidir desconto por nome (ou mapear por id se preferir)
+    if plano_id:
+        # Busca o objeto para ler o nome e decidir a taxa
+        try:
+            plano_obj = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
+            nome_lower = plano_obj.nome_categoria_clientes.strip().lower()
+            # Comparação por nomes exatos (insensível a maiúsculas e acentos)
+            if nome_lower == 'socio drakos - diamante':
+                desconto_percent = 0.20
+            elif nome_lower == 'socio drakos - ouro':
+                desconto_percent = 0.10
+            elif nome_lower == 'socio drakos - prata':
+                desconto_percent = 0.05
+            elif nome_lower == 'nao socio':
+                desconto_percent = 0.0
+            plano_nome = plano_obj.nome_categoria_clientes
+        except models.CategoriaCliente.DoesNotExist:
+            desconto_percent = 0.0
+
+    desconto_valor = total * desconto_percent
+    total_com_desconto = total - desconto_valor
+    return render(request, "app_futebol/carrinho.html", {
+        "itens": itens,
+        "total": total,
+        "desconto": desconto_valor,
+        "desconto_percent": int(desconto_percent * 100),
+        "total_com_desconto": total_com_desconto,
+        "plano_cliente": plano_nome or cliente.get('plano_cliente'),
+        **cliente
+    })
+
+
+def adicionar_carrinho(request, produto_id):
+    try:
+        produto = models.Produtos.objects.get(id_produtos=produto_id)
+    except models.Produtos.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({"success": False, "message": "Produto não encontrado!"})
+        messages.error(request, "Produto não encontrado!")
+        return redirect("produtos")
+    
+    carrinho = request.session.get("carrinho", {})
+    produto_id_str = str(produto_id)
+    
+    if produto_id_str in carrinho:
+        carrinho[produto_id_str] += 1
+    else:
+        carrinho[produto_id_str] = 1
+    
+    request.session["carrinho"] = carrinho
+    
+    # Se for AJAX, retorna JSON
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            "success": True,
+            "message": f"{produto.nome_produtos} adicionado ao carrinho!",
+            "produto_nome": produto.nome_produtos
+        })
+    
+    messages.success(request, f"{produto.nome_produtos} adicionado ao carrinho!")
+    return redirect("produtos")
+
+
+def remover_carrinho(request, produto_id):
+    carrinho = request.session.get("carrinho", {})
+    produto_id_str = str(produto_id)
+    
+    if produto_id_str in carrinho:
+        del carrinho[produto_id_str]
+        request.session["carrinho"] = carrinho
+        messages.success(request, "Produto removido do carrinho!")
+    
+    return redirect("carrinho")
+
+
+def atualizar_quantidade_carrinho(request, produto_id):
+    if request.method == "POST":
+        quantidade = int(request.POST.get("quantidade", 1))
+        carrinho = request.session.get("carrinho", {})
+        produto_id_str = str(produto_id)
+        
+        if quantidade <= 0:
+            if produto_id_str in carrinho:
+                del carrinho[produto_id_str]
+        else:
+            carrinho[produto_id_str] = quantidade
+        
+        request.session["carrinho"] = carrinho
+        # Se for requisição AJAX, devolve os totais atualizados em JSON
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            total = 0
+            itens = []
+            for pid_str, qtd in carrinho.items():
+                try:
+                    p = models.Produtos.objects.get(id_produtos=pid_str)
+                    subtotal = p.valor_produtos * qtd
+                    total += subtotal
+                    itens.append({
+                        'id': p.id_produtos,
+                        'nome': p.nome_produtos,
+                        'quantidade': qtd,
+                        'subtotal': subtotal,
+                    })
+                except models.Produtos.DoesNotExist:
+                    continue
+
+            # Calcula desconto baseado no plano do cliente (prefere id em sessão)
+            desconto_percent = 0.0
+            plano_id = request.session.get('plano_socio_id')
+            plano_nome = request.session.get('plano_socio_nome')
+            if not plano_id and request.session.get('cliente_id'):
+                try:
+                    cliente_obj = models.Clientes.objects.get(id_clientes=request.session.get('cliente_id'))
+                    plano_obj = cliente_obj.categoria_cliente_id_categoria_cliente
+                    if plano_obj:
+                        plano_id = plano_obj.id_categoria_cliente
+                        plano_nome = plano_obj.nome_categoria_clientes
+                        request.session['plano_socio_id'] = plano_id
+                        request.session['plano_socio_nome'] = plano_nome
+                except models.Clientes.DoesNotExist:
+                    plano_id = None
+
+            if plano_id:
+                try:
+                    plano_obj = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
+                    nome_lower = plano_obj.nome_categoria_clientes.strip().lower()
+                    # Comparação por nomes exatos (insensível a maiúsculas e acentos)
+                    if nome_lower == 'socio drakos - diamante':
+                        desconto_percent = 0.20
+                    elif nome_lower == 'socio drakos - ouro':
+                        desconto_percent = 0.10
+                    elif nome_lower == 'socio drakos - prata':
+                        desconto_percent = 0.05
+                    elif nome_lower == 'nao socio':
+                        desconto_percent = 0.0
+                    plano_nome = plano_obj.nome_categoria_clientes
+                except models.CategoriaCliente.DoesNotExist:
+                    desconto_percent = 0.0
+
+            desconto_valor = total * desconto_percent
+            total_com_desconto = total - desconto_valor
+
+            return JsonResponse({
+                'success': True,
+                'total': round(total, 2),
+                'desconto': round(desconto_valor, 2),
+                'desconto_percent': int(desconto_percent * 100),
+                'total_com_desconto': round(total_com_desconto, 2),
+                'itens': itens,
+            })
+
+    return redirect("carrinho")
 
 
 def tela_conta_finalizada(request):
@@ -221,6 +424,19 @@ def pagamento_socio(request, plano_id):
         return redirect("login")
 
     cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+    
+    # Se o usuário confirmar o pagamento, atualiza o plano do cliente
+    if request.method == "POST":
+        # Aqui você poderia validar o pagamento com gateway real.
+        cliente.categoria_cliente_id_categoria_cliente = plano
+        cliente.save()
+
+        # Atualiza sessão (armazenando id e nome)
+        request.session["plano_socio_id"] = plano.id_categoria_cliente
+        request.session["plano_socio_nome"] = plano.nome_categoria_clientes
+
+        messages.success(request, "Parabéns! Agora você é sócio: %s" % plano.nome_categoria_clientes)
+        return redirect("home")
 
     return render(request, "app_futebol/pagamento_socio.html", {
         "cliente": cliente,

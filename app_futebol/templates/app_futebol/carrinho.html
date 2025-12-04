@@ -25,68 +25,32 @@
         <span>Preço</span>
       </div>
 
-      <!-- Itens estáticos (serão substituídos caso haja localStorage) -->
-      <div class="item-carrinho">
-        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Uniforme Drakos">
-        <div class="info-produto">
-          <h3>Uniforme Retrô</h3>
-          <p>Uniforme Retrô, temporada 2005/2007</p>
-          <p>Tamanho: P</p>
+      <!-- Itens do carrinho dinâmicos -->
+      {% if itens %}
+        {% for item in itens %}
+        <div class="item-carrinho" data-id="{{ item.produto.id_produtos }}">
+          <img src="{% static item.produto.imagem_produtos }}" alt="{{ item.produto.nome_produtos }}">
+          <div class="info-produto">
+            <h3>{{ item.produto.nome_produtos }}</h3>
+            <p>{{ item.produto.descricao_produtos }}</p>
+          </div>
+          <div class="quantidade">
+            <button type="button" class="btn-menos">-</button>
+            <span class="qtd">{{ item.quantidade }}</span>
+            <button type="button" class="btn-mais">+</button>
+            <span class="preco-item">R$<span class="preco-linha">{{ item.preco_linha|floatformat:2 }}</span></span>
+          </div>
+          <a href="{% url 'remover_carrinho' item.produto.id_produtos %}" class="lixeira">
+            <i class="fa-solid fa-trash"></i>
+          </a>
         </div>
-        <div class="quantidade">
-          <button>&lt;</button>
-          <span>1</span>
-          <button>&gt;</button>
+        {% endfor %}
+      {% else %}
+        <div style="color:#fff; text-align:center; padding:40px;">
+          <h3>Seu carrinho está vazio!</h3>
+          <p><a href="{% url 'produtos' %}" style="color:#ffd700;">Ver produtos</a></p>
         </div>
-        <div class="preco">R$299,00</div>
-        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-      </div>
-
-      <div class="item-carrinho">
-        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Uniforme Drakos">
-        <div class="info-produto">
-          <h3>2° Uniforme FC</h3>
-          <p>Uniforme branco, estilo clássico da equipe.</p>
-          <p>Tamanho: M</p>
-        </div>
-        <div class="quantidade">
-          <button>&lt;</button>
-          <span>1</span>
-          <button>&gt;</button>
-        </div>
-        <div class="preco">R$299,00</div>
-        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-      </div>
-
-      <div class="item-carrinho">
-        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Escudo Drakos">
-        <div class="info-produto">
-          <h3>Escudo Drako</h3>
-          <p>Item decorativo para fãs do clube.</p>
-        </div>
-        <div class="quantidade">
-          <button>&lt;</button>
-          <span>1</span>
-          <button>&gt;</button>
-        </div>
-        <div class="preco">R$299,00</div>
-        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-      </div>
-
-      <div class="item-carrinho">
-        <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="Cachecol Milan">
-        <div class="info-produto">
-          <h3>Cachecol Milan</h3>
-          <p>Ideal para o frio — item oficial de torcida.</p>
-        </div>
-        <div class="quantidade">
-          <button>&lt;</button>
-          <span>1</span>
-          <button>&gt;</button>
-        </div>
-        <div class="preco">R$299,00</div>
-        <button class="lixeira"><i class="fa-solid fa-trash"></i></button>
-      </div>
+      {% endif %}
     </section>
 
     <!-- Resumo do pedido -->
@@ -94,9 +58,11 @@
       <div class="bloco-resumo">
         <h2>RESUMO DO PEDIDO</h2>
         <hr>
-        <p><span>Subtotal:</span> R$1.196,00</p>
-        <p><span>Desconto:</span> R$20,00</p>
-        <p class="total"><span>Total:</span> R$1.176,00</p>
+        <p><strong>Plano atual:</strong> {{ plano_cliente|default:'Nenhum' }}</p>
+        <hr>
+        <p id="subtotal"><span>Subtotal:</span> <span class="valor">R${{ total|floatformat:2 }}</span></p>
+        <p id="desconto"><span>Desconto <span id="desconto-percent">{% if desconto_percent %}({{ desconto_percent }}%){% endif %}</span>:</span> <span class="valor">R${{ desconto|floatformat:2 }}</span></p>
+        <p class="total" id="total"><span>Total:</span> <span class="valor">R${{ total_com_desconto|floatformat:2 }}</span></p>
       </div>
 
       <div class="bloco-pagamento">

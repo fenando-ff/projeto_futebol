@@ -136,9 +136,10 @@ class Produtos(models.Model):
     descricao_produtos = models.TextField(db_column='descricao_PRODUTOS')  # Field name made lowercase.
     quantidade_estoque_produtos = models.IntegerField(db_column='quantidade_estoque_PRODUTOS')  # Field name made lowercase.
     categoria_produtos_id_categoria_produtos = models.ForeignKey(CategoriaProdutos, models.DO_NOTHING, db_column='CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS')  # Field name made lowercase.
+    imagem_produtos = models.CharField(max_length=255, blank=True, null=True, db_column='imagem_PRODUTOS')  # Caminho da imagem
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'produtos'
         
     def __str__(self):

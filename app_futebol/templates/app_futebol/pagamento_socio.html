@@ -44,28 +44,31 @@
         <h2>Forma de Pagamento</h2>
 
         <div class="buttons-pay">
-            <button class="pay-btn" data-type="cartao">Cartão de Crédito</button>
-            <button class="pay-btn" data-type="paypal">PayPal</button>
+            <button type="button" class="pay-btn" data-type="cartao">Cartão de Crédito</button>
+            <button type="button" class="pay-btn" data-type="paypal">PayPal</button>
         </div>
 
         <!-- CARTÃO -->
-        <form id="form-cartao" class="form-pay" style="display:none;">
+        <form id="form-cartao" class="form-pay" method="POST" style="display:none;">
+            {% csrf_token %}
             <h3>Pagamento com Cartão</h3>
-            <input type="text" placeholder="Número do cartão">
-            <input type="text" placeholder="Nome impresso no cartão">
+            <input type="text" name="card_number" placeholder="Número do cartão" required>
+            <input type="text" name="card_name" placeholder="Nome impresso no cartão" required>
             <div class="dupla">
-                <input type="text" placeholder="Validade (MM/AA)">
-                <input type="text" placeholder="CVV">
+                <input type="text" name="card_valid" placeholder="Validade (MM/AA)" required>
+                <input type="text" name="card_cvv" placeholder="CVV" required>
             </div>
 
-            <button class="confirmar">Confirmar Assinatura</button>
+            <button type="submit" class="confirmar">Confirmar Assinatura</button>
         </form>
 
         <!-- PAYPAL -->
-        <div id="form-paypal" class="form-pay" style="display:none;">
+        <form id="form-paypal" class="form-pay" method="POST" style="display:none;">
+            {% csrf_token %}
             <h3>Pagamento via PayPal</h3>
-            <button class="paypal-btn">Pagar com PayPal</button>
-        </div>
+            <input type="hidden" name="paypal" value="1">
+            <button type="submit" class="paypal-btn">Pagar com PayPal</button>
+        </form>
 
     </section>
 </main>
