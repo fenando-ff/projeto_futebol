@@ -6,7 +6,15 @@
 
 body{
     font-family: 'Roboto Condensed', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 
+}
+
+main{
+    flex: 1;
+    width: 100%;
 }
 
 /* novo estilo de navbar (opcional) */
@@ -98,7 +106,7 @@ body{
         color: #8F0000;
     }
 
-footer {
+.rodape {
     background-color: #161616;
     color: #ffffff;
     text-align: center;
