@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_extra %}
+    <link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
+{% endblock css_extra %}
+
+
+{% block conteudo_pagina %}   
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="password" name="senha" placeholder="Nova senha" required>
+            <button type="submit">Atualizar senha</button>
+        </form>
+    </main>
+      {% endblock conteudo_pagina %}  
+    <footer>&copy;</footer>
+    <script src="../js/main.js"></script>
+   
+</body>
+</html>
