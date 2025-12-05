@@ -299,18 +299,18 @@ def tela_loja_detalhe(request, produto_id):
 
 
 def tela_loja_produtos(request):
-    todas_categorias = models.CategoriaProdutos.objects.all()
-    produtos_por_categoria = {}
+    todas_categorias = models.CategoriaProdutos.objects.all() # Armazena todas as categorias
+    produtos_por_categoria = {} # Dicionário para armazenar produtos por categoria
     
-    for categoria in todas_categorias:
-        produtos_por_categoria[categoria] = models.Produtos.objects.filter(
-            categoria_produtos_id_categoria_produtos=categoria
+    for categoria in todas_categorias: # Vai andar por cada categoria
+        produtos_por_categoria[categoria] = models.Produtos.objects.filter( # Adiciona os produtos daquela categoria ao dicionário
+            categoria_produtos_id_categoria_produtos=categoria # Usa a chave estrangeira da tabela Produtos que está ligada a CategoriaProdutos
         )
     
-    cliente = get_cliente_logado(request)
-    return render(request, "app_futebol/loja_produtos.html", {
-        "produtos_por_categoria": produtos_por_categoria,
-        **(cliente or {})
+    cliente = get_cliente_logado(request) # Pega as info do cliente logado
+    return render(request, "app_futebol/loja_produtos.html", { # renderiza a página da loja
+        "produtos_por_categoria": produtos_por_categoria, # adiciona os produtos por categoria da linha 303
+        **(cliente or {}) # inclui as informações do cliente logado e se não tiver ninguém logado, passa um dicionário vazio
     })
 
 
