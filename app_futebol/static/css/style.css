@@ -4,21 +4,21 @@
     
 }
 
-body{
+body {
     font-family: 'Roboto Condensed', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-
 }
 
 main{
     flex: 1;
     width: 100%;
+    padding-top: 60px; 
 }
 
 /* novo estilo de navbar (opcional) */
-.cabecalho{
+.cabecalho {
     background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
     width: 100%;
     height: 50px;
@@ -27,6 +27,11 @@ main{
     align-items: center;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.6),
     inset 450px 1px 0 rgba(0, 0, 0, 0.2);
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 1000; 
 }
 
 .logo {
@@ -118,6 +123,10 @@ main{
     .cabecalho {
         height: 80px;
         display: flex;
+    }
+
+    main {
+        padding-top: 80px; 
     }
 
     .menu-hamburgue {
