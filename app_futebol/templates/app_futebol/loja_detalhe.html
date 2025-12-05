@@ -18,25 +18,28 @@
 
   <main class="produto-container">
     <!-- IMAGEM DO PRODUTO -->
-    <section class="galeria">
-      <img class="imagem-principal" src="{% static "img/produtos/camisas/uniforme_frente.webp" %}" alt="Camisa Drakos" />
+      <section class="galeria">
+        {% if produto.imagem_produtos %}
+            <img class="imagem-principal" src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}" />
+        {% else %}
+            <img class="imagem-principal" src="{% static "img/produtos/default.webp" %}" alt="{{ produto.nome_produtos }}" />
+        {% endif %}
 
-      <div class="miniaturas">
-        <img src="{% static "img/produtos/camisas/uniforme_frente.webp" %}" alt="Thumb 1">
-        <img src="{% static "img/produtos/camisas/uniforme_costa.webp" %}" alt="Thumb 2">
-        <img src="{% static "img/produtos/camisas/detalhes/empresa_uniforme.jpg" %}" alt="Thumb 3">
-        <img src="{% static "img/produtos/camisas/detalhes/marca_uniforme.webp" %}" alt="Thumb 4">
-        </div>
-        </section>
+        <div class="miniaturas">
+          {% if produto.imagem_produtos %}
+              <img src="{% static produto.imagem_produtos %}" alt="Thumb 1" class="ativa">
+          {% endif %}
+          </div>
+      </section>
 
         <!-- DETALHes -->
     <section class="detalhes">
-      <h2 class="titulo">DRAKOS 3° UNIFORME</h2>
+      <h2 class="titulo">{{ produto.nome_produtos }}</h2>
 
       <p class="fabricante">Fabricado por <span>Puma</span></p>
-      <p class="preco">R$ 356,11</p>
+      <p class="preco">R${{ produto.valor_produtos|floatformat:2 }}</p>
 
-      <div class="tamanhos">    
+      {% comment %} <div class="tamanhos">    
         <h3>Selecionar tamanho</h3>
         <div class="botoes-tamanho">
           <button>P</button>
@@ -44,11 +47,13 @@
           <button>L</button>
           <button>GG</button>
         </div>
-      </div>
+      </div> {% endcomment %}
 
       <div class="acoes">
         <button class="btn comprar">Comprar agora</button>
-        <button class="btn carrinho"><i class="fa-solid fa-cart-shopping"></i> Adicionar ao carrinho</button>
+        <button class="btn-adicionar" id="btnAdicionarCarrinho" data-id="{{ produto.id_produtos }}" data-nome="{{ produto.nome_produtos }}">
+          <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
+        </button>
       </div>
     </section>
   </main>
@@ -59,17 +64,3 @@
 {% endblock js_pagina %}
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

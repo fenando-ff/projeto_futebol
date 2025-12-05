@@ -2,7 +2,7 @@ import os
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 import random
 from . import models
@@ -282,8 +282,20 @@ def logout_view(request):
     return redirect("home")
 
 
-def tela_loja_detalhe(request):
-    return render(request, "app_futebol/loja_detalhe.html")
+def tela_loja_detalhe(request, produto_id):    
+    try:
+        produto = models.Produtos.objects.get(id_produtos=produto_id)
+    except models.Produtos.DoesNotExist:
+        return redirect('produtos') 
+    
+    cliente = get_cliente_logado(request) # Pega as info do cliente logado
+    
+    context = {
+        "produto": produto,
+        **(cliente or {}) # Inclui as informações do cliente logado
+    }
+    
+    return render(request, "app_futebol/loja_detalhe.html", context)
 
 
 def tela_loja_produtos(request):
