@@ -54,7 +54,7 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 64px 5%;
+    padding: 64px 11%;
     gap: 32px;
 }
 
@@ -63,7 +63,7 @@ a{
 }
 
 .hero-text h1 {
-    font-size: 3rem;
+    font-size: 2.7rem;
     margin-bottom: 22px;
 }
 
@@ -76,14 +76,15 @@ a{
 /* HERO CARROSSEL */
 .hero-carousel {
     position: relative;
-    width: 880px;
-    height: 420px;
+    width: 790px;
+    height: 380px;
     overflow: hidden;
     border-radius: 14px;
     box-shadow: 0 0 12px #000;
     flex-shrink: 0;
     transition: 0.5s;
 }
+
 
 .hero-carousel:hover {
     .carousel-btn.left {
@@ -154,7 +155,7 @@ a{
     width: 0%;
     height: 100%;
     background: #f0f0f0;
-    transition: width linear;
+    transition: linear;
 }
 
 /* ======================= DESTAQUES ======================= */

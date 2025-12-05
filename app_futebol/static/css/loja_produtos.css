@@ -316,14 +316,14 @@ body {
 }
 
 .produto a{
-  min-height: 200px ;
+  min-height: 300px ;
 }
 
 .produto img {
   width: 100%;
   border-radius: 8px;
   margin-bottom: 10px;
-  min-height: 200px;
+  min-height: 300px;
 }
 
 .produto h3 {

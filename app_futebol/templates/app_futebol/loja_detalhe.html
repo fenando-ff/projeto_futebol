@@ -20,7 +20,9 @@
     <!-- IMAGEM DO PRODUTO -->
       <section class="galeria">
         {% if produto.imagens.all %}
-            <img class="imagem-principal" src="{% static produto.imagens.all|first.imagem %}" alt="{{ produto.nome_produtos }}" />
+            {% with primeira_imagem=produto.imagens.all|first %}
+                <img class="imagem-principal" src="{% static primeira_imagem.imagem %}" alt="{{ produto.nome_produtos }}" />
+            {% endwith %}
         {% elif produto.imagem_produtos %}
             <img class="imagem-principal" src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}" />
         {% else %}
