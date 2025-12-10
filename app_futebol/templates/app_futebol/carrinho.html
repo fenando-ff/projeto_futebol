@@ -29,7 +29,7 @@
       {% if itens %}
         {% for item in itens %}
         <div class="item-carrinho" data-id="{{ item.produto.id_produtos }}">
-          <img src="{% static item.produto.imagem_produtos }}" alt="{{ item.produto.nome_produtos }}">
+          <img src= "{% static item.produto.imagem_produtos %}" alt="{{ item.produto.nome_produtos }}">
           <div class="info-produto">
             <h3>{{ item.produto.nome_produtos }}</h3>
             <p>{{ item.produto.descricao_produtos }}</p>

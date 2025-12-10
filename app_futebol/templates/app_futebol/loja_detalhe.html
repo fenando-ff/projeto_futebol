@@ -19,16 +19,24 @@
   <main class="produto-container">
     <!-- IMAGEM DO PRODUTO -->
       <section class="galeria">
-        {% if produto.imagem_produtos %}
+        {% if produto.imagens.all %}
+            {% with primeira_imagem=produto.imagens.all|first %}
+                <img class="imagem-principal" src="{% static primeira_imagem.imagem %}" alt="{{ produto.nome_produtos }}" />
+            {% endwith %}
+        {% elif produto.imagem_produtos %}
             <img class="imagem-principal" src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}" />
         {% else %}
             <img class="imagem-principal" src="{% static "img/produtos/default.webp" %}" alt="{{ produto.nome_produtos }}" />
         {% endif %}
 
         <div class="miniaturas">
-          {% if produto.imagem_produtos %}
-              <img src="{% static produto.imagem_produtos %}" alt="Thumb 1" class="ativa">
-          {% endif %}
+          {% for imagem in produto.imagens.all %}
+              <img src="{% static imagem.imagem %}" alt="Thumbnail" class="{% if forloop.first %}ativa{% endif %}" data-full="{% static imagem.imagem %}">
+          {% empty %}
+              {% if produto.imagem_produtos %}
+                  <img src="{% static produto.imagem_produtos %}" alt="Thumb 1" class="ativa" data-full="{% static produto.imagem_produtos %}">
+              {% endif %}
+          {% endfor %}
           </div>
       </section>
 

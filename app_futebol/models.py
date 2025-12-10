@@ -160,6 +160,21 @@ class Compra(models.Model):
         return f"{self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"
     
 
+class ImagemProduto(models.Model):
+    id_imagem_produto = models.AutoField(db_column='id_IMAGEM_PRODUTO', primary_key=True)
+    produtos_id_produtos = models.ForeignKey(Produtos, models.CASCADE, db_column='PRODUTOS_id_PRODUTOS', related_name='imagens')
+    imagem = models.CharField(max_length=255, db_column='imagem_IMAGEM')
+    ordem = models.IntegerField(default=0, db_column='ordem_IMAGEM')
+    
+    class Meta:
+        managed = True
+        db_table = 'imagem_produto'
+        ordering = ['ordem']
+    
+    def __str__(self):
+        return f"Imagem de {self.produtos_id_produtos.nome_produtos}"
+
+
 class RecuperacaoSenha(models.Model):
         cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE, db_column='cliente_id')
         codigo = models.CharField(max_length=6)

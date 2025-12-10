@@ -39,7 +39,7 @@
   <div class="season-text">
     <h2>TEMPORADA 25/26</h2>
     <p>
-      Os mantos da nova temporada já estão disponíveis. Sócios podem levar descontos de até 50%.<br>
+      Os mantos da nova temporada já estão disponíveis. Sócios podem levar descontos de até 20%.<br>
       Os uniformes feitos do material de vibranium, junto com um pequeno ingrediente.<br>
       Se você for pobre, melhor sair dessa tela de produtos...<br>
       Desde já, agradeço. Bye Bye
@@ -69,11 +69,11 @@
     <nav class="filter">
       <a href="#">Todos</a>
       {% for categoria, produtos in produtos_por_categoria.items %}
-      <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
+        <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
       {% endfor %}
     </nav>
 
-    {% for categoria, produtos in produtos_por_categoria.items %}
+    {% for categoria, produtos in produtos_por_categoria.items %} <!-- Anda pela categoria e produtos  -->
     {% if produtos %}
    	<section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
    	  <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
@@ -85,8 +85,6 @@
    		<div class="flex">
    	   	{% for produto in produtos %}
    	   	<div class="produto">
-					{% comment %} <a href="{% url 'loja_detalhe' %}"> {% endcomment %}
-
             	<a href="{% url 'loja_detalhe' produto.id_produtos %}">
             	{% if produto.imagem_produtos %}
             	  <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">

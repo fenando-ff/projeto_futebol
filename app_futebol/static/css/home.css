@@ -54,7 +54,7 @@ a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 64px 5%;
+    padding: 64px 11%;
     gap: 32px;
 }
 
@@ -63,7 +63,7 @@ a{
 }
 
 .hero-text h1 {
-    font-size: 3rem;
+    font-size: 2.7rem;
     margin-bottom: 22px;
 }
 
@@ -76,14 +76,15 @@ a{
 /* HERO CARROSSEL */
 .hero-carousel {
     position: relative;
-    width: 880px;
-    height: 420px;
+    width: 790px;
+    height: 380px;
     overflow: hidden;
     border-radius: 14px;
     box-shadow: 0 0 12px #000;
     flex-shrink: 0;
     transition: 0.5s;
 }
+
 
 .hero-carousel:hover {
     .carousel-btn.left {
@@ -154,7 +155,7 @@ a{
     width: 0%;
     height: 100%;
     background: #f0f0f0;
-    transition: width linear;
+    transition: linear;
 }
 
 /* ======================= DESTAQUES ======================= */
@@ -245,12 +246,12 @@ a{
     box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     position: relative;
     transform: scale(0.80);
-    transition: 0.3s;
+    transition: 0.5s;
     gap: 20px;
 }
 
 .product-card:hover {
-    transform: scale(0.82) translateY(-8px);
+    transform: scale(0.85) translateY(-8px);
 }
 
 .product-image {
@@ -263,7 +264,7 @@ a{
 .product-image img {
     width: 100%;
     max-width: 260px;
-    height: auto;
+    height: 350px;
     object-fit: contain;
     transform: rotate(-12deg);
     transition: 0.5s;
@@ -335,7 +336,7 @@ a{
 /* ======================= NOVO LAYOUT DE NOTÍCIAS ======================= */
 
 .titulo_noticias{
-    margin: 0px 0px 30px 0px;
+    margin: 0px 0px 70px 0px;
     text-align: center;
 }
 
@@ -400,7 +401,7 @@ a{
 }
 
 .news-card-big img:hover{
-    transform: translateY(-10px) scale(1.03);
+    transform: translateY(-8px) scale(1.05);
     box-shadow: 0 14px 40px rgba(0,0,0,0.35);
 }
 

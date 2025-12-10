@@ -205,12 +205,40 @@ body {
 /* ===============================
    SEÇÃO PRODUTOS
    =============================== */
+.categoria-section {
+  margin-bottom: 50px;
+}
+
 .produtos {
   position: relative;
   background: #fff;
   padding: 20px;
   margin-bottom: 40px;
 }
+.produto img {
+  width: 100%;
+  height: 230px; /* ajuste o tamanho que quiser */
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.btn-adicionar {
+  background-color: #a50000;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-adicionar:hover {
+  background-color: #fff;
+  color: #a50000;
+}
+
 
 .produtos h2 {
   font-size: 30px;
@@ -306,14 +334,14 @@ body {
 }
 
 .produto a{
-  min-height: 200px ;
+  min-height: 300px ;
 }
 
 .produto img {
   width: 100%;
   border-radius: 8px;
   margin-bottom: 10px;
-  min-height: 200px;
+  min-height: 300px;
 }
 
 .produto h3 {
