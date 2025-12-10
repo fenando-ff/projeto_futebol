@@ -1,30 +1,44 @@
-// Script para animar a entrada dos elementos ao rolar a página (Scroll Reveal)
-
 document.addEventListener("DOMContentLoaded", function() {
     
-    // Seleciona todas as linhas da timeline
-    const rows = document.querySelectorAll('.timeline-row');
+    const linhasTimeline = document.querySelectorAll('.timeline-row');
 
-    // Opções do observador (quando 15% do elemento aparecer, dispara)
-    const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
+    // 1. OBSERVADOR DE APARIÇÃO (Fade In inicial)
+    // Apenas faz o item aparecer quando entra na tela.
+    const observerAparicao = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Adiciona a classe que faz o elemento subir e aparecer
                 entry.target.classList.add('visivel');
-                // Para de observar depois que já apareceu (opcional)
-                observer.unobserve(entry.target);
+                observer.unobserve(entry.target); // Só precisa rodar uma vez
             }
         });
-    }, options);
+    }, { threshold: 0.1 });
 
-    // Manda o observador vigiar cada linha
-    rows.forEach(row => {
-        observer.observe(row);
+
+    // 2. OBSERVADOR DE DESTAQUE (Foco/POV)
+    // Liga e desliga os efeitos (brilho, cor) conforme o item passa pelo CENTRO da tela.
+    const observerDestaque = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Se o elemento entrou na zona de destaque (centro da tela)
+                entry.target.classList.add('ativo');
+            } else {
+                // Se o elemento saiu da zona de destaque
+                entry.target.classList.remove('ativo');
+            }
+        });
+    }, {
+        root: null,
+        // rootMargin define a "zona ativa". 
+        // '-40% 0px -40% 0px' significa: O efeito só ativa quando o item estiver 
+        // na faixa central da tela (os 20% do meio).
+        // Isso impede que dois itens fiquem ativos ao mesmo tempo.
+        rootMargin: '-40% 0px -40% 0px', 
+        threshold: 0
+    });
+
+    // Aplica os observadores em cada linha
+    linhasTimeline.forEach(linha => {
+        observerAparicao.observe(linha);
+        observerDestaque.observe(linha);
     });
 });
