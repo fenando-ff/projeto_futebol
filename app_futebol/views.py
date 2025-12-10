@@ -214,7 +214,7 @@ def atualizar_quantidade_carrinho(request, produto_id):
             continue
         subtotal = prod.valor_produtos * qtd
         total += subtotal
-        itens.append({
+        itens.append({ #
             "id": prod.id_produtos,
             "nome": prod.nome_produtos,
             "preco_unit": prod.valor_produtos,
@@ -323,24 +323,24 @@ def tela_rec_senha(request):
         email = request.POST.get("email")
 
         try:
-            cliente = models.Clientes.objects.get(email_clientes=email)
+            cliente = models.Clientes.objects.get(email_clientes=email) # compara o email digitado com email do banco de dados
         except models.Clientes.DoesNotExist:
             messages.error(request, "Email não encontrado!")
             return redirect("recuperar_senha")
 
-        codigo = str(random.randint(100000, 999999))
+        codigo = str(random.randint(100000, 999999)) # gera um código aleatório de 6 dígitos
 
-        models.RecuperacaoSenha.objects.create(
+        models.RecuperacaoSenha.objects.create( # Adiciona aleatório ao banco de dados
             cliente=cliente,
             codigo=codigo,
         )
 
         try:
-            send_mail(
+            send_mail( 
                 "Código de recuperação de senha", # titulo
                 f"Seu código: {codigo}", # conteudo
-                os.environ.get("EMAIL_HOST_USER"), # remetente
-                [email],
+                os.environ.get("EMAIL_HOST_USER"), # email que envia a mensagem
+                [email], # email(s) que recebe(m) a mensagem
                 fail_silently=False,
             )
         except Exception as e:
