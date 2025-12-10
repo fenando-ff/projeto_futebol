@@ -205,6 +205,10 @@ body {
 /* ===============================
    SEÇÃO PRODUTOS
    =============================== */
+.categoria-section {
+  margin-bottom: 50px;
+}
+
 .produtos {
   position: relative;
   background: #fff;
@@ -219,7 +223,21 @@ body {
   display: block;
 }
 
+.btn-adicionar {
+  background-color: #a50000;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
 
+.btn-adicionar:hover {
+  background-color: #fff;
+  color: #a50000;
+}
 
 
 .produtos h2 {

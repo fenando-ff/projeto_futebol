@@ -49,9 +49,9 @@
     <section class="destaques">
         <div class="card destaque1">
             <i class="fa-solid fa-newspaper"></i>
-            <h3>Últimas Notícias</h3>
-            <p>Fique por dentro do que acontece no clube.</p>
-            <a href="#" class="btn-secondary">Ver notícias</a>
+            <h3>Seja Sócio</h3>
+            <p>Faça parte das vantagens de ser sócio</p>
+            <a href="{% url "socio" %}" class="btn-secondary">Ver planos</a>
         </div>
 
         <div class="card destaque2">
@@ -65,7 +65,7 @@
             <i class="fa-solid fa-calendar"></i>
             <h3>Próximo Jogo</h3>
             <p>Confira data, local e onde assistir.</p>
-            <a href="#" class="btn-secondary">Ver detalhes</a>
+            <a href="{% url "jogos" %}" class="btn-secondary">Ver detalhes</a>
         </div>
     </section>
 
@@ -88,7 +88,7 @@
         </div>
 
         <p class="info">Estádio Dragão • 28 JAN • 20:00</p>
-        <a href="#" class="btn-primary">Comprar Ingressos</a>
+        <a href="{% url "ingresso" %}" class="btn-primary">Comprar Ingressos</a>
     </section>
 
     <!-- ======================== PRODUTOS =============================== -->
@@ -114,7 +114,7 @@
 
                     <div class="bottom">
                         <div class="price">R$ 299,90</div>
-                        <a href="#" class="btn-add">Adicionar</a>
+                        <a href="{% url "produtos" %}" class="btn-add">Adicionar</a>
                     </div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
                 </div>
 
                 <div class="product-info">
-                    <h3>Camisa Retro</h3>
+                    <h3>Garrafa Retro</h3>
 
                     <div class="product-tags">
                         <span class="tag">MASCULINO</span>
@@ -136,7 +136,7 @@
 
                     <div class="bottom">
                         <div class="price">R$ 299,90</div>
-                        <a href="#" class="btn-add">Adicionar</a>
+                        <a href="{% url "produtos" %}" class="btn-add">Adicionar</a>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                 </div>
 
                 <div class="product-info">
-                    <h3>Chaveiro Oficial</h3>
+                    <h3>Short Oficial</h3>
 
                     <div class="product-tags">
                         <span class="tag">ACESSÓRIO</span>
@@ -158,7 +158,7 @@
 
                     <div class="bottom">
                         <div class="price">R$ 19,90</div>
-                        <a href="#" class="btn-add">Adicionar</a>
+                        <a href="{% url "produtos" %}" class="btn-add">Adicionar</a>
                     </div>
                 </div>
             </div>
