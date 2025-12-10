@@ -38,44 +38,31 @@
       <form class="form-setor">
         <label for="setor">Setor:</label>
         <select id="setor" name="setor">
-          <option value="ladoA_arquibancada_anda">Selecione</option>
-          {% comment %} loop de repetição com os ingressos do banco de dados {% endcomment %}
+          <option value="">Selecione</option>
           {% for ingresso in ingressos %}
-            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">{{ ingresso.nome_produtos }} -  R${{ ingresso.valor_produtos }}</option>
+            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">
+              {{ ingresso.nome_produtos }} - R${{ ingresso.valor_produtos }}
+            </option>
           {% endfor %}
         </select>
 
         <label for="quantidade">Quantidade (1 a 10):</label>
         <input type="number" id="quantidade" name="quantidade" min="1" max="10">
 
-        <p class="preco-ingresso">
-          Preço total: <strong id="preco-total">R$60,00</strong>
-        </p>
+        <!-- ❌ Preço total removido -->
 
-        <button type="submit" class="botao-comprar">Comprar Ingresso</button>
+        <button type="submit" class="botao-comprar">Adicionar</button>
       </form>
 
       <!-- 📑 Lista de Ingressos -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
         <ul>
-          <li class="item-ingresso">
-            <div class="info-ingresso">
-              <p><strong>Setor:</strong> Lado A Arquibancada Anda</p>
-              <p><strong>Quantidade:</strong> 2</p>
-              <p><strong>Preço:</strong> R$120,00</p>
-            </div>
-            <button class="botao-excluir">Excluir</button>
-          </li>
-          <li class="item-ingresso">
-            <div class="info-ingresso">
-              <p><strong>Setor:</strong> Lado B Cadeira Cativa</p>
-              <p><strong>Quantidade:</strong> 1</p>
-              <p><strong>Preço:</strong> R$60,00</p>
-            </div>
-            <button class="botao-excluir">Excluir</button>
-          </li>
+          <!-- ✅ Lista começa vazia -->
         </ul>
+
+        <!-- 🔹 Total Geral -->
+        <p id="total-geral">Total da compra: R$0.00</p>
       </section>
 
     </section>
@@ -86,3 +73,6 @@
 {% block js_pagina %}
   <script src="{% static 'js/Tela_ingressos.js' %}"></script>
 {% endblock js_pagina %}
+
+<!-- ✅ Mensagem de sucesso -->
+<div id="mensagem-sucesso" class="mensagem-sucesso">Compra realizada com sucesso!</div>
