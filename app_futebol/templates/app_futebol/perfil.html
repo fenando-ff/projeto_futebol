@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+{% endblock css_extra %}
+
+{% block conteudo_pagina %}
+<main classe="main-perfil">
+  <h1>Perfil do Usuário</h1>
+
+  <section class="info-usuario">
+    <h2>Informações Pessoais</h2>
+    <p><strong>Nome:</strong> {{ nome }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Telefone:</strong> {{ telefone }}</p>
+    <p><strong>Endereço:</strong> {{ endereco }}</p>
+  </section>
+</main>
+{% endblock conteudo_pagina %}
+
+{% block js_pagina %}{% endblock js_pagina %}

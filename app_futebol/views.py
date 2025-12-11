@@ -49,6 +49,7 @@ def get_cliente_logado(request):
         "sobrenome": request.session.get("cliente_sobrenome"),
         "email": request.session.get("cliente_email"),
         "telefone": request.session.get("cliente_telefone"),
+        "endereco": request.session.get("cliente_endereco"),
         "cpf": request.session.get("cliente_cpf"),
         "plano_cliente": plano_nome,
     }
@@ -461,3 +462,11 @@ def pagamento_socio(request, plano_id):
 
 def tela_proximo_jogo(request):
     return render(request, "app_futebol/proximos_jogos.html")
+
+
+def tela_perfil(request):
+    cliente = get_cliente_logado(request)
+    if not cliente:
+        return redirect("login")
+    
+    return render(request, "app_futebol/perfil.html", cliente)
