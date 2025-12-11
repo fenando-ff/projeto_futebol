@@ -75,7 +75,7 @@ main h1 {
     padding: 0.75rem;
     border: none;
     border-radius: 5px;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     background-color: #1a1a1a;
     color: #ffffff;
     height: 45px;
@@ -94,7 +94,6 @@ main h1 {
     height: 45px;
     box-sizing: border-box;
 }
-
 #quantidade::-webkit-inner-spin-button,
 #quantidade::-webkit-outer-spin-button {
     opacity: 1;
@@ -194,9 +193,11 @@ main h1 {
     text-align: center;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     transition: transform 0.2s ease;
+    cursor: pointer;
 }
 #total-geral:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    background-color: #b30000;
 }
 
 /* 🔹 Container Estádio + Ingressos */
@@ -209,24 +210,31 @@ main h1 {
     flex-wrap: wrap;
 }
 
-/* 🗺️ Mapa do Estádio */
 .mapa-estadio {
-    flex: 1 1 300px;
+    width: 360px;           /* aumento leve da largura */
+    max-width: 360px;       /* garantir máximo igual */
+    padding: 0.6rem;        /* padding confortável */
     border-radius: 6px;
-    background: linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
-    padding: 1rem;
+
+    background: 
+      repeating-linear-gradient(
+        45deg,
+        rgba(255,255,255,0.03),
+        rgba(255,255,255,0.03) 1px,
+        transparent 1px,
+        transparent 10px
+      ),
+      linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
+
+    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
+
+    margin: 0 auto;         /* centralizar */
 }
-.mapa-estadio h3 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 0.75rem;
-}
+
 .mapa-estadio img {
-    max-width: 300px;
-    width: 100%;
+    width: 100%;            /* imagem ocupa 100% da largura */
     height: auto;
     display: block;
-    margin: 0 auto;
     border-radius: 6px;
 }
 
@@ -291,82 +299,56 @@ main h1 {
     }
 }
 
-/* ✅ Mensagem de sucesso */
-.mensagem-sucesso {
-  position: fixed;
-  top: 20px;
-  right: -300px;
-  background-color: #00aa00;
-  color: #fff;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: right 0.5s ease;
-  z-index: 9999;
-}
-.mensagem-sucesso.visivel {
-  right: 20px;
-}
-
 /* ✨ Animação no total-geral */
 #total-geral.destaque-total {
   animation: brilhoTotal 0.5s ease;
 }
+
 @keyframes brilhoTotal {
-  0% { background-color: #a80000; }
-  50% { background-color: #ff3333; }
-  100% { background-color: #8F0000; }
+  0% {
+    background-color: #a80000;
+    color: #ffffff;
+  }
+  50% {
+    background-color: #ffff00;
+    color: #000000;
+  }
+  100% {
+    background-color: #8F0000;
+    color: #ffffff;
+  }
 }
 
-/* 🟦 Botão Finalizar Compra – Versão Estilizada Ajustada */
-.botao-finalizar {
-    background-color: #0055ff;
-    color: white;
-    border: none;
-    padding: 0.85rem 1.5rem; /* Leve aumento no padding horizontal */
-    font-size: 1.15rem;       /* Fonte um pouco maior para melhor legibilidade */
-    font-weight: 700;         /* Negrito mais forte */
-    cursor: pointer;
-    border-radius: 8px;
-    width: auto;
-    min-width: 200px;         /* Largura mínima um pouco maior */
-    margin-top: 1rem;
-    display: inline-block;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 85, 255, 0.6);
-}
-
-.botao-finalizar:hover {
-    background-color: #1a70ff;
-    transform: scale(1.07);
-    box-shadow: 0 6px 18px rgba(26, 112, 255, 0.85);
-}
-
-.botao-finalizar.show {
-    display: inline-block !important;
-    animation: aparecerBotao 0.3s ease forwards;
-    opacity: 1;
-}
-
-@keyframes aparecerBotao {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/* ✨ Mensagem de Sucesso — EFEITO VIDRO COM VERMELHO MAIS FORTE */
 .mensagem-sucesso {
   position: fixed;
-  top: 20px;
-  right: -300px;
-  background-color: #00aa00;
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+
+  /* 🔥 Glassmorphism vermelho mais forte */
+  background: #28a745; /* vermelho mais intenso */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.28);
+
+  color: #ffffff;
+  padding: 1.3rem 2.6rem;
+  border-radius: 14px;
   font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: right 0.5s ease;
+  font-size: 1.28rem;
+  text-align: center;
+
+  box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.4s ease;
   z-index: 9999;
 }
+
 .mensagem-sucesso.visivel {
-  right: 20px;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
 }
