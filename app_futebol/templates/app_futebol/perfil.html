@@ -6,15 +6,28 @@
 
 {% block conteudo_pagina %}
 <main classe="main-perfil">
-  <h1>Perfil do Usuário</h1>
+    <h1>Perfil do Usuário</h1>
+    <section class="info-usuario">
+        <h2>Informações Pessoais</h2>
+        <p><strong>Nome:</strong> {{ nome }} {{ sobrenome }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Telefone:</strong> {{ telefone }}</p>
 
-  <section class="info-usuario">
-    <h2>Informações Pessoais</h2>
-    <p><strong>Nome:</strong> {{ nome }}</p>
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Telefone:</strong> {{ telefone }}</p>
-    <p><strong>Endereço:</strong> {{ endereco }}</p>
-  </section>
+        {% if endereco %}
+            <h3>Endereço</h3>
+            <p><strong>Rua:</strong> {{ cliente.endereco.rua }}, Nº {{ cliente.endereco.casa }}</p>
+            <p><strong>Bairro:</strong> {{ endereco.bairro }}</p>
+            <p><strong>CEP:</strong> {{ endereco.cep }}</p>
+
+            {% if endereco.complemento %}
+                <p><strong>Complemento:</strong> {{ endereco.complemento }}</p>
+            {% endif %}
+        {% else %}
+            <p><em>Endereço não cadastrado.</em></p>
+        {% endif %}
+
+        <p><strong>Plano:</strong> {{ plano_cliente }}</p>
+    </section>
 </main>
 {% endblock conteudo_pagina %}
 

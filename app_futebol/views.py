@@ -27,7 +27,21 @@ def login_cliente(request, cliente):
     except Exception:
         request.session.pop("plano_socio_id", None)
         request.session.pop("plano_socio_nome", None)
-
+        
+    try:
+        endereco = models.EnderecoCliente.objects.get(cliente_id_cliente=cliente)
+        endereco_cliente = {
+            "id": endereco.id_endereco_cliente,
+            "cep": endereco.cep_endereco_cliente,
+            "rua": endereco.rua_endereco_cliente,
+            "casa": endereco.casa_endereco_cliente,
+            "bairro": endereco.bairro_endereco_cliente,
+            "complemento": endereco.complemento_endereco_cliente
+        }
+        request.session["cliente_endereco"] = endereco_cliente
+        
+    except models.EnderecoCliente.DoesNotExist:
+        request.session["cliente_endereco"] = None
 
 def get_cliente_logado(request):
     # Retorna os dados do cliente logado ou None se não estiver logado.
@@ -57,6 +71,14 @@ def get_cliente_logado(request):
 # -------------------------------
 # Views
 # -------------------------------
+
+def tela_perfil(request):
+    dados_cliente = get_cliente_logado(request)
+    if not dados_cliente:
+        return redirect('login') 
+    
+    return render(request, "app_futebol/perfil.html", dados_cliente)
+
 
 def home(request):
     cliente = get_cliente_logado(request)
@@ -463,10 +485,3 @@ def pagamento_socio(request, plano_id):
 def tela_proximo_jogo(request):
     return render(request, "app_futebol/proximos_jogos.html")
 
-
-def tela_perfil(request):
-    cliente = get_cliente_logado(request)
-    if not cliente:
-        return redirect("login")
-    
-    return render(request, "app_futebol/perfil.html", cliente)
