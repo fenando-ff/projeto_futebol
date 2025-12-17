@@ -36,3 +36,14 @@ body {
     margin: 8px 0;
     color: #333;
 }
+
+.campo-edicao {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
