@@ -210,6 +210,7 @@ main h1 {
     flex-wrap: wrap;
 }
 
+/*Estadio*/
 .mapa-estadio {
     width: 360px;           /* aumento leve da largura */
     max-width: 360px;       /* garantir máximo igual */
@@ -351,4 +352,42 @@ main h1 {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
+}
+/* 🏟️ EFEITO FLUTUANTE NO ESTÁDIO */
+.mapa-estadio {
+    position: relative;
+    animation: flutuarEstadio 4s ease-in-out infinite;
+    transition: transform 0.4s ease;
+}
+
+/* Sombra para sensação de levitação */
+.mapa-estadio img {
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 0 30px rgba(179, 0, 0, 0.3);
+    transition: box-shadow 0.4s ease;
+}
+
+/* Hover reforça o efeito */
+.mapa-estadio:hover {
+    transform: translateY(-12px) scale(1.02);
+}
+
+.mapa-estadio:hover img {
+    box-shadow:
+        0 30px 55px rgba(0, 0, 0, 0.75),
+        0 0 45px rgba(255, 0, 0, 0.4);
+}
+
+/* Animação de flutuação */
+@keyframes flutuarEstadio {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
