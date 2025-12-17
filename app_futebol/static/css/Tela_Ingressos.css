@@ -210,33 +210,48 @@ main h1 {
     flex-wrap: wrap;
 }
 
+/* 🏟️ Estádio */
 .mapa-estadio {
-    width: 360px;           /* aumento leve da largura */
-    max-width: 360px;       /* garantir máximo igual */
-    padding: 0.6rem;        /* padding confortável */
-    border-radius: 6px;
-
-    background: 
-      repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.03),
-        rgba(255,255,255,0.03) 1px,
-        transparent 1px,
-        transparent 10px
-      ),
-      linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
-
-    box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.05);
-
-    margin: 0 auto;         /* centralizar */
+    width: 360px;
+    max-width: 360px;
+    padding: 0;              /* remove container */
+    background: none;        /* remove fundo */
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0 auto;
 }
 
+/* 🏟️ Estádio flutuante */
 .mapa-estadio img {
-    width: 100%;            /* imagem ocupa 100% da largura */
+    width: 140%;              /* reduz um pouco para caber melhor */
     height: auto;
     display: block;
-    border-radius: 6px;
+    border-radius: 8px;
+
+    /* ✨ efeito flutuante + posição */
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
+    transition: transform 0.35s ease, filter 0.35s ease;
+
+    /* 👉 move para baixo e para a esquerda */
+    transform: translateY(40px) translateX(-40px);
+    margin-left: -130px;       /* reforça movimento à esquerda */
+    margin-top: -10px;         /* desce em direção aos ingressos */
 }
+
+/* ✨ Hover elegante */
+.mapa-estadio img:hover {
+    transform: translateY(30px) translateX(-40px) scale(1.03);
+    filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.8));
+}
+.mapa-estadio h3 {
+    text-align: left;
+    margin-left: 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
 
 /* 🎫 Lado Direito - Compra de Ingressos */
 .lado-direito-ingressos {
@@ -351,4 +366,253 @@ main h1 {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
+}
+/* 🔹 Ajustes para dispositivos touch (sem hover) */
+@media (hover: none) {
+  .mapa-estadio img:hover {
+    transform: none;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  }
+
+  .botao-comprar:hover,
+  .lista-ingressos .botao-excluir:hover,
+  #total-geral:hover {
+    transform: none;
+    background-color: inherit;
+  }
+}
+
+/* 📱 Layout refinado para mobile com tamanhos normais */
+@media (max-width: 600px) {
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .container-estadio-ingressos {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .mapa-estadio {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mapa-estadio h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .mapa-estadio img {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    transform: none;
+    border-radius: 8px;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
+  }
+
+  .form-setor {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-setor label {
+    font-size: 1rem;
+  }
+
+  .form-setor select,
+  #quantidade {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .botao-comprar {
+    font-size: 1rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  #total-geral {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 360px;
+    margin: 1rem auto 0;
+    display: block;
+    text-align: center;
+  }
+
+  .resumo-compra,
+  .lista-ingressos {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .lista-ingressos h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .lista-ingressos ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .lista-ingressos .item-ingresso {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .lista-ingressos .botao-excluir {
+    margin-top: 0.5rem;
+    min-height: 40px;
+    width: 100%;
+    background-color: #8F0000;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+
+  .lista-ingressos .botao-excluir:hover {
+    background-color: #a80000;
+  }
+
+  .logos-times {
+    gap: 1rem;
+  }
+
+  .logos-times img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logos-times span {
+    font-size: 1.6rem;
+  }
+
+  .titulo-ingresso h2,
+  .rodada-info h3 {
+    font-size: 1.5rem;
+  }
+
+  main h1 {
+    font-size: 1.9rem;
+    margin-bottom: 2rem;
+  }
+}
+/* 🧼 Ajuste final de espaçamento e alinhamento */
+.lista-ingressos {
+  margin-top: 1rem;          /* reduz espaço acima */
+  padding: 0.75rem;          /* padding mais compacto */
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  width: 100%;
+  max-width: 340px;          /* largura ajustada */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.lista-ingressos h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;     /* menos espaço abaixo */
+  text-align: center;
+  color: #ffffff;
+}
+
+.lista-ingressos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-ingressos .item-ingresso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  padding: 0.6rem;           /* mais compacto */
+  margin-bottom: 0.4rem;
+  background-color: #2a2a2a;
+}
+
+.lista-ingressos .info-ingresso p {
+  margin: 2px 0;
+  font-size: 0.95rem;
+  color: #cccccc;
+}
+
+.lista-ingressos .botao-excluir {
+  background-color: #8F0000;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.6rem;    /* botão menor */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s;
+}
+
+.lista-ingressos .botao-excluir:hover {
+  background-color: #a80000;
+}
+
+/* 💳 Botão Finalizar Compra — centralizado e sem espaço extra */
+#total-geral {
+  display: block;
+  margin: 0.8rem auto 0;     /* reduz espaço acima */
+  padding: 0.7rem 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #8F0000;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;          /* largura ajustada */
+  box-sizing: border-box;
+}
+
+#total-geral:hover {
+  transform: scale(1.02);
+  background-color: #b30000;
 }
