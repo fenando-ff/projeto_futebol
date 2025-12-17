@@ -1,8 +1,38 @@
+@import url('botoes_cores_fontes/cores.css');
+
+body {
+    background-color: var(--cor-de-fundo-terceiraria);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .main-perfil {
-    width: 50%;
-    margin: auto;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .info-usuario {
-    width: 70%;
+    background-color: #fff;
+    width: 450px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: left;
+}
+
+.info-usuario h1 {
+    margin-bottom: 20px;
+    color: #001A4A;
+}
+
+.info-usuario h2,
+.info-usuario h3 {
+    margin-top: 20px;
+    color: #3145B5;
+}
+
+.info-usuario p {
+    margin: 8px 0;
+    color: #333;
 }
