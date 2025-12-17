@@ -8,14 +8,55 @@
 <main class="main-perfil">
     <section class="info-usuario">
         <h1>Perfil do Usuário</h1>
-
-        <h2>Informações Pessoais</h2>
+        <form method="post">
+            <h2>Informações Pessoais</h2>
+            {% csrf_token %}
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="{{ nome }}">
+            </div>
+            <div>
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ email }}">
+            </div>
+            <div>
+                <label for="telefone">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" value="{{ telefone }}">
+            </div>
+            <h3>Endereço</h3>
+            
+            <div>
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="rua" name="rua" value="{{ endereco.rua }}">
+            </div>
+            <div>
+                <label for="casa">Casa:</label>
+                <input type="text" id="casa" name="casa" value="{{ endereco.casa }}">
+            </div>
+            <div>
+                <label for="bairro">Bairro:</label>
+                <input type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
+            </div>
+            <div>
+                <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep" value="{{ endereco.cep }}">
+            </div>
+            <div>
+                <label for="complemento">Complemento:</label>
+                <input type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
+            </div>
+            <button type="submit">Editar Perfil</button>
+            <button type="submit">Alterar Senha</button>
+        </form>
         <p><strong>Nome:</strong> {{ nome }} {{ sobrenome }}</p>
         <p><strong>Email:</strong> {{ email }}</p>
         <p><strong>Telefone:</strong> {{ telefone }}</p>
 
         {% if endereco %}
-            <h3>Endereço</h3>
             <p><strong>Rua:</strong> {{ endereco.rua }}, <strong>Casa:</strong> {{ endereco.casa }}</p>
             <p><strong>Bairro:</strong> {{ endereco.bairro }}</p>
             <p><strong>CEP:</strong> {{ endereco.cep }}</p>
