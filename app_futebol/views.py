@@ -73,10 +73,64 @@ def get_cliente_logado(request):
 # -------------------------------
 
 def tela_perfil(request):
-    dados_cliente = get_cliente_logado(request)
-    if not dados_cliente:
+    cliente_id = request.session.get("cliente_id")
+    if not cliente_id:
         return redirect('login') 
     
+    # 2. Busca o objeto do cliente no banco (necessário para salvar)
+    try:
+        cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+    except models.Clientes.DoesNotExist:
+        messages.error(request, "Erro ao carregar dados do usuário.")
+        return redirect('logout')
+
+    # 3. Processamento do Formulário (POST)
+    if request.method == "POST":
+        # --- Atualiza Dados Pessoais ---
+        cliente.nome_clientes = request.POST.get("nome")
+        cliente.sobrenome_clientes = request.POST.get("sobrenome")
+        cliente.email_clientes = request.POST.get("email")
+        cliente.telefone_clientes = request.POST.get("telefone")
+        
+        cliente.save() # Salva na tabela Clientes
+
+        # --- Atualiza ou Cria o Endereço ---
+        # Tenta buscar o endereço, se não existir, cria um novo vinculado ao cliente
+        endereco, created = models.EnderecoCliente.objects.get_or_create(
+            cliente_id_cliente=cliente
+        )
+        
+        endereco.rua_endereco_cliente = request.POST.get("rua")
+        endereco.casa_endereco_cliente = request.POST.get("casa")
+        endereco.bairro_endereco_cliente = request.POST.get("bairro")
+        endereco.cep_endereco_cliente = request.POST.get("cep")
+        endereco.complemento_endereco_cliente = request.POST.get("complemento")
+        
+        endereco.save() # Salva na tabela EnderecoCliente
+
+        # --- Atualiza a Sessão ---
+        # Isso é crucial para que o nome no topo do site mude sem precisar relogar
+        request.session["cliente_nome"] = cliente.nome_clientes
+        request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
+        request.session["cliente_email"] = cliente.email_clientes
+        request.session["cliente_telefone"] = cliente.telefone_clientes
+        
+        # Atualiza o endereço na sessão
+        request.session["cliente_endereco"] = {
+            "id": endereco.id_endereco_cliente,
+            "cep": endereco.cep_endereco_cliente,
+            "rua": endereco.rua_endereco_cliente,
+            "casa": endereco.casa_endereco_cliente,
+            "bairro": endereco.bairro_endereco_cliente,
+            "complemento": endereco.complemento_endereco_cliente
+        }
+
+        messages.success(request, "Perfil atualizado com sucesso!")
+        return redirect("perfil") # Recarrega a página para mostrar os dados novos
+
+    # 4. Renderização (GET)
+    # Usa a função helper existente para pegar os dados formatados da sessão atualizada
+    dados_cliente = get_cliente_logado(request)
     return render(request, "app_futebol/perfil.html", dados_cliente)
 
 

@@ -8,51 +8,61 @@
 <main class="main-perfil">
     <section class="info-usuario">
         <h1>Perfil do Usuário</h1>
-        <form method="post">
+        <form method="post" class="form-perfil">
             {% csrf_token %}
-            <h2>Informações Pessoais</h2>
-            <div class="campo">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" value="{{ nome }}">
-            </div>
-            <div class="campo">
-                <label for="sobrenome">Sobrenome:</label>
-                <input type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
-            </div>
-            <div class="campo">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="{{ email }}">
-            </div>
-            <div class="campo">
-                <label for="telefone">Telefone:</label>
-                <input type="text" id="telefone" name="telefone" value="{{ telefone }}">
-            </div>
-            <h3>Endereço</h3>
+            <div class="todas-infos">
+                <div class="info-pessoais">
+                    <h2>Informações Pessoais</h2>
+                    <div class="campo">
+                        <label for="nome">Nome:</label>
+                        <input class="info" type="text" id="nome" name="nome" value="{{ nome }}">
+                    </div>
+                    <div class="campo">
+                        <label for="sobrenome">Sobrenome:</label>
+                        <input class="info" type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
+                    </div>
+                    <div class="campo">
+                        <label for="email">Email:</label>
+                        <input class="info" type="email" id="email" name="email" value="{{ email }}">
+                    </div>
+                    <div class="campo">
+                        <label for="telefone">Telefone:</label>
+                        <input class="info" type="text" id="telefone" name="telefone" value="{{ telefone }}">
+                    </div>
+                    <div class="campo">
+                        <label for="plano_socio">Plano sócio:</label>
+                        <a class="info" href="{% url "socio" %}">{{ plano_cliente }}</a>
+                    </div>
+                </div>
 
-            {% if endereco %}
-                <div>
-                    <label for="endereco">Endereço:</label>
-                    <input type="text" id="rua" name="rua" value="{{ endereco.rua }}">
+                <div class="info-endereco">
+                    <h2>Endereço</h2>
+                    {% if endereco %}
+                        <div class="campo">
+                            <label for="endereco">Endereço:</label>
+                            <input class="info" type="text" id="rua" name="rua" value="{{ endereco.rua }}">
+                        </div>
+                        <div class="campo">
+                            <label for="casa">Casa:</label>
+                            <input class="info" type="text" id="casa" name="casa" value="{{ endereco.casa }}">
+                        </div>
+                        <div class="campo">
+                            <label for="bairro">Bairro:</label>
+                            <input class="info" type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
+                        </div>
+                        <div class="campo">
+                            <label for="cep">CEP:</label>
+                            <input class="info" type="text" id="cep" name="cep" value="{{ endereco.cep }}">
+                        </div>
+                        <div class="campo">
+                            <label for="complemento">Complemento:</label>
+                            <input class="info" type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
+                        </div>
+                    {% else %}
+                        <p><em>Endereço não cadastrado.</em></p>
+                    {% endif %}
                 </div>
-                <div>
-                    <label for="casa">Casa:</label>
-                    <input type="text" id="casa" name="casa" value="{{ endereco.casa }}">
-                </div>
-                <div>
-                    <label for="bairro">Bairro:</label>
-                    <input type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
-                </div>
-                <div>
-                    <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep" value="{{ endereco.cep }}">
-                </div>
-                <div>
-                    <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
-                </div>
-            {% else %}
-                <p><em>Endereço não cadastrado.</em></p>
-            {% endif %}
+            </div>
 
             <button type="submit">Atualizar Perfil</button>
             <a href="{% url 'recuperar_senha3' %}">Alterar Senha</a>
