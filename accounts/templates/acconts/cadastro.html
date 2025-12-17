@@ -135,40 +135,11 @@
                 <input id="complemento" name="complemento" placeholder="Complemento (opcional)" type="text">
             </div>
 
-            <p style="font-size: 0.9em; color: #666; text-align: center; margin: 10px 0;">
-                ℹ️ Você pode preencher o endereço agora ou depois no seu perfil
-            </p>
-
             <button type="button" class="btn-terceiro" onclick="validarCadastro()">Confirmar Cadastro</button>
         </section>
     </div>
 </form>
 </main>
-
-{% comment %} <form method="POST">
-    {% csrf_token %}
-    
-    <input type="text" name="nome" placeholder="Nome" required>
-    <input type="text" name="sobrenome" placeholder="Sobrenome" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="text" name="cpf" placeholder="CPF" required>
-    <input type="text" name="telefone" placeholder="Telefone" required>
-
-    <select name="sexo" required>
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-    </select>
-
-    <input type="password" name="senha" placeholder="Senha" required>
-
-    <button type="submit">Cadastrar</button>
-
-    {% if messages %}
-        {% for msg in messages %}
-            <p>{{ msg }}</p>
-        {% endfor %}
-    {% endif %}
-</form> {% endcomment %}
 
 
 {% endblock conteudo_pagina %}
