@@ -16,6 +16,13 @@
 <body class="corpo">
     {% include "partials/header.html" %}
     <main>
+        {% if messages %}
+            <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+            </ul>
+        {% endif %}
         {% block conteudo_pagina %}
 
         {% endblock conteudo_pagina %}

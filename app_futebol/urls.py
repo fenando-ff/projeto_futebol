@@ -21,6 +21,7 @@ urlpatterns = [
     path('ingresso/', views.tela_ingressos,name='ingresso'),
     path('socio/', views.tela_socio, name='socio'),
     path('pagamento_socio/<int:plano_id>/', views.pagamento_socio, name='confirmar_socio'),
+    path('perfil/', views.tela_perfil, name='perfil'),
 
 ]
 
