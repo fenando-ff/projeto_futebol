@@ -1,6 +1,18 @@
 /* ======================= GERAL ======================= */
+.home-container {
+    min-height: 100vh;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+}
+
+
+
 main{
-    height: 100% ;
+    width: 100%;
 }
 
 .home-container {
@@ -9,6 +21,7 @@ main{
     background: linear-gradient(180deg, #8c0000, #111);
     color: #fff;
     font-family: 'Poppins', sans-serif;
+
 }
 
 h1, h2, h3 {
@@ -334,6 +347,10 @@ a{
 }
 
 /* ======================= NOVO LAYOUT DE NOTÍCIAS ======================= */
+
+.noticias {
+    padding-bottom: 80px;
+}
 
 .titulo_noticias{
     margin: 0px 0px 70px 0px;
