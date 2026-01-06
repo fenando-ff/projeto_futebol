@@ -2,73 +2,130 @@
 {% load static %}
 
 {% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/proximos_jogos.css' %}">
   <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}">
 {% endblock css_extra %}
 
+{% block titulo %}Ingressos{% endblock titulo %}
+
 {% block conteudo_pagina %}
+
+<!-- ================= JOGO EM DESTAQUE ================= -->
+<section class="jogo-destaque">
+  <p class="rodada">19ª RODADA</p>
+
+  <div class="confronto">
+    <div class="time">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos FC">
+      <p>Drakos FC</p>
+    </div>
+
+    <span class="versus">X</span>
+
+    <div class="time">
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
+      <p>Fluminense</p>
+    </div>
+  </div>
+
+  <p class="info-jogo">09/04 - 19:00</p>
+  <p class="info-jogo">Mangueirão</p>
+</section>
+
+<!-- ================= COMPRA DE INGRESSOS ================= -->
 <main>
+
   <h1>Compra de Ingressos</h1>
 
-  <!-- 🔹 Título e Rodada -->
   <section class="titulo-ingresso">
     <div class="rodada-info">
       <h3>19ª Rodada</h3>
     </div>
+
     <h2>Drakos FC x Fluminense</h2>
+
     <div class="logos-times">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Drakos FC">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos FC">
       <span>vs</span>
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
     </div>
   </section>
-  <!-- 🔹 Container Flexível para layout lateral -->
+
   <div class="container-estadio-ingressos">
 
-    <!-- 🗺️ Mapa do Estádio -->
+    <!-- 🗺️ MAPA -->
     <section class="mapa-estadio">
       <h3>Mapa do Estádio</h3>
-      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio com setores">
+      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio">
     </section>
 
-    <!-- 🎫 Lado Direito - Compra de Ingressos -->
+    <!-- 🎫 COMPRA + LISTA -->
     <section class="lado-direito-ingressos">
 
-      <!-- 🧾 Formulário -->
       <form class="form-setor">
         <label for="setor">Setor:</label>
-        <select id="setor" name="setor">
+        <select id="setor">
           <option value="">Selecione</option>
           {% for ingresso in ingressos %}
-            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">
-               {{ingresso.nome_produtos}} {{ ingresso.descricao_produtos }} R${{ ingresso.valor_produtos }}
+            <option data-preco="{{ ingresso.valor_produtos }}">
+              {{ ingresso.nome_produtos }} - R${{ ingresso.valor_produtos }}
             </option>
           {% endfor %}
         </select>
 
-        <label for="quantidade">Quantidade (1 a 10):</label>
-        <input type="number" id="quantidade" name="quantidade" min="1" max="10">
+        <label for="quantidade">Quantidade:</label>
+        <input id="quantidade" type="number" min="1" max="10">
 
         <button type="submit" class="botao-comprar">Adicionar</button>
       </form>
 
-      <!-- 📑 Lista de Ingressos -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
         <ul></ul>
 
-        <!-- 🔹 Total Geral -->
-        <p id="total-geral">Finalizar compra: R$0.00</p>
+        <!-- 🔴 AGORA É UM BOTÃO -->
+        <button type="button" id="btn-finalizar" class="btn-finalizar">
+          Finalizar compra: R$0.00
+        </button>
       </section>
 
     </section>
+
   </div>
 
-  <!-- ✅ MENSAGEM DE SUCESSO AQUI (FUNCIONA AO CLICAR NO TOTAL DA COMPRA) -->
-  <div id="mensagem-sucesso" class="mensagem-sucesso">
+  <!-- 🔷 LISTA DE PRÓXIMOS JOGOS -->
+  <section class="jogos-container">
+    <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
+
+    <div class="jogo-card">
+      <img src="{% static 'img/icones/Gremio.png' %}" alt="Escudo Grêmio">
+      <h2>Grêmio vs Drakos FC</h2>
+      <p><strong>Data:</strong> 02 de Maio de 2025</p>
+      <p><strong>Horário:</strong> 20h00</p>
+    </div>
+
+    <div class="jogo-card">
+      <img src="{% static 'img/icones/Palmeiras.png' %}" alt="Escudo Palmeiras">
+      <h2>Palmeiras vs Drakos FC</h2>
+      <p><strong>Data:</strong> 06 de Maio de 2025</p>
+      <p><strong>Horário:</strong> 20h00</p>
+    </div>
+
+    <div class="jogo-card">
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
+      <h2>Fluminense vs Drakos FC</h2>
+      <p><strong>Data:</strong> 10 de Maio de 2025</p>
+      <p><strong>Horário:</strong> 20h00</p>
+    </div>
+  </section>
+
+  <!-- ✅ MENSAGEM COMEÇA ESCONDIDA -->
+  <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none;">
     Compra realizada com sucesso!
   </div>
 
 </main>
+
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}

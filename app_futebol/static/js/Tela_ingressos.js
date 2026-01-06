@@ -1,5 +1,3 @@
-// 📌 Tela_ingressos.js
-
 document.addEventListener("DOMContentLoaded", () => {
   const setorSelect = document.getElementById("setor");
   const quantidadeInput = document.getElementById("quantidade");
@@ -67,14 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ Mensagem de sucesso ao clicar no total (apenas se houver ingressos na lista)
   totalGeralEl.addEventListener("click", () => {
-    // Verifica se há itens na lista
     const quantidadeIngressos = listaIngressos.querySelectorAll(".item-ingresso").length;
 
-    // Só mostra a mensagem se houver ingressos
     if (quantidadeIngressos > 0) {
       const msg = document.getElementById("mensagem-sucesso");
-      msg.classList.add("visivel");
-      setTimeout(() => msg.classList.remove("visivel"), 2000);
+      if (msg) {
+        msg.classList.add("visivel");
+        setTimeout(() => msg.classList.remove("visivel"), 2000);
+      } else {
+        alert("Compra realizada com sucesso!");
+      }
+    } else {
+      alert("Adicione pelo menos um ingresso antes de finalizar a compra!");
     }
   });
 });
