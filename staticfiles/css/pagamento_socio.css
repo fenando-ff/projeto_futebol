@@ -1,0 +1,70 @@
+.pagamento-container {
+    width: 80%;
+    margin: 140px auto;
+    font-family: "Poppins", sans-serif;
+}
+
+h1 {
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+.box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.buttons-pay {
+    display: flex;
+    gap: 20px;
+}
+
+.pay-btn {
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    background: #7a0000;
+    color: white;
+    transition: .3s;
+}
+
+.pay-btn:hover {
+    background: #a10000;
+}
+
+.form-pay {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.dupla {
+    display: flex;
+    gap: 10px;
+}
+
+.confirmar, .paypal-btn {
+    margin-top: 10px;
+    padding: 14px;
+    background: #008000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.confirmar:hover, .paypal-btn:hover {
+    background: #00a000;
+}

@@ -1,0 +1,228 @@
+/* 🔷 Reset e fonte padrão */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto Condensed', sans-serif;
+  background: linear-gradient(180deg, #1a1a1a, #0d0d0d); /* 🔧 fundo mais claro com gradiente crescente */
+  color: #ffffff;
+}
+
+/* 🔷 Rodapé */
+footer {
+  background-color: #222222; /* 🔧 mais claro que #161616 */
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+
+footer .redes-sociais a {
+  color: #ffffff;
+  margin: 0 8px;
+  font-size: 1.2rem;
+}
+
+/* 🔷 Estilo geral do conteúdo principal */
+main {
+  padding: 20px;
+  min-height: 83vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* 🔥 centraliza horizontalmente */
+  justify-content: center;   /* 🔥 centraliza verticalmente */
+}
+
+main h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #8F0000;
+}
+
+/* 🔧 Título dos próximos jogos — agora centralizado e alinhado com o grid */
+.titulo-secundario {
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto 20px auto;
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* 🔷 Destaque do próximo jogo */
+.jogo-destaque {
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a); /* 🔧 gradiente crescente mais claro */
+  border-radius: 12px;
+  padding: 40px 20px; /* 🔧 padding ajustado para ficar proporcional aos cards */
+  max-width: 595px;
+  width: 95%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  text-align: center;
+
+  margin: 40px auto 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rodada {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #c71c1c;
+  margin-bottom: 20px;
+}
+
+.confronto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.time p {
+  margin-top: 8px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.versus {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #8F0000;
+}
+
+.info-jogo {
+  font-size: 1rem;
+  color: #cccccc;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.btn-proximo {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #8F0000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-proximo:hover {
+  background-color: #a80000;
+}
+
+/* 🔷 Container dos cards */
+.jogos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* 🔥 Cards reformulados + correções */
+.jogo-card {
+  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  border: 1px solid #333333;
+  border-radius: 12px;
+
+  flex: 1 1 calc(100% - 20px);
+  max-width: 360px;
+
+  padding: 20px; /* 🔧 padding uniforme */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 🔧 distribui melhor conteúdo */
+  gap: 12px;
+
+  min-height: 230px;
+  max-height: 230px;
+  overflow: hidden;
+
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+}
+
+.jogo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* Correção: Imagens dentro dos cards não quebram layout */
+.jogo-card img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 5px auto;
+}
+
+.jogo-card h2 {
+  font-size: 1.4rem;
+  color: #c71c1c;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.jogo-card p {
+  font-size: 1rem;
+  color: #d6d6d6;
+}
+
+/* Botão ajustado */
+.btn-comprar {
+  margin-top: auto;
+  padding: 12px 22px;
+  background-color: #8F0000;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-comprar:hover {
+  background-color: #a80000;
+  transform: scale(1.03);
+}
+
+/* 🔷 Responsivo para telas médias */
+@media screen and (min-width: 768px) {
+  .jogo-card {
+    flex: 1 1 calc(50% - 25px);
+  }
+}
+
+/* 🔷 Responsivo para telas grandes */
+@media screen and (min-width: 1024px) {
+  .jogo-card {
+    flex: 1 1 calc(33.333% - 25px);
+  }
+}

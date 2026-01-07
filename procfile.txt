@@ -1,0 +1,2 @@
+web: gunicorn projeto.wsgi 
+#isso e um comando que diz como o server deve iniciar#

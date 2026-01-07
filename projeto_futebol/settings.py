@@ -26,9 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-w(us%gm88&g7o@u3*idy=0n5!-xar&$=n85y_(c26*$167)&p1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = False #paraece que evitar erros de informações"
+
+ALLOWED_HOSTS = ['*'] #isso informa que pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
 
 # Application definition
@@ -136,7 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

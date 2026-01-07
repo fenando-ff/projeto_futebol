@@ -1,0 +1,586 @@
+/* ======================= GERAL ======================= */
+.home-container {
+    min-height: 100vh;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+}
+
+
+
+main{
+    width: 100%;
+}
+
+.home-container {
+    width: 100%;
+    padding: 0;
+    background: linear-gradient(180deg, #8c0000, #111);
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+h1, h2, h3 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+a{
+    text-decoration: none;
+}
+
+/* BOTÕES */
+.btn-primary {
+    background: #F72B2B;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: #eaeaea;
+    color:#870000;
+}
+
+.btn-secondary {
+    border: 1px solid #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    transition: 0.3s;
+    background-color: #eeeeee;
+    color: #111;
+}
+
+.btn-secondary:hover {
+    background: #1b1b1b;
+    color: rgb(232, 232, 232);
+}
+
+/* ======================= HERO ======================= */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 64px 11%;
+    gap: 32px;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-text h1 {
+    font-size: 2.7rem;
+    margin-bottom: 22px;
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    opacity: 0.8;
+}
+
+/* HERO CARROSSEL */
+.hero-carousel {
+    position: relative;
+    width: 790px;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 14px;
+    box-shadow: 0 0 12px #000;
+    flex-shrink: 0;
+    transition: 0.5s;
+}
+
+
+.hero-carousel:hover {
+    .carousel-btn.left {
+    left: 16px;
+    opacity: 100%;
+    }
+
+    .carousel-btn.left:hover {
+    background-color: #000;
+    }
+    .carousel-btn.right:hover {
+    background: rgba(0, 0, 0, 0.75);
+    }
+
+    .carousel-btn.right {
+    right: 16px;
+    opacity: 100%;
+    }
+
+    .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    border: none;
+    font-size: 32px;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.5s ease;
+    z-index: 15;
+    }
+
+}
+
+.carousel-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.carousel-track img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-img.active {
+    opacity: 1;
+}
+
+/* Barra de progresso */
+.carousel-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: #f0f0f0;
+    transition: linear;
+}
+
+/* ======================= DESTAQUES ======================= */
+.destaques {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 48px auto;
+    flex-wrap: wrap;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+    height: 220px;
+    background: #1a1a1a;
+    padding: 24px;
+    border-radius: 16px;
+    transition: 0.3s;
+    gap: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    background: #fbfbfb;
+    color: #8c0000;
+}
+
+.card i {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+/* ======================= PRÓXIMO JOGO ======================= */
+.proximo-jogo {
+    text-align: center;
+    padding: 64px 0;
+}
+
+.jogo-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    margin: 44px auto;
+}
+
+.jogo-card img {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.versus {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.info {
+    font-size: 20px;
+    margin-bottom: 24px;
+    opacity: 0.9;
+}
+
+/* ======================= PRODUTOS ======================= */
+.produtos {
+    text-align: center;
+    padding: 64px 0;
+}
+
+.cards-produtos-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 30px 0px;
+}
+
+.product-card {
+    width: 390px;
+    background: #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    position: relative;
+    transform: scale(0.80);
+    transition: 0.5s;
+    gap: 20px;
+}
+
+.product-card:hover {
+    transform: scale(0.85) translateY(-8px);
+}
+
+.product-image {
+    background: linear-gradient(180deg, #681313, #3d0b0b);
+    padding: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 100%;
+    max-width: 260px;
+    height: 350px;
+    object-fit: contain;
+    transform: rotate(-12deg);
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.product-image img:hover {
+    transform: rotate(0deg);
+}
+
+.product-info {
+    padding: 20px 24px;
+    color: #111;
+}
+
+.product-tags {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.tag {
+    background: #eee;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 0.4s ease;
+}
+
+.product-card:hover .bottom {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #8c0000;
+}
+
+.btn-add {
+    background: #870000;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #151515;
+}
+
+.product-card:hover .desc {
+    margin-bottom: 20px;
+}
+
+/* ======================= NOVO LAYOUT DE NOTÍCIAS ======================= */
+
+.noticias {
+    padding-bottom: 80px;
+}
+
+.titulo_noticias{
+    margin: 0px 0px 70px 0px;
+    text-align: center;
+}
+
+.noticia-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+/* CARD LIMPO (igual ao layout da imagem) */
+.news-card {
+    width: 350px;
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transition: 0.35s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.news-card-big {
+    width: 730px; /* card grande horizontal como na imagem modelo */
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row; /* imagem à esquerda / texto à direita */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    transition: 0.35s ease;
+    cursor: pointer;
+    position: relative;   
+}
+
+.news-card-big .news-img-big {
+    width: 100%;
+    height: 335px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+.news-card-big .news-content {
+    padding: 24px;
+    width: 50%;
+    color: #222;
+}
+
+
+.news-card-big img{
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+.news-card-big:hover{
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card-big img:hover{
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card-big::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #F72B2B, #ff7070);
+    transition: width 0.35s ease;
+}
+
+/* Imagem */
+.news-card .news-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    transition: 0.35s ease;
+}
+
+/* Conteúdo */
+.news-content {
+    padding: 18px;
+    color: #222;
+}
+
+.news-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #111;
+    font-weight: 700;
+}
+
+.news-content p {
+    font-size: 0.9rem;
+    opacity: 0.75;
+    margin-bottom: 14px;
+}
+
+.news-link {
+    color: #b30101;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.news-link:hover {
+    color: #b50000;
+}
+
+/* Hover premium */
+.news-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+}
+
+.news-card:hover .news-img {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+/* Linha inferior animada */
+.news-card::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #F72B2B, #910000);
+    transition: width 0.35s ease;
+}
+
+.news-card:hover::after {
+    width: 100%;
+}
+
+/* ======================= RESPONSIVO ======================= */
+@media (max-width: 1200px) {
+    .hero-carousel {
+        width: 700px;
+        height: 330px;
+    }
+    .carousel-btn {
+        font-size: 26px;
+        padding: 5px 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 18px;
+    }
+
+    .hero-carousel {
+        width: 95%;
+        height: 260px;
+    }
+
+    .hero-text h1 {
+        font-size: 2.2rem;
+    }
+
+    .carousel-btn {
+        font-size: 24px;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-carousel {
+        width: 100%;
+        height: 210px;
+    }
+
+    .carousel-btn {
+        font-size: 22px;
+        padding: 4px 8px;
+    }
+
+    .progress-bar {
+        height: 5px;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .hero-carousel {
+        height: 180px;
+    }
+
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem;
+    }
+
+    .carousel-btn {
+        font-size: 18px;
+        padding: 4px 8px;
+    }
+
+    /* Ajuste dos produtos no mobile */
+    .product-card {
+        width: 92%;
+        transform: scale(1);
+    }
+
+    .product-image {
+        padding: 20px;
+    }
+
+    .product-image img {
+        max-width: 200px;
+    }
+
+    .news-card {
+        width: 92%;
+    }
+}

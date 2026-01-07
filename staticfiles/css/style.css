@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main{
+    flex: 1;
+    width: 100%;
+    padding-top: 60px; 
+}
+
+/* novo estilo de navbar (opcional) */
+.cabecalho {
+    background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.6),
+    inset 450px 1px 0 rgba(0, 0, 0, 0.2);
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    z-index: 1000; 
+}
+
+.logo {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 17%;
+    height: 20%;
+    min-width: 24px;
+}
+
+.logo h1 {
+    margin-left: 10px ;
+    font-size: small;
+    width: 100%;
+    color: #ffffff;
+}
+
+.menu-hamburgue {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+}
+
+.menu-hamburgue a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.nav {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: none;
+    width: 100%;
+    justify-content: end;
+    position: absolute;
+    z-index: 9999;
+    margin-top: 13rem;
+}
+
+.hamburguer-opcoes {
+    display: flex;
+    background-color: #161616;
+    flex-direction: column;
+    list-style: none;
+    gap: 4px;
+    padding: 4px;
+    width: 20%;
+    border-radius: 0px 0px 8px 8px;
+    margin-right: 16px;
+    align-items: center;
+}
+
+.btn-esconde {
+        display: none;
+    }
+
+.hamburguer-opcoes a {
+    text-decoration: none;
+    color: #ffffff;
+    padding: 4px;
+}
+
+.hamburguer-opcoes .opcao-nav {
+    padding: 4px;
+    text-align: start;
+}
+.hamburguer-opcoes .opcao-nav a {
+    transition: 0.3s;
+}
+
+.hamburguer-opcoes .opcao-nav a:hover {
+        color: #8F0000;
+    }
+
+/* ======================= RODAPÉ ======================= */
+.footer {
+    margin-top: 120px;
+    background: #111;
+    color: #fff;
+    padding: 60px 5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.footer-brand h3 {
+    font-size: 1.8rem;
+    color: #F72B2B;
+    margin-bottom: 12px;
+}
+
+.footer-brand p {
+    font-size: 0.95rem;
+    opacity: 0.7;
+}
+
+.footer-sponsors h4,
+.footer-links h4 {
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #F72B2B;
+}
+
+.sponsor-logos {
+    margin-top: 30px;
+    display: flex;
+    gap: 26px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sponsor-logos img {
+    transform: scale(1.8);
+    height: 40px;
+    object-fit: contain;
+    transition: 0.3s;
+}
+
+.sponsor-logos img:hover {
+    filter: brightness(1) invert(0);
+    transform: scale(2.0);
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 8px;
+}
+
+.footer-links ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.footer-links ul li a:hover {
+    color: #F72B2B;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.85rem;
+    opacity: 0.6;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .sponsor-logos {
+        justify-content: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .cabecalho {
+        height: 80px;
+        display: flex;
+    }
+
+    main {
+        padding-top: 80px; 
+    }
+
+    .menu-hamburgue {
+        display: none;
+    }
+
+    .nav {
+        position: static;
+        width: 28rem;
+        display: flex;
+        justify-content: start;
+        margin-top: 0;
+    }
+    
+    .hamburguer-opcoes {
+        display: flex;
+        flex-direction: row;
+        background: none;
+        width: 28rem;
+    }
+
+    .hamburguer-opcoes .btn-esconde {
+        display: block;
+    }
+
+    .logo {
+        width: 24rem;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        text-decoration: none;
+        margin-right: 16rem;
+    }
+
+    .logo img {
+        max-width: 50px;
+    }
+    
+}
