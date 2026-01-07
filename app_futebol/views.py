@@ -457,7 +457,3 @@ def pagamento_socio(request, plano_id):
         "cliente": cliente,
         "plano": plano,
     })
-
-
-def tela_proximo_jogo(request):
-    return render(request, "app_futebol/proximos_jogos.html")

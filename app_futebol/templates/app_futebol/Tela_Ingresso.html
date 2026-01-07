@@ -16,14 +16,14 @@
 
   <div class="confronto">
     <div class="time">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos FC">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
       <p>Drakos FC</p>
     </div>
 
     <span class="versus">X</span>
 
     <div class="time">
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}">
       <p>Fluminense</p>
     </div>
   </div>
@@ -38,89 +38,96 @@
   <h1>Compra de Ingressos</h1>
 
   <section class="titulo-ingresso">
-    <div class="rodada-info">
-      <h3>19ª Rodada</h3>
-    </div>
-
+    <h3>19ª Rodada</h3>
     <h2>Drakos FC x Fluminense</h2>
 
     <div class="logos-times">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos FC">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
       <span>vs</span>
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
+      <img src="{% static 'img/icones/escudo_fluminense.png' %}">
     </div>
   </section>
 
   <div class="container-estadio-ingressos">
 
-    <!-- 🗺️ MAPA -->
+    <!-- MAPA -->
     <section class="mapa-estadio">
       <h3>Mapa do Estádio</h3>
-      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio">
+      <img src="{% static 'img/icones/estadio_atualizado.png' %}">
     </section>
 
-    <!-- 🎫 COMPRA + LISTA -->
+    <!-- COMPRA -->
     <section class="lado-direito-ingressos">
 
-      <form class="form-setor">
+      <!-- 🔧 FORM CORRIGIDO -->
+      <form class="form-setor" method="POST">
+        {% csrf_token %}
+
         <label for="setor">Setor:</label>
-        <select id="setor">
+        <select id="setor" name="setor" required>
           <option value="">Selecione</option>
           {% for ingresso in ingressos %}
-            <option data-preco="{{ ingresso.valor_produtos }}">
-              {{ ingresso.nome_produtos }} - R${{ ingresso.valor_produtos }}
+            <option 
+              value="{{ ingresso.id_produtos }}"
+              data-preco="{{ ingresso.valor_produtos }}">
+              {{ ingresso.nome_produtos }} - R$ {{ ingresso.valor_produtos }}
             </option>
           {% endfor %}
         </select>
 
         <label for="quantidade">Quantidade:</label>
-        <input id="quantidade" type="number" min="1" max="10">
+        <input
+          id="quantidade"
+          name="quantidade"
+          type="number"
+          min="0"
+          max="10"
+          value="0"
+          required
+        >
 
-        <button type="submit" class="botao-comprar">Adicionar</button>
+        <button type="submit" class="botao-comprar">
+          Adicionar Ingresso
+        </button>
       </form>
 
+      <!-- LISTA -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
         <ul></ul>
 
-        <!-- 🔴 AGORA É UM BOTÃO -->
-        <button type="button" id="btn-finalizar" class="btn-finalizar">
-          Finalizar compra: R$0.00
+        <button type="button" id="btn-finalizar" class="botao-finalizar">
+          Finalizar compra • R$ <span id="valor-final">0.00</span>
         </button>
       </section>
 
     </section>
-
   </div>
 
-  <!-- 🔷 LISTA DE PRÓXIMOS JOGOS -->
+  <!-- PRÓXIMOS JOGOS -->
   <section class="jogos-container">
     <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
 
     <div class="jogo-card">
-      <img src="{% static 'img/icones/Gremio.png' %}" alt="Escudo Grêmio">
       <h2>Grêmio vs Drakos FC</h2>
-      <p><strong>Data:</strong> 02 de Maio de 2025</p>
-      <p><strong>Horário:</strong> 20h00</p>
+      <p class="data">02/05/2025 • 20h00</p>
+      <p class="local">Local: Mangueirão</p>
     </div>
 
     <div class="jogo-card">
-      <img src="{% static 'img/icones/Palmeiras.png' %}" alt="Escudo Palmeiras">
       <h2>Palmeiras vs Drakos FC</h2>
-      <p><strong>Data:</strong> 06 de Maio de 2025</p>
-      <p><strong>Horário:</strong> 20h00</p>
+      <p class="data">06/05/2025 • 20h00</p>
+      <p class="local">Local: Mangueirão</p>
     </div>
 
     <div class="jogo-card">
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Escudo Fluminense">
       <h2>Fluminense vs Drakos FC</h2>
-      <p><strong>Data:</strong> 10 de Maio de 2025</p>
-      <p><strong>Horário:</strong> 20h00</p>
+      <p class="data">10/05/2025 • 20h00</p>
+      <p class="local">Local: Mangueirão</p>
     </div>
   </section>
 
-  <!-- ✅ MENSAGEM COMEÇA ESCONDIDA -->
-  <div id="mensagem-sucesso" class="mensagem-sucesso" style="display: none;">
+  <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none;">
     Compra realizada com sucesso!
   </div>
 

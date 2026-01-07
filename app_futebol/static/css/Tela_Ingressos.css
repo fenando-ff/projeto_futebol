@@ -1,4 +1,4 @@
-/* 🔄 Reset básico */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,13 +12,14 @@ body {
   line-height: 1.5;
 }
 
-/* 🔷 Destaque do jogo */
 .jogo-destaque {
+  /* removido desta tela - esconder para focar no fluxo de compra */
+  display: none !important;
   background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
   border-radius: 16px;
-  padding: 25px 20px;
+  padding: 30px 22px;
   max-width: 600px;
-  margin: 30px auto;
+  margin: 20px auto 0;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
   text-align: center;
   position: relative;
@@ -69,18 +70,42 @@ body {
   margin: 4px 0;
 }
 
-/* 🔷 Compra de ingressos */
 main {
-  padding: 30px 20px;
-  max-width: 1000px;
+  padding: 80px 40px 30px; /* mais espaço superior para destacar o título */
+  max-width: 1400px; /* aumenta largura útil da página */
   margin: 0 auto;
 }
 
 main h1 {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   color: #8F0000;
-  margin-bottom: 25px;
+  margin-top: 32px; /* aumenta espaço acima do título */
+  margin-bottom: 22px;
+}
+
+/* Regras mais específicas para garantir sobreposição ao estilo global do site */
+body.corpo main {
+  padding-top: 60px !important;
+}
+
+body.corpo main h1 {
+  margin-top: 8px !important;
+}
+
+/* Forçar deslocamento extra na coluna direita da compra */
+.container-estadio-ingressos .lado-direito-ingressos {
+  margin-top: 92px !important;
+}
+
+/* Se o template usar <main> aninhado dentro do main do base (ocorre neste projeto),
+   garanta que o inner main e seu H1 sejam empurrados para baixo */
+body.corpo > main > main {
+  padding-top: 40px !important;
+}
+
+body.corpo > main > main h1 {
+  margin-top: 24px !important; 
 }
 
 .titulo-ingresso {
@@ -117,63 +142,95 @@ main h1 {
   font-weight: bold;
 }
 
-/* 🔷 Container geral do mapa + formulário + ingressos */
 .container-estadio-ingressos {
   display: flex;
-  flex-wrap: wrap;          /* permite lado a lado em telas grandes */
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
+  flex-wrap: wrap;
+  justify-content: space-between; /* usa o espaço vazio entre os cards */
+  gap: 120px; /* aumenta espaço entre os cards para 'desgrudar' */
+  margin-top: 56px; /* aumenta espaço acima do container de compra */
   width: 100%;
+  max-width: 1400px; /* controla o quanto o container expande */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* evitar que os dois painéis sejam esticados para a mesma altura */
+.container-estadio-ingressos {
+  align-items: flex-start;
+}
+
+/* ================= AJUSTE FINAL DE DIREÇÃO (MAPA + FORMULÁRIO) ================= */
+
+/* garantir que os dois cards comecem no mesmo eixo vertical */
+.container-estadio-ingressos {
+  align-items: flex-start;
+}
+
+/* remover qualquer empurrão extra do painel direito */
+.container-estadio-ingressos .lado-direito-ingressos {
+  margin-top: 0 !important;
 }
 
 .mapa-estadio,
 .lado-direito-ingressos {
-  flex: 1 1 400px;
-  max-width: 500px;
+  flex: 0 1 45%; /* cada painel ocupa aproximadamente 45% */
+  max-width: 45%;
+  min-width: 320px; /* evita colapso em larguras médias */
 }
 
-/* 🔷 Mapa do Estádio */
 .mapa-estadio {
   width: 100%;
   text-align: center;
   background-color: #1a1a1a;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.5);
+  padding: 1.5rem; /* maior */
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+}
+
+/* centralizar e limitar o tamanho do mapa para não ficar esticado */
+.mapa-estadio {
+  display: flex;
+  flex-direction: column; /* garante H3 acima da imagem */
+  align-items: center; /* centraliza o conteúdo dentro do card */
+  justify-content: center;
+  gap: 12px;
+  padding-left: 0; /* remover deslocamento lateral */
 }
 
 .mapa-estadio h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
   color: #ffffff;
+  align-self: center;
 }
 
 .mapa-estadio img {
   width: 100%;
+  max-width: 520px; /* limitar um pouco para garantir espaço entre os cards */
+  max-height: 520px;
   height: auto;
+  object-fit: contain;
   border-radius: 6px;
   display: block;
-  margin: 0 auto;
 }
 
-/* 🔷 Formulário de Compra */
 .lado-direito-ingressos {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px; /* mais espaçamento entre blocos */
   background-color: #1a1a1a;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  padding: 1.5rem; /* maior */
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  margin-top: 0 !important; /* garantir alinhamento com o mapa */
+  align-self: flex-start; /* força o card a começar no mesmo eixo vertical */
 }
 
-/* 🔷 Campos do formulário */
 .form-setor {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem; /* espaçamento maior */
 }
 
 .form-setor label {
@@ -184,20 +241,19 @@ main h1 {
 .form-setor select,
 .form-setor input[type="number"] {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 5px;
+  padding: 0.9rem; /* maior area clicavel */
+  font-size: 1.05rem; /* leve aumento */
+  border-radius: 6px;
   border: 1px solid #444;
   background-color: #2a2a2a;
   color: #ffffff;
-  height: 45px;
+  height: 50px;
 }
 
-/* 🔷 Botão Adicionar */
 .botao-comprar {
   width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
+  padding: 0.9rem;
+  font-size: 1.05rem;
   background-color: #8F0000;
   color: #ffffff;
   border: none;
@@ -211,15 +267,14 @@ main h1 {
   transform: scale(1.02);
 }
 
-/* 🔷 Ingressos Selecionados */
 .lista-ingressos {
   width: 100%;
-  max-width: 600px;
+  max-width: 720px; /* maior largura */
   margin: 0 auto;
   background-color: #1a1a1a;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  padding: 1.25rem; /* maior padding */
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
 }
 
 .lista-ingressos h3 {
@@ -235,7 +290,6 @@ main h1 {
   margin-bottom: 1rem;
 }
 
-/* 🔷 Botão Finalizar Compra */
 #total-geral {
   display: block;
   width: 100%;
@@ -256,14 +310,13 @@ main h1 {
   background-color: #b30000;
 }
 
-/* 🔷 Lista de próximos jogos */
 .jogos-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  max-width: 1000px;
-  margin: 40px auto 0;   /* mais espaçamento para respirar */
+  justify-content: space-between; /* alinhar os cards lado a lado */
+  gap: 24px;
+  max-width: 1200px;
+  margin: 40px auto 0;
   padding: 10px;
 }
 
@@ -280,12 +333,21 @@ main h1 {
   background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
   border: 1px solid #333333;
   border-radius: 12px;
-  max-width: 300px;
-  flex: 1 1 280px;
-  padding: 18px;
+  max-width: 360px;
+  flex: 0 1 30%; /* cada card ocupa aprox 30% */
+  padding: 28px;
   text-align: center;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* garantir que todos os cards tenham o mesmo tamanho e conteúdo centralizado */
+.jogo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* altura padrão uniforme */
 }
 
 .jogo-card:hover {
@@ -294,9 +356,18 @@ main h1 {
 }
 
 .jogo-card img {
-  width: 35px;
-  height: 35px;
-  margin-bottom: 8px;
+  display: none; /* esconder imagens de times */
+}
+
+.jogo-card .data {
+  margin-top: 8px;
+  color: #d6d6d6;
+}
+
+.jogo-card .local {
+  margin-top: 6px;
+  color: #cfcfcf;
+  font-weight: 600;
 }
 
 .jogo-card h2 {
@@ -309,12 +380,24 @@ main h1 {
   color: #d6d6d6;
 }
 
-/* 🔷 Responsivo */
+@media (max-width: 1200px) {
+  .container-estadio-ingressos {
+    justify-content: center;
+    gap: 48px;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   .container-estadio-ingressos {
     flex-direction: column;
     gap: 25px;
     align-items: center;
+  }
+  .mapa-estadio,
+  .lado-direito-ingressos {
+    flex: 1 1 100%;
+    max-width: 100%;
   }
 
   .mapa-estadio,
@@ -328,26 +411,189 @@ main h1 {
     max-width: 100%;
   }
 
+  /* reduzir espaçamentos em mobile para caber melhor */
+  main { padding: 48px 12px 20px; }
+  .container-estadio-ingressos { margin-top: 34px; gap: 24px; }
+  .lado-direito-ingressos { margin-top: 34px; }
+  main h1 { margin-top: 24px; }
+  /* Mobile-specific refinements */
+  /* Make jogo cards full width, shorter and better spaced on phones */
+  .jogos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+
+  .jogo-card {
+    flex: 0 1 100%;
+    width: 100%;
+    max-width: 520px;
+    min-height: 140px; /* menor altura para caber em telas pequenas */
+    padding: 18px;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+  }
+
+  .jogo-card h2 { font-size: 1.05rem; }
+  .jogo-card p, .jogo-card .data, .jogo-card .local { font-size: 0.95rem; }
+
+  /* Ensure map scales nicely on mobile without stretching */
+  .mapa-estadio img {
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Make buttons and totals easy to tap */
+  .botao-comprar {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  #total-geral { font-size: 1.05rem; }
+
+  /* Success modal adjustments for small screens */
+  #mensagem-sucesso {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 520px;
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  /* Slightly increase the title separation on mobile for readability */
+  main h1 { margin-top: 28px; font-size: 1.5rem; }
+
+  /* Small adjustments to the right column spacing */
+  .lado-direito-ingressos { padding: 8px; }
+
+
+/* Very small screens (narrow phones) */
+@media (max-width: 480px) {
+  .jogo-card { min-height: 120px; padding: 14px; }
+  .jogo-card h2 { font-size: 1rem; }
+  main { padding: 36px 10px 18px; }
+  #mensagem-sucesso { padding: 14px; width: calc(100% - 20px); }
+  .botao-comprar { padding: 11px 12px; font-size: 0.98rem; }
+}
   .jogos-container {
     flex-direction: column;
     align-items: center;
   }
 }
 
-/* 🔷 Destaque com efeito "flutuante" elegante (sem bug) */
 .jogo-destaque {
   animation: sombra-flutuante 5s ease-in-out infinite;
 }
 
-/* 🔷 Animação apenas da sombra */
 @keyframes sombra-flutuante {
-  0% {
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
-  }
-  50% {
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
-  }
-  100% {
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
-  }
+  0% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
+  50% { box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55); }
+  100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
+}
+
+/* 🔹 Estilo de cada ingresso listado */
+.lista-ingressos li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a2a;
+  padding: 0.9rem 1rem; /* mais espaço dentro de cada item */
+  margin-bottom: 0.75rem; /* mais espaçamento entre itens */
+  border-radius: 8px;
+  font-size: 1rem; /* leve aumento */
+}
+
+/* 🔴 Botão Excluir ingresso */
+.botao-excluir {
+  background-color: transparent;
+  border: 1px solid #8F0000;
+  color: #ff4d4d;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botao-excluir:hover {
+  background-color: #8F0000;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* 🟢 Botão Finalizar Compra */
+.botao-finalizar {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #8F0000, #c71c1c);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.botao-finalizar:hover {
+  background: linear-gradient(135deg, #a80000, #ff2222);
+  transform: translateY(-2px);
+}
+
+/* ================= MENSAGEM DE SUCESSO (GLASS VERDE FORTE) ================= */
+#mensagem-sucesso {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.98);
+
+  /* tornar a mensagem opaca e mais visível */
+  background: rgba(0, 150, 60, 0.95);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  border: 1px solid rgba(0, 200, 100, 0.95);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.75),
+    0 0 20px rgba(0, 200, 120, 0.25);
+
+  color: #ffffff;
+  padding: 20px 36px;
+  border-radius: 12px;
+
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+
+  transition: all 0.28s ease;
+}
+
+/* estado visível */
+#mensagem-sucesso.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes mensagem-pop {
+  0% { opacity: 0; transform: translate(-50%, -46%) scale(.98); }
+  60% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
