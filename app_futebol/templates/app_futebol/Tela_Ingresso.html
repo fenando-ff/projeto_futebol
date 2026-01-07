@@ -21,14 +21,13 @@
       <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
     </div>
   </section>
-
   <!-- 🔹 Container Flexível para layout lateral -->
   <div class="container-estadio-ingressos">
 
     <!-- 🗺️ Mapa do Estádio -->
     <section class="mapa-estadio">
       <h3>Mapa do Estádio</h3>
-      <img src="{% static 'img/icones/mapa_estadio.png' %}" alt="Mapa do Estádio com setores">
+      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio com setores">
     </section>
 
     <!-- 🎫 Lado Direito - Compra de Ingressos -->
@@ -41,7 +40,7 @@
           <option value="">Selecione</option>
           {% for ingresso in ingressos %}
             <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">
-              {{ ingresso.nome_produtos }} - R${{ ingresso.valor_produtos }}
+               {{ingresso.nome_produtos}} {{ ingresso.descricao_produtos }} R${{ ingresso.valor_produtos }}
             </option>
           {% endfor %}
         </select>
@@ -49,30 +48,29 @@
         <label for="quantidade">Quantidade (1 a 10):</label>
         <input type="number" id="quantidade" name="quantidade" min="1" max="10">
 
-        <!-- ❌ Preço total removido -->
-
         <button type="submit" class="botao-comprar">Adicionar</button>
       </form>
 
       <!-- 📑 Lista de Ingressos -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
-        <ul>
-          <!-- ✅ Lista começa vazia -->
-        </ul>
+        <ul></ul>
 
         <!-- 🔹 Total Geral -->
-        <p id="total-geral">Total da compra: R$0.00</p>
+        <p id="total-geral">Finalizar compra: R$0.00</p>
       </section>
 
     </section>
   </div>
+
+  <!-- ✅ MENSAGEM DE SUCESSO AQUI (FUNCIONA AO CLICAR NO TOTAL DA COMPRA) -->
+  <div id="mensagem-sucesso" class="mensagem-sucesso">
+    Compra realizada com sucesso!
+  </div>
+
 </main>
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
   <script src="{% static 'js/Tela_ingressos.js' %}"></script>
 {% endblock js_pagina %}
-
-<!-- ✅ Mensagem de sucesso -->
-<div id="mensagem-sucesso" class="mensagem-sucesso">Compra realizada com sucesso!</div>

@@ -9,7 +9,7 @@
 
 {% block conteudo_pagina %}
 
-<form method="POST">
+<form method="POST" action="{% url 'register' %}">
     {% csrf_token %}
 
 <main>
@@ -52,13 +52,13 @@
                 </label>
             </div>
 
-            <button class="btn-terceiro" onclick="proximaEtapa(2)">Próximo</button>
+            <button type="button" class="btn-terceiro" onclick="proximaEtapa(2)">Próximo</button>
         </section>
 
         <!-- ETAPA 2: Email, Telefone e CPF -->
         <section class="etapa_cadastro" id="etapa2" style="display:none;">
             <div id="area_seta">
-                <a href="#" onclick="proximaEtapa(1)"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="#" onclick="event.preventDefault(); proximaEtapa(1)"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <h2 class="titulo_login">Quase lá</h2>
@@ -78,13 +78,13 @@
                 <input id="cpf" name="cpf" placeholder="CPF" type="text" maxlength="14" required>
             </div>
 
-            <button class="btn-terceiro" onclick="proximaEtapa(3)">Próximo</button>
+            <button type="button" class="btn-terceiro" onclick="proximaEtapa(3)">Próximo</button>
         </section>
 
         <!-- ETAPA 3: Senha -->
         <section class="etapa_cadastro" id="etapa3" style="display:none;">
             <div id="area_seta">
-                <a href="#" onclick="proximaEtapa(2)"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="#" onclick="event.preventDefault(); proximaEtapa(2)"><i class="fa-solid fa-arrow-left"></i></a>
             </div>
 
             <h2 class="titulo_login">Por fim</h2>
@@ -96,39 +96,50 @@
 
             <div class="caixa confirmar_senha">
                 <i class="fa-regular fa-address-book"></i>
-                <input id="confirmSenha" placeholder="Confirme sua Senha" type="password" required>
+                <input id="confirmSenha" name="confirmSenha" placeholder="Confirme sua Senha" type="password" required>
             </div>
 
-            <button class="btn-terceiro" onclick="validarCadastro()">Confirmar</button>
+            <button type="button" class="btn-terceiro" onclick="proximaEtapa(4)">Próximo</button>
+        </section>
+
+        <!-- ETAPA 4: Endereço (Opcional) -->
+        <section class="etapa_cadastro" id="etapa4" style="display:none;">
+            <div id="area_seta">
+                <a href="#" onclick="event.preventDefault(); proximaEtapa(3)"><i class="fa-solid fa-arrow-left"></i></a>
+            </div>
+
+            <h2 class="titulo_login">Seu Endereço</h2>
+
+            <div class="caixa rua">
+                <i class='bx bx-map'></i>
+                <input id="rua" name="rua" placeholder="Rua" type="text">
+            </div>
+
+            <div class="caixa casa">
+                <i class='bx bx-hash'></i>
+                <input id="casa_numero" name="casa_numero" placeholder="Número" type="text">
+            </div>
+
+            <div class="caixa bairro">
+                <i class='bx bx-compass'></i>
+                <input id="bairro" name="bairro" placeholder="Bairro" type="text">
+            </div>
+
+            <div class="caixa cep">
+                <i class='bx bx-barcode'></i>
+                <input id="cep" name="cep" placeholder="CEP" type="text" maxlength="8">
+            </div>
+
+            <div class="caixa complemento">
+                <i class='bx bx-note'></i>
+                <input id="complemento" name="complemento" placeholder="Complemento" type="text" required>
+            </div>
+
+            <button type="button" class="btn-terceiro" onclick="validarCadastro()">Confirmar Cadastro</button>
         </section>
     </div>
 </form>
 </main>
-
-{% comment %} <form method="POST">
-    {% csrf_token %}
-    
-    <input type="text" name="nome" placeholder="Nome" required>
-    <input type="text" name="sobrenome" placeholder="Sobrenome" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="text" name="cpf" placeholder="CPF" required>
-    <input type="text" name="telefone" placeholder="Telefone" required>
-
-    <select name="sexo" required>
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-    </select>
-
-    <input type="password" name="senha" placeholder="Senha" required>
-
-    <button type="submit">Cadastrar</button>
-
-    {% if messages %}
-        {% for msg in messages %}
-            <p>{{ msg }}</p>
-        {% endfor %}
-    {% endif %}
-</form> {% endcomment %}
 
 
 {% endblock conteudo_pagina %}

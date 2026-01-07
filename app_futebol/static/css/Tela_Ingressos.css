@@ -75,7 +75,7 @@ main h1 {
     padding: 0.75rem;
     border: none;
     border-radius: 5px;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     background-color: #1a1a1a;
     color: #ffffff;
     height: 45px;
@@ -94,7 +94,6 @@ main h1 {
     height: 45px;
     box-sizing: border-box;
 }
-
 #quantidade::-webkit-inner-spin-button,
 #quantidade::-webkit-outer-spin-button {
     opacity: 1;
@@ -194,9 +193,11 @@ main h1 {
     text-align: center;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     transition: transform 0.2s ease;
+    cursor: pointer;
 }
 #total-geral:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+    background-color: #b30000;
 }
 
 /* 🔹 Container Estádio + Ingressos */
@@ -209,26 +210,48 @@ main h1 {
     flex-wrap: wrap;
 }
 
-/* 🗺️ Mapa do Estádio */
+/*Estadio*/
 .mapa-estadio {
-    flex: 1 1 300px;
-    border-radius: 6px;
-    background: linear-gradient(to right, #9b0000 0%, #2a2a2a 55%);
-    padding: 1rem;
+    width: 360px;
+    max-width: 360px;
+    padding: 0;              /* remove container */
+    background: none;        /* remove fundo */
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0 auto;
 }
-.mapa-estadio h3 {
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 0.75rem;
-}
+
+/* 🏟️ Estádio flutuante */
 .mapa-estadio img {
-    max-width: 300px;
-    width: 100%;
+    width: 140%;              /* reduz um pouco para caber melhor */
     height: auto;
     display: block;
-    margin: 0 auto;
-    border-radius: 6px;
+    border-radius: 8px;
+
+    /* ✨ efeito flutuante + posição */
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
+    transition: transform 0.35s ease, filter 0.35s ease;
+
+    /* 👉 move para baixo e para a esquerda */
+    transform: translateY(40px) translateX(-40px);
+    margin-left: -130px;       /* reforça movimento à esquerda */
+    margin-top: -10px;         /* desce em direção aos ingressos */
 }
+
+/* ✨ Hover elegante */
+.mapa-estadio img:hover {
+    transform: translateY(30px) translateX(-40px) scale(1.03);
+    filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.8));
+}
+.mapa-estadio h3 {
+    text-align: left;
+    margin-left: 20px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+
 
 /* 🎫 Lado Direito - Compra de Ingressos */
 .lado-direito-ingressos {
@@ -291,82 +314,305 @@ main h1 {
     }
 }
 
-/* ✅ Mensagem de sucesso */
-.mensagem-sucesso {
-  position: fixed;
-  top: 20px;
-  right: -300px;
-  background-color: #00aa00;
-  color: #fff;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
-  font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: right 0.5s ease;
-  z-index: 9999;
-}
-.mensagem-sucesso.visivel {
-  right: 20px;
-}
-
 /* ✨ Animação no total-geral */
 #total-geral.destaque-total {
   animation: brilhoTotal 0.5s ease;
 }
+
 @keyframes brilhoTotal {
-  0% { background-color: #a80000; }
-  50% { background-color: #ff3333; }
-  100% { background-color: #8F0000; }
+  0% {
+    background-color: #a80000;
+    color: #ffffff;
+  }
+  50% {
+    background-color: #ffff00;
+    color: #000000;
+  }
+  100% {
+    background-color: #8F0000;
+    color: #ffffff;
+  }
 }
 
-/* 🟦 Botão Finalizar Compra – Versão Estilizada Ajustada */
-.botao-finalizar {
-    background-color: #0055ff;
-    color: white;
-    border: none;
-    padding: 0.85rem 1.5rem; /* Leve aumento no padding horizontal */
-    font-size: 1.15rem;       /* Fonte um pouco maior para melhor legibilidade */
-    font-weight: 700;         /* Negrito mais forte */
-    cursor: pointer;
-    border-radius: 8px;
-    width: auto;
-    min-width: 200px;         /* Largura mínima um pouco maior */
-    margin-top: 1rem;
-    display: inline-block;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 85, 255, 0.6);
-}
-
-.botao-finalizar:hover {
-    background-color: #1a70ff;
-    transform: scale(1.07);
-    box-shadow: 0 6px 18px rgba(26, 112, 255, 0.85);
-}
-
-.botao-finalizar.show {
-    display: inline-block !important;
-    animation: aparecerBotao 0.3s ease forwards;
-    opacity: 1;
-}
-
-@keyframes aparecerBotao {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/* ✨ Mensagem de Sucesso — EFEITO VIDRO COM VERMELHO MAIS FORTE */
 .mensagem-sucesso {
   position: fixed;
-  top: 20px;
-  right: -300px;
-  background-color: #00aa00;
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+
+  /* 🔥 Glassmorphism vermelho mais forte */
+  background: #28a745; /* vermelho mais intenso */
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border: 2px solid rgba(255, 255, 255, 0.28);
+
+  color: #ffffff;
+  padding: 1.3rem 2.6rem;
+  border-radius: 14px;
   font-weight: bold;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: right 0.5s ease;
+  font-size: 1.28rem;
+  text-align: center;
+
+  box-shadow: 0 10px 28px rgba(0,0,0,0.6);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease, transform 0.4s ease;
   z-index: 9999;
 }
+
 .mensagem-sucesso.visivel {
-  right: 20px;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+/* 🔹 Ajustes para dispositivos touch (sem hover) */
+@media (hover: none) {
+  .mapa-estadio img:hover {
+    transform: none;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  }
+
+  .botao-comprar:hover,
+  .lista-ingressos .botao-excluir:hover,
+  #total-geral:hover {
+    transform: none;
+    background-color: inherit;
+  }
+}
+
+/* 📱 Layout refinado para mobile com tamanhos normais */
+@media (max-width: 600px) {
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .container-estadio-ingressos {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .mapa-estadio {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mapa-estadio h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .mapa-estadio img {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    transform: none;
+    border-radius: 8px;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
+  }
+
+  .form-setor {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .form-setor label {
+    font-size: 1rem;
+  }
+
+  .form-setor select,
+  #quantidade {
+    font-size: 0.95rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .botao-comprar {
+    font-size: 1rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  #total-geral {
+    font-size: 1.2rem;
+    padding: 0.75rem;
+    height: 45px;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 360px;
+    margin: 1rem auto 0;
+    display: block;
+    text-align: center;
+  }
+
+  .resumo-compra,
+  .lista-ingressos {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  .lista-ingressos h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .lista-ingressos ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  .lista-ingressos .item-ingresso {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .lista-ingressos .botao-excluir {
+    margin-top: 0.5rem;
+    min-height: 40px;
+    width: 100%;
+    background-color: #8F0000;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+
+  .lista-ingressos .botao-excluir:hover {
+    background-color: #a80000;
+  }
+
+  .logos-times {
+    gap: 1rem;
+  }
+
+  .logos-times img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logos-times span {
+    font-size: 1.6rem;
+  }
+
+  .titulo-ingresso h2,
+  .rodada-info h3 {
+    font-size: 1.5rem;
+  }
+
+  main h1 {
+    font-size: 1.9rem;
+    margin-bottom: 2rem;
+  }
+}
+/* 🧼 Ajuste final de espaçamento e alinhamento */
+.lista-ingressos {
+  margin-top: 1rem;          /* reduz espaço acima */
+  padding: 0.75rem;          /* padding mais compacto */
+  border-radius: 8px;
+  background-color: #1a1a1a;
+  width: 100%;
+  max-width: 340px;          /* largura ajustada */
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.lista-ingressos h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;     /* menos espaço abaixo */
+  text-align: center;
+  color: #ffffff;
+}
+
+.lista-ingressos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-ingressos .item-ingresso {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  padding: 0.6rem;           /* mais compacto */
+  margin-bottom: 0.4rem;
+  background-color: #2a2a2a;
+}
+
+.lista-ingressos .info-ingresso p {
+  margin: 2px 0;
+  font-size: 0.95rem;
+  color: #cccccc;
+}
+
+.lista-ingressos .botao-excluir {
+  background-color: #8F0000;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem 0.6rem;    /* botão menor */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.3s;
+}
+
+.lista-ingressos .botao-excluir:hover {
+  background-color: #a80000;
+}
+
+/* 💳 Botão Finalizar Compra — centralizado e sem espaço extra */
+#total-geral {
+  display: block;
+  margin: 0.8rem auto 0;     /* reduz espaço acima */
+  padding: 0.7rem 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #8F0000;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;          /* largura ajustada */
+  box-sizing: border-box;
+}
+
+#total-geral:hover {
+  transform: scale(1.02);
+  background-color: #b30000;
 }

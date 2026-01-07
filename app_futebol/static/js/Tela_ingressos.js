@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const formSetor = document.querySelector(".form-setor");
   const listaIngressos = document.querySelector(".lista-ingressos ul");
   const totalGeralEl = document.getElementById("total-geral");
-  const btnFinalizar = document.getElementById("finalizar-compra");
 
   // 🛒 Adiciona ingresso à lista
   formSetor.addEventListener("submit", (e) => {
@@ -46,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     atualizarTotalGeral();
   });
 
+  // ❌ Excluir item da lista
   listaIngressos.addEventListener("click", (e) => {
     if (e.target.classList.contains("botao-excluir")) {
       e.target.closest("li").remove();
@@ -53,33 +53,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // 🔢 Atualiza o total da compra
   function atualizarTotalGeral() {
     let soma = 0;
+
     listaIngressos.querySelectorAll(".item-ingresso").forEach(item => {
       const valor = parseFloat(item.dataset.total || "0");
       if (!isNaN(valor)) soma += valor;
     });
 
     totalGeralEl.textContent = `Total da compra: R$${soma.toFixed(2)}`;
-
-    if (listaIngressos.querySelectorAll(".item-ingresso").length > 0) {
-      btnFinalizar.style.display = "block";
-    } else {
-      btnFinalizar.style.display = "none";
-    }
   }
 
-  // ✅ Mensagem de sucesso só quando clicar em "Finalizar Compra"
-  btnFinalizar.addEventListener("click", () => {
-    const msg = document.getElementById("mensagem-sucesso");
-    msg.classList.add("visivel");
-    setTimeout(() => msg.classList.remove("visivel"), 2000);
-  });
-
-  // ✅ Mensagem de sucesso também quando clicar no total da compra
+  // ✅ Mensagem de sucesso ao clicar no total (apenas se houver ingressos na lista)
   totalGeralEl.addEventListener("click", () => {
-    const msg = document.getElementById("mensagem-sucesso");
-    msg.classList.add("visivel");
-    setTimeout(() => msg.classList.remove("visivel"), 2000);
+    // Verifica se há itens na lista
+    const quantidadeIngressos = listaIngressos.querySelectorAll(".item-ingresso").length;
+
+    // Só mostra a mensagem se houver ingressos
+    if (quantidadeIngressos > 0) {
+      const msg = document.getElementById("mensagem-sucesso");
+      msg.classList.add("visivel");
+      setTimeout(() => msg.classList.remove("visivel"), 2000);
+    }
   });
 });
