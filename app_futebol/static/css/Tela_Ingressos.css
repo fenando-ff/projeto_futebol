@@ -13,8 +13,7 @@ body {
 }
 
 .jogo-destaque {
-  /* removido desta tela - esconder para focar no fluxo de compra */
-  display: none !important;
+  display: none;
   background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
   border-radius: 16px;
   padding: 30px 22px;
@@ -86,26 +85,22 @@ main h1 {
 
 /* Regras mais específicas para garantir sobreposição ao estilo global do site */
 body.corpo main {
-  padding-top: 60px !important;
+  padding-top: 60px;
 }
 
 body.corpo main h1 {
-  margin-top: 8px !important;
+  margin-top: 8px;
 }
-
-/* Forçar deslocamento extra na coluna direita da compra */
 .container-estadio-ingressos .lado-direito-ingressos {
-  margin-top: 92px !important;
+  margin-top: 92px;
 }
 
-/* Se o template usar <main> aninhado dentro do main do base (ocorre neste projeto),
-   garanta que o inner main e seu H1 sejam empurrados para baixo */
 body.corpo > main > main {
-  padding-top: 40px !important;
+  padding-top: 40px ;
 }
 
 body.corpo > main > main h1 {
-  margin-top: 24px !important; 
+  margin-top: 24px ; 
 }
 
 .titulo-ingresso {
@@ -127,9 +122,11 @@ body.corpo > main > main h1 {
 
 .logos-times {
   display: flex;
-  justify-content: center;
+  justify-content: center; /* alinhar as logos à esquerda */
   align-items: center;
   gap: 0.8rem;
+  width: 100%;
+  padding-left: 8px; /* pequeno espaçamento da borda esquerda */
 }
 
 .logos-times img {
@@ -154,23 +151,15 @@ body.corpo > main > main h1 {
   margin-right: auto;
 }
 
-/* evitar que os dois painéis sejam esticados para a mesma altura */
 .container-estadio-ingressos {
   align-items: flex-start;
 }
-
-/* ================= AJUSTE FINAL DE DIREÇÃO (MAPA + FORMULÁRIO) ================= */
-
-/* garantir que os dois cards comecem no mesmo eixo vertical */
 .container-estadio-ingressos {
   align-items: flex-start;
 }
-
-/* remover qualquer empurrão extra do painel direito */
 .container-estadio-ingressos .lado-direito-ingressos {
-  margin-top: 0 !important;
+  margin-top: 0;
 }
-
 .mapa-estadio,
 .lado-direito-ingressos {
   flex: 0 1 45%; /* cada painel ocupa aproximadamente 45% */
@@ -187,7 +176,6 @@ body.corpo > main > main h1 {
   box-shadow: 0 8px 20px rgba(0,0,0,0.55);
 }
 
-/* centralizar e limitar o tamanho do mapa para não ficar esticado */
 .mapa-estadio {
   display: flex;
   flex-direction: column; /* garante H3 acima da imagem */
@@ -196,7 +184,6 @@ body.corpo > main > main h1 {
   gap: 12px;
   padding-left: 0; /* remover deslocamento lateral */
 }
-
 .mapa-estadio h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
@@ -341,7 +328,6 @@ body.corpo > main > main h1 {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* garantir que todos os cards tenham o mesmo tamanho e conteúdo centralizado */
 .jogo-card {
   display: flex;
   flex-direction: column;
@@ -356,7 +342,12 @@ body.corpo > main > main h1 {
 }
 
 .jogo-card img {
-  display: none; /* esconder imagens de times */
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .jogo-card .data {
@@ -411,13 +402,11 @@ body.corpo > main > main h1 {
     max-width: 100%;
   }
 
-  /* reduzir espaçamentos em mobile para caber melhor */
   main { padding: 48px 12px 20px; }
   .container-estadio-ingressos { margin-top: 34px; gap: 24px; }
   .lado-direito-ingressos { margin-top: 34px; }
   main h1 { margin-top: 24px; }
-  /* Mobile-specific refinements */
-  /* Make jogo cards full width, shorter and better spaced on phones */
+
   .jogos-container {
     display: flex;
     flex-direction: column;
@@ -442,7 +431,6 @@ body.corpo > main > main h1 {
   .jogo-card h2 { font-size: 1.05rem; }
   .jogo-card p, .jogo-card .data, .jogo-card .local { font-size: 0.95rem; }
 
-  /* Ensure map scales nicely on mobile without stretching */
   .mapa-estadio img {
     width: 100%;
     height: auto;
@@ -462,7 +450,6 @@ body.corpo > main > main h1 {
 
   #total-geral { font-size: 1.05rem; }
 
-  /* Success modal adjustments for small screens */
   #mensagem-sucesso {
     left: 50%;
     transform: translateX(-50%);
@@ -472,14 +459,10 @@ body.corpo > main > main h1 {
     border-radius: 12px;
   }
 
-  /* Slightly increase the title separation on mobile for readability */
   main h1 { margin-top: 28px; font-size: 1.5rem; }
 
-  /* Small adjustments to the right column spacing */
   .lado-direito-ingressos { padding: 8px; }
 
-
-/* Very small screens (narrow phones) */
 @media (max-width: 480px) {
   .jogo-card { min-height: 120px; padding: 14px; }
   .jogo-card h2 { font-size: 1rem; }
@@ -503,7 +486,6 @@ body.corpo > main > main h1 {
   100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
 }
 
-/* 🔹 Estilo de cada ingresso listado */
 .lista-ingressos li {
   display: flex;
   justify-content: space-between;
@@ -596,4 +578,34 @@ body.corpo > main > main h1 {
   0% { opacity: 0; transform: translate(-50%, -46%) scale(.98); }
   60% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+/* ===== ESCUDOS NOS PRÓXIMOS JOGOS (LADO ESQUERDO) ===== */
+.jogo-card {
+  position: relative;
+  flex: 0 1 30%;
+  max-width: 360px;
+  /* reserva espaço à esquerda para os escudos */
+  padding: 28px 28px 28px 110px;
+  background: linear-gradient(145deg,#2a2a2a,#1e1e1e);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.jogo-times {
+  position: absolute;
+  left: 24px;   /* escudos no lado esquerdo */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jogo-times .escudo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
 }
