@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS `times`;
 CREATE TABLE `times` (
   `id_times` int NOT NULL AUTO_INCREMENT,
   `nome_time` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `url_brasao` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id_times`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

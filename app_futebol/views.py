@@ -495,8 +495,23 @@ def tela_socio(request):
 
 def tela_ingressos(request):
     ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10)
+    
+    # Busca o jogo em destaque (próximo jogo em casa)
+    from django.utils import timezone
+    jogo_destaque = models.Jogos.objects.filter(
+        dia_jogo__gte=timezone.now().date(),
+        casa_fora='casa'
+    ).select_related('times_id_times').order_by('dia_jogo').first()
+    
+    # Busca os próximos 3 jogos
+    proximos_jogos = models.Jogos.objects.filter(
+        dia_jogo__gte=timezone.now().date()
+    ).select_related('times_id_times').order_by('dia_jogo')[:3]
+    
     return render(request, "app_futebol/Tela_ingresso.html", {
-        "ingressos": ingresso
+        "ingressos": ingresso,
+        "jogo_destaque": jogo_destaque,
+        "proximos_jogos": proximos_jogos
     })
 
 

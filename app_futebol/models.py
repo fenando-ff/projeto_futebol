@@ -132,6 +132,7 @@ class Pedido(models.Model):
 class Times(models.Model):
     id_times = models.AutoField(db_column='id_times', primary_key=True)
     nome_time = models.CharField(db_column='nome_time', max_length=45)
+    url_brasao = models.CharField(db_column='url_brasao', max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

@@ -12,7 +12,8 @@
 
 <!-- ================= JOGO EM DESTAQUE ================= -->
 <section class="jogo-destaque">
-  <p class="rodada">19ª RODADA</p>
+  {% if jogo_destaque %}
+  <p class="rodada">PRÓXIMO JOGO</p>
 
   <div class="confronto">
     <div class="time">
@@ -23,13 +24,21 @@
     <span class="versus">X</span>
 
     <div class="time">
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}">
-      <p>Fluminense</p>
+      {% if jogo_destaque.times_id_times.url_brasao %}
+        <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
+      {% else %}
+        <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
+      {% endif %}
+      <p>{{ jogo_destaque.times_id_times.nome_time }}</p>
     </div>
   </div>
 
-  <p class="info-jogo">09/04 - 19:00</p>
-  <p class="info-jogo">Mangueirão</p>
+  <p class="info-jogo">{{ jogo_destaque.dia_jogo|date:"d/m/Y" }} - {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+  <p class="info-jogo">{{ jogo_destaque.local_jogo }}</p>
+  {% else %}
+  <p class="rodada">NENHUM JOGO AGENDADO</p>
+  <p class="info-jogo">Aguarde próximos jogos</p>
+  {% endif %}
 </section>
 
 <!-- ================= COMPRA DE INGRESSOS ================= -->
@@ -38,13 +47,20 @@
   <h1>Compra de Ingressos</h1>
 
   <section class="titulo-ingresso">
-    <h3>19ª Rodada</h3>
-    <h2>Drakos FC x Fluminense</h2>
+    {% if jogo_destaque %}
+    <h3>Próximo Jogo</h3>
+    <h2>Drakos FC x {{ jogo_destaque.times_id_times.nome_time }}</h2>
 
     <div class="logos-times">
       <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}">
+      {% if jogo_destaque.times_id_times.url_brasao %}
+        <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
+      {% endif %}
     </div>
+    {% else %}
+    <h3>Nenhum jogo disponível</h3>
+    <h2>Aguarde os próximos jogos</h2>
+    {% endif %}
   </section>
 
   <div class="container-estadio-ingressos">
@@ -95,38 +111,27 @@
   <section class="jogos-container">
     <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
 
-    <!-- Grêmio -->
+    {% for jogo in proximos_jogos %}
     <div class="jogo-card">
       <div class="jogo-times">
-        <img src="{% static 'img/icones/Gremio.png' %}" class="escudo">
-        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
+        <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo">
+        {% if jogo.times_id_times.url_brasao %}
+          <img src="{% static jogo.times_id_times.url_brasao %}" class="escudo">
+        {% endif %}
       </div>
-      <h2>Grêmio vs Drakos FC</h2>
-      <p class="data">02/05/2025 • 20h00</p>
-      <p class="local">Local: Mangueirão</p>
+      <h2>
+        {% if jogo.casa_fora == 'casa' %}
+          Drakos FC vs {{ jogo.times_id_times.nome_time }}
+        {% else %}
+          {{ jogo.times_id_times.nome_time }} vs Drakos FC
+        {% endif %}
+      </h2>
+      <p class="data">{{ jogo.dia_jogo|date:"d/m/Y" }} • {{ jogo.hora_jogo|time:"H\hi" }}</p>
+      <p class="local">Local: {{ jogo.local_jogo }}</p>
     </div>
-
-    <!-- Palmeiras -->
-    <div class="jogo-card">
-      <div class="jogo-times">
-        <img src="{% static 'img/icones/Palmeiras.png' %}" class="escudo">
-        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
-      </div>
-      <h2>Palmeiras vs Drakos FC</h2>
-      <p class="data">06/05/2025 • 20h00</p>
-      <p class="local">Local: Mangueirão</p>
-    </div>
-
-    <!-- Fluminense -->
-    <div class="jogo-card">
-      <div class="jogo-times">
-        <img src="{% static 'img/icones/escudo_fluminense.png' %}" class="escudo">
-        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
-      </div>
-      <h2>Fluminense vs Drakos FC</h2>
-      <p class="data">10/05/2025 • 20h00</p>
-      <p class="local">Local: Mangueirão</p>
-    </div>
+    {% empty %}
+    <p>Nenhum jogo agendado no momento.</p>
+    {% endfor %}
   </section>
 
   <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none;">
