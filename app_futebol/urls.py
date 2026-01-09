@@ -14,7 +14,6 @@ urlpatterns = [
     path('historia/', views.tela_historia, name='historia'),
     path('loja_produtos/', views.tela_loja_produtos, name='produtos'),
     path('noticias/', views.tela_noticias, name='noticias'),
-    path('proximos_jogos/', views.tela_proximo_jogo, name='jogos'),
     path('rec_senha/', views.tela_rec_senha, name='recuperar_senha'),
     path('rec_senha2/', views.tela_rec_senha_2, name='recuperar_senha2'),
     path('rec_senha3/', views.tela_rec_senha_3, name='recuperar_senha3'),
