@@ -43,7 +43,6 @@
 
     <div class="logos-times">
       <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
-      <span>vs</span>
       <img src="{% static 'img/icones/escudo_fluminense.png' %}">
     </div>
   </section>
@@ -58,8 +57,6 @@
 
     <!-- COMPRA -->
     <section class="lado-direito-ingressos">
-
-      <!-- 🔧 FORM CORRIGIDO -->
       <form class="form-setor" method="POST">
         {% csrf_token %}
 
@@ -76,22 +73,13 @@
         </select>
 
         <label for="quantidade">Quantidade:</label>
-        <input
-          id="quantidade"
-          name="quantidade"
-          type="number"
-          min="0"
-          max="10"
-          value="0"
-          required
-        >
+        <input id="quantidade" name="quantidade" type="number" min="0" max="10" value="0" required>
 
         <button type="submit" class="botao-comprar">
           Adicionar Ingresso
         </button>
       </form>
 
-      <!-- LISTA -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
         <ul></ul>
@@ -100,27 +88,41 @@
           Finalizar compra • R$ <span id="valor-final">0.00</span>
         </button>
       </section>
-
     </section>
   </div>
 
-  <!-- PRÓXIMOS JOGOS -->
+  <!-- ================= PRÓXIMOS JOGOS ================= -->
   <section class="jogos-container">
     <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
 
+    <!-- Grêmio -->
     <div class="jogo-card">
+      <div class="jogo-times">
+        <img src="{% static 'img/icones/Gremio.png' %}" class="escudo">
+        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
+      </div>
       <h2>Grêmio vs Drakos FC</h2>
       <p class="data">02/05/2025 • 20h00</p>
       <p class="local">Local: Mangueirão</p>
     </div>
 
+    <!-- Palmeiras -->
     <div class="jogo-card">
+      <div class="jogo-times">
+        <img src="{% static 'img/icones/Palmeiras.png' %}" class="escudo">
+        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
+      </div>
       <h2>Palmeiras vs Drakos FC</h2>
       <p class="data">06/05/2025 • 20h00</p>
       <p class="local">Local: Mangueirão</p>
     </div>
 
+    <!-- Fluminense -->
     <div class="jogo-card">
+      <div class="jogo-times">
+        <img src="{% static 'img/icones/escudo_fluminense.png' %}" class="escudo">
+        {% comment %} <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo"> {% endcomment %}
+      </div>
       <h2>Fluminense vs Drakos FC</h2>
       <p class="data">10/05/2025 • 20h00</p>
       <p class="local">Local: Mangueirão</p>
