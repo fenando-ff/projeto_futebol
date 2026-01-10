@@ -52,7 +52,6 @@
     <h2>Drakos FC x {{ jogo_destaque.times_id_times.nome_time }}</h2>
 
     <div class="logos-times">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
       {% if jogo_destaque.times_id_times.url_brasao %}
         <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
       {% endif %}
@@ -114,7 +113,6 @@
     {% for jogo in proximos_jogos %}
     <div class="jogo-card">
       <div class="jogo-times">
-        <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo">
         {% if jogo.times_id_times.url_brasao %}
           <img src="{% static jogo.times_id_times.url_brasao %}" class="escudo">
         {% endif %}
