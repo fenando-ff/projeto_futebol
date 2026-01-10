@@ -22,12 +22,12 @@ CREATE TABLE `times` (
 
 -- Inserindo times
 INSERT INTO `times` VALUES 
-(1, 'Palmeiras'),
-(2, 'Flamengo'),
-(3, 'Corinthians'),
-(4, 'São Paulo'),
-(5, 'Santos'),
-(6, 'Grêmio');
+(1, 'Palmeiras', ''),
+(2, 'Flamengo', ''),
+(3, 'Corinthians', ''),
+(4, 'São Paulo', ''),
+(5, 'Santos', ''),
+(6, 'Grêmio', '');
 
 DROP TABLE IF EXISTS `jogos`;
 CREATE TABLE `jogos` (
@@ -341,23 +341,16 @@ CREATE TABLE `produtos` (
   `quantidade_estoque_PRODUTOS` int NOT NULL,
   `CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS` int NOT NULL,
   `imagem_PRODUTOS` varchar(255) DEFAULT NULL,
+  `jogos_id_jogos` int DEFAULT NULL,
   PRIMARY KEY (`id_PRODUTOS`,`CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS`),
   KEY `fk_PRODUTOS_CATEGORIA_PRODUTOS1_idx` (`CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS`),
-  CONSTRAINT `fk_PRODUTOS_CATEGORIA_PRODUTOS1` FOREIGN KEY (`CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS`) REFERENCES `categoria_produtos` (`id_CATEGORIA_PRODUTOS`)
+  KEY `fk_produtos_jogos` (`jogos_id_jogos`),
+  CONSTRAINT `fk_PRODUTOS_CATEGORIA_PRODUTOS1` FOREIGN KEY (`CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS`) REFERENCES `categoria_produtos` (`id_CATEGORIA_PRODUTOS`),
+  CONSTRAINT `fk_produtos_jogos` FOREIGN KEY (`jogos_id_jogos`) REFERENCES `jogos` (`id_jogos`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4;
 
 -- Inserindo os dados DO BANCO CORRIGIDO (que tem os ingressos 'Arquibancada')
-INSERT INTO `produtos` VALUES (36,'Camisa Branca Retrô',249.9,'Camisa branca oficial do AC Milan, ideal para torcedores que buscam estilo e conforto (Uniforme 2).',50,2,'img/produtos/camisas/camisa_branca_retro/camisa_branca(1).webp'),(37,'Camisa Milan Retrô Clássica',199.9,'Reedição histórica de camisas clássicas do Milan. Design nostálgico para colecionadores.',20,2,'img/img_novas/milan authentic 125TH anniversary jersey.webp'),(38,'Camisa Milan Home Listrada',299.9,'A tradicional camisa Rubro-Negra (Rossoneri). O manto sagrado para jogos em casa.',100,2,'img/camisa_home_figma.png'),(39,'Camisa Milan Third amarela',279.9,'Uniforme alternativo na cor amarela com detalhes modernos. Elegância para uso casual ou esportivo.',35,2,'img/img_novas/camisa amraela milan frente.webp'),(40,'Casaco branco',349.9,'Casaco oficial do time',15,2,'img/img_novas/TRACK SWEATSHIRT PUMA X AC MILAN X OFF-WHITE.webp'),(41,'Camisa Verde goleiro',250,'Camisa do goleiro do time',29,2,'img/produtos/camisas/camisa_goleiro_verde/camisa_goleiro_verde (1).webp'),(42,'Camisa manga longa preta',300,'Camisa chique de manga longa',9,2,'img/produtos/camisas/camisa_manga_longa/camisa_manga_longa_preta (1).webp'),(43,'Camisa listrada retrô',260,'Camisa clássica antiga',4,2,'img/produtos/camisas/camisa_listrada_retro/camisa_listrada_retro (1).webp'),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',26,1,'img/produtos/acessorios/gorro/gorro_milan (2).webp'),(45,'Bolsa',248.99,'Carregue suas coisas com amor pelo seu time',13,1,'img/produtos/acessorios/bolsa_milan/bolsa_milan (3).webp'),(46,'Boné',77.99,'Proteja-se do sol com o seu timão',12,1,'img/produtos/acessorios/bone_milan/bone_milan (4).webp'),(47,'Mascote',350,'Divirta-se',27,1,'img/produtos/acessorios/boneco_milan/BEBRICKSML-A13_01_20148283-7119-4561-b84b-8e572aff7351.webp'),(48,'Garrafa retro',299.9,'Geladinha',23,1,'img/garrafa_home_figma.png'),(49,'Sandália do clube',99.99,'Conforto e paixão',19,3,'img/produtos/calcados/sandalia.png'),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 15/12/2025',60,10,NULL),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 15/12/2025',150,10,NULL),(54,'Camarote Premium',175,'Drako x Palmeiras - 15/12/2025',10,10,NULL),(55,'Camarote',150,'Drako x Palmeiras - 15/12/2025',15,10,NULL);
-
--- AGORA, ALTERAMOS A TABELA PARA ADICIONAR A RELAÇÃO QUE VOCÊ PEDIU
-ALTER TABLE `produtos`
-ADD COLUMN `jogos_id_jogos` INT DEFAULT NULL,
-ADD INDEX `fk_produtos_jogos` (`jogos_id_jogos` ASC),
-ADD CONSTRAINT `fk_produtos_jogos`
-  FOREIGN KEY (`jogos_id_jogos`)
-  REFERENCES `jogos` (`id_jogos`)
-  ON DELETE SET NULL
-  ON UPDATE CASCADE;
+INSERT INTO `produtos` VALUES (36,'Camisa Branca Retrô',249.9,'Camisa branca oficial do AC Milan, ideal para torcedores que buscam estilo e conforto (Uniforme 2).',50,2,'img/produtos/camisas/camisa_branca_retro/camisa_branca(1).webp',NULL),(37,'Camisa Milan Retrô Clássica',199.9,'Reedição histórica de camisas clássicas do Milan. Design nostálgico para colecionadores.',20,2,'img/img_novas/milan authentic 125TH anniversary jersey.webp',NULL),(38,'Camisa Milan Home Listrada',299.9,'A tradicional camisa Rubro-Negra (Rossoneri). O manto sagrado para jogos em casa.',100,2,'img/camisa_home_figma.png',NULL),(39,'Camisa Milan Third amarela',279.9,'Uniforme alternativo na cor amarela com detalhes modernos. Elegância para uso casual ou esportivo.',35,2,'img/img_novas/camisa amraela milan frente.webp',NULL),(40,'Casaco branco',349.9,'Casaco oficial do time',15,2,'img/img_novas/TRACK SWEATSHIRT PUMA X AC MILAN X OFF-WHITE.webp',NULL),(41,'Camisa Verde goleiro',250,'Camisa do goleiro do time',29,2,'img/produtos/camisas/camisa_goleiro_verde/camisa_goleiro_verde (1).webp',NULL),(42,'Camisa manga longa preta',300,'Camisa chique de manga longa',9,2,'img/produtos/camisas/camisa_manga_longa/camisa_manga_longa_preta (1).webp',NULL),(43,'Camisa listrada retrô',260,'Camisa clássica antiga',4,2,'img/produtos/camisas/camisa_listrada_retro/camisa_listrada_retro (1).webp',NULL),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',26,1,'img/produtos/acessorios/gorro/gorro_milan (2).webp',NULL),(45,'Bolsa',248.99,'Carregue suas coisas com amor pelo seu time',13,1,'img/produtos/acessorios/bolsa_milan/bolsa_milan (3).webp',NULL),(46,'Boné',77.99,'Proteja-se do sol com o seu timão',12,1,'img/produtos/acessorios/bone_milan/bone_milan (4).webp',NULL),(47,'Mascote',350,'Divirta-se',27,1,'img/produtos/acessorios/boneco_milan/BEBRICKSML-A13_01_20148283-7119-4561-b84b-8e572aff7351.webp',NULL),(48,'Garrafa retro',299.9,'Geladinha',23,1,'img/garrafa_home_figma.png',NULL),(49,'Sandália do clube',99.99,'Conforto e paixão',19,3,'img/produtos/calcados/sandalia.png',NULL),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 15/12/2025',60,10,NULL,NULL),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 15/12/2025',150,10,NULL,NULL),(54,'Camarote Premium',175,'Drako x Palmeiras - 15/12/2025',10,10,NULL,NULL),(55,'Camarote',150,'Drako x Palmeiras - 15/12/2025',15,10,NULL,NULL);
 
 -- -----------------------------------------------------
 -- 5. FINALIZAÇÃO
@@ -380,3 +373,4 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- -----------------------------------------------------
 -- FIM DO SCRIPT
 -- -----------------------------------------------------
+
