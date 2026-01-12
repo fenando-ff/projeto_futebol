@@ -494,24 +494,24 @@ def tela_socio(request):
 
 
 def tela_ingressos(request):
-    ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10)
+    ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10) # Filtra os ingressos pela categoria de id 10
     
     # Busca o jogo em destaque (próximo jogo em casa)
-    from django.utils import timezone
-    jogo_destaque = models.Jogos.objects.filter(
-        dia_jogo__gte=timezone.now().date(),
-        casa_fora='casa'
-    ).select_related('times_id_times').order_by('dia_jogo').first()
+    from django.utils import timezone # timezone para pegar a data atual
+    jogo_destaque = models.Jogos.objects.filter( # Filtra o jogo destaque
+        dia_jogo__gte=timezone.now().date(), # Filtra jogos a partir da data de hoje
+        casa_fora='casa' # Filtra apenas jogos em casa
+    ).select_related('times_id_times').order_by('dia_jogo').first() # Ordena por data e pega o primeiro (mais próximo)
     
     # Busca os próximos 3 jogos
     proximos_jogos = models.Jogos.objects.filter(
         dia_jogo__gte=timezone.now().date()
-    ).select_related('times_id_times').order_by('dia_jogo')[:3]
+    ).select_related('times_id_times').order_by('dia_jogo')[:3] # Ordena por data e pega os próximos 3 jogos | Obs.: Para mudar o numero de cards, basta alterar o nº 3
     
-    return render(request, "app_futebol/Tela_ingresso.html", {
-        "ingressos": ingresso,
-        "jogo_destaque": jogo_destaque,
-        "proximos_jogos": proximos_jogos
+    return render(request, "app_futebol/Tela_ingresso.html", { # Joga os filtros na tela de ingressos
+        "ingressos": ingresso, # Filtro de categoria de ingressos
+        "jogo_destaque": jogo_destaque, # Filtro do jogo em destaque
+        "proximos_jogos": proximos_jogos # Filtro dos próximos jogos
     })
 
 
