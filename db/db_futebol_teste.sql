@@ -22,12 +22,12 @@ CREATE TABLE `times` (
 
 -- Inserindo times
 INSERT INTO `times` VALUES 
-(1, 'Palmeiras', ''),
-(2, 'Flamengo', ''),
-(3, 'Corinthians', ''),
+(1, 'Palmeiras', 'img/brasoes/palmeiras.png'),
+(2, 'Flamengo', 'img/brasoes/escudo_flamengo.png'),
+(3, 'Corinthians', 'img/brasoes/escudo_corinthians.png'),
 (4, 'São Paulo', ''),
 (5, 'Santos', ''),
-(6, 'Grêmio', '');
+(6, 'Grêmio', 'img/brasoes/gremio.png');
 
 DROP TABLE IF EXISTS `jogos`;
 CREATE TABLE `jogos` (
