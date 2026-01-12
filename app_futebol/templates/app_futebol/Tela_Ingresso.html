@@ -47,18 +47,34 @@
   <h1>Compra de Ingressos</h1>
 
   <section class="titulo-ingresso">
-    {% if jogo_destaque %}
     <h3>Próximo Jogo</h3>
-    <h2>Drakos FC x {{ jogo_destaque.times_id_times.nome_time }}</h2>
+    {% if jogo_destaque %}
+      <div class="titulo-ingresso-conteudo">
+        <div class="times-ingresso">
+          <div class="time">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos">
+            <span>Drakos FC</span>
+          </div>
 
-    <div class="logos-times">
-      {% if jogo_destaque.times_id_times.url_brasao %}
-        <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
-      {% endif %}
-    </div>
+          <div class="versus"><i class="fas fa-times"></i></div>
+
+          <div class="time">
+            {% if jogo_destaque.times_id_times.url_brasao %}
+              <img src="{% static jogo_destaque.times_id_times.url_brasao %}" alt="Escudo {{ jogo_destaque.times_id_times.nome_time }}">
+            {% else %}
+              <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo">
+            {% endif %}
+            <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
+          </div>
+        </div>
+
+        <div class="detalhes-jogo">
+          <p class="info-jogo">{{ jogo_destaque.local_jogo }} • {{ jogo_destaque.dia_jogo|date:"d/m/Y" }} • {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+        </div>
+      </div>
     {% else %}
-    <h3>Nenhum jogo disponível</h3>
-    <h2>Aguarde os próximos jogos</h2>
+      <h3>Nenhum jogo disponível</h3>
+      <h2>Aguarde os próximos jogos</h2>
     {% endif %}
   </section>
 

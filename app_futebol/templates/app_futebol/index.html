@@ -72,7 +72,26 @@
     <!-- ======================== PRÓXIMO JOGO =============================== -->
     <section class="proximo-jogo">
         <h2>PRÓXIMO JOGO</h2>
+        {% if jogo_destaque %}
+        <div class="jogo-card">
+            <div class="time">
+                <img src="{% static 'img/icones/escudo_Drakos.png' %}">
+                <span>Drako FC</span>
+            </div>
 
+            <div class="versus">X</div>
+
+            <div class="time">
+                {% if jogo_destaque.times_id_times.url_brasao %}
+                  <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
+                {% endif %}
+                <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
+            </div>
+        </div>
+
+        <p class="info">{{ jogo_destaque.local_jogo }} • {{ jogo_destaque.dia_jogo|date:"d/m/Y" }} • {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+        <a href="{% url 'ingresso' %}" class="btn-primary">Comprar Ingressos</a>
+        {% else %}
         <div class="jogo-card">
             <div class="time">
                 <img src="{% static 'img/icones/escudo_Drakos.png' %}">
@@ -87,8 +106,9 @@
             </div>
         </div>
 
-        <p class="info">Estádio Dragão • 28 JAN • 20:00</p>
-        <a href="{% url "ingresso" %}" class="btn-primary">Comprar Ingressos</a>
+        <p class="info">Estádio Dragão • --/--/---- • --:--</p>
+        <a href="{% url 'ingresso' %}" class="btn-primary">Comprar Ingressos</a>
+        {% endif %}
     </section>
 
     <!-- ======================== PRODUTOS =============================== -->
@@ -166,35 +186,7 @@
         </div>
     </section>
 
-    {% comment %} noticias {% endcomment %}
-
-   <section class="noticias">
-    <h2 class = "titulo_noticias">ÚLTIMAS NOTÍCIAS</h2>
-
-    <div class="noticia-cards">
-
-        <article class="news-card-big">
-            <img src="{% static 'img/noticias/img_noticias.jpg' %}" class="news-img-big">
-
-            <div class="news-content">
-                <h3>New Construction technology awareness.</h3>
-                <p>Ellingar her has secure far twenty eat object...</p>
-                <a href="#" class="news-link">Ler mais</a>
-            </div>
-        </article>
-
-        <article class="news-card">
-            <img src="{% static 'img/noticias/tottenham_hotspur_v_ac_milan_round_of_16_second_leg_-_uefa_champions_league.webp' %}" class="news-img">
-
-            <div class="news-content">
-                <h3>Building your dreams with quality material.</h3>
-                <p>Know how to choose the correct materials...</p>
-                <a href="#" class="news-link">Ler mais</a>
-            </div>
-        </article>
-
-    </div>
-</section>
+    <!-- Notícias removidas do projeto -->
 
 </main>
 

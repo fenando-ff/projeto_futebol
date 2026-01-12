@@ -13,7 +13,6 @@ urlpatterns = [
     path('conta_criada/', views.tela_conta_finalizada, name='conta_criada'),
     path('historia/', views.tela_historia, name='historia'),
     path('loja_produtos/', views.tela_loja_produtos, name='produtos'),
-    path('noticias/', views.tela_noticias, name='noticias'),
     path('rec_senha/', views.tela_rec_senha, name='recuperar_senha'),
     path('rec_senha2/', views.tela_rec_senha_2, name='recuperar_senha2'),
     path('rec_senha3/', views.tela_rec_senha_3, name='recuperar_senha3'),
@@ -21,6 +20,5 @@ urlpatterns = [
     path('socio/', views.tela_socio, name='socio'),
     path('pagamento_socio/<int:plano_id>/', views.pagamento_socio, name='confirmar_socio'),
     path('perfil/', views.tela_perfil, name='perfil'),
-
 ]
 

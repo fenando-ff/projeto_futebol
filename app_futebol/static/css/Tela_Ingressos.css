@@ -108,6 +108,61 @@ body.corpo > main > main h1 {
   margin-bottom: 15px;
 }
 
+/* Novo layout para o título/preview do jogo de ingresso */
+.titulo-ingresso-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.times-ingresso {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+}
+
+.times-ingresso .time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.times-ingresso .time img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.times-ingresso .versus {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #8F0000;
+}
+
+.detalhes-jogo .info-jogo {
+  margin-top: 6px;
+  color: #d0d0d0;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .titulo-ingresso-conteudo {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .detalhes-jogo {
+    text-align: right;
+  }
+}
+
 .rodada-info h3 {
   font-size: 1.4rem;
   color: #ff2222;
