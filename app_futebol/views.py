@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 import random
+from django.utils import timezone # timezone para pegar a data atual
 from . import models
 
 # -------------------------------
@@ -136,7 +137,18 @@ def tela_perfil(request):
 
 def home(request):
     cliente = get_cliente_logado(request)
-    return render(request, "app_futebol/index.html", cliente or {})
+
+    # Busca o próximo jogo (a partir de hoje) e inclui o time adversário via select_related
+    jogo_destaque = models.Jogos.objects.filter(
+        dia_jogo__gte=timezone.now().date()
+    ).select_related('times_id_times').order_by('dia_jogo').first() # Select_related serve para otimizar a consulta e trazer os dados do time adversário junto de acordo com a chave estrangeira
+
+    jogo = {
+        "jogo_destaque": jogo_destaque}
+    dados_cliente = cliente or {}
+ 
+
+    return render(request, "app_futebol/index.html", {**jogo, **dados_cliente}) # ** serve para desempacotar os dicionários e passar os valores como argumentos separados
 
 
 def tela_carrinho(request):
@@ -391,10 +403,6 @@ def tela_loja_produtos(request):
     })
 
 
-def tela_noticias(request):
-    return render(request, "app_futebol/noticias.html")
-
-
 def tela_rec_senha(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -494,9 +502,25 @@ def tela_socio(request):
 
 
 def tela_ingressos(request):
-    ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10)
+    ingresso = models.Produtos.objects.filter(categoria_produtos_id_categoria_produtos=10) # Filtra os ingressos pela categoria de id 10
+
+    # Busca o jogo em destaque: próximo jogo a partir de hoje (qualquer casa/fora)
+    jogos_qs = models.Jogos.objects.filter(
+        dia_jogo__gte=timezone.now().date()
+    ).select_related('times_id_times').order_by('dia_jogo')
+
+    jogo_destaque = jogos_qs.first()
+
+    # Busca os próximos 3 jogos excluindo o destaque (jogo 2,3 e 4)
+    if jogo_destaque:
+        proximos_jogos = jogos_qs.exclude(id_jogos=jogo_destaque.id_jogos)[:3]
+    else:
+        proximos_jogos = jogos_qs[:3]
+
     return render(request, "app_futebol/Tela_ingresso.html", {
-        "ingressos": ingresso
+        "ingressos": ingresso,
+        "jogo_destaque": jogo_destaque,
+        "proximos_jogos": proximos_jogos
     })
 
 
@@ -534,8 +558,3 @@ def pagamento_socio(request, plano_id):
         "cliente": cliente,
         "plano": plano,
     })
-
-
-def tela_proximo_jogo(request):
-    return render(request, "app_futebol/proximos_jogos.html")
-

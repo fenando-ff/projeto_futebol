@@ -1,557 +1,327 @@
-/* 🎨 Configurações Globais */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    line-height: 1.5;
-    background: linear-gradient(135deg, #2a2a2a 45%, #b30000 100%);
-    color: #f4f4f4;
-}
-
-/* 🏟️ Conteúdo Principal */
-main {
-    padding: 3rem 1rem 1rem;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-main h1 {
-    font-size: 1.9rem;
-    text-align: center;
-    color: #ffffff;
-    margin-bottom: 2.1rem;
-}
-
-/* 🎫 Título e Rodada */
-.titulo-ingresso h2 {
-    font-size: 1.5rem;
-    color: #f4f4f4;
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-weight: bold;
-}
-.rodada-info {
-    text-align: center;
-    margin: -0.5rem 0 1rem;
-}
-.rodada-info h3 {
-    font-size: 1.5rem;
-    color: #ff2222;
-    font-weight: bold;
-}
-
-/* 🆚 Logos dos Times */
-.logos-times {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-.logos-times img {
-    width: 70px;
-    height: 70px;
-    object-fit: contain;
-}
-.logos-times span {
-    font-size: 1.6rem;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-/* 🧾 Formulário de Compra */
-.form-setor {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-.form-setor label,
-.form-setor select,
-#quantidade,
-#preco-total {
-    width: 100%;
-    font-size: 1rem;
-    color: #ffffff;
-}
-.form-setor select,
-#quantidade {
-    padding: 0.75rem;
-    border: none;
-    border-radius: 5px;
-    font-size: 0.95rem;
-    background-color: #1a1a1a;
-    color: #ffffff;
-    height: 45px;
-}
-#quantidade {
-    -moz-appearance: textfield;
-    -webkit-appearance: none;
-    appearance: none;
-    border: 1px solid #444;
-    outline: none;
-    background-color: #1a1a1a;
-    color: #ffffff;
-    padding: 0.75rem;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    height: 45px;
-    box-sizing: border-box;
-}
-#quantidade::-webkit-inner-spin-button,
-#quantidade::-webkit-outer-spin-button {
-    opacity: 1;
-    width: 16px;
-}
-
-/* 💰 Preço */
-.preco-ingresso,
-#preco-total {
-    display: none;
-}
-
-/* 🛒 Botão de Adicionar */
-.botao-comprar {
-    background-color: #a80000;
-    color: #ffffff;
-    border: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s;
-}
-.botao-comprar:hover {
-    background-color: #8a0000;
-    transform: scale(1.05);
-}
-
-/* 📋 Resumo da Compra */
-.resumo-compra {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background-color: #1a1a1a;
-    color: #ffffff;
-}
-.resumo-compra h3 {
-    margin-bottom: 0.75rem;
-}
-.resumo-compra p {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    color: #cccccc;
-}
-
-/* 📑 Lista de Ingressos */
-.lista-ingressos {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    border-radius: 6px;
-    background-color: #1a1a1a;
-}
-.lista-ingressos h3 {
-    margin-bottom: 0.5rem;
-}
-.lista-ingressos ul {
-    list-style: none;
-    padding-left: 0;
-}
-.lista-ingressos .item-ingresso {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 6px;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    background-color: #2a2a2a;
-}
-.lista-ingressos .info-ingresso p {
-    margin: 2px 0;
-    font-size: 0.95rem;
-    color: #cccccc;
-}
-.lista-ingressos .botao-excluir {
-    background-color: #8F0000;
-    color: #ffffff;
-    border: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-}
-.lista-ingressos .botao-excluir:hover {
-    background-color: #a80000;
-}
-
-/* 💳 Total Geral */
-#total-geral {
-    margin-top: 1rem;
-    padding: 0.75rem 1rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #8F0000;
-    border-radius: 6px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    transition: transform 0.2s ease;
-    cursor: pointer;
-}
-#total-geral:hover {
-    transform: scale(1.05);
-    background-color: #b30000;
-}
-
-/* 🔹 Container Estádio + Ingressos */
-.container-estadio-ingressos {
-    display: flex;
-    gap: 8rem;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-}
-
-/*Estadio*/
-.mapa-estadio {
-    width: 360px;
-    max-width: 360px;
-    padding: 0;              /* remove container */
-    background: none;        /* remove fundo */
-    box-shadow: none;
-    border-radius: 0;
-    margin: 0 auto;
-}
-
-/* 🏟️ Estádio flutuante */
-.mapa-estadio img {
-    width: 140%;              /* reduz um pouco para caber melhor */
-    height: auto;
-    display: block;
-    border-radius: 8px;
-
-    /* ✨ efeito flutuante + posição */
-    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
-    transition: transform 0.35s ease, filter 0.35s ease;
-
-    /* 👉 move para baixo e para a esquerda */
-    transform: translateY(40px) translateX(-40px);
-    margin-left: -130px;       /* reforça movimento à esquerda */
-    margin-top: -10px;         /* desce em direção aos ingressos */
-}
-
-/* ✨ Hover elegante */
-.mapa-estadio img:hover {
-    transform: translateY(30px) translateX(-40px) scale(1.03);
-    filter: drop-shadow(0 22px 40px rgba(0, 0, 0, 0.8));
-}
-.mapa-estadio h3 {
-    text-align: left;
-    margin-left: 20px;
-    font-size: 1.2rem;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-
-
-/* 🎫 Lado Direito - Compra de Ingressos */
-.lado-direito-ingressos {
-    flex: 1 1 300px;
-    max-width: 48%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* 📱 Responsivo */
-@media (max-width: 1024px) {
-    .container-estadio-ingressos {
-        gap: 2rem;
-    }
-    .mapa-estadio,
-    .lado-direito-ingressos {
-        max-width: 100%;
-    }
-}
-@media (max-width: 768px) {
-    .container-estadio-ingressos {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .mapa-estadio,
-    .lado-direito-ingressos {
-        max-width: 100%;
-    }
-}
-@media (max-width: 600px) {
-    main {
-        padding: 2rem 1rem;
-    }
-    .logos-times {
-        gap: 0.5rem;
-    }
-    .logos-times img {
-        width: 50px;
-        height: 50px;
-    }
-    .logos-times span {
-        font-size: 1.3rem;
-    }
-    .form-setor select,
-    .botao-comprar,
-    #quantidade,
-    #preco-total {
-        font-size: 1rem;
-        height: auto;
-    }
-    .lista-ingressos .item-ingresso {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .lista-ingressos .botao-excluir {
-        margin-top: 0.5rem;
-    }
-}
-
-/* ✨ Animação no total-geral */
-#total-geral.destaque-total {
-  animation: brilhoTotal 0.5s ease;
-}
-
-@keyframes brilhoTotal {
-  0% {
-    background-color: #a80000;
-    color: #ffffff;
-  }
-  50% {
-    background-color: #ffff00;
-    color: #000000;
-  }
-  100% {
-    background-color: #8F0000;
-    color: #ffffff;
-  }
-}
-
-/* ✨ Mensagem de Sucesso — EFEITO VIDRO COM VERMELHO MAIS FORTE */
-.mensagem-sucesso {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-
-  /* 🔥 Glassmorphism vermelho mais forte */
-  background: #28a745; /* vermelho mais intenso */
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border: 2px solid rgba(255, 255, 255, 0.28);
-
+  font-family: 'Roboto Condensed', sans-serif;
+  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
   color: #ffffff;
-  padding: 1.3rem 2.6rem;
-  border-radius: 14px;
-  font-weight: bold;
-  font-size: 1.28rem;
+  line-height: 1.5;
+}
+
+.jogo-destaque {
+  display: none;
+  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+  border-radius: 16px;
+  padding: 30px 22px;
+  max-width: 600px;
+  margin: 20px auto 0;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
   text-align: center;
-
-  box-shadow: 0 10px 28px rgba(0,0,0,0.6);
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.6s ease, transform 0.4s ease;
-  z-index: 9999;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mensagem-sucesso.visivel {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: auto;
-}
-/* 🔹 Ajustes para dispositivos touch (sem hover) */
-@media (hover: none) {
-  .mapa-estadio img:hover {
-    transform: none;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
-  }
-
-  .botao-comprar:hover,
-  .lista-ingressos .botao-excluir:hover,
-  #total-geral:hover {
-    transform: none;
-    background-color: inherit;
-  }
+.jogo-destaque:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55);
 }
 
-/* 📱 Layout refinado para mobile com tamanhos normais */
-@media (max-width: 600px) {
-  main {
-    padding: 2rem 1rem;
-  }
+.rodada {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #c71c1c;
+  margin-bottom: 15px;
+}
 
-  .container-estadio-ingressos {
-    flex-direction: column;
+.confronto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+
+.time img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.time p {
+  margin-top: 6px;
+  font-weight: bold;
+}
+
+.versus {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #8F0000;
+}
+
+.info-jogo {
+  font-size: 0.95rem;
+  color: #cccccc;
+  margin: 4px 0;
+}
+
+main {
+  padding: 80px 40px 30px; /* mais espaço superior para destacar o título */
+  max-width: 1400px; /* aumenta largura útil da página */
+  margin: 0 auto;
+}
+
+main h1 {
+  text-align: center;
+  font-size: 1.9rem;
+  color: #8F0000;
+  margin-top: 32px; /* aumenta espaço acima do título */
+  margin-bottom: 22px;
+}
+
+/* Regras mais específicas para garantir sobreposição ao estilo global do site */
+body.corpo main {
+  padding-top: 60px;
+}
+
+body.corpo main h1 {
+  margin-top: 8px;
+}
+.container-estadio-ingressos .lado-direito-ingressos {
+  margin-top: 92px;
+}
+
+body.corpo > main > main {
+  padding-top: 40px ;
+}
+
+body.corpo > main > main h1 {
+  margin-top: 24px ; 
+}
+
+.titulo-ingresso {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Novo layout para o título/preview do jogo de ingresso */
+.titulo-ingresso-conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.times-ingresso {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: center;
+}
+
+.times-ingresso .time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.times-ingresso .time img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.times-ingresso .versus {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #8F0000;
+}
+
+.detalhes-jogo .info-jogo {
+  margin-top: 6px;
+  color: #d0d0d0;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (min-width: 900px) {
+  .titulo-ingresso-conteudo {
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 2rem;
-    padding: 0 1rem;
+    gap: 24px;
   }
 
-  .mapa-estadio {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .mapa-estadio h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    text-align: center;
-  }
-
-  .mapa-estadio img {
-    width: 100%;
-    max-width: 360px;
-    height: auto;
-    margin: 0 auto;
-    display: block;
-    transform: none;
-    border-radius: 8px;
-    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65));
-  }
-
-  .form-setor {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .form-setor label {
-    font-size: 1rem;
-  }
-
-  .form-setor select,
-  #quantidade {
-    font-size: 0.95rem;
-    padding: 0.75rem;
-    height: 45px;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-
-  .botao-comprar {
-    font-size: 1rem;
-    padding: 0.75rem;
-    height: 45px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  #total-geral {
-    font-size: 1.2rem;
-    padding: 0.75rem;
-    height: 45px;
-    border-radius: 6px;
-    width: 100%;
-    max-width: 360px;
-    margin: 1rem auto 0;
-    display: block;
-    text-align: center;
-  }
-
-  .resumo-compra,
-  .lista-ingressos {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  .lista-ingressos h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    text-align: center;
-    color: #ffffff;
-  }
-
-  .lista-ingressos ul {
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 1rem;
-  }
-
-  .lista-ingressos .item-ingresso {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0.75rem;
-    background-color: #2a2a2a;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-  }
-
-  .lista-ingressos .botao-excluir {
-    margin-top: 0.5rem;
-    min-height: 40px;
-    width: 100%;
-    background-color: #8F0000;
-    color: #ffffff;
-    border: none;
-    padding: 0.5rem 0.75rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s;
-  }
-
-  .lista-ingressos .botao-excluir:hover {
-    background-color: #a80000;
-  }
-
-  .logos-times {
-    gap: 1rem;
-  }
-
-  .logos-times img {
-    width: 70px;
-    height: 70px;
-  }
-
-  .logos-times span {
-    font-size: 1.6rem;
-  }
-
-  .titulo-ingresso h2,
-  .rodada-info h3 {
-    font-size: 1.5rem;
-  }
-
-  main h1 {
-    font-size: 1.9rem;
-    margin-bottom: 2rem;
+  .detalhes-jogo {
+    text-align: right;
   }
 }
-/* 🧼 Ajuste final de espaçamento e alinhamento */
-.lista-ingressos {
-  margin-top: 1rem;          /* reduz espaço acima */
-  padding: 0.75rem;          /* padding mais compacto */
-  border-radius: 8px;
-  background-color: #1a1a1a;
+
+.rodada-info h3 {
+  font-size: 1.4rem;
+  color: #ff2222;
+  font-weight: bold;
+}
+
+.titulo-ingresso h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.logos-times {
+  display: flex;
+  justify-content: center; /* alinhar as logos à esquerda */
+  align-items: center;
+  gap: 0.8rem;
   width: 100%;
-  max-width: 340px;          /* largura ajustada */
+  padding-left: 8px; /* pequeno espaçamento da borda esquerda */
+}
+
+.logos-times img {
+  width: 55px;
+  height: 55px;
+}
+
+.logos-times span {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.container-estadio-ingressos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* usa o espaço vazio entre os cards */
+  gap: 120px; /* aumenta espaço entre os cards para 'desgrudar' */
+  margin-top: 56px; /* aumenta espaço acima do container de compra */
+  width: 100%;
+  max-width: 1400px; /* controla o quanto o container expande */
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box;
+}
+
+.container-estadio-ingressos {
+  align-items: flex-start;
+}
+.container-estadio-ingressos {
+  align-items: flex-start;
+}
+.container-estadio-ingressos .lado-direito-ingressos {
+  margin-top: 0;
+}
+.mapa-estadio,
+.lado-direito-ingressos {
+  flex: 0 1 45%; /* cada painel ocupa aproximadamente 45% */
+  max-width: 45%;
+  min-width: 320px; /* evita colapso em larguras médias */
+}
+
+.mapa-estadio {
+  width: 100%;
+  text-align: center;
+  background-color: #1a1a1a;
+  padding: 1.5rem; /* maior */
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+}
+
+.mapa-estadio {
+  display: flex;
+  flex-direction: column; /* garante H3 acima da imagem */
+  align-items: center; /* centraliza o conteúdo dentro do card */
+  justify-content: center;
+  gap: 12px;
+  padding-left: 0; /* remover deslocamento lateral */
+}
+.mapa-estadio h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+  align-self: center;
+}
+
+.mapa-estadio img {
+  width: 100%;
+  max-width: 520px; /* limitar um pouco para garantir espaço entre os cards */
+  max-height: 520px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  display: block;
+}
+
+.lado-direito-ingressos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px; /* mais espaçamento entre blocos */
+  background-color: #1a1a1a;
+  padding: 1.5rem; /* maior */
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
+  margin-top: 0 !important; /* garantir alinhamento com o mapa */
+  align-self: flex-start; /* força o card a começar no mesmo eixo vertical */
+}
+
+.form-setor {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* espaçamento maior */
+}
+
+.form-setor label {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.form-setor select,
+.form-setor input[type="number"] {
+  width: 100%;
+  padding: 0.9rem; /* maior area clicavel */
+  font-size: 1.05rem; /* leve aumento */
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #ffffff;
+  height: 50px;
+}
+
+.botao-comprar {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1.05rem;
+  background-color: #8F0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-comprar:hover {
+  background-color: #a80000;
+  transform: scale(1.02);
+}
+
+.lista-ingressos {
+  width: 100%;
+  max-width: 720px; /* maior largura */
+  margin: 0 auto;
+  background-color: #1a1a1a;
+  padding: 1.25rem; /* maior padding */
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
 }
 
 .lista-ingressos h3 {
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;     /* menos espaço abaixo */
+  margin-bottom: 0.5rem;
   text-align: center;
   color: #ffffff;
 }
@@ -559,60 +329,338 @@ main h1 {
 .lista-ingressos ul {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-bottom: 1rem;
 }
 
-.lista-ingressos .item-ingresso {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 6px;
-  padding: 0.6rem;           /* mais compacto */
-  margin-bottom: 0.4rem;
-  background-color: #2a2a2a;
-}
-
-.lista-ingressos .info-ingresso p {
-  margin: 2px 0;
-  font-size: 0.95rem;
-  color: #cccccc;
-}
-
-.lista-ingressos .botao-excluir {
-  background-color: #8F0000;
-  color: #ffffff;
-  border: none;
-  padding: 0.4rem 0.6rem;    /* botão menor */
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.3s;
-}
-
-.lista-ingressos .botao-excluir:hover {
-  background-color: #a80000;
-}
-
-/* 💳 Botão Finalizar Compra — centralizado e sem espaço extra */
 #total-geral {
   display: block;
-  margin: 0.8rem auto 0;     /* reduz espaço acima */
-  padding: 0.7rem 1rem;
-  font-size: 1.1rem;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  color: #ffffff;
   background-color: #8F0000;
+  color: #ffffff;
   border-radius: 6px;
   text-align: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   transition: transform 0.2s ease, background-color 0.3s ease;
   cursor: pointer;
-  width: 100%;
-  max-width: 340px;          /* largura ajustada */
-  box-sizing: border-box;
 }
 
 #total-geral:hover {
   transform: scale(1.02);
   background-color: #b30000;
+}
+
+.jogos-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* alinhar os cards lado a lado */
+  gap: 24px;
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 10px;
+}
+
+.titulo-secundario {
+  width: 100%;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #ffffff;
+}
+
+.jogo-card {
+  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+  border: 1px solid #333333;
+  border-radius: 12px;
+  max-width: 360px;
+  flex: 0 1 30%; /* cada card ocupa aprox 30% */
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.jogo-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* altura padrão uniforme */
+}
+
+.jogo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
+}
+
+.jogo-card img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.jogo-card .data {
+  margin-top: 8px;
+  color: #d6d6d6;
+}
+
+.jogo-card .local {
+  margin-top: 6px;
+  color: #cfcfcf;
+  font-weight: 600;
+}
+
+.jogo-card h2 {
+  font-size: 1.2rem;
+  color: #c71c1c;
+}
+
+.jogo-card p {
+  font-size: 0.9rem;
+  color: #d6d6d6;
+}
+
+@media (max-width: 1200px) {
+  .container-estadio-ingressos {
+    justify-content: center;
+    gap: 48px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container-estadio-ingressos {
+    flex-direction: column;
+    gap: 25px;
+    align-items: center;
+  }
+  .mapa-estadio,
+  .lado-direito-ingressos {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .mapa-estadio,
+  .lado-direito-ingressos,
+  .jogos-container {
+    max-width: 100%;
+  }
+
+  .botao-comprar,
+  #total-geral {
+    max-width: 100%;
+  }
+
+  main { padding: 48px 12px 20px; }
+  .container-estadio-ingressos { margin-top: 34px; gap: 24px; }
+  .lado-direito-ingressos { margin-top: 34px; }
+  main h1 { margin-top: 24px; }
+
+  .jogos-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+    padding: 0 6px;
+    box-sizing: border-box;
+  }
+
+  .jogo-card {
+    flex: 0 1 100%;
+    width: 100%;
+    max-width: 520px;
+    min-height: 140px; /* menor altura para caber em telas pequenas */
+    padding: 18px;
+    box-sizing: border-box;
+    text-align: center;
+    align-items: center;
+  }
+
+  .jogo-card h2 { font-size: 1.05rem; }
+  .jogo-card p, .jogo-card .data, .jogo-card .local { font-size: 0.95rem; }
+
+  .mapa-estadio img {
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Make buttons and totals easy to tap */
+  .botao-comprar {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  #total-geral { font-size: 1.05rem; }
+
+  #mensagem-sucesso {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 520px;
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  main h1 { margin-top: 28px; font-size: 1.5rem; }
+
+  .lado-direito-ingressos { padding: 8px; }
+
+@media (max-width: 480px) {
+  .jogo-card { min-height: 120px; padding: 14px; }
+  .jogo-card h2 { font-size: 1rem; }
+  main { padding: 36px 10px 18px; }
+  #mensagem-sucesso { padding: 14px; width: calc(100% - 20px); }
+  .botao-comprar { padding: 11px 12px; font-size: 0.98rem; }
+}
+  .jogos-container {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.jogo-destaque {
+  animation: sombra-flutuante 5s ease-in-out infinite;
+}
+
+@keyframes sombra-flutuante {
+  0% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
+  50% { box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55); }
+  100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
+}
+
+.lista-ingressos li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2a2a2a;
+  padding: 0.9rem 1rem; /* mais espaço dentro de cada item */
+  margin-bottom: 0.75rem; /* mais espaçamento entre itens */
+  border-radius: 8px;
+  font-size: 1rem; /* leve aumento */
+}
+
+/* 🔴 Botão Excluir ingresso */
+.botao-excluir {
+  background-color: transparent;
+  border: 1px solid #8F0000;
+  color: #ff4d4d;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botao-excluir:hover {
+  background-color: #8F0000;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* 🟢 Botão Finalizar Compra */
+.botao-finalizar {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.15rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #8F0000, #c71c1c);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.botao-finalizar:hover {
+  background: linear-gradient(135deg, #a80000, #ff2222);
+  transform: translateY(-2px);
+}
+
+/* ================= MENSAGEM DE SUCESSO (GLASS VERDE FORTE) ================= */
+#mensagem-sucesso {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.98);
+
+  /* tornar a mensagem opaca e mais visível */
+  background: rgba(0, 150, 60, 0.95);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  border: 1px solid rgba(0, 200, 100, 0.95);
+  box-shadow:
+    0 22px 50px rgba(0, 0, 0, 0.75),
+    0 0 20px rgba(0, 200, 120, 0.25);
+
+  color: #ffffff;
+  padding: 20px 36px;
+  border-radius: 12px;
+
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-align: center;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+
+  transition: all 0.28s ease;
+}
+
+/* estado visível */
+#mensagem-sucesso.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes mensagem-pop {
+  0% { opacity: 0; transform: translate(-50%, -46%) scale(.98); }
+  60% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+/* ===== ESCUDOS NOS PRÓXIMOS JOGOS (LADO ESQUERDO) ===== */
+.jogo-card {
+  position: relative;
+  flex: 0 1 30%;
+  max-width: 360px;
+  /* reserva espaço à esquerda para os escudos */
+  padding: 28px 28px 28px 110px;
+  background: linear-gradient(145deg,#2a2a2a,#1e1e1e);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.jogo-times {
+  position: absolute;
+  left: 24px;   /* escudos no lado esquerdo */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.jogo-times .escudo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
 }

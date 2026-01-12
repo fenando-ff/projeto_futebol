@@ -129,6 +129,40 @@ class Pedido(models.Model):
     def __str__(self):
         return f"{self.clientes_id_clientes.nome_clientes} {self.clientes_id_clientes.sobrenome_clientes} - {self.data_pedido.strftime('%d/%m/%Y')}"
 
+class Times(models.Model):
+    id_times = models.AutoField(db_column='id_times', primary_key=True)
+    nome_time = models.CharField(db_column='nome_time', max_length=45)
+    url_brasao = models.CharField(db_column='url_brasao', max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'times'
+        
+    def __str__(self):
+        return self.nome_time
+
+
+class Jogos(models.Model):
+    CASA_FORA_CHOICES = [
+        ('casa', 'Casa'),
+        ('fora', 'Fora'),
+    ]
+    
+    id_jogos = models.AutoField(db_column='id_jogos', primary_key=True)
+    dia_jogo = models.DateField(db_column='dia_jogo')
+    hora_jogo = models.TimeField(db_column='hora_jogo')
+    local_jogo = models.CharField(db_column='local_jogo', max_length=50)
+    casa_fora = models.CharField(db_column='casa_fora', max_length=4, choices=CASA_FORA_CHOICES)
+    times_id_times = models.ForeignKey(Times, models.DO_NOTHING, db_column='times_id_times')
+
+    class Meta:
+        managed = False
+        db_table = 'jogos'
+        
+    def __str__(self):
+        return f"{self.times_id_times.nome_time} - {self.dia_jogo.strftime('%d/%m/%Y')} - {self.casa_fora}"
+
+
 class Produtos(models.Model):
     id_produtos = models.AutoField(db_column='id_PRODUTOS', primary_key=True)  # Field name made lowercase.
     nome_produtos = models.CharField(db_column='nome_PRODUTOS', max_length=45)  # Field name made lowercase.
@@ -137,6 +171,7 @@ class Produtos(models.Model):
     quantidade_estoque_produtos = models.IntegerField(db_column='quantidade_estoque_PRODUTOS')  # Field name made lowercase.
     categoria_produtos_id_categoria_produtos = models.ForeignKey(CategoriaProdutos, models.DO_NOTHING, db_column='CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS')  # Field name made lowercase.
     imagem_produtos = models.CharField(max_length=255, blank=True, null=True, db_column='imagem_PRODUTOS')  # Caminho da imagem
+    jogos_id_jogos = models.ForeignKey(Jogos, models.SET_NULL, db_column='jogos_id_jogos', blank=True, null=True)  # Relação com jogos
 
     class Meta:
         managed = True

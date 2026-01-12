@@ -2,73 +2,158 @@
 {% load static %}
 
 {% block css_extra %}
+  <link rel="stylesheet" href="{% static 'css/proximos_jogos.css' %}">
   <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}">
 {% endblock css_extra %}
 
+{% block titulo %}Ingressos{% endblock titulo %}
+
 {% block conteudo_pagina %}
+
+<!-- ================= JOGO EM DESTAQUE ================= -->
+<section class="jogo-destaque">
+  {% if jogo_destaque %}
+  <p class="rodada">PRÓXIMO JOGO</p>
+
+  <div class="confronto">
+    <div class="time">
+      <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
+      <p>Drakos FC</p>
+    </div>
+
+    <span class="versus">X</span>
+
+    <div class="time">
+      {% if jogo_destaque.times_id_times.url_brasao %}
+        <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
+      {% else %}
+        <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
+      {% endif %}
+      <p>{{ jogo_destaque.times_id_times.nome_time }}</p>
+    </div>
+  </div>
+
+  <p class="info-jogo">{{ jogo_destaque.dia_jogo|date:"d/m/Y" }} - {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+  <p class="info-jogo">{{ jogo_destaque.local_jogo }}</p>
+  {% else %}
+  <p class="rodada">NENHUM JOGO AGENDADO</p>
+  <p class="info-jogo">Aguarde próximos jogos</p>
+  {% endif %}
+</section>
+
+<!-- ================= COMPRA DE INGRESSOS ================= -->
 <main>
+
   <h1>Compra de Ingressos</h1>
 
-  <!-- 🔹 Título e Rodada -->
   <section class="titulo-ingresso">
-    <div class="rodada-info">
-      <h3>19ª Rodada</h3>
-    </div>
-    <h2>Drakos FC x Fluminense</h2>
-    <div class="logos-times">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Drakos FC">
-      <span>vs</span>
-      <img src="{% static 'img/icones/escudo_fluminense.png' %}" alt="Fluminense">
-    </div>
+    <h3>Próximo Jogo</h3>
+    {% if jogo_destaque %}
+      <div class="titulo-ingresso-conteudo">
+        <div class="times-ingresso">
+          <div class="time">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos">
+            <span>Drakos FC</span>
+          </div>
+
+          <div class="versus"><i class="fas fa-times"></i></div>
+
+          <div class="time">
+            {% if jogo_destaque.times_id_times.url_brasao %}
+              <img src="{% static jogo_destaque.times_id_times.url_brasao %}" alt="Escudo {{ jogo_destaque.times_id_times.nome_time }}">
+            {% else %}
+              <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo">
+            {% endif %}
+            <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
+          </div>
+        </div>
+
+        <div class="detalhes-jogo">
+          <p class="info-jogo">{{ jogo_destaque.local_jogo }} • {{ jogo_destaque.dia_jogo|date:"d/m/Y" }} • {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+        </div>
+      </div>
+    {% else %}
+      <h3>Nenhum jogo disponível</h3>
+      <h2>Aguarde os próximos jogos</h2>
+    {% endif %}
   </section>
-  <!-- 🔹 Container Flexível para layout lateral -->
+
   <div class="container-estadio-ingressos">
 
-    <!-- 🗺️ Mapa do Estádio -->
+    <!-- MAPA -->
     <section class="mapa-estadio">
       <h3>Mapa do Estádio</h3>
-      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio com setores">
+      <img src="{% static 'img/icones/estadio_atualizado.png' %}">
     </section>
 
-    <!-- 🎫 Lado Direito - Compra de Ingressos -->
+    <!-- COMPRA -->
     <section class="lado-direito-ingressos">
+      <form class="form-setor" method="POST">
+        {% csrf_token %}
 
-      <!-- 🧾 Formulário -->
-      <form class="form-setor">
         <label for="setor">Setor:</label>
-        <select id="setor" name="setor">
+        <select id="setor" name="setor" required>
           <option value="">Selecione</option>
           {% for ingresso in ingressos %}
-            <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">
-               {{ingresso.nome_produtos}} {{ ingresso.descricao_produtos }} R${{ ingresso.valor_produtos }}
+            <option 
+              value="{{ ingresso.id_produtos }}"
+              data-preco="{{ ingresso.valor_produtos }}">
+              {{ ingresso.nome_produtos }} - R$ {{ ingresso.valor_produtos }}
             </option>
           {% endfor %}
         </select>
 
-        <label for="quantidade">Quantidade (1 a 10):</label>
-        <input type="number" id="quantidade" name="quantidade" min="1" max="10">
+        <label for="quantidade">Quantidade:</label>
+        <input id="quantidade" name="quantidade" type="number" min="0" max="10" value="0" required>
 
-        <button type="submit" class="botao-comprar">Adicionar</button>
+        <button type="submit" class="botao-comprar">
+          Adicionar Ingresso
+        </button>
       </form>
 
-      <!-- 📑 Lista de Ingressos -->
       <section class="lista-ingressos">
         <h3>Ingressos Selecionados</h3>
         <ul></ul>
 
-        <!-- 🔹 Total Geral -->
-        <p id="total-geral">Finalizar compra: R$0.00</p>
+        <button type="button" id="btn-finalizar" class="botao-finalizar">
+          Finalizar compra • R$ <span id="valor-final">0.00</span>
+        </button>
       </section>
-
     </section>
   </div>
 
-  <!-- ✅ MENSAGEM DE SUCESSO AQUI (FUNCIONA AO CLICAR NO TOTAL DA COMPRA) -->
-  <div id="mensagem-sucesso" class="mensagem-sucesso">
+  <!-- ================= PRÓXIMOS JOGOS ================= -->
+  <section class="jogos-container">
+    <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
+
+    {% for jogo in proximos_jogos %}
+    <div class="jogo-card">
+      <div class="jogo-times">
+        {% if jogo.times_id_times.url_brasao %}
+          <img src="{% static jogo.times_id_times.url_brasao %}" class="escudo">
+        {% endif %}
+      </div>
+      <h2>
+        {% if jogo.casa_fora == 'casa' %}
+          Drakos FC vs {{ jogo.times_id_times.nome_time }}
+        {% else %}
+          {{ jogo.times_id_times.nome_time }} vs Drakos FC
+        {% endif %}
+      </h2>
+      <p class="data">{{ jogo.dia_jogo|date:"d/m/Y" }} • {{ jogo.hora_jogo|time:"H\hi" }}</p>
+      <p class="local">Local: {{ jogo.local_jogo }}</p>
+    </div>
+    {% empty %}
+    <p>Nenhum jogo agendado no momento.</p>
+    {% endfor %}
+  </section>
+
+  <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none;">
     Compra realizada com sucesso!
   </div>
 
 </main>
+
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
