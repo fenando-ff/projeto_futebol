@@ -24,10 +24,12 @@ load_dotenv(BASE_DIR / ".env")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+print("SECRET_KEY carregada?", bool(SECRET_KEY)) #testando, a chave estava gerando erro
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = False #paraece que evitar erros de informações"
+DEBUG = True #paraece que evitar erros de informações" #eu troquei por enquanto
 
 ALLOWED_HOSTS = ['*'] #isso informa que pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
