@@ -61,7 +61,7 @@
         {% csrf_token %}
 
         <label for="setor">Setor:</label>
-        <select id="setor" name="setor" required>
+        <select id="setor" name="setor" required> 
           <option value="">Selecione</option>
           {% for ingresso in ingressos %}
             <option 
