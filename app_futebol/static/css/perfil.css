@@ -54,4 +54,16 @@ body {
 
 .campo .info {
     padding: 8px;
+    border: none;
+}
+
+@media (max-width: 900px) {
+    .info-usuario {
+        width: 70%;
+        padding: 20px;
+    }
+
+    .todas-infos {
+        flex-direction: column;
+    }
 }
