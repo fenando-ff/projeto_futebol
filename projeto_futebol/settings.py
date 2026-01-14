@@ -29,9 +29,9 @@ print("SECRET_KEY carregada?", bool(SECRET_KEY)) #testando, a chave estava geran
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True #paraece que evitar erros de informações" #eu troquei por enquanto
+DEBUG = True #evitar erros de informações"          #eu troquei para True por enquanto
 
-ALLOWED_HOSTS = ['*'] #isso informa que pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
+ALLOWED_HOSTS = ['*'] #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
 
 # Application definition
