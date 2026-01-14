@@ -92,7 +92,7 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),
         'OPTIONS': {
             'ssl': {
-                'ca': os.path.join(BASE_DIR, 'certs/ca.pem'), # type: ignore
+                'ca': os.path.join(BASE_DIR / 'certs/ca.pem'), # type: ignore
             }   
         }
     }
