@@ -48,16 +48,7 @@ def get_cliente_logado(request):
     # Retorna os dados do cliente logado ou None se não estiver logado.
     if not request.session.get("cliente_id"):
         return None
-    # Resolve nome do plano a partir do id em sessão, se necessário
-    plano_nome = request.session.get('plano_socio_nome')
-    if not plano_nome and request.session.get('plano_socio_id'):
-        try:
-            plano = models.CategoriaCliente.objects.get(id_categoria_cliente=request.session.get('plano_socio_id'))
-            plano_nome = plano.nome_categoria_clientes
-            request.session['plano_socio_nome'] = plano_nome
-        except models.CategoriaCliente.DoesNotExist:
-            plano_nome = None
-
+    # Usa o nome do plano já armazenado na sessão (sem consulta ao banco)
     return {
         "id": request.session.get("cliente_id"),
         "nome": request.session.get("cliente_nome"),
@@ -66,7 +57,7 @@ def get_cliente_logado(request):
         "telefone": request.session.get("cliente_telefone"),
         "endereco": request.session.get("cliente_endereco"),
         "cpf": request.session.get("cliente_cpf"),
-        "plano_cliente": plano_nome,
+        "plano_cliente": request.session.get('plano_socio_nome'),
     }
 
 # -------------------------------
@@ -157,12 +148,20 @@ def tela_carrinho(request):
         return redirect("login")
     
     carrinho = request.session.get("carrinho", {})
+    
+    # Busca todos os produtos de uma vez (otimização)
+    if carrinho:
+        produto_ids = list(carrinho.keys())
+        produtos = {str(p.id_produtos): p for p in models.Produtos.objects.filter(id_produtos__in=produto_ids)}
+    else:
+        produtos = {}
+    
     total = 0
     itens = []
     
     for produto_id, quantidade in carrinho.items():
-        try:
-            produto = models.Produtos.objects.get(id_produtos=produto_id)
+        produto = produtos.get(produto_id)
+        if produto:
             subtotal = produto.valor_produtos * quantidade
             total += subtotal
             itens.append({
@@ -171,43 +170,19 @@ def tela_carrinho(request):
                 "subtotal": subtotal,
                 "preco_linha": subtotal
             })
-        except models.Produtos.DoesNotExist:
-            pass
 
-    # Determina o plano do cliente: prefere o id em sessão, caso contrário busca no DB
+    # Calcula desconto baseado no plano da sessão
     desconto_percent = 0.0
-    plano_id = request.session.get('plano_socio_id')
-    plano_nome = request.session.get('plano_socio_nome')
-    if not plano_id and request.session.get('cliente_id'):
-        try:
-            cliente_obj = models.Clientes.objects.get(id_clientes=request.session.get('cliente_id'))
-            plano_obj = cliente_obj.categoria_cliente_id_categoria_cliente
-            if plano_obj:
-                plano_id = plano_obj.id_categoria_cliente
-                plano_nome = plano_obj.nome_categoria_clientes
-                request.session['plano_socio_id'] = plano_id
-                request.session['plano_socio_nome'] = plano_nome
-        except models.Clientes.DoesNotExist:
-            plano_id = None
-
-    # Se temos o objeto do plano, podemos decidir desconto por nome (ou mapear por id se preferir)
-    if plano_id:
-        # Busca o objeto para ler o nome e decidir a taxa
-        try:
-            plano_obj = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
-            nome_lower = plano_obj.nome_categoria_clientes.strip().lower()
-            # Comparação por nomes exatos (insensível a maiúsculas e acentos)
-            if nome_lower == 'socio drakos - diamante':
-                desconto_percent = 0.20
-            elif nome_lower == 'socio drakos - ouro':
-                desconto_percent = 0.10
-            elif nome_lower == 'socio drakos - prata':
-                desconto_percent = 0.05
-            elif nome_lower == 'nao socio':
-                desconto_percent = 0.0
-            plano_nome = plano_obj.nome_categoria_clientes
-        except models.CategoriaCliente.DoesNotExist:
-            desconto_percent = 0.0
+    plano_nome = request.session.get('plano_socio_nome', '')
+    
+    if plano_nome:
+        nome_lower = plano_nome.strip().lower()
+        if nome_lower == 'socio drakos - diamante':
+            desconto_percent = 0.20
+        elif nome_lower == 'socio drakos - ouro':
+            desconto_percent = 0.10
+        elif nome_lower == 'socio drakos - prata':
+            desconto_percent = 0.05
 
     desconto_valor = total * desconto_percent
     total_com_desconto = total - desconto_valor
@@ -217,7 +192,7 @@ def tela_carrinho(request):
         "desconto": desconto_valor,
         "desconto_percent": int(desconto_percent * 100),
         "total_com_desconto": total_com_desconto,
-        "plano_cliente": plano_nome or cliente.get('plano_cliente'),
+        "plano_cliente": plano_nome,
         **cliente
     })
 
@@ -293,17 +268,23 @@ def atualizar_quantidade_carrinho(request, produto_id):
 
     request.session["carrinho"] = carrinho
 
+    # Busca todos os produtos de uma vez (otimização)
+    if carrinho:
+        produto_ids = [int(pid) for pid in carrinho.keys()]
+        produtos = {str(p.id_produtos): p for p in models.Produtos.objects.filter(id_produtos__in=produto_ids)}
+    else:
+        produtos = {}
+
     # Recalcula totais e monta lista de itens
     total = 0.0
     itens = []
     for prod_id_str, qtd in carrinho.items():
-        try:
-            prod = models.Produtos.objects.get(id_produtos=int(prod_id_str))
-        except models.Produtos.DoesNotExist:
+        prod = produtos.get(prod_id_str)
+        if not prod:
             continue
         subtotal = prod.valor_produtos * qtd
         total += subtotal
-        itens.append({ #
+        itens.append({
             "id": prod.id_produtos,
             "nome": prod.nome_produtos,
             "preco_unit": prod.valor_produtos,
@@ -311,19 +292,18 @@ def atualizar_quantidade_carrinho(request, produto_id):
             "subtotal": subtotal
         })
 
-    # Aplicar desconto simples baseado no plano em sessão (se houver)
+    # Calcula desconto baseado no plano da sessão
     desconto_percent = 0.0
-    plano_id = request.session.get('plano_socio_id')
-    if plano_id:
-        try:
-            plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
-            nome = (plano.nome_categoria_clientes or "").lower()
-            if "ouro" in nome:
-                desconto_percent = 0.15
-            elif "sócio" in nome or "socio" in nome:
-                desconto_percent = 0.10
-        except models.CategoriaCliente.DoesNotExist:
-            desconto_percent = 0.0
+    plano_nome = request.session.get('plano_socio_nome', '')
+    
+    if plano_nome:
+        nome_lower = plano_nome.strip().lower()
+        if nome_lower == 'socio drakos - diamante':
+            desconto_percent = 0.20
+        elif nome_lower == 'socio drakos - ouro':
+            desconto_percent = 0.10
+        elif nome_lower == 'socio drakos - prata':
+            desconto_percent = 0.05
 
     desconto_valor = total * desconto_percent
     total_com_desconto = total - desconto_valor
@@ -339,6 +319,153 @@ def atualizar_quantidade_carrinho(request, produto_id):
         })
 
     return redirect("carrinho")
+
+
+def finalizar_compra(request):
+    """
+    Função para registrar uma compra ao finalizar o carrinho.
+    Cria um pedido e registra todos os itens da compra.
+    """
+    # Verifica se o cliente está logado
+    cliente_id = request.session.get("cliente_id")
+    if not cliente_id:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": False,
+                "mensagem": "Você precisa estar logado para finalizar a compra."
+            }, status=401)
+        messages.error(request, "Você precisa estar logado para finalizar a compra!")
+        return redirect("login")
+    
+    # Busca o cliente no banco de dados
+    try:
+        cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+    except models.Clientes.DoesNotExist:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": False,
+                "mensagem": "Cliente não encontrado!"
+            }, status=404)
+        messages.error(request, "Cliente não encontrado!")
+        return redirect("login")
+    
+    # Obtém o carrinho da sessão
+    carrinho = request.session.get("carrinho", {})
+    
+    # Verifica se o carrinho está vazio
+    if not carrinho:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": False,
+                "mensagem": "Seu carrinho está vazio!"
+            })
+        messages.warning(request, "Seu carrinho está vazio!")
+        return redirect("carrinho")
+    
+    # Busca todos os produtos de uma vez (otimização)
+    produto_ids = [int(pid) for pid in carrinho.keys()]
+    produtos_db = models.Produtos.objects.filter(id_produtos__in=produto_ids)
+    produtos_dict = {p.id_produtos: p for p in produtos_db}
+    
+    # Valida os produtos e estoque
+    itens_compra = []
+    valor_total = 0
+    
+    for produto_id_str, quantidade in carrinho.items():
+        produto = produtos_dict.get(int(produto_id_str))
+        if not produto:
+            continue
+        
+        # Verifica se há estoque suficiente
+        if produto.quantidade_estoque_produtos < quantidade:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    "sucesso": False,
+                    "mensagem": f"Estoque insuficiente para {produto.nome_produtos}. Disponível: {produto.quantidade_estoque_produtos}"
+                })
+            messages.error(request, f"Estoque insuficiente para {produto.nome_produtos}. Disponível: {produto.quantidade_estoque_produtos}")
+            return redirect("carrinho")
+        
+        valor_item = produto.valor_produtos * quantidade
+        valor_total += valor_item
+        
+        itens_compra.append({
+            "produto": produto,
+            "quantidade": quantidade,
+            "valor_unitario": produto.valor_produtos,
+            "valor_total": valor_item
+        })
+    
+    # Verifica novamente se há itens válidos
+    if not itens_compra:
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": False,
+                "mensagem": "Nenhum produto válido no carrinho!"
+            })
+        messages.error(request, "Nenhum produto válido no carrinho!")
+        return redirect("carrinho")
+    
+    # Cria o pedido
+    try:
+        novo_pedido = models.Pedido(
+            data_pedido=timezone.now(),
+            clientes_id_clientes=cliente,
+            funcionarios_id_funcionarios=None
+        )
+        novo_pedido.save()
+        
+        # Prepara listas para bulk operations
+        compras_para_criar = []
+        produtos_para_atualizar = []
+        
+        for item in itens_compra:
+            produto = item["produto"]
+            quantidade_comprada = item["quantidade"]
+            valor_item = item["valor_total"]
+            
+            # Prepara o registro de compra
+            compras_para_criar.append(models.Compra(
+                produtos_id_produtos=produto,
+                pedido_id_pedido=novo_pedido,
+                quantidade_pedido=quantidade_comprada,
+                valor_compra=valor_item
+            ))
+            
+            # Atualiza o estoque do produto
+            produto.quantidade_estoque_produtos -= quantidade_comprada
+            produtos_para_atualizar.append(produto)
+        
+        # Salva tudo de uma vez (otimização)
+        models.Compra.objects.bulk_create(compras_para_criar)
+        models.Produtos.objects.bulk_update(produtos_para_atualizar, ['quantidade_estoque_produtos'])
+        
+        # Limpa o carrinho da sessão
+        request.session["carrinho"] = {}
+        request.session.modified = True
+        
+        # Retorna sucesso
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": True,
+                "mensagem": "Compra finalizada com sucesso!",
+                "pedido_id": novo_pedido.id_pedido,
+                "valor_total": float(valor_total),
+                "data_pedido": novo_pedido.data_pedido.strftime("%d/%m/%Y %H:%M")
+            })
+        
+        messages.success(request, f"Compra finalizada com sucesso! Pedido #{novo_pedido.id_pedido}")
+        return redirect("home")
+        
+    except Exception as erro:
+        # Em caso de erro, retorna mensagem de erro
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "sucesso": False,
+                "mensagem": f"Erro ao processar a compra: {str(erro)}"
+            }, status=500)
+        messages.error(request, f"Erro ao processar a compra: {str(erro)}")
+        return redirect("carrinho")
 
 
 def tela_conta_finalizada(request):
@@ -388,18 +515,20 @@ def tela_loja_detalhe(request, produto_id):
 
 
 def tela_loja_produtos(request):
-    todas_categorias = models.CategoriaProdutos.objects.all() # Armazena todas as categorias
-    produtos_por_categoria = {} # Dicionário para armazenar produtos por categoria
+    # Busca todos os produtos de uma vez
+    todos_produtos = models.Produtos.objects.select_related('categoria_produtos_id_categoria_produtos').all()
+    todas_categorias = models.CategoriaProdutos.objects.all()
     
-    for categoria in todas_categorias: # Vai andar por cada categoria
-        produtos_por_categoria[categoria] = models.Produtos.objects.filter( # Adiciona os produtos daquela categoria ao dicionário
-            categoria_produtos_id_categoria_produtos=categoria # Usa a chave estrangeira da tabela Produtos que está ligada a CategoriaProdutos
-        )
+    # Organiza produtos por categoria (em memória, sem queries extras)
+    produtos_por_categoria = {categoria: [] for categoria in todas_categorias}
+    for produto in todos_produtos:
+        if produto.categoria_produtos_id_categoria_produtos in produtos_por_categoria:
+            produtos_por_categoria[produto.categoria_produtos_id_categoria_produtos].append(produto)
     
-    cliente = get_cliente_logado(request) # Pega as info do cliente logado
-    return render(request, "app_futebol/loja_produtos.html", { # renderiza a página da loja
-        "produtos_por_categoria": produtos_por_categoria, # adiciona os produtos por categoria da linha 303
-        **(cliente or {}) # inclui as informações do cliente logado e se não tiver ninguém logado, passa um dicionário vazio
+    cliente = get_cliente_logado(request)
+    return render(request, "app_futebol/loja_produtos.html", {
+        "produtos_por_categoria": produtos_por_categoria,
+        **(cliente or {})
     })
 
 

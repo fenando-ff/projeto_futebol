@@ -248,8 +248,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (paySubmit) {
     paySubmit.addEventListener("click", () => {
-      if (paySuccess) paySuccess.style.display = "block";
-      setTimeout(closePayment, 1500);
+      // Desabilita o botão para evitar cliques múltiplos
+      paySubmit.disabled = true;
+      paySubmit.textContent = 'Processando...';
+      
+      // Chama a API para finalizar a compra
+      fetch('/finalizar_compra/', {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken') || ''
+        },
+        credentials: 'same-origin'
+      })
+      .then(resposta => resposta.json())
+      .then(dados => {
+        if (dados.sucesso) {
+          // Mostra mensagem de sucesso
+          if (paySuccess) {
+            paySuccess.textContent = 'Pagamento aprovado! Pedido #' + dados.pedido_id;
+            paySuccess.style.display = "block";
+          }
+          
+          // Redireciona após 2 segundos
+          setTimeout(() => {
+            window.location.href = '/';
+          }, 2000);
+        } else {
+          // Mostra mensagem de erro
+          alert('Erro: ' + dados.mensagem);
+          paySubmit.disabled = false;
+          paySubmit.textContent = 'Confirmar Pagamento';
+        }
+      })
+      .catch(erro => {
+        console.error('Erro ao finalizar compra:', erro);
+        alert('Erro ao processar o pagamento. Tente novamente.');
+        paySubmit.disabled = false;
+        paySubmit.textContent = 'Confirmar Pagamento';
+      });
     });
   }
 

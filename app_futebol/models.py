@@ -185,11 +185,12 @@ class Compra(models.Model):
     produtos_id_produtos = models.ForeignKey(Produtos, models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
     pedido_id_pedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='PEDIDO_id_PEDIDO')  # Field name made lowercase.
     quantidade_pedido = models.IntegerField(db_column='quantidade_PEDIDO')  # Field name made lowercase.
-    valor_compra = models.DecimalField(max_digits=10, decimal_places=0)
+    valor_compra = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
         managed = False
         db_table = 'compra'
+        unique_together = (('produtos_id_produtos', 'pedido_id_pedido'),)  # Chave primária composta
         
     def __str__(self):
         return f"{self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"
