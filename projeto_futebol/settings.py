@@ -90,11 +90,17 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
-        'OPTIONS': {
-            'ssl': {
-                'ca': os.path.join(BASE_DIR / 'certs/ca.pem'), # type: ignore
-            }   
-        }
+
+            'OPTIONS': {
+              'ssl':False
+            }        
+            
+            
+        # 'OPTIONS': {
+        #     'ssl': {
+        #         'ca': os.path.join(BASE_DIR / 'certs/ca.pem'), # type: ignore
+        #     }   
+        # }
     }
 }
 
