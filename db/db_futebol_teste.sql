@@ -194,6 +194,8 @@ CREATE TABLE `compra` (
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PRODUTOS1` FOREIGN KEY (`PRODUTOS_id_PRODUTOS`) REFERENCES `produtos` (`id_PRODUTOS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `compra` VALUES (36,1,1,250),(38,1,1,300),(36,2,1,250);
+
 -- Tabelas auxiliares e logs
 DROP TABLE IF EXISTS `django_admin_log`;
 CREATE TABLE `django_admin_log` (
@@ -326,6 +328,8 @@ CREATE TABLE `pedido` (
   CONSTRAINT `fk_PEDIDO_FUNCIONARIOS1` FOREIGN KEY (`FUNCIONARIOS_id_FUNCIONARIOS`) REFERENCES `funcionarios` (`id_FUNCIONARIOS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+INSERT INTO `pedido` VALUES (1,'2026-01-14 18:51:02',127,NULL),(2,'2026-01-14 18:59:54',127,NULL);
 -- -----------------------------------------------------
 -- 4. A TABELA PRODUTOS (MESCLADA)
 -- Criação baseada no "corrigido" + Insert dos dados recentes
