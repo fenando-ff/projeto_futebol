@@ -13,11 +13,15 @@
     </div>
 
     <div class="layout-grid">
-        <section class="perfil-dados">
+        <section class="perfil-dados" id="perfil-dados">
             <div class="card-titulo">
-                <h2>Meus Dados<i class="fa-solid fa-angle-down"></i></h2>
+                <button type="button" class="toggle-meus-dados" aria-expanded="true" aria-controls="meus-dados-body">
+                    <span>Meus Dados</span>
+                    <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                </button>
             </div>
             
+            <div class="meus-dados-body" id="meus-dados-body" aria-hidden="false">
             <form method="post" class="form-perfil">
                 {% csrf_token %}
                 
@@ -96,6 +100,7 @@
                     <a href="{% url 'recuperar_senha3' %}" class="link-senha">Alterar Senha</a>
                 </div>
             </form>
+            </div>
         </section>
 
         <section class="perfil-historico">
@@ -107,9 +112,7 @@
                     {% for h in historico %}
                         <div class="item-pedido" data-pedido="{{ h.pedido.id_pedido }}">
                             <div class="pedido-info">
-                                {% with d=h.pedido.data_pedido %}
-                                    <span class="pedido-data">{{ d|slice:"8:10" }}/{{ d|slice:"5:7" }}/{{ d|slice:"0:4" }} {{ d|slice:"11:16" }}</span>
-                                {% endwith %}
+                                <span class="pedido-data" data-datetime="{{ h.pedido.data_pedido_iso }}">{{ h.pedido.data_pedido }}</span>
                             </div>
                             <div class="pedido-status {% if h.pedido.status == 'entregue' %}status-entregue{% else %}status-processando{% endif %}">
                                 {{ h.pedido.status|title }}

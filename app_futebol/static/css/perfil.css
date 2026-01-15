@@ -52,6 +52,41 @@
     font-weight: 500;
 }
 
+/* Estilo do botão Toggle (Meus Dados) */
+.card-titulo .toggle-meus-dados {
+    background: none;
+    border: none;
+    color: #fff;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+/* Corpo colapsável para 'Meus Dados' */
+.perfil-dados .meus-dados-body {
+    max-height: 3000px; /* grande o suficiente quando aberto */
+    overflow: hidden;
+    transition: max-height 320ms ease, padding 220ms ease;
+}
+.perfil-dados.collapsed .meus-dados-body {
+    max-height: 0;
+    padding: 0 25px; /* Mantém o padding horizontal mínimo quando fechado */
+}
+
+.perfil-dados.collapsed .card-titulo .toggle-meus-dados i {
+    transform: rotate(-180deg);
+    transition: transform 220ms ease;
+}
+.card-titulo .toggle-meus-dados i {
+    transition: transform 220ms ease;
+}
+
 /* Estilos do Formulário (Lado Esquerdo) */
 .form-perfil {
     padding: 25px;

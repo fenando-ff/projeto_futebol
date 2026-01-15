@@ -104,10 +104,16 @@ def get_historico_cliente(request, cliente_obj=None):
             
             # Inicializa o agrupamento do pedido se não existir
             if pid not in agrupados:
+                # formata data para o fuso local do servidor/setting
+                try:
+                    data_local = timezone.localtime(pedido.data_pedido)
+                except Exception:
+                    data_local = pedido.data_pedido
                 agrupados[pid] = {
                     'pedido': {
                         'id_pedido': pid,
-                        'data_pedido': pedido.data_pedido.strftime('%Y-%m-%d %H:%M:%S'),
+                        'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
+                        'data_pedido_iso': data_local.isoformat(),
                         'status': getattr(pedido, 'status_pedido', '')
                     },
                     'itens': [],

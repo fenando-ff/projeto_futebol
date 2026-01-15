@@ -1,3 +1,81 @@
+# Projeto Futebol
+
+Breve aplicação Django para gerenciar uma loja/portal de futebol com perfil de usuário, loja, carrinho e histórico de compras.
+
+**Última atualização:** 15/01/2026 — melhorias no `perfil` para exibir histórico de compras, conversão de horário para fuso local do dispositivo e interações acessíveis.
+
+## Pré-requisitos
+
+- Python 3.10+
+- MySQL (para importar o dump de exemplo em `db/db_futebol_teste.sql`)
+- Virtualenv (recomendado)
+
+## Instalação
+
+1. Criar e ativar um virtualenv:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+2. Instalar dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Importar banco de dados de exemplo (opcional):
+
+```sql
+-- usar o cliente MySQL para importar
+SOURCE db/db_futebol_teste.sql;
+```
+
+4. Ajustar `DATABASES` em `projeto_futebol/settings.py` conforme seu ambiente.
+
+## Executando a aplicação
+
+```bash
+python manage.py migrate
+python manage.py runserver
+```
+
+Abra `http://127.0.0.1:8000/` no navegador.
+
+## Visualizar perfil e histórico de compras
+
+- Faça login com um usuário válido. O sistema usa `request.session['cliente_id']` para identificar o cliente atualmente logado.
+- A página de perfil está em `/perfil/` e exibe o histórico de compras montado server-side.
+- As datas dos pedidos são armazenadas em ISO no HTML e convertidas no cliente para o fuso local do dispositivo usando a API `Intl.DateTimeFormat`.
+
+## Arquivos modificados / notas de desenvolvimento
+
+- `app_futebol/views.py` — novo helper `get_historico_cliente` e ajustes em `tela_perfil` para montar e serializar o histórico.
+- `app_futebol/templates/app_futebol/perfil.html` — marcação do histórico, atributo `data-datetime` com ISO e fallback server-side para exibição de data.
+- `app_futebol/static/js/perfil.js` — conversão de datetime para o fuso local do usuário e comportamentos de dropdown/toggle acessíveis.
+- `app_futebol/static/css/perfil.css` — estilos e transições para `detalhes-pedido`.
+
+## Testes
+
+Rodar testes Django:
+
+```bash
+python manage.py test
+```
+
+## Contribuição
+
+Abra uma issue ou envie um pull request. Mantenha as mudanças pequenas e documentadas.
+
+## Observações
+
+- Verifique o caminho das imagens dos produtos: dependendo de como foram armazenadas (media vs static), pode ser necessário ajustar `MEDIA_URL`/`STATIC_URL` ou o template para usar `{% static %}`.
+- Se precisar que as datas sigam um formato específico (por exemplo, dia/mês/ano com horas), posso ajustar a formatação no cliente.
+
+---
+
+Se quiser, atualizo também exemplos de uso, badges ou instruções específicas para deploy (Docker, Heroku, etc.).
 # Clube de Futebol – Equipe Drakos
 
 A **Plataforma Digital da Equipe Drakos** é um sistema completo desenvolvido para oferecer uma **experiência única** tanto para os torcedores quanto para a administração do clube.  

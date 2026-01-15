@@ -1,57 +1,358 @@
 @import url('botoes_cores_fontes/cores.css');
 
-body {
-    background-color: var(--cor-de-fundo-terceiraria);
-}
-
 .main-perfil {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 75%;
+    margin: 0 auto;
+    min-height: 80vh;
 }
 
-.info-usuario {
+/* Cabeçalho da Seção */
+.header-perfil {
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--cor-de-fundo-terceiraria); /* Linha vermelha */
+    padding-bottom: 10px;
+}
+
+.header-perfil h1 {
+    font-size: 2.5rem;
+    color: #7a0000;
+    margin: 0;
+}
+
+.header-perfil p {
+    color:  #666666;
+    margin-top: 5px;
+}
+
+/* Layout em Grid (Esquerda e Direita) */
+.layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas iguais, ou mude para 1.5fr 1fr se quiser */
+    gap: 40px;
+}
+
+/* Cards (Contêineres das seções) */
+.perfil-dados, .perfil-historico {
     background-color: #fff;
-    width: 60%;
-    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow: hidden; /* Para o cabeçalho não sair da borda */
+    height: fit-content;
 }
 
-.todas-infos {
+.card-titulo {
+    background-color: #7a0000;
+    padding: 15px 25px;
+}
+
+.card-titulo h2 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Estilos do Formulário (Lado Esquerdo) */
+.form-perfil {
+    padding: 25px;
+}
+
+.grupo-inputs {
+    margin-bottom: 30px;
+}
+
+.grupo-inputs h3 {
+    font-size: 1rem;
+    color: var(--cor-de-fundo-terceiraria);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.linha-input {
     display: flex;
-    gap: 20px;
-    width: 100%;
-}
-
-.todas-infos .info-pessoais, .todas-infos .info-endereco {
-    flex: 2;
-}
-
-.info-usuario h1 {
-    margin-bottom: 20px;
-    color: #001A4A;
-}
-
-.info-usuario h2,
-.info-usuario h3 {
-    margin-top: 20px;
-    color: #3145B5;
+    gap: 15px;
 }
 
 .campo {
     display: flex;
     flex-direction: column;
+    margin-bottom: 15px;
     width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
 }
 
-.campo .info {
-    padding: 8px;
+.campo-flex-2 {
+    flex: 2; /* Faz a rua ocupar mais espaço que o número */
+}
+
+.campo label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input-padrao {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fafafa;
+    transition: border-color 0.3s;
+}
+
+.input-padrao:focus {
+    border-color: var(--cor-de-fundo-primaria);
+    outline: none;
+    background-color: #fff;
+}
+
+/* Estilo para o link do Plano Sócio */
+.btn-plano {
+    display: inline-block;
+    padding: 12px;
+    background-color: #7a0000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-plano:hover {
+    background-color: #d10700;
+    color: #fff;
+}
+
+/* Botões de Ação */
+.acoes-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-salvar {
+    background-color: #7a0000; /* Vermelho escuro */
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.btn-salvar:hover {
+    background-color: #d10700; /* Vermelho mais claro */
+    transform: scale(1.02);
+}
+
+.link-senha {
+    color: var(--cor-de-fundo-terceiraria);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.link-senha:hover {
+    text-decoration: underline;
+}
+
+/* Estilos do Histórico (Lado Direito) */
+.lista-pedidos {
+    padding: 0;
+}
+
+.item-pedido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+/* Indica que o item-pedido é interativo */
+.item-pedido {
+    cursor: pointer;
+}
+
+.item-pedido .btn-ver-detalhes {
+    cursor: auto;
+}
+
+.item-pedido:last-child {
+    border-bottom: none;
+}
+
+.item-pedido:hover {
+    background-color: #f9f9f9;
+}
+
+/* Permite que os filhos 'quebrem linha' para mostrar detalhes abaixo */
+.lista-pedidos .item-pedido {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.pedido-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.pedido-data {
+    color: #001a4a;
+    font-weight: bold;
+}
+
+.pedido-id {
+    font-weight: bold;
+    color: var(--cor-navbar);
+}
+
+.pedido-status {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-entregue {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-processando {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.pedido-total {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.btn-ver-detalhes {
+    font-size: 0.85rem;
+    background-color: #7a0000;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-ver-detalhes:hover {
+    background-color: #d10700;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Detalhes do pedido escondidos por padrão; mostram quando o item tem classe .aberto */
+.detalhes-pedido {
+    /* Sempre presente no fluxo, mas com altura 0 quando fechado */
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px; /* vertical padding animado entre aberto/fechado */
+    width: 100%;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    transition: max-height 320ms ease, padding 220ms ease;
+    box-sizing: border-box;
+    /* garante que o detalhe ocupe a linha toda abaixo dos metadados */
+    order: 99;
+    flex: 0 0 100%;
+}
+
+.item-pedido.aberto {
+    background-color: #fff;
+}
+
+.item-pedido.aberto .detalhes-pedido {
+    max-height: 800px; /* suficiente para expandir conteúdo */
+    padding: 12px 20px;
+}
+
+.itens-pedido {
+    list-style: none;
+     padding: 0;
+     margin: 0;
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+ }
+
+.item-compra {
+    display: flex;
+     align-items: center;
+     gap: 12px;
+ }
+
+.imagem-produto {
+    width: 56px;
+     height: 56px;
+     object-fit: cover;
+     border-radius: 6px;
+ }
+
+.imagem-produto.placeholder {
+    background: #e6e6e6;
+     width:56px;
+     height:56px;
+     border-radius:6px;
+ }
+
+.info-item {
+    flex: 1 1 auto;
+ }
+
+.nome-item {
+    font-weight: 600;
+     color: #001a4a;
+ }
+
+.meta-item {
+    color: #555;
+     font-size: 0.95rem;
+ }
+
+.subtotal-item {
+    font-weight: 700;
+     color: #001a4a;
+ }
+
+
+/* Responsividade */
+@media (max-width: 900px) {
+
+    .main-perfil {
+        width: 90%;
+    }
+    .layout-grid {
+        grid-template-columns: 1fr; /* Empilha em telas menores */
+        gap: 20px;
+    }
+    
+    .linha-input {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .item-pedido {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .btn-ver-detalhes {
+        width: 100%;
+        text-align: center;
+    }
 }
