@@ -1,13 +1,5 @@
 @import url('botoes_cores_fontes/cores.css');
 
-/* Configuração Geral da Página */
-body {
-    /* Mantendo o fundo do site, mas vamos clarear a área principal para leitura */
-    background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
-    color: var(--cor-navbar);
-    font-family: 'Poppins', sans-serif; /* Assumindo a fonte do projeto */
-}
-
 .main-perfil {
     max-width: 1200px;
     margin: 0 auto;
@@ -24,7 +16,7 @@ body {
 
 .header-perfil h1 {
     font-size: 2.5rem;
-    color: #CF2923;
+    color: #7a0000;
     margin: 0;
 }
 
@@ -50,12 +42,12 @@ body {
 }
 
 .card-titulo {
-    background-color: var(--cor-navbar);
+    background-color: #7a0000;
     padding: 15px 25px;
 }
 
 .card-titulo h2 {
-    color: #CF2923;
+    color: #fff;
     margin: 0;
     font-size: 1.2rem;
     font-weight: 500;
@@ -122,8 +114,8 @@ body {
 .btn-plano {
     display: inline-block;
     padding: 12px;
-    background-color: #eee;
-    color: var(--cor-navbar);
+    background-color: #7a0000;
+    color: #fff;
     text-decoration: none;
     border-radius: 5px;
     text-align: center;
@@ -132,7 +124,7 @@ body {
 }
 
 .btn-plano:hover {
-    background-color: var(--cor-de-fundo-primaria);
+    background-color: #d10700;
     color: #fff;
 }
 
@@ -145,11 +137,11 @@ body {
 }
 
 .btn-salvar {
-    background-color: var(--cor-navbar); /* Azul escuro */
+    background-color: #7a0000; /* Vermelho escuro */
     color: white;
     padding: 12px 30px;
     border: none;
-    border-radius: 50px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
@@ -157,7 +149,7 @@ body {
 }
 
 .btn-salvar:hover {
-    background-color: var(--cor-de-fundo-primaria); /* Azul mais claro */
+    background-color: #d10700; /* Vermelho mais claro */
     transform: scale(1.02);
 }
 
@@ -199,8 +191,8 @@ body {
 }
 
 .pedido-data {
-    font-size: 0.85rem;
-    color: #888;
+    color: #001a4a;
+    font-weight: bold;
 }
 
 .pedido-id {
@@ -248,6 +240,10 @@ body {
 
 /* Responsividade */
 @media (max-width: 900px) {
+
+    .main-perfil {
+        width: 90%;
+    }
     .layout-grid {
         grid-template-columns: 1fr; /* Empilha em telas menores */
         gap: 20px;
