@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto Condensed');
+
+:root {
+    /* Título*/
+    /* @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'); */
+    --fonte-titulo:'Bebas Neue', sans-serif;
+    --cor-titulo: #F7C02B;                  /* cor opcional*/ 
+
+
+    /* Subtítulo*/
+     --fonte-subtitulo:  'Oswald', sans-serif;
+     --peso-subtitulo: 600;                     /* semibold */      
+     --cor-subtitulo:#F7C02B;               /* cor opcional*/        
+
+
+
+    /* corpo */
+    /* @import url('https://fonts.googleapis.com/css?family=Roboto Condensed' rel='stylesheet');*/
+    --fonte-corpo: 'Roboto Condensed', sans-serif;
+    --cor-corpo: #f5f5f5;                   /* pode ser da cor preta, em algumas telas expecíficas*/ 
+    
+}

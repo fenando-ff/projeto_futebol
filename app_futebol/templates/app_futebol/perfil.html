@@ -12,49 +12,49 @@
             {% csrf_token %}
             <div class="todas-infos">
                 <div class="info-pessoais">
-                    <h2>Informações Pessoais</h2>
-                    <div class="campo">
+                    <h2 id="info-pessoais" onclick="dropdownPessoal()">Informações Pessoais</h2>
+                    <div class="campo campo-pessoal">
                         <label for="nome">Nome:</label>
                         <input class="info" type="text" id="nome" name="nome" value="{{ nome }}">
                     </div>
-                    <div class="campo">
+                    <div class="campo campo-pessoal">
                         <label for="sobrenome">Sobrenome:</label>
                         <input class="info" type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
                     </div>
-                    <div class="campo">
+                    <div class="campo campo-pessoal">
                         <label for="email">Email:</label>
                         <input class="info" type="email" id="email" name="email" value="{{ email }}">
                     </div>
-                    <div class="campo">
+                    <div class="campo campo-pessoal">
                         <label for="telefone">Telefone:</label>
                         <input class="info" type="text" id="telefone" name="telefone" value="{{ telefone }}">
                     </div>
-                    <div class="campo">
+                    <div class="campo campo-pessoal">
                         <label for="plano_socio">Plano sócio:</label>
                         <a class="info" href="{% url "socio" %}">{{ plano_cliente }}</a>
                     </div>
                 </div>
 
                 <div class="info-endereco">
-                    <h2>Endereço</h2>
+                    <h2 id="info-endereco">Endereço</h2>
                     {% if endereco %}
-                        <div class="campo">
+                        <div class="campo campo-endereco">
                             <label for="endereco">Endereço:</label>
                             <input class="info" type="text" id="rua" name="rua" value="{{ endereco.rua }}">
                         </div>
-                        <div class="campo">
+                        <div class="campo campo-endereco">
                             <label for="casa">Casa:</label>
                             <input class="info" type="text" id="casa" name="casa" value="{{ endereco.casa }}">
                         </div>
-                        <div class="campo">
+                        <div class="campo campo-endereco">
                             <label for="bairro">Bairro:</label>
                             <input class="info" type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
                         </div>
-                        <div class="campo">
+                        <div class="campo campo-endereco">
                             <label for="cep">CEP:</label>
                             <input class="info" type="text" id="cep" name="cep" value="{{ endereco.cep }}">
                         </div>
-                        <div class="campo">
+                        <div class="campo campo-endereco">
                             <label for="complemento">Complemento:</label>
                             <input class="info" type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
                         </div>
@@ -71,4 +71,6 @@
 </main>
 {% endblock conteudo_pagina %}
 
-{% block js_pagina %}{% endblock js_pagina %}
+{% block js_pagina %}
+<script src="{% static 'js/perfil.js' %}"></script>
+{% endblock js_pagina %}

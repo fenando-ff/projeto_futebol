@@ -12,23 +12,27 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 #  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser (pra ativar venv)
 load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+# Carregar variáveis de ambiente do arquivo .env
+load_dotenv(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-w(us%gm88&g7o@u3*idy=0n5!-xar&$=n85y_(c26*$167)&p1'
+SECRET_KEY = os.environ.get('SECRET_KEY')
+print("SECRET_KEY carregada?", bool(SECRET_KEY)) #testando, a chave estava gerando erro
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = True #evitar erros de informações"          #eu troquei para True por enquanto
+
+ALLOWED_HOSTS = ['*'] #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
 
 # Application definition
@@ -52,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #ativando o whitenoise
+
 ]
 
 ROOT_URLCONF = 'projeto_futebol.urls'
@@ -84,19 +90,21 @@ DATABASES = {
         'USER': os.environ.get('DB_USER'),
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT')
-        # 'OPTIONS': {
-        #     'ssl': {
-        #         'ca': os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA")), # type: ignore
-        #     }
-        # }
+        'PORT': os.environ.get('DB_PORT'),
     }
+    
+    # 'default': dj_database_url.config(
+    #     default=os.getenv("DATABASE_URL"),
+    #     conn_max_age=600,
+    #     ssl_require=True
+    #     )
+    
 }
 
 # Confiurações do email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
@@ -136,9 +144,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+#STATICFILES_DIRS = [BASE_DIR / "static"]#
+STATIC_ROOT = BASE_DIR / 'staticfiles'  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

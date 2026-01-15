@@ -1,0 +1,133 @@
+body {
+    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background-repeat: no-repeat;
+}
+
+main {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteiner {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 0px;
+    margin: 120px 100px;
+    border-radius: 20px;
+    background: rgba(0, 28, 79, 0.3); /* Corrigi a sintaxe do rgba */
+    backdrop-filter: blur(50px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    max-width: 400px;
+    width: 100%; /* Garante largura no container */
+}
+
+.fa-arrow-left {
+    color: #e6e6e6;
+    font-size: 2.5rem;
+    margin-right: 20px;
+    margin-left: 20px; /* Adicionei margem a esquerda para não colar na borda */
+}
+
+#area_seta {
+    width: 100%;
+    text-align: left;
+}
+
+.titulo {
+    font-size: 1.1em;
+    color: aliceblue;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.logo_email {
+    margin-top: 20px;
+    width: 90px;
+    height: 90px;
+    opacity: 100%;
+}
+
+/* --- NOVOS ESTILOS DO FORMULÁRIO --- */
+
+.form-email {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.input-email {
+    width: 80%; /* Ocupa 80% da largura do container */
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    
+    /* Estilo transparente igual ao anterior */
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #fdfdfd;
+    color: #dbdbdb;
+    outline: none;
+    margin-bottom: 40px; /* Espaço entre input e botão */
+}
+
+.input-email::placeholder {
+    color: #bdbdbd;
+    font-size: 16px;
+}
+
+.input-email:focus {
+    border-bottom-color: #F7C02B; /* Muda cor da linha ao clicar */
+}
+
+.btn-primario {
+    padding: 10px 20px;
+    background-color: #F7C02B; /* Cor amarela do tema */
+    color: #0F0F0F;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 60%; /* Largura do botão */
+}
+
+.btn-primario:hover {
+    background-color: #ffcf4d;
+    transform: scale(1.05);
+}
+
+/* ---------------------------------- */
+
+.duvida {
+    color: #dbdbdb;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.reenviar {
+    color: #F7C02B;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .conteiner {
+        width: 80%; /* Aumentei um pouco para mobile */
+        padding: 30px 20px;
+    }
+    .titulo {
+        font-size: 15px;
+    }
+    .btn-primario {
+        width: 80%;
+    }
+}

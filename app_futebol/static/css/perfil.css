@@ -13,7 +13,7 @@ body {
 
 .info-usuario {
     background-color: #fff;
-    width: 60%;
+    width: 20%;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -22,6 +22,7 @@ body {
 
 .todas-infos {
     display: flex;
+    flex-direction: column;
     gap: 20px;
     width: 100%;
 }
