@@ -1,9 +1,8 @@
 @import url('botoes_cores_fontes/cores.css');
 
 .main-perfil {
-    max-width: 1200px;
+    width: 75%;
     margin: 0 auto;
-    padding: 40px 20px;
     min-height: 80vh;
 }
 
@@ -177,12 +176,28 @@
     transition: background-color 0.2s;
 }
 
+/* Indica que o item-pedido é interativo */
+.item-pedido {
+    cursor: pointer;
+}
+
+.item-pedido .btn-ver-detalhes {
+    cursor: auto;
+}
+
 .item-pedido:last-child {
     border-bottom: none;
 }
 
 .item-pedido:hover {
     background-color: #f9f9f9;
+}
+
+/* Permite que os filhos 'quebrem linha' para mostrar detalhes abaixo */
+.lista-pedidos .item-pedido {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
 }
 
 .pedido-info {
@@ -225,18 +240,94 @@
 
 .btn-ver-detalhes {
     font-size: 0.85rem;
-    color: var(--cor-de-fundo-primaria);
+    background-color: #7a0000;
+    color: #fff;
     text-decoration: none;
-    border: 1px solid var(--cor-de-fundo-primaria);
     padding: 5px 10px;
+    border: none;
     border-radius: 4px;
     transition: 0.3s;
 }
 
 .btn-ver-detalhes:hover {
-    background-color: var(--cor-de-fundo-primaria);
+    background-color: #d10700;
     color: #fff;
+    cursor: pointer;
 }
+
+/* Detalhes do pedido escondidos por padrão; mostram quando o item tem classe .aberto */
+.detalhes-pedido {
+    /* Sempre presente no fluxo, mas com altura 0 quando fechado */
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 20px; /* vertical padding animado entre aberto/fechado */
+    width: 100%;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    transition: max-height 320ms ease, padding 220ms ease;
+    box-sizing: border-box;
+    /* garante que o detalhe ocupe a linha toda abaixo dos metadados */
+    order: 99;
+    flex: 0 0 100%;
+}
+
+.item-pedido.aberto {
+    background-color: #fff;
+}
+
+.item-pedido.aberto .detalhes-pedido {
+    max-height: 800px; /* suficiente para expandir conteúdo */
+    padding: 12px 20px;
+}
+
+.itens-pedido {
+    list-style: none;
+     padding: 0;
+     margin: 0;
+     display: flex;
+     flex-direction: column;
+     gap: 12px;
+ }
+
+.item-compra {
+    display: flex;
+     align-items: center;
+     gap: 12px;
+ }
+
+.imagem-produto {
+    width: 56px;
+     height: 56px;
+     object-fit: cover;
+     border-radius: 6px;
+ }
+
+.imagem-produto.placeholder {
+    background: #e6e6e6;
+     width:56px;
+     height:56px;
+     border-radius:6px;
+ }
+
+.info-item {
+    flex: 1 1 auto;
+ }
+
+.nome-item {
+    font-weight: 600;
+     color: #001a4a;
+ }
+
+.meta-item {
+    color: #555;
+     font-size: 0.95rem;
+ }
+
+.subtotal-item {
+    font-weight: 700;
+     color: #001a4a;
+ }
+
 
 /* Responsividade */
 @media (max-width: 900px) {

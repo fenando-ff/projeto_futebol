@@ -102,35 +102,57 @@
             <div class="card-titulo">
                 <h2>Histórico de Compras</h2>
             </div>
-
             <div class="lista-pedidos">
-                <div class="item-pedido">
-                    <div class="pedido-info">
-                        <span class="pedido-data">15/05/2025</span>
-                    </div>
-                    <div class="pedido-status status-entregue">
-                        Entregue
-                    </div>
-                    <div class="pedido-total">
-                        R$ 250,00
-                    </div>
-                    <a href="#" class="btn-ver-detalhes">Ver Detalhes</a>
-                </div>
+                {% if historico %}
+                    {% for h in historico %}
+                        <div class="item-pedido" data-pedido="{{ h.pedido.id_pedido }}">
+                            <div class="pedido-info">
+                                {% with d=h.pedido.data_pedido %}
+                                    <span class="pedido-data">{{ d|slice:"8:10" }}/{{ d|slice:"5:7" }}/{{ d|slice:"0:4" }} {{ d|slice:"11:16" }}</span>
+                                {% endwith %}
+                            </div>
+                            <div class="pedido-status {% if h.pedido.status == 'entregue' %}status-entregue{% else %}status-processando{% endif %}">
+                                {{ h.pedido.status|title }}
+                            </div>
+                            <div class="pedido-total">
+                                R$ {{ h.valor_total|floatformat:2 }}
+                            </div>
+                            <button type="button" class="btn-ver-detalhes" aria-expanded="false">Ver Detalhes</button>
 
-                <div class="item-pedido">
-                    <div class="pedido-info">
-                        <span class="pedido-data">02/02/2025</span>
-                    </div>
-                    <div class="pedido-status status-processando">
-                        a caminho
-                    </div>
-                    <div class="pedido-total">
-                        R$ 120,50
-                    </div>
-                    <a href="#" class="btn-ver-detalhes">Ver Detalhes</a>
-                </div>
-                </div>
+                            <div class="detalhes-pedido" aria-hidden="true">
+                                <ul class="itens-pedido">
+                                    {% for item in h.itens %}
+                                        <li class="item-compra">
+                                            {% if item.produto.imagem_produtos %}
+                                                {% if item.produto.imagem_produtos|slice:":4" == "http" %}
+                                                    <img src="{{ item.produto.imagem_produtos }}" alt="{{ item.produto.nome_produtos }}" class="imagem-produto">
+                                                {% else %}
+                                                    {% static item.produto.imagem_produtos as img_src %}
+                                                    <img src="{{ img_src }}" alt="{{ item.produto.nome_produtos }}" class="imagem-produto">
+                                                {% endif %}
+                                            {% else %}
+                                                <div class="imagem-produto placeholder"></div>
+                                            {% endif %}
+                                            <div class="info-item">
+                                                <div class="nome-item">{{ item.produto.nome_produtos }}</div>
+                                                <div class="meta-item">R$ {{ item.valor_unitario|floatformat:2 }} × {{ item.quantidade }}</div>
+                                            </div>
+                                            <div class="subtotal-item">R$ {{ item.subtotal|floatformat:2 }}</div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="aviso-sem-historico"><em>Nenhuma compra encontrada.</em></p>
+                {% endif %}
+            </div>
         </section>
     </div>
 </main>
 {% endblock conteudo_pagina %}
+
+{% block js_pagina %}
+    <script src="{% static 'js/perfil.js' %}"></script>
+{% endblock js_pagina %}

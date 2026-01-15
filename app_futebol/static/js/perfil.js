@@ -1,22 +1,63 @@
-// Toggle simples para a seção Informações Pessoais
+// Toggle e dropdowns do perfil
 document.addEventListener('DOMContentLoaded', function () {
-    const titulo = document.getElementById('info-pessoais');
-    if (!titulo) return;
+	// info pessoais / endereco já configurados em outro trecho
 
-    titulo.addEventListener('click', function () {
-        const container = titulo.closest('.info-pessoais');
-        if (!container) return;
-        // alterna a classe 'collapsed' no container; o CSS cuida da ocultação
-        container.classList.toggle('collapsed');
-    });
+	// Dropdown por pedido: todo o item-pedido é clicável
+	const pedidosList = document.querySelectorAll('.lista-pedidos .item-pedido');
+	if (pedidosList && pedidosList.length) {
+		pedidosList.forEach(p => {
+			const btn = p.querySelector('.btn-ver-detalhes');
+			const detalhes = p.querySelector('.detalhes-pedido');
+			if (!detalhes) return;
 
-    // dropdown para endereço (mesma lógica)
-    const tituloEndereco = document.getElementById('info-endereco');
-    if (tituloEndereco) {
-        tituloEndereco.addEventListener('click', function () {
-            const container = tituloEndereco.closest('.info-endereco');
-            if (!container) return;
-            container.classList.toggle('collapsed');
-        });
-    }
+			// inicializa atributos ARIA
+			if (btn) btn.setAttribute('aria-expanded', 'false');
+			detalhes.setAttribute('aria-hidden', 'true');
+
+			// toggle helper
+			const toggle = () => {
+				const aberto = p.classList.toggle('aberto');
+				if (btn) {
+					btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+					btn.textContent = aberto ? 'Ocultar Detalhes' : 'Ver Detalhes';
+				}
+				detalhes.setAttribute('aria-hidden', aberto ? 'false' : 'true');
+			};
+
+			// clique no botão (previne propagação)
+			if (btn) {
+				// texto inicial
+				btn.textContent = 'Ver Detalhes';
+				btn.addEventListener('click', function (e) {
+					e.stopPropagation();
+					e.preventDefault();
+					toggle();
+				});
+				btn.addEventListener('keydown', function (e) {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						btn.click();
+					}
+				});
+			}
+
+			// clique no container: ignora cliques dentro dos detalhes ou em links/botões
+			p.addEventListener('click', function (e) {
+				if (e.target.closest('.detalhes-pedido')) return;
+				if (e.target.closest('a') || e.target.closest('button')) return;
+				toggle();
+			});
+
+			// teclado no container
+			p.setAttribute('tabindex', '0');
+			p.setAttribute('role', 'button');
+			p.addEventListener('keydown', function (e) {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					toggle();
+				}
+			});
+		});
+	}
 });
+

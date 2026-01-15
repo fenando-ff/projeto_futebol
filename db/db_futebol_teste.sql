@@ -154,7 +154,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-01-05 18:23:31.826595',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-01-15 21:52:18.949429',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,16 +304,17 @@ DROP TABLE IF EXISTS `compra`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `compra` (
+  `id_compra` int NOT NULL AUTO_INCREMENT,
   `PRODUTOS_id_PRODUTOS` int NOT NULL,
   `PEDIDO_id_PEDIDO` int NOT NULL,
   `quantidade_PEDIDO` int NOT NULL,
   `valor_compra` decimal(10,0) NOT NULL,
-  PRIMARY KEY (`PRODUTOS_id_PRODUTOS`,`PEDIDO_id_PEDIDO`),
+  PRIMARY KEY (`id_compra`),
   KEY `fk_PRODUTOS_has_PEDIDO_PEDIDO1_idx` (`PEDIDO_id_PEDIDO`),
   KEY `fk_PRODUTOS_has_PEDIDO_PRODUTOS1_idx` (`PRODUTOS_id_PRODUTOS`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PEDIDO1` FOREIGN KEY (`PEDIDO_id_PEDIDO`) REFERENCES `pedido` (`id_PEDIDO`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PRODUTOS1` FOREIGN KEY (`PRODUTOS_id_PRODUTOS`) REFERENCES `produtos` (`id_PRODUTOS`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,7 +323,7 @@ CREATE TABLE `compra` (
 
 LOCK TABLES `compra` WRITE;
 /*!40000 ALTER TABLE `compra` DISABLE KEYS */;
-INSERT INTO `compra` VALUES (36,1,1,250),(36,2,1,250),(36,3,1,250),(38,1,1,300),(38,3,1,300),(39,3,1,280);
+INSERT INTO `compra` VALUES (1,36,1,1,250),(2,36,2,1,250),(3,36,3,1,250),(4,38,1,1,300),(5,38,3,1,300),(6,39,3,1,280);
 /*!40000 ALTER TABLE `compra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -346,7 +347,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_content_type_id_c4bce8eb` (`content_type_id`),
   KEY `django_admin_log_user_id_c564eba6` (`user_id`),
   CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,6 +356,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (188,'2026-01-15 21:58:42.007721','5',' 15/01/2026 - Camisa Milan Home Listrada - Fernando',2,'[]',10,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +433,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('6l71gcis34ms237t2mxf8nmgs67wcgs1','.eJxVj81uwyAQhF_F4txYrE38d-qptxzSF6jWeN2iYEBgTlHevWsrbd3jzjczDHehrSG30oeZxABV-_IrOL-QGMQbRYdu8uKPJD9G-sGRzIrpQGlBY5nMzyDIVinom1eachmwTORQl2M8RFayNHu39fXQd6oFULU6GHSYmclzW3bnrlRNdZI942DReZ6jjd_31_-l58T9KKaIN5-KU-FzPH6G3ESRtBfDXewdihkFzjUNgAQp2RwzsvCesWi2KKbtrCvgY0QTuXAQF4yo0X2i_cLN5JdgaeE3NnjNyAMKUOLx-Aap4Xbp:1vgUOX:MG2SqnlMZMg9P9OxMtTkCXaCVLISBLrhwDreq2YGbCk','2026-01-29 20:56:41.896500');
+INSERT INTO `django_session` VALUES ('vz79jjymmanydv2t8h1nc7b5yb8uolw5','.eJxVkL1uxCAQhF_For4gsMF_VZQiXYqkjaLTgpeYnA8ssKvTvXvWp0vilLvfzDDLhdnJY1jw6AfWy7I5_C5CPCPr2TOmAGGI7I_kaBL-4IR-gbyjeAY_EXF3oxSNUrKrH3FY-Qw8YwDLTdpZFpzQxbDldbJrVSOlqtROYGdHTOiGt7rlqi4fREd4niBEqmN9vPWv_q_uFW9DMSQ4xVw8FHFN-2MwDJjQRtZf2C1DEcOZfHUtpZBCkDitQIu3FYp6s0LexqqUNBjwiQJ79gIJLIRPmEbYRPE8T3imNzb4ugIVKKRi1wMbfV5i8jYeN1Gi3-vfPw7sCOsyHteM6XYM29J3OwP2RGUJDF_0TOQ2hiV5wzcJv9PMX-KA09Nd-y9ghDySG-gLhRUaNXYNWF1WUllnVaf1YNCpEqTrhJNCm9ZVZdlKsKbTpa2lcI017PoNvgu2nA:1vgVGM:f7iELq3_66NBzpDsdfssvdm_6e76Xye0GW-wiB5OsyE','2026-01-29 21:52:18.956546');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -737,4 +739,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-01-15 18:00:06
+-- Dump completed on 2026-01-15 19:02:13
