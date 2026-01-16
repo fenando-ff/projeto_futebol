@@ -102,6 +102,11 @@ DATABASES = {
         }
     }
 }
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-chave-provisoria-apenas-para-desenvolvimento'
+)
+
 
 
 # DATABASES = {
