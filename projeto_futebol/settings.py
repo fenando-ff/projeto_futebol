@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
+
+
+
 #  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser (pra ativar venv)
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -83,6 +85,8 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE'),
@@ -91,15 +95,32 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
+        'OPTIONS': {
+            'ssl': {
+                'ca': r'C:\Users\56438076\Desktop\projeto_futebol\app_futebol\certs\ca.pem'
+            }
+        }
     }
-    
-    # 'default': dj_database_url.config(
-    #     default=os.getenv("DATABASE_URL"),
-    #     conn_max_age=600,
-    #     ssl_require=True
-    #     )
-    
 }
+
+
+# DATABASES = {
+    # 'default': {
+    #     'ENGINE': os.environ.get('DB_ENGINE'),
+    #     'NAME': os.environ.get('DB_NAME'),
+    #     'USER': os.environ.get('DB_USER'),
+    #     'PASSWORD': os.environ.get('DB_PASSWORD'),
+    #     'HOST': os.environ.get('DB_HOST'),
+    #     'PORT': os.environ.get('DB_PORT'),
+    # }
+    
+#     'default': dj_database_url.config(
+#         default=os.getenv("DATABASE_URL"),
+#         conn_max_age=600,
+#         ssl_require=True
+#         )
+    
+# }
 
 # Confiurações do email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
