@@ -96,8 +96,12 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
         'OPTIONS': {
+            # 'ssl': {              maquina do senac
+            #     'ca': r'C:\Users\56438076\Desktop\projeto_futebol\app_futebol\certs\ca.pem'
+            # }
+
             'ssl': {
-                'ca': r'C:\Users\56438076\Desktop\projeto_futebol\app_futebol\certs\ca.pem'
+                 "ca": str(BASE_DIR / "certs" / "ca.pem")
             }
         }
     }
