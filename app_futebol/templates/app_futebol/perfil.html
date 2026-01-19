@@ -1,76 +1,161 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block css_extra %}
   <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
 {% endblock css_extra %}
 
 {% block conteudo_pagina %}
 <main class="main-perfil">
-    <section class="info-usuario">
-        <h1>Perfil do Usuário</h1>
-        <form method="post" class="form-perfil">
-            {% csrf_token %}
-            <div class="todas-infos">
-                <div class="info-pessoais">
-                    <h2 id="info-pessoais" onclick="dropdownPessoal()">Informações Pessoais</h2>
-                    <div class="campo campo-pessoal">
-                        <label for="nome">Nome:</label>
-                        <input class="info" type="text" id="nome" name="nome" value="{{ nome }}">
+    <div class="header-perfil">
+        <h1>Minha Conta</h1>
+        <p>Gerencie suas informações e veja seus pedidos.</p>
+    </div>
+
+    <div class="layout-grid">
+        <section class="perfil-dados" id="perfil-dados">
+            <div class="card-titulo">
+                <button type="button" class="toggle-meus-dados" aria-expanded="true" aria-controls="meus-dados-body">
+                    <span>Meus Dados</span>
+                    <i class="fa-solid fa-angle-down" aria-hidden="true"></i>
+                </button>
+            </div>
+            
+            <div class="meus-dados-body" id="meus-dados-body" aria-hidden="false">
+            <form method="post" class="form-perfil">
+                {% csrf_token %}
+                
+                <div class="grupo-inputs">
+                    <h3>Informações Pessoais</h3>
+                    <div class="linha-input">
+                        <div class="campo">
+                            <label for="nome">Nome</label>
+                            <input class="input-padrao" type="text" id="nome" name="nome" value="{{ nome }}">
+                        </div>
+                        <div class="campo">
+                            <label for="sobrenome">Sobrenome</label>
+                            <input class="input-padrao" type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
+                        </div>
                     </div>
-                    <div class="campo campo-pessoal">
-                        <label for="sobrenome">Sobrenome:</label>
-                        <input class="info" type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
+
+                    <div class="campo">
+                        <label for="email">Email</label>
+                        <input class="input-padrao" type="email" id="email" name="email" value="{{ email }}">
                     </div>
-                    <div class="campo campo-pessoal">
-                        <label for="email">Email:</label>
-                        <input class="info" type="email" id="email" name="email" value="{{ email }}">
-                    </div>
-                    <div class="campo campo-pessoal">
-                        <label for="telefone">Telefone:</label>
-                        <input class="info" type="text" id="telefone" name="telefone" value="{{ telefone }}">
-                    </div>
-                    <div class="campo campo-pessoal">
-                        <label for="plano_socio">Plano sócio:</label>
-                        <a class="info" href="{% url "socio" %}">{{ plano_cliente }}</a>
+
+                    <div class="linha-input">
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input class="input-padrao" type="text" id="telefone" name="telefone" value="{{ telefone }}">
+                        </div>
+                        <div class="campo">
+                            <label for="plano_socio">Plano Sócio</label>
+                            <a class="btn-plano" href="{% url "socio" %}">
+                                {% if plano_cliente %}
+                                    {{ plano_cliente }}
+                                {% else %}
+                                    Sem plano ativo
+                                {% endif %}
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <div class="info-endereco">
-                    <h2 id="info-endereco">Endereço</h2>
+                <div class="grupo-inputs">
+                    <h3>Endereço de Entrega</h3>
                     {% if endereco %}
-                        <div class="campo campo-endereco">
-                            <label for="endereco">Endereço:</label>
-                            <input class="info" type="text" id="rua" name="rua" value="{{ endereco.rua }}">
+                        <div class="linha-input">
+                            <div class="campo campo-flex-2">
+                                <label for="rua">Rua</label>
+                                <input class="input-padrao" type="text" id="rua" name="rua" value="{{ endereco.rua }}">
+                            </div>
+                            <div class="campo">
+                                <label for="casa">Número</label>
+                                <input class="input-padrao" type="text" id="casa" name="casa" value="{{ endereco.casa }}">
+                            </div>
                         </div>
-                        <div class="campo campo-endereco">
-                            <label for="casa">Casa:</label>
-                            <input class="info" type="text" id="casa" name="casa" value="{{ endereco.casa }}">
+
+                        <div class="linha-input">
+                            <div class="campo">
+                                <label for="bairro">Bairro</label>
+                                <input class="input-padrao" type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
+                            </div>
+                            <div class="campo">
+                                <label for="cep">CEP</label>
+                                <input class="input-padrao" type="text" id="cep" name="cep" value="{{ endereco.cep }}">
+                            </div>
                         </div>
-                        <div class="campo campo-endereco">
-                            <label for="bairro">Bairro:</label>
-                            <input class="info" type="text" id="bairro" name="bairro" value="{{ endereco.bairro }}">
-                        </div>
-                        <div class="campo campo-endereco">
-                            <label for="cep">CEP:</label>
-                            <input class="info" type="text" id="cep" name="cep" value="{{ endereco.cep }}">
-                        </div>
-                        <div class="campo campo-endereco">
-                            <label for="complemento">Complemento:</label>
-                            <input class="info" type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
+
+                        <div class="campo">
+                            <label for="complemento">Complemento</label>
+                            <input class="input-padrao" type="text" id="complemento" name="complemento" value="{{ endereco.complemento }}">
                         </div>
                     {% else %}
-                        <p><em>Endereço não cadastrado.</em></p>
+                        <p class="aviso-sem-endereco"><em>Nenhum endereço cadastrado. Preencha seus dados.</em></p>
                     {% endif %}
                 </div>
-            </div>
 
-            <button type="submit">Atualizar Perfil</button>
-            <a href="{% url 'recuperar_senha3' %}">Alterar Senha</a>
-        </form>
-    </section>
+                <div class="acoes-form">
+                    <button type="submit" class="btn-salvar">Salvar Alterações</button>
+                    <a href="{% url 'recuperar_senha3' %}" class="link-senha">Alterar Senha</a>
+                </div>
+            </form>
+            </div>
+        </section>
+
+        <section class="perfil-historico">
+            <div class="card-titulo">
+                <h2>Histórico de Compras</h2>
+            </div>
+            <div class="lista-pedidos">
+                {% if historico %}
+                    {% for h in historico %}
+                        <div class="item-pedido" data-pedido="{{ h.pedido.id_pedido }}">
+                            <div class="pedido-info">
+                                <span class="pedido-data" data-datetime="{{ h.pedido.data_pedido_iso }}">{{ h.pedido.data_pedido }}</span>
+                            </div>
+                            <div class="pedido-status {% if h.pedido.status == 'entregue' %}status-entregue{% else %}status-processando{% endif %}">
+                                {{ h.pedido.status|title }}
+                            </div>
+                            <div class="pedido-total">
+                                R$ {{ h.valor_total|floatformat:2 }}
+                            </div>
+                            <button type="button" class="btn-ver-detalhes" aria-expanded="false">Ver Detalhes</button>
+
+                            <div class="detalhes-pedido" aria-hidden="true">
+                                <ul class="itens-pedido">
+                                    {% for item in h.itens %}
+                                        <li class="item-compra">
+                                            {% if item.produto.imagem_produtos %}
+                                                {% if item.produto.imagem_produtos|slice:":4" == "http" %}
+                                                    <img src="{{ item.produto.imagem_produtos }}" alt="{{ item.produto.nome_produtos }}" class="imagem-produto">
+                                                {% else %}
+                                                    {% static item.produto.imagem_produtos as img_src %}
+                                                    <img src="{{ img_src }}" alt="{{ item.produto.nome_produtos }}" class="imagem-produto">
+                                                {% endif %}
+                                            {% else %}
+                                                <div class="imagem-produto placeholder"></div>
+                                            {% endif %}
+                                            <div class="info-item">
+                                                <div class="nome-item">{{ item.produto.nome_produtos }}</div>
+                                                <div class="meta-item">R$ {{ item.valor_unitario|floatformat:2 }} × {{ item.quantidade }}</div>
+                                            </div>
+                                            <div class="subtotal-item">R$ {{ item.subtotal|floatformat:2 }}</div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="aviso-sem-historico"><em>Nenhuma compra encontrada.</em></p>
+                {% endif %}
+            </div>
+        </section>
+    </div>
 </main>
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-<script src="{% static 'js/perfil.js' %}"></script>
+    <script src="{% static 'js/perfil.js' %}"></script>
 {% endblock js_pagina %}

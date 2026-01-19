@@ -117,11 +117,15 @@ class EnderecoFuncionarios(models.Model):
 
 
 class Pedido(models.Model):
+    class StatusChoices(models.TextChoices):
+        ENTREGUE = 'entregue', 'Entregue'
+        A_CAMINHO = 'a caminho', 'A caminho'
+        
     id_pedido = models.AutoField(db_column='id_PEDIDO', primary_key=True)  # Field name made lowercase.
     data_pedido = models.DateTimeField(db_column='data_PEDIDO')  # Field name made lowercase.
     clientes_id_clientes = models.ForeignKey(Clientes, models.DO_NOTHING, db_column='CLIENTES_id_CLIENTES')  # Field name made lowercase.
     funcionarios_id_funcionarios = models.ForeignKey(Funcionarios, models.DO_NOTHING, db_column='FUNCIONARIOS_id_FUNCIONARIOS', blank=True, null=True)  # Field name made lowercase.
-
+    status_pedido = models.CharField(db_column='status', max_length=20, choices=StatusChoices.choices, default=StatusChoices.A_CAMINHO)  # Field name made lowercase.
     class Meta:
         managed = False
         db_table = 'pedido'
@@ -182,6 +186,7 @@ class Produtos(models.Model):
     
     
 class Compra(models.Model):
+    id_compra = models.AutoField(db_column='id_COMPRA', primary_key=True)  # Field name made lowercase.
     produtos_id_produtos = models.ForeignKey(Produtos, models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
     pedido_id_pedido = models.ForeignKey(Pedido, models.DO_NOTHING, db_column='PEDIDO_id_PEDIDO')  # Field name made lowercase.
     quantidade_pedido = models.IntegerField(db_column='quantidade_PEDIDO')  # Field name made lowercase.
@@ -193,7 +198,7 @@ class Compra(models.Model):
         unique_together = (('produtos_id_produtos', 'pedido_id_pedido'),)  # Chave primária composta
         
     def __str__(self):
-        return f"{self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"
+        return f" {self.pedido_id_pedido.data_pedido.strftime('%d/%m/%Y')} - {self.produtos_id_produtos.nome_produtos} - {self.pedido_id_pedido.clientes_id_clientes.nome_clientes}"
     
 
 class ImagemProduto(models.Model):

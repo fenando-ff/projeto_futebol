@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 import random
 from django.utils import timezone # timezone para pegar a data atual
+import logging
 from . import models
 
 # -------------------------------
@@ -59,6 +60,95 @@ def get_cliente_logado(request):
         "cpf": request.session.get("cliente_cpf"),
         "plano_cliente": request.session.get('plano_socio_nome'),
     }
+
+
+def get_historico_cliente(request, cliente_obj=None):
+    """Retorna o histórico de compras serializável do cliente e salva na sessão.
+    Usa a tabela `Compra` como fonte primária e agrupa por `pedido`.
+    """
+    # 1. Ajuste lógico: O try deve rodar independente de como pegamos o cliente_obj
+    # Se cliente_obj for None, tentamos pegar o ID da sessão, mas precisaríamos do objeto real para o filtro funcionar bem
+    # (Vou manter sua lógica original, mas atente-se a isso)
+    
+    if cliente_obj is None:
+        cliente_id = request.session.get('cliente_id')
+        # DICA: Aqui você provavelmente precisaria buscar o objeto cliente no banco se ele for None,
+        # senão o filtro abaixo (clientes_id_clientes=cliente_obj) vai buscar nulo.
+    
+    try:
+        # Busca todas as compras do cliente
+        compras_qs = models.Compra.objects.filter(
+            pedido_id_pedido__clientes_id_clientes=cliente_obj
+        ).select_related('produtos_id_produtos', 'pedido_id_pedido').order_by('-pedido_id_pedido__data_pedido')
+
+        logging.debug("get_historico_cliente: cliente=%s compras_count=%d", getattr(cliente_obj, 'id_clientes', None), compras_qs.count())
+
+        agrupados = {}
+        ordem = []
+
+        if compras_qs.exists():
+            source_iter = compras_qs
+        else:
+            # Fallback: itera por pedidos do cliente e busca compras por pedido
+            logging.debug("get_historico_cliente: compras_qs vazio, tentando fallback por pedidos")
+            pedidos_qs = models.Pedido.objects.filter(clientes_id_clientes=cliente_obj).order_by('-data_pedido')
+            compras_list = []
+            for pedido in pedidos_qs:
+                qs = models.Compra.objects.filter(pedido_id_pedido=pedido).select_related('produtos_id_produtos')
+                compras_list.extend(list(qs))
+            source_iter = compras_list
+
+        for c in source_iter:
+            pedido = c.pedido_id_pedido
+            pid = pedido.id_pedido
+            
+            # Inicializa o agrupamento do pedido se não existir
+            if pid not in agrupados:
+                # formata data para o fuso local do servidor/setting
+                try:
+                    data_local = timezone.localtime(pedido.data_pedido)
+                except Exception:
+                    data_local = pedido.data_pedido
+                agrupados[pid] = {
+                    'pedido': {
+                        'id_pedido': pid,
+                        'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
+                        'data_pedido_iso': data_local.isoformat(),
+                        'status': getattr(pedido, 'status_pedido', '')
+                    },
+                    'itens': [],
+                    'valor_total': 0.0,
+                }
+                ordem.append(pid)
+
+            produto = c.produtos_id_produtos
+            quantidade = int(c.quantidade_pedido)
+            valor_unitario = float(c.valor_compra)
+            subtotal = quantidade * valor_unitario
+
+            agrupados[pid]['itens'].append({
+                'produto': {
+                    'id': produto.id_produtos,
+                    'nome_produtos': produto.nome_produtos,
+                    'imagem_produtos': produto.imagem_produtos,
+                },
+                'quantidade': quantidade,
+                'valor_unitario': valor_unitario,
+                'subtotal': subtotal,
+            })
+            agrupados[pid]['valor_total'] += subtotal
+
+        # Mantém a ordem dos pedidos (mais recentes primeiro)
+        historico = [agrupados[pid] for pid in ordem]
+        
+        logging.debug("get_historico_cliente: cliente=%s historico_len=%d", getattr(cliente_obj, 'id_clientes', None), len(historico))
+        request.session['historico_compras'] = historico
+        return historico
+
+    except Exception:
+        logging.exception("Erro montando histórico do cliente %s", request.session.get('cliente_id'))
+        request.session['historico_compras'] = []
+        return []
 
 # -------------------------------
 # Views
@@ -123,7 +213,13 @@ def tela_perfil(request):
     # 4. Renderização (GET)
     # Usa a função helper existente para pegar os dados formatados da sessão atualizada
     dados_cliente = get_cliente_logado(request)
-    return render(request, "app_futebol/perfil.html", dados_cliente)
+
+    # Busca o histórico via helper (o helper também salva na sessão)
+    historico = get_historico_cliente(request, cliente)
+
+    # passa o histórico para o template junto com os dados do cliente
+    context = {**(dados_cliente or {}), 'historico': historico}
+    return render(request, "app_futebol/perfil.html", context)
 
 
 def home(request):
