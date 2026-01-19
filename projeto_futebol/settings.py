@@ -111,7 +111,7 @@ SECRET_KEY = os.environ.get(
     'django-insecure-chave-provisoria-apenas-para-desenvolvimento'
 )
 
-
+# nakjdna
 
 # DATABASES = {
     # 'default': {
