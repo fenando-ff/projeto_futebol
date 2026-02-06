@@ -88,6 +88,7 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
+DB_SSL_CA = os.getenv("DB_SSL_CA", str(BASE_DIR / "certs" / "ca.pem"))
 
 DATABASES = {
     'default': {
@@ -98,16 +99,20 @@ DATABASES = {
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
         'OPTIONS': {
-            # 'ssl': {              maquina do senac
-            #     'ca': r'C:\Users\56438076\Desktop\projeto_futebol\app_futebol\certs\ca.pem'
-            # }
 
             'ssl': {
-                 "ca": str(BASE_DIR / "certs" / "ca.pem")
+                "ca": DB_SSL_CA
             }
         }
     }
 }
+
+
+            # 'ssl': {              maquina do senac
+            #     'ca': r'C:\Users\56438076\Desktop\projeto_futebol\app_futebol\certs\ca.pem'
+            # }
+
+
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
