@@ -34,7 +34,7 @@ load_dotenv(BASE_DIR / ".env")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"     #evitar erros de informações"          #eu troquei para True por enquanto
+DEBUG = True    #evitar erros de informações"          #eu troquei para True por enquanto
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
@@ -177,12 +177,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 #STATICFILES_DIRS = [BASE_DIR / "static"]#
-STATIC_ROOT = BASE_DIR / 'staticfiles'  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
+STATIC_ROOT = BASE_DIR / "staticfiles"  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
