@@ -87,7 +87,6 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
 DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
 if DB_SSL_CA and not DB_SSL_CA.startswith("/"):
     DB_SSL_CA = str(BASE_DIR / DB_SSL_CA)
