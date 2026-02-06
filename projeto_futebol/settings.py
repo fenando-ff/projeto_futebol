@@ -87,9 +87,9 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
-if DB_SSL_CA and not DB_SSL_CA.startswith("/"):
-    DB_SSL_CA = str(BASE_DIR / DB_SSL_CA)
+# DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
+# if DB_SSL_CA and not DB_SSL_CA.startswith("/"):
+#     DB_SSL_CA = str(BASE_DIR / DB_SSL_CA)
 
 DATABASES = {
     "default": {
@@ -100,7 +100,7 @@ DATABASES = {
         "HOST": os.environ.get("DB_HOST"),
         "PORT": os.environ.get("DB_PORT"),
         "OPTIONS": {
-            "ssl": {"ca": DB_SSL_CA}
+            "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
         },
     }
 }
