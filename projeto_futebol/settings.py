@@ -25,16 +25,18 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-print("SECRET_KEY carregada?", bool(SECRET_KEY)) #testando, a chave estava gerando erro
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+# print("CARREGANDO HEIN BANDIDO", bool(SECRET_KEY)) #testando, a chave estava gerando erro
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True #evitar erros de informações"          #eu troquei para True por enquanto
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"     #evitar erros de informações"          #eu troquei para True por enquanto
 
-ALLOWED_HOSTS = ['*'] #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
 
 
 # Application definition
@@ -52,13 +54,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #ativando o whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #ativando o whitenoise
 
 ]
 
@@ -106,10 +108,12 @@ DATABASES = {
         }
     }
 }
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-chave-provisoria-apenas-para-desenvolvimento'
-)
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY não configurada")
+
+
 
 # nakjdna
 
@@ -134,7 +138,7 @@ SECRET_KEY = os.environ.get(
 # Confiurações do email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
