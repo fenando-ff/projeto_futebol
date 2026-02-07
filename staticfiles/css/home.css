@@ -497,90 +497,166 @@ a{
     width: 100%;
 }
 
-/* ======================= RESPONSIVO ======================= */
-@media (max-width: 1200px) {
-    .hero-carousel {
-        width: 700px;
-        height: 330px;
-    }
-    .carousel-btn {
-        font-size: 26px;
-        padding: 5px 12px;
-    }
+/* ====== PATCH RESPONSIVO (cole no final do home.css) ====== */
+* { box-sizing: border-box; }
+img { max-width: 100%; display: block; }
+html, body { overflow-x: hidden; }
+
+/* container padrão (sem mexer no base.html) */
+.home-container{
+  width: 100%;
 }
 
-@media (max-width: 900px) {
-    .hero {
-        flex-direction: column-reverse;
-        text-align: center;
-        gap: 18px;
-    }
-
-    .hero-carousel {
-        width: 95%;
-        height: 260px;
-    }
-
-    .hero-text h1 {
-        font-size: 2.2rem;
-    }
-
-    .carousel-btn {
-        font-size: 24px;
-        padding: 4px 10px;
-    }
+/* HERO: usa grid ao invés de “flex fixo” */
+.hero{
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  align-items: center;
+  gap: clamp(16px, 3vw, 32px);
+  padding: clamp(22px, 6vw, 64px) clamp(16px, 6vw, 11%);
 }
 
-@media (max-width: 600px) {
-    .hero-carousel {
-        width: 100%;
-        height: 210px;
-    }
-
-    .carousel-btn {
-        font-size: 22px;
-        padding: 4px 8px;
-    }
-
-    .progress-bar {
-        height: 5px;
-    }
+/* tipografia adaptativa */
+.hero-text h1{
+  font-size: clamp(1.7rem, 3.8vw, 2.7rem);
+  line-height: 1.1;
+}
+.hero-text p{
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
 }
 
-@media (max-width: 450px) {
-
-    .hero-carousel {
-        height: 180px;
-    }
-
-    .hero-text h1 {
-        font-size: 1.8rem;
-    }
-
-    .hero-text p {
-        font-size: 1rem;
-    }
-
-    .carousel-btn {
-        font-size: 18px;
-        padding: 4px 8px;
-    }
-
-    /* Ajuste dos produtos no mobile */
-    .product-card {
-        width: 92%;
-        transform: scale(1);
-    }
-
-    .product-image {
-        padding: 20px;
-    }
-
-    .product-image img {
-        max-width: 200px;
-    }
-
-    .news-card {
-        width: 92%;
-    }
+/* CARROSSEL: sem width/height fixos */
+.hero-carousel{
+  position: relative;
+  width: 100%;
+  max-width: 790px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 0 12px #000;
+  justify-self: end;
+  /* altura responsiva sem depender de px */
+  aspect-ratio: 16 / 9;
 }
+
+/* garante que imagens ocupem tudo */
+.carousel-track{
+  position: absolute;
+  inset: 0;
+}
+.carousel-track img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 600ms ease-in-out;
+}
+.carousel-img.active{ opacity: 1; }
+
+/* barra de progresso */
+.carousel-progress{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.22);
+  z-index: 5;
+}
+.progress-bar{
+  width: 0%;
+  height: 100%;
+  background: #f0f0f0;
+}
+
+/* botões do carrossel (CSS válido, sem nesting) */
+.carousel-btn{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  border: none;
+  font-size: 30px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 10;
+
+  opacity: 0;
+  transition: opacity 180ms ease, background 180ms ease, left 180ms ease, right 180ms ease;
+}
+.carousel-btn.left{ left: 10px; }
+.carousel-btn.right{ right: 10px; }
+
+.hero-carousel:hover .carousel-btn,
+.hero-carousel:focus-within .carousel-btn{
+  opacity: 1;
+}
+.carousel-btn:hover{ background: rgba(0,0,0,0.75); }
+
+/* DESTAQUES: vira grid responsivo */
+.destaques{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  width: min(1100px, 92%);
+  margin: 48px auto;
+}
+.card{
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: 220px;
+}
+
+/* PRÓXIMO JOGO: quebra no mobile sem estourar */
+.proximo-jogo{ padding: clamp(36px, 5vw, 64px) 0; }
+.jogo-card{
+  gap: clamp(16px, 5vw, 48px);
+  flex-wrap: wrap;
+  padding: 0 12px;
+}
+.jogo-card img{
+  width: clamp(64px, 14vw, 120px);
+}
+
+/* PRODUTOS: grid verdadeiro, sem transform scale fixo */
+.cards-produtos-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  width: min(1200px, 92%);
+  margin: 30px auto;
+}
+.product-card{
+  width: 100%;
+  transform: none; /* remove o scale 0.80 */
+}
+.product-card:hover{
+  transform: translateY(-8px);
+}
+
+/* no touch/mobile: bottom sempre visível */
+@media (hover: none){
+  .bottom{
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* MOBILE: hero empilha */
+@media (max-width: 900px){
+  .hero{
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .hero-carousel{
+    justify-self: center;
+    max-width: 100%;
+  }
+  /* botões sempre aparecendo no mobile */
+  .carousel-btn{ opacity: 1; }
+}
+
