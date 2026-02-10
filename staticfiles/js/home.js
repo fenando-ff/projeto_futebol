@@ -1,50 +1,59 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const images = document.querySelectorAll(".carousel-img");
+  const progressBar = document.querySelector(".progress-bar");
+  const btnLeft = document.querySelector(".carousel-btn.left");
+  const btnRight = document.querySelector(".carousel-btn.right");
+  const carousel = document.querySelector(".hero-carousel");
 
-    const images = document.querySelectorAll(".carousel-img");
-    const progressBar = document.querySelector(".progress-bar");
-    const btnLeft = document.querySelector(".carousel-btn.left");
-    const btnRight = document.querySelector(".carousel-btn.right");
+  if (!images.length || !progressBar || !btnLeft || !btnRight || !carousel) return;
 
-    let index = 0;
-    let duration = 5000; // tempo de cada slide
+  let index = 0;
+  const duration = 5000;
+  let interval = null;
 
-    function showSlide(i) {
-        images.forEach(img => img.classList.remove("active"));
-        images[i].classList.add("active");
+  function showSlide(i) {
+    images.forEach(img => img.classList.remove("active"));
+    images[i].classList.add("active");
 
-        // reiniciar barra
-        progressBar.style.transition = "none";
-        progressBar.style.width = "0%";
+    progressBar.style.transition = "none";
+    progressBar.style.width = "0%";
 
-        setTimeout(() => {
-            progressBar.style.transition = `width ${duration}ms linear`;
-            progressBar.style.width = "100%";
-        }, 50);
-    }
-
-    function nextSlide() {
-        index = (index + 1) % images.length;
-        showSlide(index);
-    }
-
-    let interval = setInterval(nextSlide, duration);
-
-    // controles manuais
-    btnLeft.addEventListener("click", () => {
-        clearInterval(interval);
-        index = (index - 1 + images.length) % images.length;
-        showSlide(index);
-        interval = setInterval(nextSlide, duration);
+    requestAnimationFrame(() => {
+      progressBar.style.transition = `width ${duration}ms linear`;
+      progressBar.style.width = "100%";
     });
+  }
 
-    btnRight.addEventListener("click", () => {
-        clearInterval(interval);
-        index = (index + 1) % images.length;
-        showSlide(index);
-        interval = setInterval(nextSlide, duration);
-    });
-
-    // inicia o primeiro
+  function nextSlide() {
+    index = (index + 1) % images.length;
     showSlide(index);
+  }
 
+  function start() {
+    stop();
+    interval = setInterval(nextSlide, duration);
+  }
+
+  function stop() {
+    if (interval) clearInterval(interval);
+    interval = null;
+  }
+
+  btnLeft.addEventListener("click", () => {
+    index = (index - 1 + images.length) % images.length;
+    showSlide(index);
+    start();
+  });
+
+  btnRight.addEventListener("click", () => {
+    index = (index + 1) % images.length;
+    showSlide(index);
+    start();
+  });
+
+  carousel.addEventListener("mouseenter", stop);
+  carousel.addEventListener("mouseleave", start);
+
+  showSlide(index);
+  start();
 });
