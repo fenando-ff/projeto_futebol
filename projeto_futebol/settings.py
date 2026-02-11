@@ -36,8 +36,10 @@ load_dotenv(BASE_DIR / ".env")
 
 DEBUG = True    #evitar erros de informações"          #eu troquei para True por enquanto
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
-
+if DEBUG == False:
+    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS","").split(",")
+else:
+    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]  # Permitir todas as origens (não recomendado para produção)
 
 # Application definition
 
