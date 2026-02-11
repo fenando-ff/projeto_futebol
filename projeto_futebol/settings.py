@@ -36,10 +36,7 @@ load_dotenv(BASE_DIR / ".env")
 
 DEBUG = True    #evitar erros de informações"          #eu troquei para True por enquanto
 
-if DEBUG == False:
-    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS","").split(",")
-else:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]  # Permitir todas as origens (não recomendado para produção)
+ALLOWED_HOSTS = ["localhost", "127.0.0.1","projeto-futebol.onrender.com"]  # Permitir todas as origens (não recomendado para produção)
 
 # Application definition
 
