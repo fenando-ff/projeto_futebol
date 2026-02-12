@@ -359,38 +359,90 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ===============================
-   MEDIA QUERIES
-   =============================== */
+
+
+/* =========================
+   RESPONSIVO NOVO (estável)
+   Cole no FINAL do teu CSS
+   ========================= */
+
+/* 1) Trava overflow lateral de vez */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+/* =========================
+   BANNER: vira coluna no mobile
+   ========================= */
+.banner-wrapper {
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .banner-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .banner-title {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .banner-title h2 {
+    font-size: 40px;
+    letter-spacing: 4px;
+    text-align: center;
+  }
+
+  .banner-carousel {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 14px; }
+
+  .banner-title h2 {
+    font-size: 34px;
+    letter-spacing: 3px;
+  }
+
+  .banner-carousel { height: 180px; }
+}
+
+/* =========================
+   SEASON: arruma de verdade
+   (tua media de 768 colocou height: 50px e quebra tudo)
+   ========================= */
 @media (max-width: 1024px) {
   .season {
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 20px;
-  }
-
-  .season-text,
-  .season-wrapper {
-    flex: 1 1 100%;
-  }
-
-  .season-carousel {
-    height: 300px;
-  }
-
-  .season-slide img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .next-slide {
-    font-size: 60px;
-    padding: 8px;
+    padding: 26px 18px;
+    gap: 18px;
   }
 }
 
 @media (max-width: 768px) {
+  .season {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .season-wrapper {
+    width: 100%;
     flex-direction: column;
     align-items: center;
     gap: 10px;
@@ -398,44 +450,215 @@ body {
 
   .season-carousel {
     width: 100%;
-    height: 50px;
-    min-width: 250px;
-  }
-
-  .season-slide img {
-    width: 100%;
-    height: 100%;
+    max-width: 560px;
+    min-width: 0;
+    height: 260px; /* FIX REAL */
   }
 
   .next-slide {
-    font-size: 50px;
-    padding: 6px;
+    font-size: 54px;
+    line-height: 1;
+    border-radius: 10px;
+    padding: 6px 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .season-text h2 {
-    font-size: 24px;
+  .season-text h2 { font-size: 24px; }
+  .season-text p { font-size: 15px; }
+  .season-carousel { height: 220px; }
+}
+
+/* =========================
+   FILTER: vira "scroll horizontal" controlado
+   ========================= */
+.filter {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 8px 6px;
+}
+
+.filter::-webkit-scrollbar { display: none; }
+
+.filter a {
+  white-space: nowrap;
+  flex: 0 0 auto;
+  border: 1px solid #e6e6e6;
+  border-radius: 999px;
+  padding: 8px 12px;
+}
+
+/* =========================
+   PRODUTOS (Desktop): carrossel limpo e sem estourar
+   ========================= */
+.carrossel-produtos {
+  position: relative;
+  overflow: hidden; /* impede estourar a viewport */
+  padding: 10px 0;
+}
+
+.carrossel-produtos .flex {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 12px;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carrossel-produtos .flex::-webkit-scrollbar { display: none; }
+
+.btn-prev,
+.btn-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+
+  display: grid;
+  place-items: center;
+
+  background: rgba(255,255,255,0.92);
+  border: 1px solid #e6e6e6;
+  cursor: pointer;
+  font-size: 28px;
+  padding: 0;
+}
+
+.btn-prev { left: 8px; }
+.btn-next { right: 8px; }
+
+.btn-prev:hover,
+.btn-next:hover {
+  background: #9d0808;
+  color: #fff;
+  border-color: #9d0808;
+}
+
+.carrossel-produtos .flex {
+  scroll-padding-left: 70px;
+  scroll-padding-right: 70px;
+}
+
+/* Card desktop */
+.produto {
+  flex: 0 0 auto;
+  width: 290px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.produto img {
+  width: 100%;
+  height: 230px;
+  min-height: 230px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* =========================
+   MOBILE/TABLET: troca carrossel por GRID (inovação boa)
+   - some setas
+   - remove scroll horizontal
+   - 2 colunas / 1 coluna
+   ========================= */
+@media (max-width: 768px) {
+  .btn-prev,
+  .btn-next {
+    display: none !important; /* no mobile, setas somem */
   }
 
-  .season-text p {
-    font-size: 14px;
+  .carrossel-produtos {
+    overflow: visible; /* deixa o grid respirar */
   }
 
-  .season-carousel {
-    height: 200px;
-    width: 200px;
-  }
+  .carrossel-produtos .flex {
+    overflow-x: visible;
+    padding: 0;
+    gap: 12px;
 
-  .next-slide {
-    font-size: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2 colunas */
   }
 
   .produto {
-    width: 180px;
+    width: 100%;
+    max-width: 100%;
+    transform: none;
   }
 
-  .produtos h2 {
-    font-size: 20px;
+  .produto:hover {
+    transform: none; /* tira zoom que estoura no mobile */
+  }
+
+  .produto img {
+    height: 180px;
+    min-height: 180px;
+  }
+
+  .btn-adicionar {
+    width: 100%;
+    padding: 10px;
   }
 }
+
+@media (max-width: 420px) {
+  .carrossel-produtos .flex {
+    grid-template-columns: 1fr; /* 1 coluna no celular pequeno */
+  }
+
+  .produto img {
+    height: 210px;
+    min-height: 210px;
+  }
+}
+
+/* =========================
+   Ajustes finais de texto / títulos
+   ========================= */
+.produtos {
+  border-radius: 14px;
+}
+
+.categoria-titulo {
+  text-align: center;
+  margin: 18px 0 12px;
+}
+
+
+
+@media (max-width: 768px) {
+  .produtos .filter {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 10px;
+    padding: 8px 6px;
+    scrollbar-width: none;
+  }
+  .produtos .filter::-webkit-scrollbar { display: none; }
+
+  .produtos .filter a {
+    white-space: nowrap;
+    flex: 0 0 auto;
+    border: 1px solid #e6e6e6;
+    border-radius: 999px;
+    padding: 8px 12px;
+  }
+}
+
