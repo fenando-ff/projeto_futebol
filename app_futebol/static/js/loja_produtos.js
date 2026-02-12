@@ -21,6 +21,7 @@ setInterval(() => {
 
 
 
+
 // ======= CARROSSEL MANUAL DA TEMPORADA =======
 // ======= CARROSSEL MANUAL DA TEMPORADA (com deslizamento) =======
 let currentSeasonSlide = 0;
