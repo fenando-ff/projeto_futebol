@@ -1,119 +1,357 @@
-* {
-    margin: 0;
-    padding: 0;
-    
+/* =========================
+   MENU COMPLETO (DESKTOP + MOBILE)
+   Requer: HTML com:
+   header.cabecalho
+   a.logo (img + h1)
+   ul.menu-hamburgue (acoes mobile)
+   div.nav#menuNav > div.drawer > ul.hamburguer-opcoes
+   div.menu-overlay#menuOverlay
+========================= */
+
+/* -------- Reset -------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; }
+body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+
+
+html, body {
+    height: 100%;
 }
 
 body {
-    font-family: 'Roboto Condensed', sans-serif;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-main{
+main {
     flex: 1;
-    width: 100%;
-    padding-top: 60px; 
 }
 
-/* novo estilo de navbar (opcional) */
-.cabecalho {
-    background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.6),
-    inset 450px 1px 0 rgba(0, 0, 0, 0.2);
-    position: fixed; 
-    top: 0; 
-    left: 0;
-    right: 0;
-    z-index: 1000; 
+/* Acessibilidade */
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip: rect(0,0,0,0); border:0;
+}
+.no-scroll{ overflow:hidden; }
+
+/* -------- Header fixo -------- */
+.cabecalho{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+
+  height: 64px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
+  box-shadow: 0 10px 18px rgba(0,0,0,.55);
 }
 
-.logo {
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    text-decoration: none;
+/* empurra o conteúdo do site para baixo do header */
+main{ padding-top: 64px; }
+
+/* -------- Logo -------- */
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  min-width: 180px;
+}
+.logo img{ width: 34px; height: 34px; object-fit: contain; }
+.logo h1{
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 1px;
+  white-space: nowrap;
 }
 
-.logo img {
-    width: 17%;
-    height: 20%;
-    min-width: 24px;
+/* =========================================
+   MOBILE TOP ACTIONS (Sair/Login + Burger + Carrinho)
+========================================= */
+.menu-hamburgue{
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.logo h1 {
-    margin-left: 10px ;
-    font-size: small;
-    width: 100%;
-    color: #ffffff;
+.menu-hamburgue a{
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  opacity: .95;
+  transition: .2s ease;
+}
+.menu-hamburgue a:hover{ opacity: 1; }
+
+.menu-hamburgue i{
+  font-size: 18px;
 }
 
-.menu-hamburgue {
-    display: flex;
-    list-style: none;
-    gap: 8px;
+/* Botão hamburguer */
+.hamb-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 10px;
+  padding: 7px 9px;
+
+  cursor: pointer;
+  transition: .2s ease;
+}
+.hamb-btn i{ font-size: 22px; }
+.hamb-btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.38);
 }
 
-.menu-hamburgue a {
-    color: #ffffff;
-    text-decoration: none;
+/* =========================================
+   OVERLAY (mobile drawer)
+========================================= */
+.menu-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 999;
+}
+.menu-overlay.is-open{
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.nav {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    display: none;
-    width: 100%;
-    justify-content: end;
+/* =========================================
+   NAV (mobile drawer container)
+========================================= */
+.nav{ display: block; }
+
+/* ============ MOBILE (Drawer animado) ============ */
+@media (max-width: 767px){
+
+  /* container invisível para animar */
+  .nav{
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    pointer-events: none;
+  }
+
+  /* painel que desliza */
+  .drawer{
     position: absolute;
-    z-index: 9999;
-    margin-top: 13rem;
-}
+    top: 0;
+    right: 0;
 
-.hamburguer-opcoes {
+    width: min(330px, 86vw);
+    height: 100%;
+
+    background: #121212;
+    box-shadow: -24px 0 44px rgba(0,0,0,.55);
+
+    transform: translateX(100%);
+    transition: transform .28s ease;
+
     display: flex;
-    background-color: #161616;
     flex-direction: column;
-    list-style: none;
-    gap: 4px;
-    padding: 4px;
-    width: 20%;
-    border-radius: 0px 0px 8px 8px;
-    margin-right: 16px;
+    padding: 16px 14px;
+  }
+
+  /* quando abre */
+  .nav.is-open{ pointer-events: auto; }
+  .nav.is-open .drawer{ transform: translateX(0); }
+
+  /* topo do drawer */
+  .drawer-top{
+    display: flex;
     align-items: center;
-}
+    justify-content: space-between;
 
-.btn-esconde {
-        display: none;
-    }
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
 
-.hamburguer-opcoes a {
+  .drawer-title{
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    opacity: .9;
+  }
+
+  .hamb-close{
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 10px;
+    padding: 7px 9px;
+    cursor: pointer;
+    transition: .2s ease;
+  }
+  .hamb-close i{ font-size: 22px; }
+  .hamb-close:hover{ border-color: rgba(255,255,255,.38); }
+
+  /* lista */
+  .hamburguer-opcoes{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .hamburguer-opcoes .opcao-nav a{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
     text-decoration: none;
-    color: #ffffff;
-    padding: 4px;
+    color: #fff;
+
+    padding: 12px 10px;
+    border-radius: 12px;
+
+    transition: .18s ease;
+  }
+
+  .hamburguer-opcoes .opcao-nav a i{
+    font-size: 18px;
+    opacity: .95;
+  }
+
+  .hamburguer-opcoes .opcao-nav a:hover{
+    background: rgba(255,255,255,.06);
+    color: #F72B2B;
+  }
+
+  /* no mobile, se você quiser mostrar login/sair/carrinho dentro do drawer */
+  .btn-esconde{ display: block; }
 }
 
-.hamburguer-opcoes .opcao-nav {
-    padding: 4px;
-    text-align: start;
-}
-.hamburguer-opcoes .opcao-nav a {
-    transition: 0.3s;
+
+
+
+/* ============ DESKTOP (menu horizontal) ============ */
+@media (min-width: 768px){
+
+  /* no desktop, escondemos overlay e ações mobile */
+  .menu-overlay{ display: none; }
+  .menu-hamburgue{ display: none; }
+
+  /* nav vira parte do header */
+  .nav{
+    position: static;
+    inset: auto;
+    z-index: auto;
+    pointer-events: auto;
+  }
+
+  /* drawer deixa de ser drawer */
+  .drawer{
+    position: static;
+    width: auto;
+    height: auto;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    transform: none !important;
+  }
+
+  /* topo do drawer não aparece */
+  .drawer-top{ display: none; }
+
+  .hamburguer-opcoes{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .hamburguer-opcoes .opcao-nav a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: .02em;
+
+    padding: 6px 0;
+    border-radius: 0;
+
+    transition: .18s ease;
+  }
+
+  .hamburguer-opcoes .opcao-nav a:hover{
+    color: #F72B2B;
+  }
+
+  /* no desktop, escondemos os itens duplicados (login/carrinho) se quiser manter só no topo */
+  .btn-esconde{ display: none; }
 }
 
-.hamburguer-opcoes .opcao-nav a:hover {
-        color: #8F0000;
-    }
+/* ===== Ajustes opcionais para telas muito pequenas ===== */
+@media (max-width: 360px){
+  .logo h1{ display:none; } /* ganha espaço */
+  .cabecalho{ padding: 0 12px; }
+}
 
-/* ======================= RODAPÉ ======================= */
+/* Botões ícone limpos */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: .2s ease;
+}
+
+.icon-btn i {
+  font-size: 18px;
+}
+
+.icon-btn:hover {
+  background: rgba(255,255,255,.08);
+}
+
+/* Melhor alinhamento mobile */
+@media (max-width: 767px){
+
+  .menu-hamburgue {
+    gap: 8px;
+  }
+
+  .hamb-btn {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 10px;
+  }
+
+}
+
+
+
+/* ======================= FOOTER ======================= */
+
 .footer {
-    margin-top: 120px;
+    margin-top: 120px; /* mantém como era antes */
     background: #111;
     color: #fff;
     padding: 60px 5%;
@@ -127,6 +365,7 @@ main{
     gap: 40px;
 }
 
+/* Marca */
 .footer-brand h3 {
     font-size: 1.8rem;
     color: #F72B2B;
@@ -138,6 +377,7 @@ main{
     opacity: 0.7;
 }
 
+/* Títulos */
 .footer-sponsors h4,
 .footer-links h4 {
     font-size: 1.1rem;
@@ -145,6 +385,7 @@ main{
     color: #F72B2B;
 }
 
+/* Logos patrocinadores */
 .sponsor-logos {
     margin-top: 30px;
     display: flex;
@@ -153,18 +394,22 @@ main{
     flex-wrap: wrap;
 }
 
+/* IMAGENS AJUSTADAS (sem estourar) */
 .sponsor-logos img {
-    transform: scale(1.8);
     height: 40px;
+    width: auto;
+    max-width: 120px;      /* evita estourar */
     object-fit: contain;
-    transition: 0.3s;
+    transition: 0.3s ease;
 }
 
+/* Hover suave */
 .sponsor-logos img:hover {
-    filter: brightness(1) invert(0);
-    transform: scale(2.0);
+    transform: scale(1.15);
+    cursor: pointer;
 }
 
+/* Links */
 .footer-links ul {
     list-style: none;
     padding: 0;
@@ -186,6 +431,7 @@ main{
     color: #F72B2B;
 }
 
+/* Linha inferior */
 .footer-bottom {
     text-align: center;
     margin-top: 40px;
@@ -195,8 +441,10 @@ main{
     padding-top: 20px;
 }
 
-/* RESPONSIVO */
+/* ======================= RESPONSIVO ======================= */
+
 @media (max-width: 900px) {
+
     .footer-container {
         flex-direction: column;
         text-align: center;
@@ -206,52 +454,12 @@ main{
     .sponsor-logos {
         justify-content: center;
     }
+
+    .sponsor-logos img {
+        height: 34px;
+        max-width: 100px;
+    }
 }
 
-@media screen and (min-width: 768px) {
-    .cabecalho {
-        height: 80px;
-        display: flex;
-    }
 
-    main {
-        padding-top: 80px; 
-    }
 
-    .menu-hamburgue {
-        display: none;
-    }
-
-    .nav {
-        position: static;
-        width: 28rem;
-        display: flex;
-        justify-content: start;
-        margin-top: 0;
-    }
-    
-    .hamburguer-opcoes {
-        display: flex;
-        flex-direction: row;
-        background: none;
-        width: 28rem;
-    }
-
-    .hamburguer-opcoes .btn-esconde {
-        display: block;
-    }
-
-    .logo {
-        width: 24rem;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        text-decoration: none;
-        margin-right: 16rem;
-    }
-
-    .logo img {
-        max-width: 50px;
-    }
-    
-}
