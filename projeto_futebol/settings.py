@@ -86,10 +86,6 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
-# if DB_SSL_CA and not DB_SSL_CA.startswith("/"):
-#     DB_SSL_CA = str(BASE_DIR / DB_SSL_CA)
-
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("DB_ENGINE"),
@@ -115,28 +111,6 @@ DATABASES = {
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise RuntimeError("SECRET_KEY não configurada")
-
-
-
-# nakjdna
-
-# DATABASES = {
-    # 'default': {
-    #     'ENGINE': os.environ.get('DB_ENGINE'),
-    #     'NAME': os.environ.get('DB_NAME'),
-    #     'USER': os.environ.get('DB_USER'),
-    #     'PASSWORD': os.environ.get('DB_PASSWORD'),
-    #     'HOST': os.environ.get('DB_HOST'),
-    #     'PORT': os.environ.get('DB_PORT'),
-    # }
-    
-#     'default': dj_database_url.config(
-#         default=os.getenv("DATABASE_URL"),
-#         conn_max_age=600,
-#         ssl_require=True
-#         )
-    
-# }
 
 # Confiurações do email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
