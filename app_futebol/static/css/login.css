@@ -8,9 +8,20 @@ main{
     height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
+}
+
+li {
+    list-style: none;
+}
+
+.error {
+    color: #F7C02B;
+    font-size: 1.2em;
+    margin-top: 9rem;
 }
 
 .conteiner{
