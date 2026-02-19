@@ -14,19 +14,21 @@ body {
 
 /* ---------- HEADER ---------- */
 .topo {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 15px 350px 15px 260px;
+  justify-content: center;
+  padding: 15px 150px 15px 260px;
   background: #ad0000;
   color: #fff;
 }
 
 .voltar {
-  color: #ffffff;
-  text-decoration: none;
+  position: absolute;
+  left: 240px;
   font-size: 1.9rem;
-  transition: 0.3s;
+  color: #fff;
+  text-decoration: none;
 }
 
 .voltar:hover {
@@ -219,6 +221,36 @@ body {
   }
 
   .topo{
-    padding: 15PX 105PX 15PX 10PX;
+    padding: 15PX 15PX 15PX 10PX;
+  }
+
+  .voltar{
+    left: 20px;
   }
 }
+
+/* ===== FIX DEFINITIVO MOBILE ===== */
+@media (max-width: 768px) {
+
+  /* Ajuste aqui se precisar */
+  :root{
+    --nav-height: 64px;
+  }
+
+  /* remove compensações erradas */
+  body{
+    padding-top: 0 !important;
+  }
+
+  /* posiciona barra vermelha logo abaixo da navbar */
+  header.topo{
+    margin-top: -10px;
+    padding: 15px 16px !important;
+    min-height: auto;
+  }
+}
+
+
+
+
+

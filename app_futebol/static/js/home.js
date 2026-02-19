@@ -47,4 +47,55 @@ document.addEventListener("DOMContentLoaded", () => {
     // inicia o primeiro
     showSlide(index);
 
+    document.addEventListener("DOMContentLoaded", () => {
+  const carousel = document.getElementById("produtosCarousel");
+  const dotsWrap = document.getElementById("produtosDots");
+  const cards = document.querySelectorAll(".produtos-track .product-card");
+
+  if (!carousel || !dotsWrap || !cards.length) return;
+
+  // cria dots
+  dotsWrap.innerHTML = "";
+  const dots = Array.from(cards).map((_, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", `Ir para produto ${i + 1}`);
+    b.addEventListener("click", () => {
+      cards[i].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    });
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  function setActiveDot(index){
+    dots.forEach(d => d.classList.remove("is-active"));
+    if (dots[index]) dots[index].classList.add("is-active");
+  }
+
+  // ativa o primeiro
+  setActiveDot(0);
+
+  // atualiza dot conforme scroll
+  const onScroll = () => {
+    const left = carousel.scrollLeft;
+    let best = 0;
+    let bestDist = Infinity;
+
+    cards.forEach((card, i) => {
+      const dist = Math.abs(card.offsetLeft - left);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    });
+
+    setActiveDot(best);
+  };
+
+  carousel.addEventListener("scroll", () => {
+    window.requestAnimationFrame(onScroll);
+  });
+});
+
+
 });
