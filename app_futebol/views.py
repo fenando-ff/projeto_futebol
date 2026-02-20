@@ -124,7 +124,7 @@ def get_historico_cliente(request, cliente_obj=None):
             produto = c.produtos_id_produtos
             quantidade = int(c.quantidade_pedido)
             valor_unitario = float(c.valor_compra)
-            subtotal = quantidade * valor_unitario
+            subtotal = valor_unitario
 
             agrupados[pid]['itens'].append({
                 'produto': {
