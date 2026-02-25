@@ -3,19 +3,26 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-# Caminhos básicos
+# 1. Caminhos e Variáveis de Ambiente
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
-# SEGURANÇA: DEBUG dinâmico (False no Render, True local)
+# 2. Segurança: DEBUG Dinâmico
+# No Render será False (Seguro). No seu PC será True.
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 
-# Configuração de Hosts para o Render
+# 3. Hosts Permitidos (Essencial para o Render)
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com"]
 
-# Secret Key com fallback para evitar quebra no build
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-chave-padrao-local-123')
+# 4. Secret Key
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'django-insecure-chave-temporaria-local'
+    else:
+        raise RuntimeError("A variável SECRET_KEY não foi configurada no Render!")
 
+# 5. Apps instaladas
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,9 +34,10 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
+# 6. Middleware (WhiteNoise deve ser o segundo da lista)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Essencial para arquivos estáticos
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,7 +66,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
-# BANCO DE DADOS: Configuração inteligente para Render
+# 7. Banco de Dados (Suporta DATABASE_URL do Render ou Variáveis separadas)
 DATABASES = {
     'default': dj_database_url.config(
         default=f'mysql://{os.environ.get("DB_USER")}:{os.environ.get("DB_PASSWORD")}@{os.environ.get("DB_HOST")}:{os.environ.get("DB_PORT")}/{os.environ.get("DB_NAME")}',
@@ -66,22 +74,21 @@ DATABASES = {
     )
 }
 
-# Certificado SSL para o banco (se houver)
+# Configuração de SSL para o MySQL
 CA_CERT_PATH = os.path.join(BASE_DIR, "app_futebol", "certs", "ca.pem")
 if os.path.exists(CA_CERT_PATH):
     DATABASES['default']['OPTIONS'] = {"ssl": {"ca": CA_CERT_PATH}}
 
-# Internacionalização
+# 8. Internacionalização
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ARQUIVOS ESTÁTICOS (Onde o WhiteNoise brilha)
+# 9. Arquivos Estáticos (Configuração WhiteNoise)
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# Armazenamento otimizado para produção
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 else:
@@ -89,7 +96,7 @@ else:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configurações de Email
+# 10. Email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
