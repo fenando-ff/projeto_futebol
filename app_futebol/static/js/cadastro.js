@@ -72,6 +72,60 @@ function proximaEtapa(numero) {
     return false;
 }
 
+
+
+
+const inputCpf = document.getElementById("cpf");
+
+if (inputCpf) {
+    inputCpf.addEventListener("input", function (e) {
+        let valor = e.target.value.replace(/\D/g, "");
+
+        valor = valor.replace(/^(\d{3})(\d)/, "$1.$2");
+        valor = valor.replace(/^(\d{3})\.(\d{3})(\d)/, "$1.$2.$3");
+        valor = valor.replace(/\.(\d{3})(\d)/, ".$1-$2");
+        valor = valor.slice(0, 14); // limita no tamanho máximo
+
+        e.target.value = valor;
+    });
+}
+
+
+
+
+
+
+
+
+const inputTelefone = document.getElementById("telefone");
+
+if (inputTelefone) {
+    inputTelefone.addEventListener("input", function (e) {
+        let valor = e.target.value.replace(/\D/g, "");
+
+        if (valor.length <= 10) {
+            // Telefone fixo (10 dígitos)
+            valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2");
+            valor = valor.replace(/(\d{4})(\d)/, "$1-$2");
+        } else {
+            // Celular (11 dígitos)
+            valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2");
+            valor = valor.replace(/(\d{5})(\d)/, "$1-$2");
+        }
+
+        valor = valor.slice(0, 15);
+        e.target.value = valor;
+    });
+}
+
+
+
+
+
+
+
+
+
 // Validação e envio do formulário
 function validarCadastro() {
     const nome = document.getElementById('nome').value.trim();
@@ -99,10 +153,15 @@ function validarCadastro() {
         return false;
     }
 
-    if (!email.includes('@')) {
-        alert('Email inválido.');
-        return false;
+    function emailValido(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        return regex.test(email);
     }
+
+    if (!emailValido(email)) {
+    alert('Por favor, informe um email válido.');
+    return false;
+}
 
     if (cpf.replace(/\D/g, '').length < 11) {
         alert('CPF inválido.');

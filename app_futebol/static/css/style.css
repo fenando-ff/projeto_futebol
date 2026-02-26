@@ -248,7 +248,17 @@ main{ padding-top: 64px; }
 
   /* no desktop, escondemos overlay e ações mobile */
   .menu-overlay{ display: none; }
-  .menu-hamburgue{ display: none; }
+  .only-mobile { display: none; }
+  .only-mobile { display: none; }
+
+.menu-hamburgue {
+  display: flex;
+}
+
+
+.carrinho-desktop {
+  margin-left: 20px;
+}
 
   /* nav vira parte do header */
   .nav{
@@ -351,11 +361,13 @@ main{ padding-top: 64px; }
 /* ======================= FOOTER ======================= */
 
 .footer {
-    margin-top: 120px; /* mantém como era antes */
+    position: relative;
+    margin-top: 120px; 
     background: #111;
     color: #fff;
     padding: 60px 5%;
     font-family: 'Poppins', sans-serif;
+    z-index: 3;
 }
 
 .footer-container {
@@ -470,4 +482,11 @@ main{ padding-top: 64px; }
     --cor-preto-secundario: #1a1a1a;
     --cor-branco: #ffffff;
     --cor-cinza-texto: #cfcfcf;
+}
+
+
+@media (min-width: 768px){
+  .hamb-btn {
+    display: none;
+  }
 }

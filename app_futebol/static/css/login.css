@@ -20,7 +20,7 @@ body {
 ============================== */
 .ring {
     position: absolute;
-    top: 60%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 800px;
@@ -29,10 +29,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;           /* atrás do card */
+    z-index: 0;           /* atrás do card */
     pointer-events: auto; /* agora o mouse "passa" por ele */
     /*pointer-events: none; não atrapalha cliques */
-    opacity: 0.15;         /* um pouco mais visível que 0.15 */
+    opacity: 0.45;         /* um pouco mais visível que 0.15 */
 }
 
 .ring i {
@@ -68,6 +68,46 @@ body {
 /* ==============================
    CARD DE LOGIN
 ============================== */
+
+/* ================= MENSAGENS ================= */
+
+.mensagens {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.alert {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    animation: fadeInMsg .3s ease;
+}
+
+/* sucesso */
+.alert.success {
+    background: rgba(35, 35, 35, 0.15);
+    border: 1px solid #cbcbcb;
+    color: #dcdcdc;
+}
+
+/* erro */
+.alert.error {
+    background: rgba(255, 0, 0, 0.15);
+    border: 1px solid #f72b2b;
+    color: #ff5252;
+}
+
+/* animação */
+@keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 main {
     position: relative;
     z-index: 2;   /* acima do ring */
@@ -79,13 +119,14 @@ main {
 .conteiner {
     width: 100%;
     max-width: 420px;
-    padding: 45px 25px;
+    padding: 45px 65px;
     border-radius: 18px;
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.06);
+    background: #1b1b1b;
+    border: 2px solid rgba(227, 227, 227, 0.06);
     box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     display: flex;
     flex-direction: column;
+    margin-top: 100px;
 }
 
 /* Título */
