@@ -25,6 +25,16 @@
     <main>
         <form class="conteiner" method="POST">
             {% csrf_token %}
+
+                {% if messages %}
+                    <div class="mensagens">
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             <div id="area_seta">
                 <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left" style="color: #e4e4e4;"></i></a>
             </div>

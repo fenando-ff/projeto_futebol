@@ -18,7 +18,7 @@
 
     <li>
         <button id="botao_hamburguer"
-                class="hamb-btn"
+        class="hamb-btn only-mobile"
                 type="button"
                 aria-expanded="false"
                 aria-controls="menuNav">
@@ -43,11 +43,11 @@
 
       <ul class="hamburguer-opcoes">
         {% if request.session.cliente_id %}
-          <li class="opcao-nav btn-esconde">
+          <li class="opcao-nav">
             <a href="{% url 'logout' %}"><i class="bx bx-log-out"></i> Sair</a>
           </li>
         {% else %}
-          <li class="opcao-nav btn-esconde">
+          <li class="opcao-nav">
             <a href="{% url 'login' %}"><i class="bx bx-user"></i> Login</a>
           </li>
         {% endif %}
@@ -69,7 +69,7 @@
         </li>
 
         <li class="opcao-nav btn-esconde">
-          <a href="{% url "carrinho" %}"><i class="bx bx-cart"></i> Carrinho</a>
+          <a href="{% url "carrinho" %}"><i class="icon-btn carrinho-desktop"></i> Carrinho</a>
         </li>
       </ul>
     </div>
