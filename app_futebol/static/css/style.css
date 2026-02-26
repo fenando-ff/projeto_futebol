@@ -463,3 +463,11 @@ main{ padding-top: 64px; }
 
 
 
+:root {
+    --cor-primaria: #F72B2B;   /* Vermelho oficial */
+    --cor-primaria-hover: #d61f1f;
+    --cor-preto: #0d0d0d;
+    --cor-preto-secundario: #1a1a1a;
+    --cor-branco: #ffffff;
+    --cor-cinza-texto: #cfcfcf;
+}
