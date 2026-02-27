@@ -21,8 +21,21 @@
             </div>
 
             <form method="POST" class="form-email">
+            {% if form.errors %}
+                <div class="erro-email">
+                    Email não encontrado ou inválido.
+                </div>
+            {% endif %}
                 {% csrf_token %}
+
+                {{ form.email }}
+
                 
+                {% if erro %}
+                    <div class="erro-local">
+                        {{ erro }}
+                    </div>
+                    {% endif %}
                 <input type="email" name="email" class="input-email" placeholder="Digite seu email aqui" required>
                 
                 <button type="submit" class="btn-primario">ENVIAR CÓDIGO</button>

@@ -3,37 +3,83 @@
 {% load static %}
 
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/rec_senha_2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/rec_senha_3.css' %}">
 {% endblock css_extra %}
 
-
 {% block conteudo_pagina %}   
-    <main>
-        <div class="conteiner">
-            <div id="area_seta"> 
-                <a href="{% url 'recuperar_senha' %}"><i class="fa-solid fa-arrow-left"></i></a>
-            </div>
+<main>
+    <div class="conteiner">
 
-            <h2 class="titulo_login">Criar Nova Senha</h2>
-
-            <div class="termos">
-               <p>Atenção, ao digitar sua</p>
-               <p>nova senha!</p>
-            </div>
-
-            <div class="logo_rec_senha">
-                <img class="logo_rec_senha" src="{% static 'img/icones/logo_rec_senha_2.png' %}"> 
-            </div>
-
-            <form method="POST">
-                {% csrf_token %}
-                <div class="caixa usuario">
-                    <i class='bx bx-lock'></i>
-                    <input type="password" name="senha" placeholder="Nova senha" required>
-                </div>
-
-                <button type="submit" class="btn-primario">Atualizar Senha</button>
-            </form>
+        <!-- BOTÃO VOLTAR -->
+        <div id="area_seta">
+            <a href="{% url 'recuperar_senha2' %}">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
         </div>
-    </main>
+
+        <!-- TÍTULO -->
+        <h2 class="titulo_login">Criar Nova Senha</h2>
+
+        <div class="termos">
+            <p>Digite uma nova senha segura</p>
+            <p>para proteger sua conta.</p>
+        </div>
+
+        <!-- ERRO LOCAL -->
+        {% if erro %}
+        <div class="erro-local">
+            {{ erro }}
+        </div>
+        {% endif %}
+
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+
+            <!-- NOVA SENHA -->
+            <div class="caixa">
+                <i class='bx bx-lock'></i>
+                <input 
+                    type="password" 
+                    name="senha" 
+                    id="senha"
+                    placeholder="Nova senha"
+                    required
+                >
+                <span class="toggle-senha" onclick="toggleSenha('senha')">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+            </div>
+
+            <!-- CONFIRMAR SENHA -->
+            <div class="caixa">
+                <i class='bx bx-lock-alt'></i>
+                <input 
+                    type="password" 
+                    name="confirmar_senha"
+                    id="confirmar_senha"
+                    placeholder="Confirmar senha"
+                    required
+                >
+                <span class="toggle-senha" onclick="toggleSenha('confirmar_senha')">
+                    <i class="fa-solid fa-eye"></i>
+                </span>
+            </div>
+
+            <!-- REGRAS -->
+            <div class="regras">
+                <p>A senha deve conter:</p>
+                <ul>
+                    <li>Mínimo de 8 caracteres</li>
+                    <li>Pelo menos 1 número</li>
+                    <li>Pelo menos 1 letra maiúscula</li>
+                </ul>
+            </div>
+
+            <button type="submit" class="btn-primario">
+                Atualizar Senha
+            </button>
+
+        </form>
+    </div>
+</main>
 {% endblock conteudo_pagina %}
