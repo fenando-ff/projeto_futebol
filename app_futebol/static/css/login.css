@@ -41,7 +41,7 @@ body {
     border: 3px solid #f40000; /* cor mais forte pra aparecer */
     opacity: 0.10px;               /* opacidade maior só pra teste */
     border-radius: 50%;
-    animation: rotate 30s linear infinite;
+    animation: rotate 40s linear infinite;
 }
 
 @keyframes rotate {

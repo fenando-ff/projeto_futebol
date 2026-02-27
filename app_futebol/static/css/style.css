@@ -251,14 +251,7 @@ main{ padding-top: 64px; }
   .only-mobile { display: none; }
   .only-mobile { display: none; }
 
-.menu-hamburgue {
-  display: flex;
-}
 
-
-.carrinho-desktop {
-  margin-left: 20px;
-}
 
   /* nav vira parte do header */
   .nav{
@@ -368,6 +361,7 @@ main{ padding-top: 64px; }
     padding: 60px 5%;
     font-family: 'Poppins', sans-serif;
     z-index: 3;
+
 }
 
 .footer-container {
@@ -406,8 +400,14 @@ main{ padding-top: 64px; }
     flex-wrap: wrap;
 }
 
+.Patriocinio{
+
+  text-align: center;
+}
+
 /* IMAGENS AJUSTADAS (sem estourar) */
 .sponsor-logos img {
+    transform: scale(1.5);
     height: 40px;
     width: auto;
     max-width: 120px;      /* evita estourar */
@@ -417,7 +417,7 @@ main{ padding-top: 64px; }
 
 /* Hover suave */
 .sponsor-logos img:hover {
-    transform: scale(1.15);
+    transform: scale(1.95);
     cursor: pointer;
 }
 
@@ -471,6 +471,7 @@ main{ padding-top: 64px; }
         height: 34px;
         max-width: 100px;
     }
+    
 }
 
 
@@ -490,3 +491,28 @@ main{ padding-top: 64px; }
     display: none;
   }
 }
+
+
+/* Carrinho visível só no desktop */
+.carrinho-desktop {
+  display: none;
+}
+
+
+@media (min-width: 768px){
+  .carrinho-desktop {
+    display: flex;
+  }
+
+
+}
+
+
+
+  .cabecalho {
+    gap: 12px;
+  }
+
+  .carrinho-mobile {
+    display: flex;
+  }
