@@ -5,18 +5,34 @@ function proximaEtapa(numero) {
         const nome = document.getElementById('nome').value.trim();
         const sobrenome = document.querySelector('input[name="sobrenome"]').value.trim();
         const sexoSelecionado = document.querySelector('input[name="sexo"]:checked');
-        const prefiroNaoInformar = document.getElementById('check').checked;
+        
+        if (!sexoSelecionado) {
+            alert('Por favor, selecione uma opção.');
+        return false;
+}
 
         if (!nome) {
-            alert('Por favor, informe seu nome.');
+            mostrarMensagem('Por favor, informe seu nome.');
             return false;
         }
+
+        if (!/^[A-Za-zÀ-ÿ\s]+$/.test(nome)) {
+            mostrarMensagem('Nome não pode conter números ou caracteres especiais.');
+        return false;
+        }
+
         if (!sobrenome) {
-            alert('Por favor, informe seu sobrenome.');
+            mostrarMensagem('Por favor, informe seu sobrenome.');
             return false;
         }
+
+        if (!/^[A-Za-zÀ-ÿ\s]+$/.test(sobrenome)) {
+            mostrarMensagem('Sobrenome não pode conter números ou caracteres especiais.');
+        return false;
+        }
+
         if (!sexoSelecionado && !prefiroNaoInformar) {
-            alert('Por favor, selecione seu sexo ou marque "Prefiro não informar".');
+            mostrarMensagem('Por favor, selecione seu sexo ou marque "Prefiro não informar".');
             return false;
         }
     }
@@ -27,19 +43,19 @@ function proximaEtapa(numero) {
         const cpf = document.getElementById('cpf').value.trim();
 
         if (!email) {
-            alert('Por favor, informe seu email.');
+            mostrarMensagem('Por favor, informe seu email.');
             return false;
         }
         if (!email.includes('@')) {
-            alert('Por favor, informe um email válido.');
+            mostrarMensagem('Por favor, informe um email válido.');
             return false;
         }
         if (!cpf) {
-            alert('Por favor, informe seu CPF.');
+            mostrarMensagem('Por favor, informe seu CPF.');
             return false;
         }
         if (cpf.replace(/\D/g, '').length < 11) {
-            alert('CPF deve ter pelo menos 11 dígitos.');
+            mostrarMensagem('CPF deve ter pelo menos 11 dígitos.');
             return false;
         }
     }
@@ -49,19 +65,19 @@ function proximaEtapa(numero) {
         const confirmSenha = document.getElementById('confirmSenha').value;
 
         if (!senha) {
-            alert('Por favor, crie uma senha.');
+            mostrarMensagem('Por favor, crie uma senha.');
             return false;
         }
         if (senha.length < 6) {
-            alert('Senha deve ter pelo menos 6 caracteres.');
+            mostrarMensagem('Senha deve ter pelo menos 6 caracteres.');
             return false;
         }
         if (!confirmSenha) {
-            alert('Por favor, confirme sua senha.');
+            mostrarMensagem('Por favor, confirme sua senha.');
             return false;
         }
         if (senha !== confirmSenha) {
-            alert('As senhas não coincidem.');
+            mostrarMensagem('As senhas não coincidem.');
             return false;
         }
     }
@@ -213,3 +229,40 @@ checkbox.addEventListener("change", () => {
 // Iniciar função
 marcarSexo();
 
+
+
+const inputNome = document.getElementById("nome");
+const inputSobrenome = document.querySelector('input[name="sobrenome"]');
+
+function bloquearNumeros(input) {
+    if (input) {
+        input.addEventListener("input", function (e) {
+            // Permite apenas letras e espaços
+            e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, "");
+        });
+    }
+}
+
+
+bloquearNumeros(inputNome);
+bloquearNumeros(inputSobrenome);
+
+
+
+
+function mostrarMensagem(texto, tipo = "erro") {
+    const container = document.getElementById("mensagem-container");
+
+    container.innerHTML = ""; // limpa mensagens anteriores
+
+    const div = document.createElement("div");
+    div.classList.add("mensagem", tipo);
+    div.innerText = texto;
+
+    container.appendChild(div);
+
+    // some depois de 4 segundos
+    setTimeout(() => {
+        div.remove();
+    }, 4000);
+}

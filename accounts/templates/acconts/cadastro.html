@@ -9,15 +9,29 @@
 
 {% block conteudo_pagina %}
 
+
+
 <form method="POST" action="{% url 'register' %}">
     {% csrf_token %}
 
 <main>
     <div class="conteiner">
+        
+                {% if messages %}
+                    <div class="mensagens">
+                        {% for message in messages %}
+                            <div class="alert {{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        
+        <div id="mensagem-container"></div>
         <!-- ETAPA 1: Nome e Sexo -->
         <section class="etapa_cadastro" id="etapa1">
             <div id="area_seta">
-                <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="{% url 'login' %}"><i class="fa-solid fa-arrow-left"style="color: #e4e4e4;"></i></a>
             </div>
             
             <h2 class="titulo_login">Cadastrar-se</h2>
@@ -44,13 +58,6 @@
                         <span>Feminino</span>
                     </label>
                 </div>
-
-            <div class="caixa_indeciso">
-                <label>
-                    <input type="checkbox" id="check">
-                    {% comment %} <p>PREFIRO NÃO INFORMAR</p> {% endcomment %}
-                </label>
-            </div>
 
             <button type="button" class="btn-terceiro" onclick="proximaEtapa(2)">Próximo</button>
         </section>
