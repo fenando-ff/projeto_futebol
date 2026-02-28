@@ -10,25 +10,41 @@
     --radius: 10px;
 }
 
+/* .mensagens {
+    width: 100%;
+    margin-bottom: 20px;
+} */
+
+/* .alert {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    animation: fadeInMsg .3s ease;
+} */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
 
+
+body {
 color: var(--cor-texto);
-background: var(--cor-fundo);
+background: radial-gradient(circle at top left, #1f1f1f, #0f0f0f 60%);
 }
 
 
 
-main {
+main {  
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 /* =========================
@@ -37,10 +53,22 @@ main {
 .conteiner {
     width: 100%;
     max-width: 480px;
-    padding: 40px 60px;
-    background: #1a1a1a;
-    border-radius: var(--radius);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    padding: 60px 60px;
+    background: linear-gradient(145deg, #1a1a1a, #111);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 
+        0 30px 60px rgba(0,0,0,0.8),
+        0 0 60px rgba(247,43,43,0.07);
+    position: relative;
+    transition: 0.4s ease;
+}
+
+.conteiner:hover {
+    transform: translateY(-1px);
+    box-shadow: 
+        0 40px 80px rgba(79, 0, 0, 0.9),
+        0 0 80px rgba(100, 0, 0, 0.1);
 }
 
 /* =========================
@@ -53,61 +81,98 @@ main {
     text-align: center;
 }
 
+.comando{
+    margin:20px 0px 20px 0px ;
+}
+
+
 /* =========================
    INPUTS
 ========================= */
+
 .caixa {
-    position: relative;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #111;
+    border: 1px solid #2c2c2c;
+    border-radius: 12px;
+    padding: 0 15px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
 }
 
+.caixa:hover {
+    border-color: #444;
+}
+
+
+.caixa:focus-within {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(247,43,43,0.15);
+}
+
+
+.caixa input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 16px 0;
+    color: var(--cor-texto);
+    font-size: 15px;
+}
+
+.caixa input:hover {
+    border-color: #444;
+}
+
+
+
+
+.sexo-option {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0;
+    border-radius: 12px;
+    border: 1px solid #2c2c2c;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #111;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.sexo-option:hover {
+    border-color: var(--cor-primaria);
+    color: #fff;
+}
 
 .sexo-option input:checked + span {
-    color: var(--cor-primaria);
-    font-weight: 600;
-}
-
-.sexo-option input:checked {
-    display: none;
-}
-
-.sexo-option input:checked + span::after {
-    content: " ✓";
+    color: #fff;
 }
 
 .sexo-option:has(input:checked) {
     border-color: var(--cor-primaria);
     background: rgba(247,43,43,0.08);
+    box-shadow: 0 0 15px rgba(247,43,43,0.2);
 }
 
 .caixa i {
-    position: absolute;
-    top: 50%;
-    left: 12px;
-    transform: translateY(-50%);
-    color: #888;
+    color: #777;
+    font-size: 18px;
 }
 
-.caixa input {
-    width: 100%;
-    padding: 14px 14px 14px 40px;
-    border-radius: var(--radius);
-    border: 1px solid #333;
-    background: var(--cor-input);
-    color: var(--cor-texto);
-    font-size: 14px;
-    transition: 0.25s;
-}
-
-.caixa input:focus {
-    border-color: var(--cor-primaria);
-    box-shadow: 0 0 10px rgba(247,43,43,0.4);
-    outline: none;
-}
 
 .caixa input::placeholder {
-    color: var(--cor-placeholder);
+    transition: 0.3s ease;
 }
+
+.caixa input:focus::placeholder {
+    opacity: 0.5;
+}
+
+
 
 /* =========================
    SEXO
@@ -183,6 +248,36 @@ main {
 }
 
 
+#mensagem-container {
+    margin-bottom: 15px;
+}
+
+.mensagem {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    animation: fadeIn 0.3s ease;
+}
+
+.mensagem.erro {
+    background-color: #ffe5e5;
+    color: #c40000;
+    border: 1px solid #ffb3b3;
+}
+
+.mensagem.sucesso {
+    background-color: #212121;
+    color: #cbcbcb;
+    border: 1px solid #d8d8d8;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 /* =========================
    RESPONSIVO
 ========================= */
@@ -195,4 +290,21 @@ main {
     .sexo-group {
         flex-direction: column;
     }
+
+
+    #mensagem-container {
+        margin-bottom: 12px;
+    }
+
+    .mensagem {
+        width: 100%;
+        font-size: 13px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        line-height: 1.4;
+        word-break: break-word;
+    }
+
+
+
 }
