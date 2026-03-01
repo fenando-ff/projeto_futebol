@@ -14,8 +14,17 @@ html, body { width: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
 
 
+/* ===== LAYOUT BASE PROFISSIONAL ===== */
+
 html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* BLINDAGEM VISUAL GLOBAL */
+html, body {
+    background-color: #0f0f0f;
 }
 
 body {
@@ -26,6 +35,13 @@ body {
 
 main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Footer nunca usa margin-top */
+.footer {
+    margin-top: 0;
 }
 
 /* Acessibilidade */
@@ -43,7 +59,7 @@ main {
   z-index: 1000;
 
   height: 64px;
-  padding: 0 18px;
+  padding: 0 78px;
 
   display: flex;
   align-items: center;
@@ -355,7 +371,7 @@ main{ padding-top: 64px; }
 
 .footer {
     position: relative;
-    margin-top: 120px; 
+    /* margin-top: 120px;  */
     background: #111;
     color: #fff;
     padding: 60px 5%;

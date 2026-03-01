@@ -14,7 +14,7 @@
 <form method="POST" action="{% url 'register' %}">
     {% csrf_token %}
 
-<main>
+
     <div class="conteiner">
         
                 {% if messages %}
@@ -65,7 +65,7 @@
         <!-- ETAPA 2: Email, Telefone e CPF -->
         <section class="etapa_cadastro" id="etapa2" style="display:none;">
             <div id="area_seta">
-                <a href="#" onclick="event.preventDefault(); proximaEtapa(1)"><i class="fa-solid fa-arrow-left"></i></a>
+                <a href="#" onclick="event.preventDefault(); proximaEtapa(1)"><i class="fa-solid fa-arrow-left "style="color: #e4e4e4;""></i></a>
             </div>
 
             <h2 class="titulo_login">Quase lá</h2>
@@ -77,7 +77,7 @@
 
             <div class="caixa telefone">
                 <i class="fa-solid fa-mobile-screen-button"></i>
-                <input id="telefone" name="telefone" placeholder="Telefone (opcional)" type="tel">
+                <input id="telefone" name="telefone" placeholder="Telefone" type="tel">
             </div>
 
             <div class="caixa cpf">
@@ -146,7 +146,7 @@
         </section>
     </div>
 </form>
-</main>
+
 
 
 {% endblock conteudo_pagina %}
