@@ -26,11 +26,17 @@
     animation: fadeInMsg .3s ease;
 } */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -41,10 +47,11 @@ background: radial-gradient(circle at top left, #1f1f1f, #0f0f0f 60%);
 
 
 
-main {  
+main {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 110px 0px  40px 0px;
 }
 
 /* =========================
@@ -62,6 +69,7 @@ main {
         0 0 60px rgba(247,43,43,0.07);
     position: relative;
     transition: 0.4s ease;
+
 }
 
 .conteiner:hover {
@@ -99,6 +107,7 @@ main {
     border-radius: 12px;
     padding: 0 15px;
     margin-top: 20px;
+    
     transition: all 0.3s ease;
 }
 
@@ -221,6 +230,7 @@ main {
     font-weight: 600;
     cursor: pointer;
     transition: 0.25s;
+    margin-top: 25px;
 }
 
 .btn-terceiro:hover {
@@ -231,21 +241,7 @@ main {
 /* =========================
    PROGRESS BAR
 ========================= */
-.progress-container {
-    width: 100%;
-    background: #222;
-    height: 6px;
-    border-radius: 3px;
-    margin-bottom: 30px;
-    overflow: hidden;
-}
 
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: var(--cor-primaria);
-    transition: width 0.3s ease;
-}
 
 
 #mensagem-container {

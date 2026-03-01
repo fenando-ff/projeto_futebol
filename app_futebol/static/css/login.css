@@ -4,18 +4,32 @@
     box-sizing: border-box;
 }
 
+
+main {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.footer {
+    margin-top: 0;
+}
+
 body {
     background: radial-gradient(circle at top, #1a1a1a, #0d0d0d 70%);
     margin: 0;
     font-family: sans-serif;
 }
 
- } /*nao sei o que e, mas se tirar essa chave, a tela buga, ainda vou resolver */
+  /*nao sei o que e, mas se tirar essa chave, a tela buga, ainda vou resolver */
 
 
 .login-wrapper {
-    position: relative;
-    min-height: 100vh;
+    width: 100%;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,16 +40,16 @@ body {
 ============================== */
 .ring {
     position: absolute;
-    top: 70%;
+    top: 56%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 800px;
+    width: 820px;
     max-width: 1000px;
     aspect-ratio: 3/2;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 0;           /* atrás do card */
+    z-index: 1;           /* atrás do card */
     pointer-events: auto; /* agora o mouse "passa" por ele */
     /*pointer-events: none; não atrapalha cliques */
     opacity: 0.45;         /* um pouco mais visível que 0.15 */
@@ -114,13 +128,7 @@ body {
 }
 
 
-main {
-    position: relative;
-    z-index: 2;   /* acima do ring */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .conteiner {
     width: 100%;
@@ -132,7 +140,9 @@ main {
     box-shadow: 0 20px 60px rgba(0,0,0,0.6);
     display: flex;
     flex-direction: column;
-    margin-top: 100px;
+    margin-top: 80px;
+    margin-bottom: 100px;
+    z-index: 2;
 }
 
 /* Título */
