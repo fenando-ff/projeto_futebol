@@ -1,13 +1,21 @@
 body {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  
 }
 
-.socio-container {
-  flex: 1; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
+.socio-main {
+  display: block;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
+
+
+
+/* ========================= */
+/* CONTAINER PRINCIPAL */
+/* ========================= */
 
 .socio-container {
   display: flex;
