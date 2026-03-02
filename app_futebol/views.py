@@ -819,3 +819,10 @@ def pagamento_socio(request, plano_id):
         "cliente": cliente,
         "plano": plano,
     })
+
+
+def demo(request):
+    """
+    View que renderiza a página de apresentação interativa do projeto.
+    """
+    return render(request, 'demo.html')

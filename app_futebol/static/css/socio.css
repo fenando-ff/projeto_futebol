@@ -9,8 +9,17 @@ body {
   background: radial-gradient(circle at 50% 0%, #2a0000 0%, #0a0a0a 60%);
   color: #fff;
   display: flex;
-  flex-direction: column;
+  
 }
+
+.socio-main {
+  display: block;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+
+
 
 /* ========================= */
 /* CONTAINER PRINCIPAL */

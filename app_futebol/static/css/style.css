@@ -80,10 +80,10 @@ main{ padding-top: 64px; }
   text-decoration: none;
   min-width: 180px;
 }
-.logo img{ width: 34px; height: 34px; object-fit: contain; }
+.logo img{ width: 84px; height: 84px; object-fit: contain; transform: scale(2.0); }
 .logo h1{
   color: #fff;
-  font-size: 14px;
+  font-size: 18px;
   letter-spacing: 1px;
   white-space: nowrap;
 }
