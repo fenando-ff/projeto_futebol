@@ -23,16 +23,48 @@ const beneficios = [
 
 
 function updateCarousel() {
+
   cards.forEach((card, index) => {
-    card.classList.toggle('active', index === current);
+
+    let offset = index - current;
+
+    if (offset < -1) offset += cards.length;
+    if (offset > 1) offset -= cards.length;
+
+    if (offset === 0) {
+      card.style.transform =
+        "translate(-50%, -50%) scale(1.2) rotateY(0deg)";
+      card.style.zIndex = 3;
+      card.style.opacity = 1;
+      card.style.filter = "brightness(1)";
+    }
+
+    else if (offset === -1) {
+      card.style.transform =
+        "translate(-160%, -50%) scale(0.9) rotateY(25deg)";
+      card.style.zIndex = 2;
+      card.style.opacity = 0.6;
+      card.style.filter = "brightness(0.7)";
+    }
+
+    else if (offset === 1) {
+      card.style.transform =
+        "translate(60%, -50%) scale(0.9) rotateY(-25deg)";
+      card.style.zIndex = 2;
+      card.style.opacity = 0.6;
+      card.style.filter = "brightness(0.7)";
+    }
+
+    else {
+      card.style.opacity = 0;
+      card.style.zIndex = 1;
+    }
+
   });
-  beneficioText.textContent = beneficios[current];
-    cards.forEach((card, index) => {
-    card.classList.toggle('active', index === current);
-  });
+
+  beneficioText.innerHTML = beneficios[current].replace(/\n/g, "<br>");
   tipo_socioText.textContent = tipo_socio[current];
 }
-
 next.addEventListener('click', () => {
   current = (current + 1) % cards.length;
   updateCarousel();
@@ -53,4 +85,44 @@ closePopup.addEventListener('click', () => {
 
 popup.addEventListener('click', (e) => {
   if (e.target === popup) popup.style.display = 'none';
+});
+
+cards.forEach((card, index) => {
+  card.addEventListener("click", () => {
+    current = index;
+    updateCarousel();
+  });
+});
+
+updateCarousel();
+
+
+let startX = 0;
+let isDragging = false;
+
+const carousel = document.querySelector(".carousel");
+
+carousel.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  startX = e.clientX;
+});
+
+carousel.addEventListener("mouseup", (e) => {
+  if (!isDragging) return;
+  isDragging = false;
+
+  const diff = e.clientX - startX;
+
+  if (diff > 50) {
+    current = (current - 1 + cards.length) % cards.length;
+  } 
+  else if (diff < -50) {
+    current = (current + 1) % cards.length;
+  }
+
+  updateCarousel();
+});
+
+carousel.addEventListener("mouseleave", () => {
+  isDragging = false;
 });

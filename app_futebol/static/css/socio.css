@@ -1,303 +1,279 @@
+/* ========================= */
+/* BASE */
+/* ========================= */
+
 body {
+  margin: 0;
   min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at 50% 0%, #2a0000 0%, #0a0a0a 60%);
+  color: #fff;
   display: flex;
   flex-direction: column;
 }
 
-.socio-container {
-  flex: 1; /* GARANTE QUE EMPURRE O FOOTER PARA O FINAL */
-}
+/* ========================= */
+/* CONTAINER PRINCIPAL */
+/* ========================= */
 
-
 .socio-container {
+  flex: 1;
+  width: 88%;
+  margin: 120px auto 80px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 80%;
-  margin: 160px;
-  gap: 50px;
-  font-family: "Poppins", sans-serif;
+  gap: 100px;
 }
 
-
+/* ========================= */
+/* TEXTO */
+/* ========================= */
 
 .text-area {
-  max-width: 400px;
+  max-width: 480px;
+  animation: fadeUp 1s ease forwards;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .text-area h1 {
-  font-size: 3rem;
+  font-size: 3.2rem;
   font-weight: 800;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.text-area h2 {
+  font-size: 1.4rem;
+  color: #ff2d2d;
+  margin-bottom: 15px;
 }
 
 .text-area p {
-  font-size: 1.1rem;
-  font-weight: 500;
-  line-height: 1.6;
+  color: #cfcfcf;
+  line-height: 1.7;
+  font-size: 1.05rem;
 }
+
+/* ========================= */
+/* BOTÃO */
+/* ========================= */
 
 .btn-socio {
   margin-top: 40px;
-  padding: 18px 60px;
-  font-size: 1.1rem;
+  padding: 16px 60px;
+  font-size: 1.05rem;
   font-weight: 600;
-  background-color: #7a0000;
-  color: #fff;
+  border-radius: 50px;
   border: none;
-  border-radius: 10px;
   cursor: pointer;
-  transition: 0.3s;
+  background: linear-gradient(135deg, #7a0000, #d10000);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(209, 0, 0, 0.4);
+  transition: all 0.3s ease;
 }
 
 .btn-socio:hover {
-  background-color: #a10000;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(209, 0, 0, 0.6);
 }
 
+/* ========================= */
+/* CARROSSEL */
+/* ========================= */
+
 .carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
-  gap: 20px;
+  width: 420px;
+  height: 220px;
+  perspective: 1200px;
 }
 
 .cards {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
+/* ========================= */
+/* CARDS */
+/* ========================= */
+
 .card {
-  width: 180px;
-  height: 110px;
-  border-radius: 12px;
-  transition: all 0.4s ease;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  height: 150px;
+  border-radius: 16px;
   cursor: pointer;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
-  opacity: 0.5;
-  transform: scale(0.9);
+  transition: all 0.6s cubic-bezier(.25,.8,.25,1);
+  transform-style: preserve-3d;
+  transform: translate(-50%, -50%);
 }
 
 .card.active {
-  width: 260px;
-  height: 160px;
+  width: 300px;
+  height: 180px;
   opacity: 1;
   transform: scale(1.1);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  filter: brightness(1);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.6),
+    0 0 35px rgba(255, 0, 0, 0.3);
 }
 
+/* ========================= */
+/* SETAS */
+/* ========================= */
+
 .arrow {
-  background-color: #ddd;
-  border: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  font-size: 1.4rem;
+  border: none;
+  background: #1f1f1f;
+  color: #fff;
+  font-size: 1.3rem;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+#prev {
+  left: -70px;
+}
+
+#next {
+  right: -70px;
 }
 
 .arrow:hover {
-  background-color: #ccc;
+  background: #ff2d2d;
+  transform: translateY(-50%) scale(1.1);
 }
 
+/* ========================= */
 /* POPUP */
+/* ========================= */
+
 .popup {
-  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s ease;
   z-index: 1000;
 }
 
+.popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .popup-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 15px;
-  width: 600px;
+  width: 500px;
+  background: #111;
+  padding: 40px;
+  border-radius: 20px;
   text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.popup-content h2 {
+  margin-bottom: 25px;
 }
 
 .popup-cards {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin: 20px 0;
 }
 
 .popup-card {
-  flex: 1;
-  background-color: #7a0000;
-  color: #f0f0f0;
-  padding: 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+  padding: 14px;
+  border-radius: 12px;
   text-decoration: none;
+  font-weight: 600;
+  background: linear-gradient(135deg, #7a0000, #d10000);
+  color: #fff;
+  transition: 0.3s;
 }
 
 .popup-card:hover {
-  background-color: #a10000;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(209, 0, 0, 0.4);
 }
 
 /* ========================= */
-/* RESPONSIVIDADE */
+/* RESPONSIVO */
 /* ========================= */
 
-/* Tablets e telas médias (até 1024px) */
 @media (max-width: 1024px) {
+
   .socio-container {
     flex-direction: column;
     text-align: center;
     gap: 60px;
-    margin: 80px auto;
   }
 
   .text-area {
-    max-width: 90%;
-  }
-
-  .text-area h1 {
-    font-size: 2.4rem;
-  }
-
-  .text-area p {
-    font-size: 1rem;
-  }
-
-  .btn-socio {
-    padding: 16px 50px;
-    font-size: 1rem;
-  }
-
-  .cards {
-    gap: 15px;
+    max-width: 100%;
   }
 
   .card.active {
-    width: 220px;
-    height: 140px;
-  }
-
-  .card {
-    width: 160px;
-    height: 100px;
+    width: 240px;
+    height: 150px;
   }
 }
 
-/* Celulares (até 768px) */
 @media (max-width: 768px) {
-  .socio-container {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 90%;
-    gap: 40px;
-    margin: 60px auto;
-    overflow: hidden; /* ✅ evita o conteúdo sair da tela */
-  }
-
-  .text-area h1 {
-    font-size: 2rem;
-  }
-
-  .text-area p {
-    font-size: 0.95rem;
-  }
-
-  .btn-socio {
-    width: 100%;
-    padding: 14px 0;
-    font-size: 1rem;
-  }
-
-  /* ==== Ajuste do carrossel ==== */
-  .carousel {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden; /* ✅ mantém tudo dentro da tela */
-  }
 
   .cards {
-    display: flex;
-    flex-direction: column; /* ✅ deixa os cards em coluna */
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
   }
 
   .card {
-    width: 220px;
-    height: 130px;
-    transform: scale(1);
+    width: 240px;
+    height: 150px;
     opacity: 1;
+    transform: scale(1);
   }
 
-  /* ==== Setas ==== */
   .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    width: 38px;
-    height: 38px;
-    font-size: 1.2rem;
-    background-color: #e5e5e5;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
   }
 
-  #prev {
-    left: 10px;
-  }
-
-  #next {
-    right: 10px;
-  }
-
-  .popup-content {
-    width: 90%;
-    padding: 20px;
-  }
+  #prev { left: -20px; }
+  #next { right: -20px; }
 }
-
-/* Telas muito pequenas (até 480px) */
-@media (max-width: 480px) {
-  .text-area h1 {
-    font-size: 1.6rem;
-  }
-
-  .text-area p {
-    font-size: 0.9rem;
-  }
-
-  .btn-socio {
-    font-size: 0.95rem;
-    padding: 12px 0;
-  }
-
-  .card,
-  .card.active {
-    width: 200px;
-    height: 120px;
-    flex-direction: column;
-  }
-
-  .arrow {
-    width: 34px;
-    height: 34px;
-    font-size: 1rem;
-  }
-}
-
