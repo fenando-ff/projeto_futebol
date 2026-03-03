@@ -10,13 +10,14 @@
 
 <!-- CONTEÚDO PRINCIPAL -->
 {% block conteudo_pagina %}    
-    <main class="socio-container">
+<div class="socio-main">
+    <div class="socio-container">
         <div class="text-area">
           <h1>TORNA-SE SÓCIO</h1>
       
           <h2 id="tipo_socioText">Planos</h2>
           <p id="beneficio-text">
-            Venha se tornar sócio e aproveite vantagens exclusivas:<br>
+            Venha se tornar sócio e aprovete vantagens exclusivas:<br>
             descontos em produtos, valores reduzidos de ingressos e benefícios especiais para membros.
           </p>
           <button class="btn-socio" id="btnSocio">SEJA SÓCIO</button>
@@ -48,11 +49,10 @@
   </div>
 </div>
 
-</main>
+</div>
 
 
 {% endblock conteudo_pagina %}  
-
 {% block js_pagina %}
     <script src="{% static "js/socios.js" %}"></script>
 {% endblock js_pagina %}

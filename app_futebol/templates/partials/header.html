@@ -9,6 +9,7 @@
   </a>
 
   <!-- Ações do topo (mobile) -->
+<<<<<<< HEAD
   <ul class="menu-hamburgue">
     <li>
         <a href="{% url 'carrinho' %}" class="icon-btn" aria-label="Carrinho">
@@ -48,10 +49,57 @@
           </li>
         {% else %}
           <li class="opcao-nav btn-esconde">
+=======
+
+<button id="botao_hamburguer"
+        class="hamb-btn only-mobile"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menuNav">
+    <i class="bx bx-menu"></i>
+</button>
+
+
+
+  <!-- NAV (desktop e drawer mobile) -->
+  <div class="nav" id="menuNav">
+    <div class="drawer">
+      <!-- Topo do drawer (somente mobile) -->
+       
+      <div class="drawer-top">
+
+        <span class="drawer-title">MENU</span>
+        
+        <button type="button"
+                class="hamb-close"
+                id="fechar_menu"
+                aria-label="Fechar menu">
+          <i class="bx bx-x"></i>
+
+        </button>
+                <a href="{% url 'carrinho' %}" class="icon-btn only-mobile carrinho-mobile">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </a>
+      </div>
+
+      
+
+      <ul class="hamburguer-opcoes">
+        {% if request.session.cliente_id %}
+          <li class="opcao-nav">
+            <a href="{% url 'logout' %}"><i class="bx bx-log-out"></i> Sair</a>
+          </li>
+        {% else %}
+          <li class="opcao-nav">
+>>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
             <a href="{% url 'login' %}"><i class="bx bx-user"></i> Login</a>
           </li>
         {% endif %}
 
+<<<<<<< HEAD
+=======
+          
+>>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
         <li class="opcao-nav">
           <a href="{% url 'produtos' %}"><i class="bx bx-store"></i> Loja</a>
         </li>
@@ -67,10 +115,20 @@
         <li class="opcao-nav">
           <a href="{% url "perfil" %}"><i class="bx bx-user-circle"></i> Perfil</a>
         </li>
+<<<<<<< HEAD
 
         <li class="opcao-nav btn-esconde">
           <a href="{% url "carrinho" %}"><i class="bx bx-cart"></i> Carrinho</a>
         </li>
+=======
+        <li class="opcao-nav carrinho-desktop">
+          <a href="{% url 'carrinho' %}">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
+        </li>
+
+
+>>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
       </ul>
     </div>
   </div>

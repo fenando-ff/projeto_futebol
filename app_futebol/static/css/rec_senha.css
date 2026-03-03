@@ -1,133 +1,261 @@
-body {
-    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
-    background-repeat: no-repeat;
+/* ==============================
+   RESET BÁSICO
+============================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-main {
-    height: 100vh;
-    width: 100%;
+/* ==============================
+   FUNDO DA PÁGINA
+============================== */
+body {
+    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+}
+
+/* centralização apenas do conteúdo */
+main {  
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+/* ==============================
+   ÁREA PRINCIPAL
+============================== */
 
+/* ==============================
+   CONTAINER CENTRAL
+============================== */
 .conteiner {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px 0px;
-    margin: 120px 100px;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 30px;
     border-radius: 20px;
-    background: rgba(0, 28, 79, 0.3); /* Corrigi a sintaxe do rgba */
-    backdrop-filter: blur(50px);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    max-width: 400px;
-    width: 100%; /* Garante largura no container */
+        background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 
+        0 0 40px rgba(0, 0, 0, 0.8),
+        0 0 20px rgba(143, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+    animation: fadeUp 0.6s ease forwards;
+}
+
+
+
+.erro-local {
+    color: #ff4d4d;
+    background: rgba(255, 0, 0, 0.08);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    animation: shake 0.3s ease;
+}
+
+/* ==============================
+   ANIMAÇÃO DE ENTRADA
+============================== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==============================
+   SETA VOLTAR
+============================== */
+#area_seta {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 .fa-arrow-left {
     color: #e6e6e6;
-    font-size: 2.5rem;
-    margin-right: 20px;
-    margin-left: 20px; /* Adicionei margem a esquerda para não colar na borda */
+    font-size: 2rem;
+    transition: 0.3s;
 }
 
-#area_seta {
-    width: 100%;
-    text-align: left;
+.fa-arrow-left:hover {
+    color: #b10000;
+    transform: translateX(-5px);
 }
 
+/* ==============================
+   TÍTULO
+============================== */
 .titulo {
-    font-size: 1.1em;
-    color: aliceblue;
     text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.titulo h2 {
+    font-size: 1.4rem;
+    letter-spacing: 1px;
 }
 
 .logo_email {
-    margin-top: 20px;
-    width: 90px;
-    height: 90px;
-    opacity: 100%;
+    width: 85px;
+    height: 85px;
+    margin-top: 15px;
+    animation: flutuar 3s ease-in-out infinite;
 }
 
-/* --- NOVOS ESTILOS DO FORMULÁRIO --- */
+/* Pequena animação flutuante */
+@keyframes flutuar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
 
+/* ==============================
+   FORMULÁRIO
+============================== */
 .form-email {
+    width: 100%;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    margin-top: 30px;
 }
 
-.input-email {
-    width: 80%; /* Ocupa 80% da largura do container */
-    height: 40px;
-    font-size: 18px;
+/* Input padrão (serve para {{ form.email }} também) */
+.form-email input {
+    width: 85%;
+    height: 45px;
+    font-size: 16px;
     text-align: center;
-    
-    /* Estilo transparente igual ao anterior */
+
     background: transparent;
     border: none;
-    border-bottom: 2px solid #fdfdfd;
-    color: #dbdbdb;
+    border-bottom: 2px solid #ffffff;
+
+    color: #ffffff;
     outline: none;
-    margin-bottom: 40px; /* Espaço entre input e botão */
-}
 
-.input-email::placeholder {
-    color: #bdbdbd;
-    font-size: 16px;
-}
-
-.input-email:focus {
-    border-bottom-color: #F7C02B; /* Muda cor da linha ao clicar */
-}
-
-.btn-primario {
-    padding: 10px 20px;
-    background-color: #F7C02B; /* Cor amarela do tema */
-    color: #0F0F0F;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
     transition: 0.3s;
-    width: 60%; /* Largura do botão */
+    margin-bottom: 35px;
+}
+
+.form-email input::placeholder {
+    color: #cccccc;
+}
+
+/* Efeito foco premium */
+.form-email input:focus {
+    border-bottom: 2px solid #f72b2b;
+    box-shadow: 0 5px 20px #f72b2b(247, 192, 43, 0.3);
+}
+
+/* ==============================
+   BOTÃO
+============================== */
+.btn-primario {
+    width: 70%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+
+    background: #cbcbcb;
+    color: #0F0F0F;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primario:hover {
-    background-color: #ffcf4d;
     transform: scale(1.05);
+    background: #e70000;
 }
 
-/* ---------------------------------- */
+/* Efeito brilho no hover */
+.btn-primario::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    transform: skewX(-25deg);
+    transition: 0.5s;
+}
 
+.btn-primario:hover::after {
+    left: 130%;
+}
+
+/* ==============================
+   ERRO
+============================== */
+.erro-email {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-bottom: 15px;
+    animation: shake 0.3s ease;
+}
+
+/* Efeito tremida */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* ==============================
+   TEXTO CADASTRO
+============================== */
 .duvida {
-    color: #dbdbdb;
+    color: #dddddd;
     margin-top: 30px;
-    margin-bottom: 10px;
+    font-size: 14px;
 }
 
-.reenviar {
-    color: #F7C02B;
-    font-size: 20px;
+.reenviar a {
+    color: #e70000;
+    font-size: 18px;
     text-decoration: none;
+    transition: 0.3s;
 }
 
-/* Media Queries */
-@media screen and (max-width: 768px) {
+.reenviar a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(247, 192, 43, 0.8);
+}
+
+/* ==============================
+   RESPONSIVO
+============================== */
+@media (max-width: 768px) {
     .conteiner {
-        width: 80%; /* Aumentei um pouco para mobile */
-        padding: 30px 20px;
+        width: 90%;
+        padding: 35px 20px;
     }
-    .titulo {
-        font-size: 15px;
+
+    .titulo h2 {
+        font-size: 1.2rem;
     }
+
     .btn-primario {
-        width: 80%;
+        width: 85%;
     }
 }

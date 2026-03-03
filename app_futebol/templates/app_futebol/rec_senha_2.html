@@ -7,32 +7,52 @@
 {% endblock css_extra %}
 
 
-{% block conteudo_pagina %}   
+{% block conteudo_pagina %}
 <main>
     <div class="conteiner">
-        <div id="area_seta"> 
-            <a href="{% url 'recuperar_senha' %}"><i class="fa-solid fa-arrow-left"></i></a>
-        </div>
         
-        <h2 class="titulo_login">Validar Código</h2>
-
-        <div class="termos">
-            <p>Digite o código recebido</p>
-            <p>no seu email!</p>
+        <div id="area_seta"> 
+            <a href="{% url 'recuperar_senha' %}">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
         </div>
 
-        <div class="logo_rec_senha">
-            <img class="logo_rec_senha" src="{% static 'img/icones/logo_rec_senha_2.png' %}"> 
-        </div>
+        <h2 class="titulo">Verificação</h2>
 
-        <form method="POST">
+        <p class="subtitulo">
+            Digite o código de 6 dígitos enviado para seu Email.
+        </p>
+
+        <form method="POST" class="form-codigo">
             {% csrf_token %}
-            <div class="caixa codigo">
-                <i class='bx bx-key'></i>
-                <input type="text" name="codigo" placeholder="Código de 6 dígitos" required maxlength="6">
+        
+        {% if erro %}
+        <div class="erro-local">
+            {{ erro }}
+        </div>
+        {% endif %}
+            <div class="codigo-wrapper">
+                <input type="text" maxlength="1" class="codigo-input" required>
+                <input type="text" maxlength="1" class="codigo-input" required>
+                <input type="text" maxlength="1" class="codigo-input" required>
+                <input type="text" maxlength="1" class="codigo-input" required>
+                <input type="text" maxlength="1" class="codigo-input" required>
+                <input type="text" maxlength="1" class="codigo-input" required>
             </div>
-            <button type="submit" class="btn-primario">Validar Código</button>
+
+            <input type="hidden" name="codigo" id="codigo-completo">
+
+            <button type="submit" class="btn-primario">
+                Confirmar Código
+            </button>
         </form>
+
     </div>
 </main>
-{% endblock conteudo_pagina %}
+{% endblock %}
+
+
+{% block js_pagina %}
+<script src="{% static "js/main" %}"></script>
+<script src="{% static "js/rec_senha_2.js" %}"></script>
+{% endblock js_pagina %}
