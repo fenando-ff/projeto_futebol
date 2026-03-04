@@ -3,9 +3,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env")
+load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG dinâmico: False no Render, True local
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 
@@ -24,6 +24,23 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware', # WhiteNoise para arquivos estáticos
@@ -40,11 +57,25 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
 # Banco de Dados: Usa DATABASE_URL do Render se existir 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f'mysql://{os.environ.get("DB_USER")}:{os.environ.get("DB_PASSWORD")}@{os.environ.get("DB_HOST")}:{os.environ.get("DB_PORT")}/{os.environ.get("DB_NAME")}',
-        conn_max_age=600
-    )
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE"),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
+        "OPTIONS": {
+            "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
+        },
+    }
 }
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Certificado SSL se o arquivo existir
 CA_CERT_PATH = os.path.join(BASE_DIR, "app_futebol", "certs", "ca.pem")
