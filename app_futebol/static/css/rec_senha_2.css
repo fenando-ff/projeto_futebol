@@ -1,150 +1,218 @@
-/* ==============================
-   FUNDO
-============================== */
-body {
-    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+body{
+       background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background-repeat: no-repeat;
+
 }
 
-/* Centralização correta (sem mexer no body flex global) */
-main {
-    flex: 1;
+main{
+    height: 100vh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
-.erro-local {
-    color: #ff4d4d;
-    background: rgba(255, 0, 0, 0.08);
-    border: 1px solid rgba(255, 0, 0, 0.3);
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    animation: shake 0.3s ease;
-}
-
-/* ==============================
-   CONTAINER
-============================== */
-.conteiner {
-    width: 100%;
-    max-width: 420px;
-    padding: 50px 35px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    background: rgba(10, 10, 10, 0.9);
-    border: 1px solid rgba(255,255,255,0.05);
-
-    box-shadow: 
-        0 0 40px rgba(0,0,0,0.8),
-        0 0 20px rgba(143,0,0,0.3);
-
+.conteiner{
     display: flex;
-    flex-direction: column;
     align-items: center;
-
-    animation: fadeUp 0.5s ease;
+    flex-direction: column;
+    padding: 40px 30px;
+    margin: 120px 65px;
+    border-radius: 20px;
+    background: #8F0000(0, 28, 79, 0.3); /* cor semitransparente */
+    backdrop-filter: blur(50px); /* o blur no fundo */
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    max-width: 600px;
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(25px); }
-    to { opacity: 1; transform: translateY(0); }
+
+.fa-arrow-left{
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  color: #e6e6e6;
+  font-size: 2.5rem;
+  margin-right: 25px; /* margem menor e mais equilibrada */
+  width: 5%;
+  text-align: left;
 }
 
-/* ==============================
-   SETA
-============================== */
+    
 #area_seta {
     width: 100%;
+}
+
+
+.titulo_login{
+    font-size: 1.1rem;
+    color: aliceblue;
+    text-align: center;
     margin-bottom: 10px;
+    margin-top: 30px;
+
 }
 
-.fa-arrow-left {
-    color: #fff;
-    font-size: 1.8rem;
-    transition: 0.3s;
-}
 
-.fa-arrow-left:hover {
-    color: #F7C02B;
-    transform: translateX(-4px);
-}
-
-/* ==============================
-   TÍTULO
-============================== */
-.titulo {
-    color: #fff;
-    font-size: 1.6rem;
-    margin-bottom: 8px;
-}
-
-.subtitulo {
-    color: #ccc;
-    font-size: 0.95rem;
+.termos{
+    font-size: 1rem;
     text-align: center;
-    margin-bottom: 35px;
+    color: aliceblue;
 }
 
-/* ==============================
-   INPUTS DO CÓDIGO
-============================== */
-.codigo-wrapper {
+
+
+.logo_rec_senha {
+  width: 300px; /* tamanho base */
+  height: auto;
+  transform: scale(1.5); /* aumenta 30% sem afetar o layout */
+  transform-origin: center;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+
+.logo_rec_senha img {
+  display: block;
+  pointer-events: none;
+}
+
+
+.caixa{
     display: flex;
-    gap: 12px;
-    margin-bottom: 35px;
+    align-items: center;
+    gap: 15px;                   /* Espaço entre ícone e input */
+    margin: 20px 0;
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 8px 30px;
+    background-color: transparent;
+    max-width: 300px;
+    cursor: text;
+    z-index: 10;
+    position: relative;
 }
 
-.codigo-input {
-    width: 45px;
-    height: 55px;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
 
-    border-radius: 10px;
-    border: 1px solid #333;
-    background: #141414;
-    color: #fff;
 
-    transition: 0.25s;
-}
 
-.codigo-input:focus {
-    border-color: #cbcbcb;
-    box-shadow: 0 0 15px rgba(247,192,43,0.4);
-    outline: none;
-    transform: translateY(-3px);
-}
-
-/* ==============================
-   BOTÃO
-============================== */
-.btn-primario {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
+.caixa input {
+    flex: 1;                     /* Faz o input ocupar o espaço restante */
+    height: 20px;
+    color: aliceblue;
+    background-color: transparent;
     border: none;
-
-    background: #cbcbcb;
-    color: #0F0F0F;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
+    outline: none;
+    cursor: text;
+    padding: 5px 0;
 }
 
-.btn-primario:hover {
-    background: #e70000;
-    transform: scale(1.03);
+.caixa input::placeholder{
+    color: aliceblue;
 }
 
-/* ==============================
-   RESPONSIVO
-============================== */
-@media (max-width: 480px) {
-    .codigo-input {
-        width: 38px;
-        height: 50px;
+
+.caixa input:focus {
+  outline: none;              /* tira a borda azul padrão */
+  background-color: transparent; /* deixa sem cor */
+  box-shadow: none;           /* remove brilho */
+}
+
+
+
+input[type="password"]::-ms-reveal {            
+  filter: invert(1);
+}
+
+
+
+.caixa i{
+    color: aliceblue;
+    font-size: 18px;
+    flex-shrink: 0;  
+    margin-right: 15px;            /* Impede o ícone de encolher */
+}
+
+
+
+.botao:hover{
+    background-color: #b32108;
+    color: aliceblue;
+    scale: 1.0s;
+
+}
+
+
+/* celular */
+@media screen and (max-width: 767px){
+    .btn-primario{
+      transform: scale(0.9);  /* usado para disminuir o tamanho  */
+        width: 100px;
+        height: 20px;
+        margin: 5px 5px;
+     }
+
+    .termos{
+        font-size: 15PX;
+    }
+
+    .titulo_login{
+        font-size: 30PX;
+        margin-bottom: 4px;
     }
 }
+
+/* tablete */
+@media screen and (min-width: 768px) and (max-width: 1023px){
+        .conteiner {
+        width: 50%;
+    }
+        .fa-arrow-left{
+         margin: 0rem 330px 0px 0px;
+    }
+        .logo_rec_senha{
+        transform: scale(1.3); /* aumenta 30% sem afetar o layout */
+        width: 400px; /* tamanho base */
+        height: auto;
+        opacity: 85%;
+    }
+        .termos{
+    font-size: 17PX;
+    }
+
+    .titulo_login{
+        font-size: 35PX;
+    }
+
+}
+
+/* pc */
+@media screen and (min-width: 1024px) {
+    .conteiner {
+        width: 70%;
+    }
+    .caixa {
+        width:80%;
+        padding: 11PX 20PX;
+    }    
+
+     .logo_rec_senha{
+        transform: scale(1.6); /* aumenta 30% sem afetar o layout */
+        width: 400px; /* tamanho base */
+        height: auto;
+        opacity: 85%;
+        }
+    
+
+    .termos{
+    font-size: 20PX;
+    }
+
+    .titulo_login{
+        font-size: 40PX;
+    }
+
+
+}
+
+
+
+

@@ -14,22 +14,8 @@ html, body { width: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
 
 
-<<<<<<< HEAD
 html, body {
     height: 100%;
-=======
-/* ===== LAYOUT BASE PROFISSIONAL ===== */
-
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* BLINDAGEM VISUAL GLOBAL */
-html, body {
-    background-color: #0f0f0f;
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
 }
 
 body {
@@ -40,7 +26,6 @@ body {
 
 main {
     flex: 1;
-<<<<<<< HEAD
 }
 
 /* Acessibilidade */
@@ -367,351 +352,10 @@ main{ padding-top: 64px; }
 
 .footer {
     margin-top: 120px; /* mantém como era antes */
-=======
-    display: flex;
-    flex-direction: column;
-}
-
-/* Footer nunca usa margin-top */
-.footer {
-    margin-top: 0;
-}
-
-/* Acessibilidade */
-.sr-only{
-  position:absolute; width:1px; height:1px;
-  padding:0; margin:-1px; overflow:hidden;
-  clip: rect(0,0,0,0); border:0;
-}
-.no-scroll{ overflow:hidden; }
-
-/* -------- Header fixo -------- */
-.cabecalho{
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 1000;
-
-  height: 64px;
-  padding: 0 78px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background: linear-gradient(180deg, #0f0f0f, #0d0d0d);
-  box-shadow: 0 10px 18px rgba(0,0,0,.55);
-}
-
-/* empurra o conteúdo do site para baixo do header */
-main{ padding-top: 64px; }
-
-/* -------- Logo -------- */
-.logo{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  min-width: 180px;
-}
-.logo img{ width: 84px; height: 84px; object-fit: contain; transform: scale(2.0); }
-.logo h1{
-  color: #fff;
-  font-size: 18px;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-/* =========================================
-   MOBILE TOP ACTIONS (Sair/Login + Burger + Carrinho)
-========================================= */
-.menu-hamburgue{
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.menu-hamburgue a{
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  opacity: .95;
-  transition: .2s ease;
-}
-.menu-hamburgue a:hover{ opacity: 1; }
-
-.menu-hamburgue i{
-  font-size: 18px;
-}
-
-/* Botão hamburguer */
-.hamb-btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.22);
-  border-radius: 10px;
-  padding: 7px 9px;
-
-  cursor: pointer;
-  transition: .2s ease;
-}
-.hamb-btn i{ font-size: 22px; }
-.hamb-btn:hover{
-  transform: translateY(-1px);
-  border-color: rgba(255,255,255,.38);
-}
-
-/* =========================================
-   OVERLAY (mobile drawer)
-========================================= */
-.menu-overlay{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.55);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-  z-index: 999;
-}
-.menu-overlay.is-open{
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* =========================================
-   NAV (mobile drawer container)
-========================================= */
-.nav{ display: block; }
-
-/* ============ MOBILE (Drawer animado) ============ */
-@media (max-width: 767px){
-
-  /* container invisível para animar */
-  .nav{
-    position: fixed;
-    inset: 0;
-    z-index: 1001;
-    pointer-events: none;
-  }
-
-  /* painel que desliza */
-  .drawer{
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: min(330px, 86vw);
-    height: 100%;
-
-    background: #121212;
-    box-shadow: -24px 0 44px rgba(0,0,0,.55);
-
-    transform: translateX(100%);
-    transition: transform .28s ease;
-
-    display: flex;
-    flex-direction: column;
-    padding: 16px 14px;
-  }
-
-  /* quando abre */
-  .nav.is-open{ pointer-events: auto; }
-  .nav.is-open .drawer{ transform: translateX(0); }
-
-  /* topo do drawer */
-  .drawer-top{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-  }
-
-  .drawer-title{
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .12em;
-    opacity: .9;
-  }
-
-  .hamb-close{
-    background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,.22);
-    border-radius: 10px;
-    padding: 7px 9px;
-    cursor: pointer;
-    transition: .2s ease;
-  }
-  .hamb-close i{ font-size: 22px; }
-  .hamb-close:hover{ border-color: rgba(255,255,255,.38); }
-
-  /* lista */
-  .hamburguer-opcoes{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .hamburguer-opcoes .opcao-nav a{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    text-decoration: none;
-    color: #fff;
-
-    padding: 12px 10px;
-    border-radius: 12px;
-
-    transition: .18s ease;
-  }
-
-  .hamburguer-opcoes .opcao-nav a i{
-    font-size: 18px;
-    opacity: .95;
-  }
-
-  .hamburguer-opcoes .opcao-nav a:hover{
-    background: rgba(255,255,255,.06);
-    color: #F72B2B;
-  }
-
-  /* no mobile, se você quiser mostrar login/sair/carrinho dentro do drawer */
-  .btn-esconde{ display: block; }
-}
-
-
-
-
-/* ============ DESKTOP (menu horizontal) ============ */
-@media (min-width: 768px){
-
-  /* no desktop, escondemos overlay e ações mobile */
-  .menu-overlay{ display: none; }
-  .only-mobile { display: none; }
-  .only-mobile { display: none; }
-
-
-
-  /* nav vira parte do header */
-  .nav{
-    position: static;
-    inset: auto;
-    z-index: auto;
-    pointer-events: auto;
-  }
-
-  /* drawer deixa de ser drawer */
-  .drawer{
-    position: static;
-    width: auto;
-    height: auto;
-    background: transparent;
-    box-shadow: none;
-    padding: 0;
-    transform: none !important;
-  }
-
-  /* topo do drawer não aparece */
-  .drawer-top{ display: none; }
-
-  .hamburguer-opcoes{
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 22px;
-  }
-
-  .hamburguer-opcoes .opcao-nav a{
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: .02em;
-
-    padding: 6px 0;
-    border-radius: 0;
-
-    transition: .18s ease;
-  }
-
-  .hamburguer-opcoes .opcao-nav a:hover{
-    color: #F72B2B;
-  }
-
-  /* no desktop, escondemos os itens duplicados (login/carrinho) se quiser manter só no topo */
-  .btn-esconde{ display: none; }
-}
-
-/* ===== Ajustes opcionais para telas muito pequenas ===== */
-@media (max-width: 360px){
-  .logo h1{ display:none; } /* ganha espaço */
-  .cabecalho{ padding: 0 12px; }
-}
-
-/* Botões ícone limpos */
-.icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 38px;
-  height: 38px;
-
-  border-radius: 10px;
-  color: #fff;
-  text-decoration: none;
-  transition: .2s ease;
-}
-
-.icon-btn i {
-  font-size: 18px;
-}
-
-.icon-btn:hover {
-  background: rgba(255,255,255,.08);
-}
-
-/* Melhor alinhamento mobile */
-@media (max-width: 767px){
-
-  .menu-hamburgue {
-    gap: 8px;
-  }
-
-  .hamb-btn {
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    border-radius: 10px;
-  }
-
-}
-
-
-
-/* ======================= FOOTER ======================= */
-
-.footer {
-    position: relative;
-    /* margin-top: 120px;  */
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
     background: #111;
     color: #fff;
     padding: 60px 5%;
     font-family: 'Poppins', sans-serif;
-    z-index: 3;
-
 }
 
 .footer-container {
@@ -750,19 +394,8 @@ main{ padding-top: 64px; }
     flex-wrap: wrap;
 }
 
-<<<<<<< HEAD
 /* IMAGENS AJUSTADAS (sem estourar) */
 .sponsor-logos img {
-=======
-.Patriocinio{
-
-  text-align: center;
-}
-
-/* IMAGENS AJUSTADAS (sem estourar) */
-.sponsor-logos img {
-    transform: scale(1.5);
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
     height: 40px;
     width: auto;
     max-width: 120px;      /* evita estourar */
@@ -772,11 +405,7 @@ main{ padding-top: 64px; }
 
 /* Hover suave */
 .sponsor-logos img:hover {
-<<<<<<< HEAD
     transform: scale(1.15);
-=======
-    transform: scale(1.95);
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
     cursor: pointer;
 }
 
@@ -830,54 +459,7 @@ main{ padding-top: 64px; }
         height: 34px;
         max-width: 100px;
     }
-<<<<<<< HEAD
-=======
-    
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
 }
 
 
 
-<<<<<<< HEAD
-=======
-:root {
-    --cor-primaria: #F72B2B;   /* Vermelho oficial */
-    --cor-primaria-hover: #d61f1f;
-    --cor-preto: #0d0d0d;
-    --cor-preto-secundario: #1a1a1a;
-    --cor-branco: #ffffff;
-    --cor-cinza-texto: #cfcfcf;
-}
-
-
-@media (min-width: 768px){
-  .hamb-btn {
-    display: none;
-  }
-}
-
-
-/* Carrinho visível só no desktop */
-.carrinho-desktop {
-  display: none;
-}
-
-
-@media (min-width: 768px){
-  .carrinho-desktop {
-    display: flex;
-  }
-
-
-}
-
-
-
-  .cabecalho {
-    gap: 12px;
-  }
-
-  .carrinho-mobile {
-    display: flex;
-  }
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40

@@ -566,18 +566,6 @@ html, body {
     width: 100% !important;
     height: 100% !important;
   }
-<<<<<<< HEAD
-=======
-
-.btn-prev,
-.btn-next {
-  display: none;
-}
-
-.btn-prev { left: 8px; }
-.btn-next { right: 8px; }
-
->>>>>>> cd12e247b6a82871e257fc124cf29aad359fef40
 }
 
 @media (max-width: 420px) {
