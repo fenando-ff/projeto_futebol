@@ -84,11 +84,16 @@
   </div>
 </main>
 
-<!-- ========== POP-UP DE PAGAMENTO (FUNCIONAL) ========== -->
+<!-- ========== INÍCIO: POP-UP DE PAGAMENTO (FUNCIONAL) ========== -->
+<!-- BLOCO PRINCIPAL: Modal de pagamento (ID: paymentOverlay) -->
+<!-- Estrutura: Overlay externo + Modal com 2 seções lado a lado (left/right) -->
+<!-- Função: Captura método de pagamento e processa transação -->
 <div id="paymentOverlay" class="payment-overlay">
   <div class="payment-modal">
 
-    <!-- Lado esquerdo - seleção -->
+    <!-- SEÇÃO ESQUERDA: Seleção do método de pagamento (ID: payment-left) -->
+    <!-- Contém 3 opções: Visa, Mastercard, PayPal -->
+    <!-- Ao clicar, envia data-method para loadPaymentForm() no JS -->
     <div class="payment-left">
       <h2>Escolha a forma de pagamento</h2>
 
@@ -112,7 +117,12 @@
       <button id="closePaymentLeft" class="close-btn">Fechar</button>
     </div>
 
-    <!-- Lado direito - formulário -->
+    <!-- SEÇÃO DIREITA: Formulário dinâmico de pagamento (ID: payment-right) -->
+    <!-- Conteúdo muda dinamicamente de acordo com método selecionado:
+         - Visa/Mastercard: Formulário com dados do cartão (nome, número, validade, CVV)
+         - PayPal: Formulário com e-mail
+    -->
+    <!-- Elemento #payForm carrega o conteúdo HTML via JS loadPaymentForm() -->
     <div class="payment-right">
       <h3 id="payTitle">Nenhuma forma selecionada</h3>
       <p id="paySubtitle">Escolha um método de pagamento.</p>
@@ -127,7 +137,8 @@
 
   </div>
 </div>
-<!-- ===================================================== -->
+<!-- ========== FIM: POP-UP DE PAGAMENTO (FUNCIONAL) ========== -->
+<!-- Toda lógica de controladoralem deste modal está em /static/js/carrinho.js (linhas ~165-310) -->
 
 {% endblock conteudo_pagina %}
 {% block js_pagina %}

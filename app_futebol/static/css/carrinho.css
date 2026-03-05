@@ -238,8 +238,6 @@ main {
 .formas img:hover {
   transform: scale(1.2);
   border: 1px solid red;
-  cursor: pointer;
-
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
@@ -267,41 +265,62 @@ main {
 }
 
 
-.payment-overlay {
+/* =========================
+   POPUP PAGAMENTO MELHORADO
+========================= */
+
+.payment-overlay{
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.65);
-  display: none;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(5px);
+
+  display: flex;
   align-items: center;
   justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: 0.35s ease;
   z-index: 2000;
 }
 
-.payment-overlay.show {
-  display: flex;
+.payment-overlay.show{
+  opacity: 1;
+  visibility: visible;
 }
 
-.payment-modal {
+.payment-modal{
   width: 900px;
-  background: #fff;
-  border-radius: 15px;
-  display: flex;
+  max-width: 95%;
+  background: #ffffff;
+  border-radius: 16px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+
   overflow: hidden;
-  animation: fadeUp 0.3s ease;
+
+  box-shadow:
+  0 20px 60px rgba(0,0,0,.35);
+
+  transform: translateY(40px) scale(.95);
+  transition: .35s ease;
 }
 
-.payment-left {
-  width: 40%;
-  background: #f4f4f4;
-  padding: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.payment-overlay.show .payment-modal{
+  transform: translateY(0) scale(1);
 }
 
-.payment-right {
-  width: 60%;
-  padding: 25px;
+.payment-left{
+  padding: 30px;
+  background: #f6f6f6;
+  border-right: 1px solid #e5e5e5;
+}
+
+.payment-right{
+  padding: 30px;
 }
 
 .payment-methods {
@@ -327,8 +346,8 @@ main {
 }
 
 .pay-method.selected {
-  border-color: #007bff;
-  background: #e8f0ff;
+  border-color: #b70000;
+  background: #ffecec;
 }
 
 .submit-btn {
@@ -341,6 +360,52 @@ main {
   margin-top: 15px;
   cursor: pointer;
 }
+
+
+
+/* ====== FORMULÁRIO DE PAGAMENTO ====== */
+
+#payForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+#payForm label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+#payForm input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: all .2s ease;
+}
+
+#payForm input:focus {
+  outline: none;
+  border-color: #b70000;
+  box-shadow: 0 0 0 2px rgba(183,0,0,0.15);
+}
+
+/* campos lado a lado (validade + cvv) */
+#payForm .row {
+  display: flex;
+  gap: 10px;
+}
+
+#payForm .row div {
+  flex: 1;
+}
+
+
+
+
 
 .close-btn {
   background: #bbb;

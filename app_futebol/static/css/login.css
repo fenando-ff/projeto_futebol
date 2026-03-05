@@ -211,10 +211,18 @@ button:hover { transform: translateY(-2px); }
 
 /* RESPONSIVO */
 @media (max-width: 480px) {
-    .conteiner { padding: 35px 20px; }
+    .conteiner {    
+        padding: 35px 60px;
+        max-width: 360px;
+    }
     .titulo_login { font-size: 1.7rem; }
     .ring{height: 100px;}
     .ring{width: 100px;}
+    
+    .caixa {
+    padding: 12px 5px;
+}
+
 }
 
 @media (max-width: 600px) {

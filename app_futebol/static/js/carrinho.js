@@ -162,7 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // POP-UP DE PAGAMENTO (mantido)
+  // ========== INÍCIO: BLOCO DE POP-UP DE PAGAMENTO ========== 
+  // Controla todo o fluxo de pagamento:
+  // - Abre o modal ao clicar em "Escolher forma de pagamento"
+  // - Permite seleção entre Visa, Mastercard e PayPal
+  // - Exibe formulários específicos para cada método
+  // - Submete dados para /finalizar_compra/
+  // =========================================================
   const paymentOverlay = document.getElementById("paymentOverlay");
   const openPayment = document.getElementById("openPayment");
   const closePaymentRight = document.getElementById("closePaymentRight");
@@ -196,6 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (closePaymentRight) closePaymentRight.addEventListener("click", closePayment);
   if (closePaymentLeft) closePaymentLeft.addEventListener("click", closePayment);
 
+  // LISTENER: Evento de clique nos métodos de pagamento
+  // Ao selecionar um método, chama loadPaymentForm() para renderizar formulário específico
   payMethods.forEach(btn => {
     btn.addEventListener('click', () => {
       payMethods.forEach(m => m.classList.remove("selected"));
@@ -205,10 +213,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // FUNÇÃO: loadPaymentForm(tipo)
+  // Renderiza dinamicamente o formulário de pagamento de acordo com método selecionado
+  // Parâmetro: tipo = 'visa' | 'mastercard' | 'paypal'
+  // Ação: Modifica innerHTML de #payForm, altera textos de title/subtitle e exibe botão submit
+  // FORMULÁRIO VISA/MASTERCARD: Nome titular, número cartão (19 dígitos), validade MM/AA, CVV
+  // FORMULÁRIO PAYPAL: Email da conta e confirmação de email
   function loadPaymentForm(tipo) {
     if (!paySubmit || !payForm || !payTitle || !paySubtitle) return;
     paySubmit.style.display = "block";
 
+    // Formulário para cartões de crédito (Visa/Mastercard)
     if (tipo === "visa" || tipo === "mastercard") {
       payTitle.textContent = `Pagamento com ${tipo.toUpperCase()}`;
       paySubtitle.textContent = "Preencha os dados do cartão:";
@@ -233,6 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }
 
+    // Formulário para PayPal
     if (tipo === "paypal") {
       payTitle.textContent = "Pagamento com PayPal";
       paySubtitle.textContent = "Informe o e-mail da conta:";
@@ -246,6 +262,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // LISTENER: Submissão do formulário de pagamento (botão #paySubmit)
+  // Ação: Envia POST para /finalizar_compra/ com dados da compra
+  // Comportamento:
+  //   1. Desabilita botão durante processamento (evita cliques múltiplos)
+  //   2. Exibe "Processando..." enquanto aguarda resposta do servidor
+  //   3. Se sucesso (dados.sucesso === true): Exibe mensagem de aprovação e redireciona em 2s
+  //   4. Se erro: Exibe alerta e reabilita botão para nova tentativa
+  // FUNÇÃO: Submissão do formulário de pagamento
+  // Envia dados para a API /finalizar_compra/
   if (paySubmit) {
     paySubmit.addEventListener("click", () => {
       // Desabilita o botão para evitar cliques múltiplos
@@ -289,5 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+  // ========== FIM: BLOCO DE POP-UP DE PAGAMENTO ==========
 
 });

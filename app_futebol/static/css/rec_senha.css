@@ -248,7 +248,7 @@ main {
 @media (max-width: 768px) {
     .conteiner {
         width: 90%;
-        padding: 35px 20px;
+        padding: 35px 60px;
     }
 
     .titulo h2 {
@@ -258,4 +258,12 @@ main {
     .btn-primario {
         width: 85%;
     }
+
+    #area_seta {
+    width: 100%;
+    text-align: left;
+
+    margin-bottom: 15px;
+
+}
 }

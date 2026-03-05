@@ -13,7 +13,7 @@
 <div class="socio-main">
     <div class="socio-container">
         <div class="text-area">
-          <h1>TORNA-SE SÓCIO</h1>
+          <h1>TORNA-SE SÓCIO-TORCEDOR</h1>
       
           <h2 id="tipo_socioText">Planos</h2>
           <p id="beneficio-text">
@@ -40,15 +40,35 @@
   <!-- POPUP -->
 <div class="popup" id="popup">
   <div class="popup-content">
-      <h2>Escolha seu plano</h2>
-      <div class="popup-cards">
-        {% for plano in planos %}
-          <a href="{% url 'confirmar_socio' plano.id_categoria_cliente %}" class="popup-card" >{{ plano.nome_categoria_clientes}}</a>
-        {% endfor %}
-      </div>
-  </div>
-</div>
 
+    <button class="popup-close" id="closePopup">
+      <i class='bx bx-x'></i>
+    </button>
+
+    <h2>Escolha seu plano</h2>
+
+    <div class="planos">
+
+      {% for plano in planos %}
+      <div class="plano-card">
+
+        <h3>{{ plano.nome_categoria_clientes }}</h3>
+
+        <p class="plano-desc">
+          Benefícios exclusivos para torcedores do Drakos FC.
+        </p>
+
+        <a href="{% url 'confirmar_socio' plano.id_categoria_cliente %}" 
+        class="btn-plano">
+          Escolher plano
+        </a>
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+  </div>
 </div>
 
 
