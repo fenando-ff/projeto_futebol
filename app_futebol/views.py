@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,6 +8,11 @@ import random
 from django.utils import timezone # timezone para pegar a data atual
 import logging
 from . import models
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+import qrcode
 
 # -------------------------------
 # Helpers
@@ -783,3 +788,93 @@ def pagamento_socio(request, plano_id):
         "cliente": cliente,
         "plano": plano,
     })
+
+# ... suas outras importações (models, login_required, etc) ...
+
+def gerar_pdf_ingressos(request, pedido_id):
+    # 1. Segurança: Verifica se o usuário está logado
+    cliente_id = request.session.get("cliente_id")
+    if not cliente_id:
+        return redirect("login")
+
+    # 2. Busca o pedido e garante que pertence ao cliente logado
+    pedido = get_object_or_404(models.Pedido, id_pedido=pedido_id, clientes_id_clientes__id_clientes=cliente_id)
+
+    # 3. Busca os itens da compra que são Ingressos (Categoria 10)
+    itens_compra = models.Compra.objects.filter(
+        pedido_id_pedido=pedido,
+        produtos_id_produtos__categoria_produtos_id_categoria_produtos=10
+    ).select_related('produtos_id_produtos', 'produtos_id_produtos__jogos_id_jogos', 'produtos_id_produtos__jogos_id_jogos__times_id_times')
+
+    if not itens_compra.exists():
+        messages.error(request, "Este pedido não contém ingressos.")
+        return redirect("perfil")
+
+    # 4. Configuração do PDF
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+
+    for item in itens_compra:
+        produto = item.produtos_id_produtos
+        jogo = produto.jogos_id_jogos
+        
+        # Define dados para o QR Code (Hash único ou ID da compra para validação)
+        # Formato sugerido: APP_ID-COMPRA_ID-PRODUTO_ID
+        qr_data = f"INGRESSO-{pedido.id_pedido}-{item.id_compra}"
+
+        # --- GERAÇÃO DO QR CODE EM MEMÓRIA ---
+        qr = qrcode.QRCode(box_size=10, border=2)
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        
+        # Salva QR Code temporariamente na RAM para o ReportLab ler
+        qr_buffer = io.BytesIO()
+        qr_img.save(qr_buffer, format="PNG")
+        qr_buffer.seek(0) # Retorna o ponteiro para o início do arquivo
+
+        # --- DESENHO DO INGRESSO NO PDF ---
+        # Borda do ingresso
+        y_position = height - 10 * cm  # Posição vertical inicial
+        p.setLineWidth(2)
+        p.rect(2 * cm, y_position, 17 * cm, 8 * cm) # Retângulo do ingresso
+
+        # Cabeçalho
+        p.setFont("Helvetica-Bold", 16)
+        p.drawString(3 * cm, y_position + 7 * cm, "Drakos FC - Ingresso Digital")
+        
+        # Detalhes do Jogo (Verifica se existe jogo vinculado ao produto)
+        p.setFont("Helvetica", 12)
+        if jogo:
+            adversario = jogo.times_id_times.nome_time
+            texto_jogo = f"Drakos FC vs {adversario}" if jogo.casa_fora == 'casa' else f"{adversario} vs Drakos FC"
+            data_hora = f"{jogo.dia_jogo.strftime('%d/%m/%Y')} às {jogo.hora_jogo.strftime('%H:%M')}"
+            local = f"Local: {jogo.local_jogo}"
+            
+            p.drawString(3 * cm, y_position + 6 * cm, texto_jogo)
+            p.drawString(3 * cm, y_position + 5.2 * cm, data_hora)
+            p.drawString(3 * cm, y_position + 4.5 * cm, local)
+        else:
+            p.drawString(3 * cm, y_position + 6 * cm, produto.nome_produtos)
+
+        # Dados do Cliente e Setor
+        p.setFont("Helvetica-Bold", 12)
+        p.drawString(3 * cm, y_position + 2.5 * cm, f"Setor/Tipo: {produto.nome_produtos}")
+        p.setFont("Helvetica", 10)
+        p.drawString(3 * cm, y_position + 1.5 * cm, f"Titular: {pedido.clientes_id_clientes.nome_clientes} {pedido.clientes_id_clientes.sobrenome_clientes}")
+        p.drawString(3 * cm, y_position + 1 * cm, f"Pedido: #{pedido.id_pedido}")
+
+        # Insere a Imagem do QR Code
+        # drawImage(imagem, x, y, width, height)
+        from reportlab.lib.utils import ImageReader
+        p.drawImage(ImageReader(qr_buffer), 14 * cm, y_position + 1 * cm, 4 * cm, 4 * cm)
+
+        # Finaliza a página (cria uma nova página para o próximo ingresso, se houver)
+        p.showPage()
+
+    # 5. Finaliza e retorna o PDF
+    p.save()
+    buffer.seek(0)
+    
+    return FileResponse(buffer, as_attachment=True, filename=f'ingressos_pedido_{pedido_id}.pdf')

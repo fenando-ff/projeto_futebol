@@ -21,5 +21,6 @@ urlpatterns = [
     path('socio/', views.tela_socio, name='socio'),
     path('pagamento_socio/<int:plano_id>/', views.pagamento_socio, name='confirmar_socio'),
     path('perfil/', views.tela_perfil, name='perfil'),
+    path('baixar_ingresso/<int:pedido_id>/', views.gerar_pdf_ingressos, name='baixar_ingresso'),
 ]
 
