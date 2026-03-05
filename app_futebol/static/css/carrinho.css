@@ -378,90 +378,198 @@ footer {
 }
 
 /* ====== RESPONSIVIDADE ====== */
-@media (max-width: 1100px) {
-  .container {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+/* ================================
+   CARRINHO – RESPONSIVO NOVO
+   Cole no FINAL do carrinho.css
+   ================================ */
+
+/* evita overflow lateral no mobile */
+html, body { overflow-x: hidden; }
+
+/* melhora container no desktop sem mudar ideia */
+.container{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --------- cabeçalho do carrinho (arruma colunas) ---------
+   você tinha: 2fr 110px 0px 100px (tem uma coluna 0px)
+*/
+.cabecalho-lista{
+  grid-template-columns: 1fr 160px 120px; /* Produto | Quantidade | Preço */
+  align-items: center;
+  gap: 12px;
+}
+
+/* --------- item do carrinho (desktop): layout mais firme --------- */
+.item-carrinho{
+  gap: 14px;
+}
+
+.quantidade{
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* seu preço tem width fixa; deixa mais flexível */
+.preco{
+  width: auto;
+  min-width: 90px;
+}
+
+/* --------- formas de pagamento (corrige o "width: 50px") --------- */
+.formas{
+  width: auto !important;
+  margin: 16px 0 !important;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.formas img{
+  width: 58px;
+  height: auto;
+}
+
+/* =============== BREAKPOINT: <= 1100px =============== */
+@media (max-width: 1100px){
+  .container{
+    grid-template-columns: 1fr; /* carrinho em cima, resumo embaixo */
+    gap: 18px;
+    padding: 1rem;
   }
 
-  .payment-modal {
-    width: 90%;
-    flex-direction: column;
-  }
-
-  .payment-left,
-  .payment-right {
+  .resumo{
+    max-width: 720px;
+    margin: 0 auto;
     width: 100%;
   }
-}
 
-@media (max-width: 850px) {
-  .container {
-    grid-template-columns: 1fr;
-    padding: 1rem;
-  }
-
-  .item-carrinho {
-    padding: 1rem;
-  }
-
-  .payment-modal {
-    width: 95%;
+  .carrinho{
+    margin: 0;
+    padding: 18px;
   }
 }
 
-@media (max-width: 650px) {
-  .item-carrinho {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.7rem;
+/* =============== BREAKPOINT: <= 768px (MOBILE) =============== */
+@media (max-width: 768px){
+
+  main{ padding: 18px 12px; }
+
+  .titulo{
+    font-size: 1.6rem;
+    margin-bottom: 12px;
   }
 
-  .cabecalho-lista {
-    display: none;
+  /* some com header, pois o item vira "card" */
+  .cabecalho-lista{ display: none; }
+
+  /* ITEM vira grid (muito mais estável no mobile) */
+  .item-carrinho{
+    display: grid;
+    grid-template-columns: 76px 1fr; /* imagem | info */
+    grid-template-areas:
+      "img info"
+      "qtd qtd";
+    align-items: start;
+    padding: 14px;
+    margin: 14px 0;
   }
 
-  .quantidade {
-    margin-top: 0.5rem;
+  .item-carrinho img{
+    grid-area: img;
+    width: 76px;
   }
 
-  .preco {
-    text-align: left;
+  .info-produto{
+    grid-area: info;
+    margin-left: 0;           /* remove margem antiga do flex */
+    min-width: 0;
   }
 
-  .btn-pagamento {
+  .info-produto h3{
+    font-size: 0.98rem;
+    line-height: 1.2;
+  }
+
+  /* descrição muito grande no mobile: limita */
+  .info-produto p{
+    font-size: 0.82rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* quantidade + preço + lixeira vira uma faixa */
+  .quantidade{
+    grid-area: qtd;
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .quantidade span.preco-item{
+    font-weight: 700;
+    color: #b70000;
+    margin-left: auto;
+  }
+
+  /* lixeira fica no canto superior direito do card */
+  .lixeira{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    font-size: 1.2rem;
+  }
+
+  /* resumo/pagamento: mais confortável */
+  .bloco-resumo p{
+    font-size: 1rem; /* estava 1.5rem, enorme no mobile */
+  }
+
+  .total{
+    font-size: 1.1rem;
+  }
+
+  .btn-pagamento{
     font-size: 0.95rem;
+    padding: 12px 14px;
   }
 
-  .payment-modal {
-    width: 96%;
-    padding: 0;
+  /* modal de pagamento: vira "sheet" com scroll */
+  .payment-modal{
+    width: min(560px, 94vw);
+    max-height: 88vh;
+    overflow: auto;
+    border-radius: 14px;
   }
 
-  .payment-left,
-  .payment-right {
-    padding: 15px;
+  .payment-left, .payment-right{
+    padding: 16px;
+  }
+
+  .pay-method img{
+    width: 46px;
   }
 }
 
-@media (max-width: 450px) {
-  .item-carrinho img {
-    width: 65px;
+/* =============== BREAKPOINT: <= 420px (MOBILE PEQUENO) =============== */
+@media (max-width: 420px){
+
+  .item-carrinho{
+    grid-template-columns: 64px 1fr;
   }
 
-  .info-produto h3 {
-    font-size: 0.9rem;
+  .item-carrinho img{
+    width: 64px;
   }
 
-  .info-produto p {
-    font-size: 0.75rem;
+  .quantidade button{
+    width: 30px;
+    height: 30px;
   }
 
-  .quantidade span {
-    padding: 0.1rem 0.6rem;
-  }
-
-  .payment-modal {
-    border-radius: 10px;
+  .formas img{
+    width: 52px;
   }
 }

@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
+
+
+
 #  Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser (pra ativar venv)
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,17 +25,18 @@ load_dotenv(BASE_DIR / ".env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-print("SECRET_KEY carregada?", bool(SECRET_KEY)) #testando, a chave estava gerando erro
+# SECRET_KEY = os.environ.get('SECRET_KEY')
+# print("CARREGANDO HEIN BANDIDO", bool(SECRET_KEY)) #testando, a chave estava gerando erro
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = True #evitar erros de informações"          #eu troquei para True por enquanto
+DEBUG = True    #evitar erros de informações"          #eu troquei para True por enquanto
 
-ALLOWED_HOSTS = ['*'] #isso informa quem pode acessar o site (estou seguindo um passo a passo de um carinha do youtube)
-
+ALLOWED_HOSTS = ["localhost", "127.0.0.1","projeto-futebol.onrender.com"]  # Permitir todas as origens (não recomendado para produção)
 
 # Application definition
 
@@ -50,13 +53,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', #ativando o whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', #ativando o whitenoise
 
 ]
 
@@ -83,28 +86,27 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DB_SSL_CA = os.getenv("DB_SSL_CA", "").strip()
+# if DB_SSL_CA and not DB_SSL_CA.startswith("/"):
+#     DB_SSL_CA = str(BASE_DIR / DB_SSL_CA)
+
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+    "default": {
+        "ENGINE": os.environ.get("DB_ENGINE"),
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USER"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": os.environ.get("DB_PORT"),
+        "OPTIONS": {
+            "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
+        },
     }
-    
-    # 'default': dj_database_url.config(
-    #     default=os.getenv("DATABASE_URL"),
-    #     conn_max_age=600,
-    #     ssl_require=True
-    #     )
-    
 }
 
-# Configurações do email
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
@@ -143,12 +145,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 #STATICFILES_DIRS = [BASE_DIR / "static"]#
-STATIC_ROOT = BASE_DIR / 'staticfiles'  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
+STATIC_ROOT = BASE_DIR / "staticfiles"  #novidade, parece que esse comando junta o js, css, e html e lê em uma pasta#
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+#caghueifeio

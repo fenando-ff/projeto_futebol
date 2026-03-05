@@ -747,7 +747,7 @@ def tela_ingressos(request):
     else:
         proximos_jogos = jogos_qs[:3]
 
-    return render(request, "app_futebol/Tela_ingresso.html", {
+    return render(request, "app_futebol/Tela_Ingresso.html", {
         "ingressos": ingresso,
         "jogo_destaque": jogo_destaque,
         "proximos_jogos": proximos_jogos

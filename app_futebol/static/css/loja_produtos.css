@@ -359,83 +359,218 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
+
+/* =========================
+   RESPONSIVO NOVO (estável)
+   Cole no FINAL do teu CSS
+   ========================= */
+
+/* 1) Trava overflow lateral de vez */
+/* =====================================================
+   RESPONSIVO COMPLETO – TELA PRODUTOS
+   Desktop intacto | Mobile refinado
+   ===================================================== */
+
 /* ===============================
-   MEDIA QUERIES
+   BASE ANTI-OVERFLOW
    =============================== */
-@media (max-width: 1024px) {
-  .season {
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 20px;
-  }
-
-  .season-text,
-  .season-wrapper {
-    flex: 1 1 100%;
-  }
-
-  .season-carousel {
-    height: 300px;
-  }
-
-  .season-slide img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .next-slide {
-    font-size: 60px;
-    padding: 8px;
-  }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
+.container {
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* =====================================================
+   FILTRO – CENTRALIZADO NO DESKTOP
+   ===================================================== */
+.produtos nav.filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 0 auto 25px;
+  width: 100%;
+}
+
+.produtos nav.filter a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid #e5e5e5;
+  white-space: nowrap;
+  transition: 0.2s ease;
+}
+
+.produtos nav.filter a:hover {
+  background: #111;
+  color: #fff;
+}
+
+/* =====================================================
+   CARROSSEL – DESKTOP (inalterado visualmente)
+   ===================================================== */
+.carrossel-produtos {
+  position: relative;
+  overflow: hidden;
+}
+
+.carrossel-produtos .flex {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 10px 20px;
+}
+
+.carrossel-produtos .flex::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-prev,
+.btn-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid #e6e6e6;
+  cursor: pointer;
+  font-size: 26px;
+}
+
+.btn-prev { left: 8px; }
+.btn-next { right: 8px; }
+
+/* =====================================================
+   MOBILE / TABLET
+   ===================================================== */
+/* ============================
+   FIX BANNER MOBILE (DRAKO STORE)
+   Desktop fica igual
+   ============================ */
 @media (max-width: 768px) {
-  .season-wrapper {
+  .banner-wrapper {
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    height: auto;              /* remove 350px fixo */
+    gap: 12px;
   }
 
-  .season-carousel {
+  .banner-title {
     width: 100%;
-    height: 50px;
-    min-width: 250px;
+    height: auto;
+    padding: 18px 12px;
   }
 
-  .season-slide img {
+  .banner-title h2 {
+    font-size: 34px;           /* era 60px */
+    letter-spacing: 3px;       /* era 7px */
+    line-height: 1.05;
+    text-align: center;
+  }
+
+  .banner-carousel {
+    width: 100%;
+    flex: none;                /* não força proporção 2 */
+    height: 200px;             /* altura decente no mobile */
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .banner-slide img {
     width: 100%;
     height: 100%;
-  }
-
-  .next-slide {
-    font-size: 50px;
-    padding: 6px;
+    object-fit: cover;
   }
 }
 
-@media (max-width: 480px) {
-  .season-text h2 {
-    font-size: 24px;
+@media (max-width: 420px) {
+  .banner-title h2 {
+    font-size: 30px;
+    letter-spacing: 2px;
   }
 
-  .season-text p {
-    font-size: 14px;
+  .banner-carousel {
+    height: 170px;
   }
+}
 
-  .season-carousel {
-    height: 200px;
-    width: 200px;
-  }
 
-  .next-slide {
-    font-size: 40px;
-  }
+/* =====================================================
+   CELULAR PEQUENO
+   ===================================================== */
+@media (max-width: 420px) {
 
   .produto {
-    width: 180px;
+    width: 210px;
   }
 
-  .produtos h2 {
-    font-size: 20px;
+  .produto img {
+    height: 200px;
+    min-height: 200px;
   }
 }
+
+
+/* ============================
+   FIX: imagem da seção TEMPORADA no mobile
+   (centraliza e impede estouro)
+   ============================ */
+@media (max-width: 768px) {
+
+  .season {
+    padding: 22px 16px;
+  }
+
+  .season-wrapper {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .season-carousel {
+    width: 100%;
+    max-width: 560px;
+    min-width: 0 !important;     /* REMOVE o min-width:350 que quebra */
+    margin: 0 auto;              /* centraliza */
+    height: 260px;
+    overflow: hidden;
+  }
+
+  .season-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;     /* centraliza a imagem */
+    display: block;
+    transform: none !important;  /* garante que não “cresça” */
+  }
+
+  /* desativa o hover que estoura no touch */
+  .season-slide img:hover {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .season-carousel {
+    height: 220px;
+  }
+}
+
