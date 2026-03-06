@@ -48,6 +48,42 @@
             <button type="button" class="pay-btn" data-type="paypal">PayPal</button>
         </div>
 
+
+            <div class="card-preview">
+
+                <div class="card-inner" id="card-inner">
+
+                    <div class="card-front">
+
+                        <div class="card-number" id="preview-number">
+                            #### #### #### ####
+                        </div>
+
+                        <div class="card-info">
+                            <span id="preview-name">SEU NOME</span>
+                            <span id="preview-valid">MM/AA</span>
+                        </div>
+
+                    </div>
+
+                    <div class="card-back">
+
+                        <div class="stripe"></div>
+
+                        <div class="cvv-box" id="preview-cvv">
+                            ###
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
         <!-- CARTÃO -->
         <form id="form-cartao" class="form-pay" method="POST" style="display:none;">
             {% csrf_token %}
@@ -73,23 +109,130 @@
     </section>
 </main>
 {% endblock conteudo_pagina %}
-
 {% block js_pagina %}
 <script>
-    const botoes = document.querySelectorAll('.pay-btn');
-    const formCartao = document.getElementById('form-cartao');
-    const formPaypal = document.getElementById('form-paypal');
 
-    botoes.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.dataset.type === "cartao") {
-                formCartao.style.display = "block";
-                formPaypal.style.display = "none";
-            } else {
-                formPaypal.style.display = "block";
-                formCartao.style.display = "none";
-            }
-        });
-    });
+document.addEventListener("DOMContentLoaded", function(){
+
+const botoes = document.querySelectorAll('.pay-btn');
+const formCartao = document.getElementById('form-cartao');
+const formPaypal = document.getElementById('form-paypal');
+const cardPreview = document.querySelector('.card-preview');
+
+botoes.forEach(btn => {
+
+btn.addEventListener('click', () => {
+
+botoes.forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+
+if(btn.dataset.type === "cartao"){
+
+formCartao.style.display = "flex";
+formPaypal.style.display = "none";
+cardPreview.style.display = "block";
+
+}
+
+if(btn.dataset.type === "paypal"){
+
+formPaypal.style.display = "flex";
+formCartao.style.display = "none";
+cardPreview.style.display = "none";
+
+}
+
+});
+
+});
+
+const numberInput = document.querySelector('[name="card_number"]');
+const nameInput = document.querySelector('[name="card_name"]');
+const validInput = document.querySelector('[name="card_valid"]');
+const cvvInput = document.querySelector('[name="card_cvv"]');
+
+const previewNumber = document.getElementById("preview-number");
+const previewName = document.getElementById("preview-name");
+const previewValid = document.getElementById("preview-valid");
+const previewCvv = document.getElementById("preview-cvv");
+const cardInner = document.getElementById("card-inner");
+
+/* número cartão */
+
+numberInput.addEventListener("input", () => {
+
+let valor = numberInput.value
+.replace(/\D/g,"")
+.substring(0,16)
+.replace(/(.{4})/g,"$1 ")
+.trim();
+
+numberInput.value = valor;
+
+previewNumber.textContent = valor || "#### #### #### ####";
+
+});
+
+/* nome */
+
+nameInput.addEventListener("input", () => {
+
+let valor = nameInput.value
+.replace(/[^a-zA-Z\s]/g,"")
+.toUpperCase();
+
+nameInput.value = valor;
+
+previewName.textContent = valor || "SEU NOME";
+
+});
+
+/* validade */
+
+validInput.addEventListener("input", () => {
+
+let valor = validInput.value
+.replace(/\D/g,"")
+.substring(0,4);
+
+if(valor.length >= 3){
+valor = valor.replace(/(\d{2})(\d)/,"$1/$2");
+}
+
+validInput.value = valor;
+
+previewValid.textContent = valor || "MM/AA";
+
+});
+
+/* CVV */
+
+cvvInput.addEventListener("input", () => {
+
+let valor = cvvInput.value
+.replace(/\D/g,"")
+.substring(0,3);
+
+cvvInput.value = valor;
+
+previewCvv.textContent = valor || "###";
+
+});
+
+/* flip cartão */
+
+cvvInput.addEventListener("focus", () => {
+
+cardInner.classList.add("flip");
+
+});
+
+cvvInput.addEventListener("blur", () => {
+
+cardInner.classList.remove("flip");
+
+});
+
+});
 </script>
 {% endblock js_pagina %}
