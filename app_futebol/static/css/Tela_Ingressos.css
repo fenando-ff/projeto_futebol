@@ -1,666 +1,335 @@
-
+/* ============================================================
+    1. RESET & CONFIGURAÇÕES GLOBAIS
+============================================================ */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto Condensed', sans-serif;
-  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
-  color: #ffffff;
-  line-height: 1.5;
+    font-family: 'Roboto Condensed', sans-serif;
+    background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+    color: #ffffff;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.jogo-destaque {
-  display: none;
-  background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
-  border-radius: 16px;
-  padding: 30px 22px;
-  max-width: 600px;
-  margin: 20px auto 0;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+:root {
+    --cor-primaria: #F72B2B;
+    --cor-primaria-hover: #d61f1f;
+    --cor-bg-card: #1a1a1a;
+    --cor-borda: #333333;
+    --cor-texto-cinza: #cfcfcf;
 }
 
-.jogo-destaque:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55);
-}
-
-.rodada {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: #c71c1c;
-  margin-bottom: 15px;
-}
-
-.confronto {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  margin-bottom: 15px;
-}
-
-.time img {
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-}
-
-.time p {
-  margin-top: 6px;
-  font-weight: bold;
-}
-
-.versus {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #8F0000;
-}
-
-.info-jogo {
-  font-size: 0.95rem;
-  color: #cccccc;
-  margin: 4px 0;
-}
-
+/* ============================================================
+    2. ESTRUTURA PRINCIPAL (MAIN)
+============================================================ */
 main {
-  padding: 80px 40px 30px; /* mais espaço superior para destacar o título */
-  max-width: 1400px; /* aumenta largura útil da página */
-  margin: 0 auto;
+    flex: 1;
+    /* Diminuímos de 100px para 70px para "levantar" o conteúdo todo */
+    padding: 70px 20px 60px; 
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-main h1 {
-  text-align: center;
-  font-size: 1.9rem;
-  color: #8F0000;
-  margin-top: 32px; /* aumenta espaço acima do título */
-  margin-bottom: 22px;
+/* Centralização e efeito "levantadinho" do Título Principal */
+.titulo-pagina {
+    text-align: center; 
+    font-size: 2.2rem;
+    color: var(--cor-primaria);
+    margin-top: -10px; /* O toque para deixá-la levemente "levantada" */
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Regras mais específicas para garantir sobreposição ao estilo global do site */
-body.corpo main {
-  padding-top: 60px;
-}
-
-body.corpo main h1 {
-  margin-top: 8px;
-}
-.container-estadio-ingressos .lado-direito-ingressos {
-  margin-top: 92px;
-}
-
-body.corpo > main > main {
-  padding-top: 40px ;
-}
-
-body.corpo > main > main h1 {
-  margin-top: 24px ; 
-}
-
+/* ============================================================
+    3. DETALHES DA PARTIDA (TUDO CENTRALIZADO)
+============================================================ */
 .titulo-ingresso {
-  text-align: center;
-  margin-bottom: 15px;
+    background: var(--cor-bg-card);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--cor-borda);
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo interno do card */
 }
 
-/* Novo layout para o título/preview do jogo de ingresso */
+/* Centralização do Subtítulo com Emoji de Ticket */
+.header-compra {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centraliza o emoji e o texto lateralmente */
+    gap: 12px;
+    margin-bottom: 30px;
+    color: var(--cor-primaria);
+    width: 100%;
+}
+
+/* Centralização dos Escudos e Confronto */
 .titulo-ingresso-conteudo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centraliza os blocos no meio */
+    align-items: center;
+    gap: 60px; /* Aumentei o gap para dar mais respiro no centro */
+    width: 100%;
 }
 
 .times-ingresso {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 35px;
 }
 
 .times-ingresso .time {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
-.times-ingresso .time img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
+.times-ingresso img {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
 }
 
 .times-ingresso .versus {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #8F0000;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--cor-primaria);
 }
 
-.detalhes-jogo .info-jogo {
-  margin-top: 6px;
-  color: #d0d0d0;
-  font-weight: 600;
-  text-align: center;
+.detalhes-jogo {
+    text-align: center;
+    padding: 0 20px;
 }
 
-@media (min-width: 900px) {
-  .titulo-ingresso-conteudo {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-  }
+.detalhes-jogo h2 { font-size: 1.4rem; margin-bottom: 10px; }
+.detalhes-jogo .info-jogo { color: var(--cor-texto-cinza); font-size: 1rem; }
 
-  .detalhes-jogo {
-    text-align: right;
-  }
-}
-
-.rodada-info h3 {
-  font-size: 1.4rem;
-  color: #ff2222;
-  font-weight: bold;
-}
-
-.titulo-ingresso h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin: 8px 0;
-}
-
-.logos-times {
-  display: flex;
-  justify-content: center; /* alinhar as logos à esquerda */
-  align-items: center;
-  gap: 0.8rem;
-  width: 100%;
-  padding-left: 8px; /* pequeno espaçamento da borda esquerda */
-}
-
-.logos-times img {
-  width: 55px;
-  height: 55px;
-}
-
-.logos-times span {
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
+/* ============================================================
+    4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
+============================================================ */
 .container-estadio-ingressos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* usa o espaço vazio entre os cards */
-  gap: 120px; /* aumenta espaço entre os cards para 'desgrudar' */
-  margin-top: 56px; /* aumenta espaço acima do container de compra */
-  width: 100%;
-  max-width: 1400px; /* controla o quanto o container expande */
-  margin-left: auto;
-  margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+    margin-bottom: 80px;
+    align-items: stretch;
 }
 
-.container-estadio-ingressos {
-  align-items: flex-start;
+.mapa-estadio, .lado-direito-ingressos {
+    background: var(--cor-bg-card);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--cor-borda);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
-.container-estadio-ingressos {
-  align-items: flex-start;
-}
-.container-estadio-ingressos .lado-direito-ingressos {
-  margin-top: 0;
-}
-.mapa-estadio,
+
 .lado-direito-ingressos {
-  flex: 0 1 45%; /* cada painel ocupa aproximadamente 45% */
-  max-width: 45%;
-  min-width: 320px; /* evita colapso em larguras médias */
+    display: flex;
+    flex-direction: column;
+    min-height: 580px;
 }
 
-.mapa-estadio {
-  width: 100%;
-  text-align: center;
-  background-color: #1a1a1a;
-  padding: 1.5rem; /* maior */
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
-}
-
-.mapa-estadio {
-  display: flex;
-  flex-direction: column; /* garante H3 acima da imagem */
-  align-items: center; /* centraliza o conteúdo dentro do card */
-  justify-content: center;
-  gap: 12px;
-  padding-left: 0; /* remover deslocamento lateral */
-}
-.mapa-estadio h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #ffffff;
-  align-self: center;
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--cor-borda);
+    color: var(--cor-primaria);
 }
 
 .mapa-estadio img {
-  width: 100%;
-  max-width: 520px; /* limitar um pouco para garantir espaço entre os cards */
-  max-height: 520px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 6px;
-  display: block;
-}
-
-.lado-direito-ingressos {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 28px; /* mais espaçamento entre blocos */
-  background-color: #1a1a1a;
-  padding: 1.5rem; /* maior */
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
-  margin-top: 0 !important; /* garantir alinhamento com o mapa */
-  align-self: flex-start; /* força o card a começar no mesmo eixo vertical */
+    width: 100%;
+    border-radius: 10px;
 }
 
 .form-setor {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* espaçamento maior */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.form-setor label {
-  font-size: 1rem;
-  color: #ffffff;
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-.form-setor select,
-.form-setor input[type="number"] {
-  width: 100%;
-  padding: 0.9rem; /* maior area clicavel */
-  font-size: 1.05rem; /* leve aumento */
-  border-radius: 6px;
-  border: 1px solid #444;
-  background-color: #2a2a2a;
-  color: #ffffff;
-  height: 50px;
+.form-setor select, .form-setor input {
+    width: 100%;
+    padding: 14px;
+    background: #252525;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
 }
 
 .botao-comprar {
-  width: 100%;
-  padding: 0.9rem;
-  font-size: 1.05rem;
-  background-color: #8F0000;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+    background: var(--cor-primaria);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .botao-comprar:hover {
-  background-color: #a80000;
-  transform: scale(1.02);
+    background: var(--cor-primaria-hover);
+    transform: translateY(-2px);
 }
 
 .lista-ingressos {
-  width: 100%;
-  max-width: 720px; /* maior largura */
-  margin: 0 auto;
-  background-color: #1a1a1a;
-  padding: 1.25rem; /* maior padding */
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.45);
-}
-
-.lista-ingressos h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  color: #ffffff;
+    margin-top: 25px;
+    border-top: 2px solid var(--cor-borda);
+    padding-top: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .lista-ingressos ul {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 1rem;
+    list-style: none;
+    max-height: 240px; /* Impede que a lista empurre o layout */
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 15px;
 }
 
-#total-geral {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  background-color: #8F0000;
-  color: #ffffff;
-  border-radius: 6px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease, background-color 0.3s ease;
-  cursor: pointer;
+/* Scrollbar Bonita */
+.lista-ingressos ul::-webkit-scrollbar { width: 6px; }
+.lista-ingressos ul::-webkit-scrollbar-track { background: #1a1a1a; }
+.lista-ingressos ul::-webkit-scrollbar-thumb { background: var(--cor-primaria); border-radius: 10px; }
+
+.lista-ingressos li {
+    background: #252525;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
 }
 
-#total-geral:hover {
-  transform: scale(1.02);
-  background-color: #b30000;
+.botao-finalizar {
+    width: 100%;
+    background: linear-gradient(135deg, var(--cor-primaria), #8F0000);
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: auto; /* Trava o botão no final do card */
+    box-shadow: 0 5px 15px rgba(247, 43, 43, 0.3);
 }
 
-.jogos-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; /* alinhar os cards lado a lado */
-  gap: 24px;
-  max-width: 1200px;
-  margin: 40px auto 0;
-  padding: 10px;
-}
+/* ============================================================
+    5. PRÓXIMOS JOGOS
+============================================================ */
+.jogos-container { margin-top: 40px; }
+.titulo-secundario { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
 
-.titulo-secundario {
-  width: 100%;
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-  color: #ffffff;
-}
-
-.jogo-card {
-  background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
-  border: 1px solid #333333;
-  border-radius: 12px;
-  max-width: 360px;
-  flex: 0 1 30%; /* cada card ocupa aprox 30% */
-  padding: 28px;
-  text-align: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.grid-jogos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
 }
 
 .jogo-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px; /* altura padrão uniforme */
+    background: #1f1f1f;
+    border-radius: 12px;
+    border: 1px solid var(--cor-borda);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s ease;
 }
 
 .jogo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.55);
-}
-
-.jogo-card img {
-  display: block;
-  width: 60px;
-  height: 60px;
-  margin-bottom: 10px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.jogo-card .data {
-  margin-top: 8px;
-  color: #d6d6d6;
-}
-
-.jogo-card .local {
-  margin-top: 6px;
-  color: #cfcfcf;
-  font-weight: 600;
-}
-
-.jogo-card h2 {
-  font-size: 1.2rem;
-  color: #c71c1c;
-}
-
-.jogo-card p {
-  font-size: 0.9rem;
-  color: #d6d6d6;
-}
-
-@media (max-width: 1200px) {
-  .container-estadio-ingressos {
-    justify-content: center;
-    gap: 48px;
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .container-estadio-ingressos {
-    flex-direction: column;
-    gap: 25px;
-    align-items: center;
-  }
-  .mapa-estadio,
-  .lado-direito-ingressos {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-
-  .mapa-estadio,
-  .lado-direito-ingressos,
-  .jogos-container {
-    max-width: 100%;
-  }
-
-  .botao-comprar,
-  #total-geral {
-    max-width: 100%;
-  }
-
-  main { padding: 48px 12px 20px; }
-  .container-estadio-ingressos { margin-top: 34px; gap: 24px; }
-  .lado-direito-ingressos { margin-top: 34px; }
-  main h1 { margin-top: 24px; }
-
-  .jogos-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    width: 100%;
-    padding: 0 6px;
-    box-sizing: border-box;
-  }
-
-  .jogo-card {
-    flex: 0 1 100%;
-    width: 100%;
-    max-width: 520px;
-    min-height: 140px; /* menor altura para caber em telas pequenas */
-    padding: 18px;
-    box-sizing: border-box;
-    text-align: center;
-    align-items: center;
-  }
-
-  .jogo-card h2 { font-size: 1.05rem; }
-  .jogo-card p, .jogo-card .data, .jogo-card .local { font-size: 0.95rem; }
-
-  .mapa-estadio img {
-    width: 100%;
-    height: auto;
-    max-height: 360px;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-  }
-
-  /* Make buttons and totals easy to tap */
-  .botao-comprar {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 1rem;
-    border-radius: 8px;
-  }
-
-  #total-geral { font-size: 1.05rem; }
-
-  #mensagem-sucesso {
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 32px);
-    max-width: 520px;
-    padding: 18px;
-    border-radius: 12px;
-  }
-
-  main h1 { margin-top: 28px; font-size: 1.5rem; }
-
-  .lado-direito-ingressos { padding: 8px; }
-
-@media (max-width: 480px) {
-  .jogo-card { min-height: 120px; padding: 14px; }
-  .jogo-card h2 { font-size: 1rem; }
-  main { padding: 36px 10px 18px; }
-  #mensagem-sucesso { padding: 14px; width: calc(100% - 20px); }
-  .botao-comprar { padding: 11px 12px; font-size: 0.98rem; }
-}
-  .jogos-container {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-.jogo-destaque {
-  animation: sombra-flutuante 5s ease-in-out infinite;
-}
-
-@keyframes sombra-flutuante {
-  0% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
-  50% { box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55); }
-  100% { box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45); }
-}
-
-.lista-ingressos li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #2a2a2a;
-  padding: 0.9rem 1rem; /* mais espaço dentro de cada item */
-  margin-bottom: 0.75rem; /* mais espaçamento entre itens */
-  border-radius: 8px;
-  font-size: 1rem; /* leve aumento */
-}
-
-/* 🔴 Botão Excluir ingresso */
-.botao-excluir {
-  background-color: transparent;
-  border: 1px solid #8F0000;
-  color: #ff4d4d;
-  padding: 4px 10px;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.botao-excluir:hover {
-  background-color: #8F0000;
-  color: #ffffff;
-  transform: scale(1.05);
-}
-
-/* 🟢 Botão Finalizar Compra */
-.botao-finalizar {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.15rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, #8F0000, #c71c1c);
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: all 0.3s ease;
-}
-
-.botao-finalizar:hover {
-  background: linear-gradient(135deg, #a80000, #ff2222);
-  transform: translateY(-2px);
-}
-
-/* ================= MENSAGEM DE SUCESSO (GLASS VERDE FORTE) ================= */
-#mensagem-sucesso {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.98);
-
-  /* tornar a mensagem opaca e mais visível */
-  background: rgba(0, 150, 60, 0.95);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-
-  border: 1px solid rgba(0, 200, 100, 0.95);
-  box-shadow:
-    0 22px 50px rgba(0, 0, 0, 0.75),
-    0 0 20px rgba(0, 200, 120, 0.25);
-
-  color: #ffffff;
-  padding: 20px 36px;
-  border-radius: 12px;
-
-  font-size: 1.15rem;
-  font-weight: 700;
-  text-align: center;
-
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-
-  transition: all 0.28s ease;
-}
-
-/* estado visível */
-#mensagem-sucesso.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-@keyframes mensagem-pop {
-  0% { opacity: 0; transform: translate(-50%, -46%) scale(.98); }
-  60% { opacity: 1; transform: translate(-50%, -50%) scale(1.02); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-/* ===== ESCUDOS NOS PRÓXIMOS JOGOS (LADO ESQUERDO) ===== */
-.jogo-card {
-  position: relative;
-  flex: 0 1 30%;
-  max-width: 360px;
-  /* reserva espaço à esquerda para os escudos */
-  padding: 28px 28px 28px 110px;
-  background: linear-gradient(145deg,#2a2a2a,#1e1e1e);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 200px;
+    border-color: var(--cor-primaria);
+    transform: translateY(-5px);
 }
 
 .jogo-times {
-  position: absolute;
-  left: 24px;   /* escudos no lado esquerdo */
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  gap: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 80px;
+    border-right: 1px solid var(--cor-borda);
+    padding-right: 15px;
 }
 
-.jogo-times .escudo {
-  width: 56px;
-  height: 56px;
-  object-fit: contain;
+.jogo-times .escudo { width: 50px; height: 50px; object-fit: contain; }
+.jogo-times .versus-mini { font-size: 0.7rem; color: var(--cor-primaria); font-weight: bold; }
+
+.card-content h2 { font-size: 1.1rem; margin-bottom: 5px; color: var(--cor-primaria); }
+.card-content p { font-size: 0.85rem; color: var(--cor-texto-cinza); margin: 3px 0; }
+
+/* ============================================================
+    6. MENSAGEM DE SUCESSO
+============================================================ */
+#mensagem-sucesso {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #28a745;
+    color: white;
+    padding: 20px 50px;
+    border-radius: 12px;
+    z-index: 9999;
+    display: none;
+    font-weight: bold;
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+#mensagem-sucesso.show { display: block; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+@keyframes popIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ============================================================
+    7. RESPONSIVIDADE
+============================================================ */
+@media (max-width: 900px) {
+    .titulo-ingresso-conteudo { flex-direction: column; text-align: center; gap: 30px; }
+}
+
+@media (max-width: 500px) {
+    .jogo-card { flex-direction: column; text-align: center; }
+    .jogo-times {
+        border-right: none;
+        border-bottom: 1px solid var(--cor-borda);
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+        padding: 0 0 10px 0;
+    }
+    .titulo-pagina { font-size: 1.6rem; }
+    main { padding-top: 80px; }
 }
