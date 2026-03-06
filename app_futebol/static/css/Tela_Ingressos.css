@@ -9,14 +9,14 @@
 
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+    /* Transição entre cinza antracite e preto profundo */
+    background: linear-gradient(180deg, #252525 0%, #0f0f0f 100%);
     color: #ffffff;
     line-height: 1.5;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
-
 :root {
     --cor-primaria: #F72B2B;
     --cor-primaria-hover: #d61f1f;
@@ -37,15 +37,15 @@ main {
     width: 100%;
 }
 
-/* Centralização e efeito "levantadinho" do Título Principal */
 .titulo-pagina {
+    width: 100%;
     text-align: center; 
     font-size: 2.2rem;
     color: var(--cor-primaria);
-    margin-top: -10px; /* O toque para deixá-la levemente "levantada" */
     margin-bottom: 35px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    display: block; /* Garante que ocupe a linha toda */
 }
 
 /* ============================================================
@@ -97,26 +97,65 @@ main {
     gap: 10px;
 }
 
-.times-ingresso img {
-    width: 85px;
-    height: 85px;
-    object-fit: contain;
+/* Centralização dos Escudos e Confronto */
+.titulo-ingresso-conteudo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; /* Gap reduzido para aproximar os elementos */
+    width: 100%;
 }
 
+.times-ingresso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Container fixo para equilibrar logos redondos e verticais */
+.times-ingresso .time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 140px; /* Largura fixa garante que o VS fique no centro exato */
+    text-align: center;
+}
+
+/* Ajuste proporcional das imagens */
+.times-ingresso img {
+    width: 100px;  /* Tamanho base ideal */
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+    margin-bottom: 10px;
+}
+
+/* Estilo do VS - Alinhado pelo centro das imagens */
 .times-ingresso .versus {
     font-size: 2.2rem;
     font-weight: 900;
     color: var(--cor-primaria);
+    margin-top: -30px; /* Sobbe o VS para alinhar com o centro do escudo, não do texto */
 }
 
+/* Nome do time abaixo do escudo */
+.times-ingresso .time span {
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+/* Bloco de informações (Morumbi/Data) mais organizado */
 .detalhes-jogo {
-    text-align: center;
-    padding: 0 20px;
+    text-align: left;
+    border-left: 2px solid var(--cor-borda);
+    padding-left: 30px;
+    margin-left: 10px;
 }
-
-.detalhes-jogo h2 { font-size: 1.4rem; margin-bottom: 10px; }
-.detalhes-jogo .info-jogo { color: var(--cor-texto-cinza); font-size: 1rem; }
-
 /* ============================================================
     4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
 ============================================================ */
