@@ -469,6 +469,46 @@ main{ padding-top: 64px; }
     padding-top: 20px;
 }
 
+
+
+
+
+.card-front{
+
+background: linear-gradient(
+135deg,
+#141E30,
+#243B55
+);
+
+position:relative;
+overflow:hidden;
+
+}
+
+.card-front::after{
+
+content:"";
+
+position:absolute;
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
+
+background: linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.15),
+transparent
+);
+
+transform:rotate(25deg);
+
+}
+
 /* ======================= RESPONSIVO ======================= */
 
 @media (max-width: 900px) {
@@ -502,17 +542,9 @@ main{ padding-top: 64px; }
 }
 
 
-@media (min-width: 768px){
-  .hamb-btn {
-    display: none;
-  }
-}
 
 
 /* Carrinho visível só no desktop */
-.carrinho-desktop {
-  display: none;
-}
 
 
 @media (min-width: 768px){
@@ -520,10 +552,7 @@ main{ padding-top: 64px; }
     display: flex;
   }
 
-
 }
-
-
 
   .cabecalho {
     gap: 12px;
@@ -531,4 +560,77 @@ main{ padding-top: 64px; }
 
   .carrinho-mobile {
     display: flex;
+
   }
+
+
+
+
+  .acoes-mobile{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+#botao_hamburguer{
+    order: 1;
+}
+
+.btn-carrinho{
+    order: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cabecalho{
+    height: 64px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 0 76px;
+}
+
+.logo{
+    justify-self: center;
+
+}
+
+.logo img{
+    width: 10px;
+    height: 4px;
+    transform: none;
+    margin-right: 17px;
+    transform: scale(19.1);
+}
+
+
+.logo{
+    gap: 6px;
+}
+
+.logo h1{
+    font-size: 16px;
+}
+
+
+.hamb-btn{
+    width: 38px;
+    height: 38px;
+}
+
+.carrinho-mobile{
+    width: 38px;
+    height: 38px;
+    margin-left: 35px;
+}
+
+.hamb-btn i,
+.icon-btn i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
