@@ -9,6 +9,16 @@
 ========================= */
 
 /* -------- Reset -------- */
+
+:root {
+    --cor-primaria: #F72B2B;   /* Vermelho oficial */
+    --cor-primaria-hover: #d61f1f;
+    --cor-preto: #0d0d0d;
+    --cor-preto-secundario: #1a1a1a;
+    --cor-branco: #ffffff;
+    --cor-cinza-texto: #cfcfcf;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
@@ -16,16 +26,10 @@ body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-se
 
 /* ===== LAYOUT BASE PROFISSIONAL ===== */
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
+
 
 /* BLINDAGEM VISUAL GLOBAL */
-html, body {
-    background-color: #0f0f0f;
-}
+
 
 body {
     display: flex;
@@ -43,6 +47,8 @@ main {
 .footer {
     margin-top: 0;
 }
+
+
 
 /* Acessibilidade */
 .sr-only{
@@ -149,6 +155,13 @@ main{ padding-top: 64px; }
   pointer-events: auto;
 }
 
+.acoes-mobile{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+
 /* =========================================
    NAV (mobile drawer container)
 ========================================= */
@@ -254,6 +267,7 @@ main{ padding-top: 64px; }
 
   /* no mobile, se você quiser mostrar login/sair/carrinho dentro do drawer */
   .btn-esconde{ display: block; }
+
 }
 
 
@@ -262,10 +276,14 @@ main{ padding-top: 64px; }
 /* ============ DESKTOP (menu horizontal) ============ */
 @media (min-width: 768px){
 
+.header__inline-menu .header__icon--cart{
+    display: none !important;
+}
+
   /* no desktop, escondemos overlay e ações mobile */
   .menu-overlay{ display: none; }
   .only-mobile { display: none; }
-  .only-mobile { display: none; }
+
 
 
 
@@ -364,6 +382,13 @@ main{ padding-top: 64px; }
   }
 
 }
+
+
+.logo{
+    justify-self: start;
+}
+
+
 
 
 
@@ -472,7 +497,6 @@ main{ padding-top: 64px; }
 
 
 
-
 .card-front{
 
 background: linear-gradient(
@@ -510,7 +534,7 @@ transform:rotate(25deg);
 }
 
 /* ======================= RESPONSIVO ======================= */
-
+/*------------ pc ---------------*/
 @media (max-width: 900px) {
 
     .footer-container {
@@ -527,42 +551,35 @@ transform:rotate(25deg);
         height: 34px;
         max-width: 100px;
     }
+
+    .carrinho-mobile{
+    display:flex;
+}
+
     
 }
-
-
-
-:root {
-    --cor-primaria: #F72B2B;   /* Vermelho oficial */
-    --cor-primaria-hover: #d61f1f;
-    --cor-preto: #0d0d0d;
-    --cor-preto-secundario: #1a1a1a;
-    --cor-branco: #ffffff;
-    --cor-cinza-texto: #cfcfcf;
-}
-
-
-
-
 /* Carrinho visível só no desktop */
 
 
-@media (min-width: 768px){
-  .carrinho-desktop {
-    display: flex;
-  }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   .cabecalho {
-    gap: 12px;
+    gap: 22px;
   }
-
-  .carrinho-mobile {
-    display: flex;
-
-  }
-
 
 
 
@@ -584,13 +601,6 @@ transform:rotate(25deg);
     justify-content: center;
 }
 
-.cabecalho{
-    height: 64px;
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    padding: 0 76px;
-}
 
 .logo{
     justify-self: center;
@@ -598,32 +608,47 @@ transform:rotate(25deg);
 }
 
 .logo img{
-    width: 10px;
-    height: 4px;
-    transform: none;
-    margin-right: 17px;
-    transform: scale(19.1);
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
 }
-
-
-.logo{
-    gap: 6px;
-}
-
-.logo h1{
-    font-size: 16px;
-}
-
 
 .hamb-btn{
     width: 38px;
     height: 38px;
 }
 
+/* =========================
+   CONTROLE DOS CARRINHOS
+========================= */
+
+/* MOBILE primeiro */
 .carrinho-mobile{
-    width: 38px;
-    height: 38px;
-    margin-left: 35px;
+    display:flex;
+}
+
+/* desktop escondido */
+.carrinho-desktop{
+    display:none;
+}
+
+/* DESKTOP */
+@media (min-width:768px){
+
+    .carrinho-mobile{
+        display:none;
+    }
+
+    .carrinho-desktop{
+        display:flex;
+    }
+
+}
+
+
+
+.cabecalho{
+  gap: 16px;
 }
 
 .hamb-btn i,
