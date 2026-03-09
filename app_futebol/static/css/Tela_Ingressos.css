@@ -9,7 +9,6 @@
 
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    /* Transição entre cinza antracite e preto profundo */
     background: linear-gradient(180deg, #252525 0%, #0f0f0f 100%);
     color: #ffffff;
     line-height: 1.5;
@@ -17,6 +16,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 :root {
     --cor-primaria: #F72B2B;
     --cor-primaria-hover: #d61f1f;
@@ -30,7 +30,6 @@ body {
 ============================================================ */
 main {
     flex: 1;
-    /* Diminuímos de 100px para 70px para "levantar" o conteúdo todo */
     padding: 70px 20px 60px; 
     max-width: 1300px;
     margin: 0 auto;
@@ -45,103 +44,94 @@ main {
     margin-bottom: 35px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    display: block; /* Garante que ocupe a linha toda */
+    display: block;
 }
 
 /* ============================================================
-    3. DETALHES DA PARTIDA (TUDO CENTRALIZADO)
+    3. DETALHES DA PARTIDA (LAYOUT TICKET PREMIUM - AJUSTADO)
 ============================================================ */
 .titulo-ingresso {
     background: var(--cor-bg-card);
-    padding: 30px;
+    padding: 0;
     border-radius: 16px;
     border: 1px solid var(--cor-borda);
     margin-bottom: 50px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza o conteúdo interno do card */
+    overflow: hidden;
+    position: relative;
 }
 
-/* Centralização do Subtítulo com Emoji de Ticket */
+.titulo-ingresso::before {
+    content: "";
+    height: 4px;
+    width: 100%;
+    background: var(--cor-primaria);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .header-compra {
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px dashed var(--cor-borda);
+    margin-bottom: 0;
     display: flex;
-    align-items: center;
-    justify-content: center; /* Centraliza o emoji e o texto lateralmente */
-    gap: 12px;
-    margin-bottom: 30px;
-    color: var(--cor-primaria);
-    width: 100%;
-}
-
-/* Centralização dos Escudos e Confronto */
-.titulo-ingresso-conteudo {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centraliza os blocos no meio */
-    align-items: center;
-    gap: 60px; /* Aumentei o gap para dar mais respiro no centro */
-    width: 100%;
-}
-
-.times-ingresso {
-    display: flex;
-    align-items: center;
-    gap: 35px;
-}
-
-.times-ingresso .time {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
-/* Centralização dos Escudos e Confronto */
 .titulo-ingresso-conteudo {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 40px; /* Gap reduzido para aproximar os elementos */
-    width: 100%;
+    padding: 30px;
+    gap: 20px;
 }
 
 .times-ingresso {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 40px;
+    width: 100%;
 }
 
-/* Container fixo para equilibrar logos redondos e verticais */
 .times-ingresso .time {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 140px; /* Largura fixa garante que o VS fique no centro exato */
-    text-align: center;
+    width: 150px;
 }
 
-/* Ajuste proporcional das imagens */
-.times-ingresso img {
-    width: 100px;  /* Tamanho base ideal */
-    height: 100px;
-    object-fit: contain;
-    filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+/* --- AJUSTE DE EQUILÍBRIO DOS ESCUDOS --- */
+
+/* Escudo Drakos: Reduzido para igualar ao Palmeiras */
+.times-ingresso .time:first-child img {
+    height: 80px; /* Mesma altura base do adversário */
+    width: auto;
+    transform: scale(1.9); /* Reduzido de 2.5 para 1.9 */
+    margin-bottom: 15px; /* Nome do time sobe um pouco */
+    filter: drop-shadow(0 0 15px rgba(247, 43, 43, 0.2));
+}
+
+/* Escudo Adversário: Mantido como referência de tamanho */
+.times-ingresso .time:last-child img {
+    height: 80px;
+    width: auto;
     margin-bottom: 10px;
 }
 
-/* Estilo do VS - Alinhado pelo centro das imagens */
 .times-ingresso .versus {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 900;
     color: var(--cor-primaria);
-    margin-top: -30px; /* Sobbe o VS para alinhar com o centro do escudo, não do texto */
+    font-style: italic;
+    opacity: 0.8;
 }
 
-/* Nome do time abaixo do escudo */
 .times-ingresso .time span {
     font-size: 1.1rem;
     font-weight: bold;
@@ -149,13 +139,25 @@ main {
     color: #ffffff;
 }
 
-/* Bloco de informações (Morumbi/Data) mais organizado */
 .detalhes-jogo {
-    text-align: left;
-    border-left: 2px solid var(--cor-borda);
-    padding-left: 30px;
-    margin-left: 10px;
+    padding: 15px 25px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
 }
+
+.detalhes-jogo p {
+    font-size: 1rem;
+    margin: 0;
+    color: var(--cor-texto-cinza);
+}
+
+.detalhes-jogo p b { color: #fff; }
+
 /* ============================================================
     4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
 ============================================================ */
@@ -202,12 +204,6 @@ main {
     gap: 20px;
 }
 
-.input-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
 .form-setor select, .form-setor input {
     width: 100%;
     padding: 14px;
@@ -247,15 +243,14 @@ main {
 
 .lista-ingressos ul {
     list-style: none;
-    max-height: 240px; /* Impede que a lista empurre o layout */
+    max-height: 240px;
     overflow-y: auto;
     padding-right: 10px;
     margin-bottom: 15px;
 }
 
-/* Scrollbar Bonita */
+/* Scrollbar Personalizada */
 .lista-ingressos ul::-webkit-scrollbar { width: 6px; }
-.lista-ingressos ul::-webkit-scrollbar-track { background: #1a1a1a; }
 .lista-ingressos ul::-webkit-scrollbar-thumb { background: var(--cor-primaria); border-radius: 10px; }
 
 .lista-ingressos li {
@@ -279,21 +274,13 @@ main {
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    margin-top: auto; /* Trava o botão no final do card */
+    margin-top: auto;
     box-shadow: 0 5px 15px rgba(247, 43, 43, 0.3);
 }
 
 /* ============================================================
-    5. PRÓXIMOS JOGOS
+    5. PRÓXIMOS JOGOS (FRAME COMPACTO E EQUILIBRADO)
 ============================================================ */
-.jogos-container { margin-top: 40px; }
-.titulo-secundario { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
-
-.grid-jogos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
-}
 
 .jogo-card {
     background: #1f1f1f;
@@ -302,30 +289,78 @@ main {
     padding: 20px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px; /* Aumentado para dar mais respiro visual */
     transition: 0.3s ease;
-}
-
-.jogo-card:hover {
-    border-color: var(--cor-primaria);
-    transform: translateY(-5px);
+    
+    /* CORREÇÃO: Removemos min-height e limitamos a largura máxima para compactar */
+    width: 100%;
+    max-width: 650px; /* Define um tamanho mais amigável para o card */
+    margin: 0 auto; /* Centraliza o card na página */
+    height: auto; /* Deixa o card se ajustar ao conteúdo */
 }
 
 .jogo-times {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 5px;
-    min-width: 80px;
+    justify-content: center;
+    gap: 15px;
+    min-width: 150px;
     border-right: 1px solid var(--cor-borda);
-    padding-right: 15px;
+    padding-right: 25px; /* Aumentado levemente */
+    
+    /* CORREÇÃO: Força uma altura fixa na área dos escudos para equilibrar com o texto */
+    height: 80px; 
 }
 
-.jogo-times .escudo { width: 50px; height: 50px; object-fit: contain; }
-.jogo-times .versus-mini { font-size: 0.7rem; color: var(--cor-primaria); font-weight: bold; }
+/* O ESCUDO DO DRAKOS (Equilibrando o peso visual) */
+.jogo-times .escudo:first-child { 
+    width: 55px; 
+    height: 55px; 
+    transform: scale(2.2); /* Zoom potente no círculo vermelho */
+    object-fit: contain;
+    margin-right: 5px; 
+}
 
-.card-content h2 { font-size: 1.1rem; margin-bottom: 5px; color: var(--cor-primaria); }
-.card-content p { font-size: 0.85rem; color: var(--cor-texto-cinza); margin: 3px 0; }
+/* O VS NAS MINIATURAS */
+.versus-mini {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: var(--cor-primaria);
+    z-index: 10;
+}
+
+/* O ESCUDO DO ADVERSÁRIO (GRÊMIO) */
+.jogo-times .escudo:last-child { 
+    width: 45px; 
+    height: 45px; 
+    object-fit: contain;
+}
+
+/* O CONTEÚDO (Data, Hora, Local) DENTRO DO FRAME */
+.card-content {
+    /* CORREÇÃO: flex:1 estava esticando o texto até o final do card vazio.
+       Agora usamos display flex column para alinhar o texto verticalmente. */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-content h2 { 
+    font-size: 1.2rem; 
+    margin-bottom: 10px; /* Aumentado para melhor respiro */
+    color: var(--cor-primaria); 
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.card-content p { 
+    font-size: 0.95rem; /* Aumentado levemente */
+    color: var(--cor-texto-cinza); 
+    margin: 4px 0; /* Aumentado para melhor leitura */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Aumentado */
+}
 
 /* ============================================================
     6. MENSAGEM DE SUCESSO
@@ -357,6 +392,7 @@ main {
 ============================================================ */
 @media (max-width: 900px) {
     .titulo-ingresso-conteudo { flex-direction: column; text-align: center; gap: 30px; }
+    .detalhes-jogo { border-left: none; padding-left: 0; border-top: 2px solid var(--cor-borda); padding-top: 20px; text-align: center; }
 }
 
 @media (max-width: 500px) {
@@ -370,5 +406,4 @@ main {
         padding: 0 0 10px 0;
     }
     .titulo-pagina { font-size: 1.6rem; }
-    main { padding-top: 80px; }
 }
