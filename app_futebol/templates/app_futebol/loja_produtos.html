@@ -65,13 +65,6 @@
 
   <!-- Seção de produtos -->
   <section class="produtos">
-    <h2>PRODUTOS</h2>
-    <nav class="filter">
-      <a href="#">Todos</a>
-      {% for categoria, produtos in produtos_por_categoria.items %}
-        <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
-      {% endfor %}
-    </nav>
 
     {% for categoria, produtos in produtos_por_categoria.items %} <!-- Anda pela categoria e produtos  -->
     {% if produtos %}
