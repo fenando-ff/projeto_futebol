@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 import dj_database_url
+import cloudinary
 
 load_dotenv()
 
@@ -22,7 +23,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_futebol',
     'accounts',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+cloudinary.config(
+    cloud_name = os.environ.get("Cloudinary_name"),
+    api_key = os.environ.get("Cloudinary_key"),
+    api_secret = os.environ.get("Cloudinary_secret_key"),
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 TEMPLATES = [
