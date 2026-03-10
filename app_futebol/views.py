@@ -234,9 +234,23 @@ def home(request):
     jogo = {
         "jogo_destaque": jogo_destaque}
     dados_cliente = cliente or {}
- 
 
-    return render(request, "app_futebol/index.html", {**jogo, **dados_cliente}) # ** serve para desempacotar os dicionários e passar os valores como argumentos separados
+    # Busca os 3 primeiros produtos da categoria "Acessórios" para exibir na home
+    try:
+        categoria_acessorios = models.CategoriaProdutos.objects.filter(nome_categoria_produtos__iexact='Acessórios').first()
+        if categoria_acessorios:
+            produtos_acessorios = models.Produtos.objects.filter(
+                categoria_produtos_id_categoria_produtos=categoria_acessorios
+            ).order_by('id_produtos')[:3]
+        else:
+            # Fallback: tenta por nome parcialmente (caso a acentuação esteja diferente)
+            produtos_acessorios = models.Produtos.objects.filter(
+                categoria_produtos_id_categoria_produtos__nome_categoria_produtos__icontains='acessor'
+            ).order_by('id_produtos')[:3]
+    except Exception:
+        produtos_acessorios = models.Produtos.objects.none()
+
+    return render(request, "app_futebol/index.html", {**jogo, "produtos_acessorios": produtos_acessorios, **dados_cliente}) # ** serve para desempacotar os dicionários e passar os valores como argumentos separados
 
 
 def tela_carrinho(request):
