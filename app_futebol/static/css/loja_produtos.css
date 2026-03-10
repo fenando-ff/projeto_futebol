@@ -215,29 +215,21 @@ body {
   padding: 20px;
   margin-bottom: 40px;
 }
-.produto img {
-  width: 100%;
-  height: 230px; /* ajuste o tamanho que quiser */
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
+
+.btn-adicionar{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+
+  background:#1c1c1c;
+  color:rgb(226, 226, 226);
+  font-weight:600;
+
+  cursor:pointer;
+  transition:.2s;
 }
 
-.btn-adicionar {
-  background-color: #a50000;
-  color: #fff;
-  border: none;
-  padding: 8px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.btn-adicionar:hover {
-  background-color: #fff;
-  color: #a50000;
-}
 
 
 .produtos h2 {
@@ -321,28 +313,53 @@ body {
 }
 
 /* Cada produto como um card */
-.produto {
+.produto{
   flex: 0 0 auto;
-  width: 300px;
-  background: #f9f9f9;
-  padding: 10px;
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: 0.3s;
-  cursor: pointer;
+  width: 240px;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid #eee;
+
+  transition: transform .3s ease, box-shadow .3s ease;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
+
+.produto:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+}
+
 
 .produto a{
   min-height: 300px ;
 }
 
-.produto img {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  min-height: 300px;
+
+.produto-img{
+  height:260px;
+  overflow:hidden;
+  border-radius:12px 12px 0 0;
+  background:#f5f5f5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
+
+.produto-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition: transform .5s ease;
+}
+
+.produto:hover .produto-img img{
+  transform: scale(1.12);
+}
+
 
 .produto h3 {
   font-size: 17px;
@@ -354,12 +371,63 @@ body {
   color: #333;
 }
 
-.produto:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+
+.produto-info{
+  padding:16px;
+  text-align:center;
+  color:#222;
+}
+
+.produto-info h3{
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.preco{
+  color:#00ff88;
+  font-weight:600;
+  margin:10px 0;
+}
+
+.btn-adicionar.added{
+  background: #d40000;
+  color: white;
+}
+
+.btn-adicionar:hover{
+  background: #9d0808;
+}
+
+.produto-link{
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 
 
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#a50000;
+  color:#fff;
+  padding:4px 8px;
+  font-size:12px;
+  border-radius:4px;
+}
+
+
+@keyframes addCart {
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
+}
+
+.btn-adicionar.added{
+  animation:addCart 0.4s ease;
+}
 
 /* =========================
    RESPONSIVO NOVO (estável)

@@ -118,6 +118,33 @@
     <div class="produtos-carousel">
         <div class="cards-produtos-container produtos-track">
 
+            {% for produto in produtos_acessorios %}
+            <div class="product-card {% if forloop.first %}um{% elif forloop.counter == 2 %}dois{% else %}tres{% endif %}">
+                <div class="product-image {% if forloop.first %}um{% elif forloop.counter == 2 %}dois{% else %}tres{% endif %}">
+                    {% if produto.imagem_produtos %}
+                        <img src="{% static produto.imagem_produtos %}">
+                    {% else %}
+                        <img src="{% static 'img/camisa_home_figma.png' %}">
+                    {% endif %}
+                </div>
+
+                <div class="product-info">
+                    <h3>{{ produto.nome_produtos }}</h3>
+
+                    <div class="product-tags">
+                        <span class="tag">{{ produto.categoria_produtos_id_categoria_produtos.nome_categoria_produtos|upper }}</span>
+                    </div>
+
+                    <p class="desc">{{ produto.descricao_produtos|truncatechars:100 }}</p>
+
+                    <div class="bottom">
+                        <div class="price">R$ {{ produto.valor_produtos|floatformat:2 }}</div>
+                        <a href="{% url 'adicionar_carrinho' produto.id_produtos %}" class="btn-add">Adicionar</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+
             <div class="product-card um">
                 <div class="product-image um">
                     <img src="{% static 'img/camisa_home_figma.png' %}">
@@ -184,13 +211,11 @@
                 </div>
             </div>
 
+            {% endfor %}
+
         </div>
     </div>
 </section>
-
-
-    <!-- Notícias removidas do projeto -->
-
 </main>
 
 {% endblock %}
