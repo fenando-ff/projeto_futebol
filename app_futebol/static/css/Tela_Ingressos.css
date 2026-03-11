@@ -7,22 +7,40 @@
     box-sizing: border-box;
 }
 
+:root {
+    --cor-primaria: #F72B2B;
+    --cor-primaria-hover: #d61f1f;
+    --cor-bg-card: rgba(26, 26, 26, 0.95);
+    --cor-borda: #333333;
+    --cor-texto-cinza: #cfcfcf;
+}
+
 body {
     font-family: 'Roboto Condensed', sans-serif;
-    background: linear-gradient(180deg, #252525 0%, #0f0f0f 100%);
+    background: radial-gradient(
+        circle at 50% -10%, 
+        #3d3d3d 0%, 
+        #1a1a1a 40%, 
+        #0a0a0a 100%
+    );
+    background-attachment: fixed;
     color: #ffffff;
     line-height: 1.5;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-:root {
-    --cor-primaria: #F72B2B;
-    --cor-primaria-hover: #d61f1f;
-    --cor-bg-card: #1a1a1a;
-    --cor-borda: #333333;
-    --cor-texto-cinza: #cfcfcf;
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
 }
 
 /* ============================================================
@@ -30,25 +48,28 @@ body {
 ============================================================ */
 main {
     flex: 1;
-    padding: 70px 20px 60px; 
+    padding: 70px 20px 60px;
     max-width: 1300px;
     margin: 0 auto;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .titulo-pagina {
     width: 100%;
-    text-align: center; 
-    font-size: 2.2rem;
+    text-align: center;
+    font-size: 2.5rem;
     color: var(--cor-primaria);
     margin-bottom: 35px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    display: block;
+    font-weight: 900;
 }
 
 /* ============================================================
-    3. DETALHES DA PARTIDA (LAYOUT TICKET PREMIUM - AJUSTADO)
+    3. DETALHES DA PARTIDA (TICKET PREMIUM)
 ============================================================ */
 .titulo-ingresso {
     background: var(--cor-bg-card);
@@ -61,6 +82,8 @@ main {
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    width: 100%;
+    max-width: 900px;
 }
 
 .titulo-ingresso::before {
@@ -77,7 +100,6 @@ main {
     padding: 20px;
     background: rgba(255,255,255,0.03);
     border-bottom: 1px dashed var(--cor-borda);
-    margin-bottom: 0;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -97,6 +119,7 @@ main {
     justify-content: center;
     gap: 40px;
     width: 100%;
+    margin-right: 25px; 
 }
 
 .times-ingresso .time {
@@ -106,21 +129,18 @@ main {
     width: 150px;
 }
 
-/* --- AJUSTE DE EQUILÍBRIO DOS ESCUDOS --- */
-
-/* Escudo Drakos: Reduzido para igualar ao Palmeiras */
-.times-ingresso .time:first-child img {
-    height: 80px; /* Mesma altura base do adversário */
+.times-ingresso .time img {
+    height: 80px;
     width: auto;
-    transform: scale(1.9); /* Reduzido de 2.5 para 1.9 */
-    margin-bottom: 15px; /* Nome do time sobe um pouco */
+}
+
+.times-ingresso .time:first-child img {
+    transform: scale(1.9);
+    margin-bottom: 15px;
     filter: drop-shadow(0 0 15px rgba(247, 43, 43, 0.2));
 }
 
-/* Escudo Adversário: Mantido como referência de tamanho */
 .times-ingresso .time:last-child img {
-    height: 80px;
-    width: auto;
     margin-bottom: 10px;
 }
 
@@ -152,24 +172,28 @@ main {
 
 .detalhes-jogo p {
     font-size: 1rem;
-    margin: 0;
     color: var(--cor-texto-cinza);
 }
 
-.detalhes-jogo p b { color: #fff; }
+.detalhes-jogo p b {
+    color: #fff;
+}
 
 /* ============================================================
-    4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
+    4. ÁREA DE COMPRA (CENTRALIZAÇÃO APLICADA AQUI)
 ============================================================ */
 .container-estadio-ingressos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 40px;
     margin-bottom: 80px;
-    align-items: stretch;
+    width: 100%;
+    /* AJUSTE: Alinha os itens pelo centro para que fiquem pareados horizontalmente */
+    align-items: center; 
 }
 
-.mapa-estadio, .lado-direito-ingressos {
+.mapa-estadio, 
+.lado-direito-ingressos {
     background: var(--cor-bg-card);
     padding: 30px;
     border-radius: 16px;
@@ -177,10 +201,15 @@ main {
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
 }
 
+.mapa-estadio {
+    height: fit-content;
+}
+
 .lado-direito-ingressos {
     display: flex;
     flex-direction: column;
-    min-height: 580px;
+    /* AJUSTE: Removemos o min-height fixo para o card não esticar mais que o mapa */
+    min-height: auto; 
 }
 
 .card-header {
@@ -204,7 +233,8 @@ main {
     gap: 20px;
 }
 
-.form-setor select, .form-setor input {
+.form-setor select, 
+.form-setor input {
     width: 100%;
     padding: 14px;
     background: #252525;
@@ -236,7 +266,6 @@ main {
     margin-top: 25px;
     border-top: 2px solid var(--cor-borda);
     padding-top: 20px;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
@@ -249,7 +278,6 @@ main {
     margin-bottom: 15px;
 }
 
-/* Scrollbar Personalizada */
 .lista-ingressos ul::-webkit-scrollbar { width: 6px; }
 .lista-ingressos ul::-webkit-scrollbar-thumb { background: var(--cor-primaria); border-radius: 10px; }
 
@@ -264,6 +292,27 @@ main {
     font-size: 0.9rem;
 }
 
+.lista-ingressos li button, 
+.lista-ingressos li .btn-excluir {
+    background: rgba(247, 43, 43, 0.1);
+    color: var(--cor-primaria);
+    border: 1px solid rgba(247, 43, 43, 0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lista-ingressos li button:hover {
+    background: var(--cor-primaria);
+    color: white;
+    box-shadow: 0 0 10px rgba(247, 43, 43, 0.4);
+}
+
 .botao-finalizar {
     width: 100%;
     background: linear-gradient(135deg, var(--cor-primaria), #8F0000);
@@ -274,92 +323,107 @@ main {
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    margin-top: auto;
+    /* AJUSTE: margin-top pequeno para não empurrar o card para o infinito */
+    margin-top: 15px; 
     box-shadow: 0 5px 15px rgba(247, 43, 43, 0.3);
 }
 
 /* ============================================================
-    5. PRÓXIMOS JOGOS (FRAME COMPACTO E EQUILIBRADO)
+    5. PRÓXIMOS JOGOS (ORIGINAL)
 ============================================================ */
+.titulo-secundario {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.grid-jogos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
 
 .jogo-card {
     background: #1f1f1f;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid var(--cor-borda);
-    padding: 20px;
+    padding: 30px;
     display: flex;
     align-items: center;
-    gap: 30px; /* Aumentado para dar mais respiro visual */
+    gap: 40px;
     transition: 0.3s ease;
-    
-    /* CORREÇÃO: Removemos min-height e limitamos a largura máxima para compactar */
     width: 100%;
-    max-width: 650px; /* Define um tamanho mais amigável para o card */
-    margin: 0 auto; /* Centraliza o card na página */
-    height: auto; /* Deixa o card se ajustar ao conteúdo */
+    max-width: 800px;
+    height: auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.jogo-card:hover {
+    border-color: var(--cor-primaria);
+    transform: scale(1.02);
 }
 
 .jogo-times {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    min-width: 150px;
-    border-right: 1px solid var(--cor-borda);
-    padding-right: 25px; /* Aumentado levemente */
-    
-    /* CORREÇÃO: Força uma altura fixa na área dos escudos para equilibrar com o texto */
-    height: 80px; 
+    gap: 25px;
+    min-width: 200px;
+    border-right: 2px solid var(--cor-borda);
+    padding-right: 40px;
+    height: 100px;
 }
 
-/* O ESCUDO DO DRAKOS (Equilibrando o peso visual) */
-.jogo-times .escudo:first-child { 
-    width: 55px; 
-    height: 55px; 
-    transform: scale(2.2); /* Zoom potente no círculo vermelho */
+.jogo-times .escudo {
     object-fit: contain;
-    margin-right: 5px; 
 }
 
-/* O VS NAS MINIATURAS */
+.jogo-times .escudo:first-child {
+    width: 65px;
+    height: 65px;
+    transform: scale(2.4);
+    margin-right: 10px;
+}
+
+.jogo-times .escudo:last-child {
+    width: 60px;
+    height: 60px;
+}
+
 .versus-mini {
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     font-weight: 900;
     color: var(--cor-primaria);
-    z-index: 10;
+    font-style: italic;
 }
 
-/* O ESCUDO DO ADVERSÁRIO (GRÊMIO) */
-.jogo-times .escudo:last-child { 
-    width: 45px; 
-    height: 45px; 
-    object-fit: contain;
-}
-
-/* O CONTEÚDO (Data, Hora, Local) DENTRO DO FRAME */
 .card-content {
-    /* CORREÇÃO: flex:1 estava esticando o texto até o final do card vazio.
-       Agora usamos display flex column para alinhar o texto verticalmente. */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 8px;
 }
 
-.card-content h2 { 
-    font-size: 1.2rem; 
-    margin-bottom: 10px; /* Aumentado para melhor respiro */
-    color: var(--cor-primaria); 
+.card-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+    color: var(--cor-primaria);
     text-transform: uppercase;
     line-height: 1.1;
+    letter-spacing: 1px;
 }
 
-.card-content p { 
-    font-size: 0.95rem; /* Aumentado levemente */
-    color: var(--cor-texto-cinza); 
-    margin: 4px 0; /* Aumentado para melhor leitura */
+.card-content p {
+    font-size: 1.1rem;
+    color: var(--cor-texto-cinza);
+    margin: 4px 0;
     display: flex;
     align-items: center;
-    gap: 10px; /* Aumentado */
+    gap: 12px;
 }
 
 /* ============================================================
@@ -370,40 +434,65 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #28a745;
+    background: rgba(40, 167, 69, 0.25); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     color: white;
-    padding: 20px 50px;
-    border-radius: 12px;
+    padding: 30px 60px;
+    border-radius: 20px;
     z-index: 9999;
     display: none;
-    font-weight: bold;
-    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 
+                0 0 15px rgba(40, 167, 69, 0.4);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-align: center;
 }
 
-#mensagem-sucesso.show { display: block; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+#mensagem-sucesso i {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+}
 
-@keyframes popIn {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#mensagem-sucesso.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: glassPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes glassPop {
+    from { 
+        opacity: 0; 
+        transform: translate(-50%, -50%) scale(0.8); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translate(-50%, -50%) scale(1); 
+    }
 }
 
 /* ============================================================
     7. RESPONSIVIDADE
 ============================================================ */
 @media (max-width: 900px) {
-    .titulo-ingresso-conteudo { flex-direction: column; text-align: center; gap: 30px; }
-    .detalhes-jogo { border-left: none; padding-left: 0; border-top: 2px solid var(--cor-borda); padding-top: 20px; text-align: center; }
+    /* No mobile, voltamos ao stretch para ocupar a largura toda */
+    .container-estadio-ingressos { align-items: stretch; }
+    .titulo-ingresso-conteudo { text-align: center; }
+    .detalhes-jogo { border-top: 2px solid var(--cor-borda); padding-top: 20px; }
 }
 
 @media (max-width: 500px) {
-    .jogo-card { flex-direction: column; text-align: center; }
+    .jogo-card { flex-direction: column; text-align: center; gap: 20px; }
     .jogo-times {
         border-right: none;
         border-bottom: 1px solid var(--cor-borda);
-        flex-direction: row;
         width: 100%;
-        justify-content: center;
-        padding: 0 0 10px 0;
+        padding: 0 0 20px 0;
     }
     .titulo-pagina { font-size: 1.6rem; }
 }
