@@ -102,6 +102,7 @@ main {
     border-bottom: 1px dashed var(--cor-borda);
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
 }
 
