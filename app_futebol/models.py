@@ -82,7 +82,9 @@ class SetorFuncionarios(models.Model):
     class Meta:
         managed = False
         db_table = 'setor_funcionarios'
-#
+
+    def __str__(self):
+        return self.nome_setor_funcionarios
 
 class Funcionarios(models.Model):
     id_funcionarios = models.AutoField(db_column='id_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
@@ -211,7 +213,7 @@ class ImagemProduto(models.Model):
     class Meta:
         managed = True
         db_table = 'imagem_produto'
-        ordering = ['ordem']
+        ordering = ['produtos_id_produtos']
     
     def __str__(self):
         return f"Imagem de {self.produtos_id_produtos.nome_produtos}"
