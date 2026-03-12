@@ -3,6 +3,49 @@ main{
 }
 
 
+h1{
+    font-size:2.4rem;
+    margin-bottom:30px;
+    font-weight:800;
+    color:white;
+    animation:fadeUp .8s ease;
+}
+
+
+@keyframes fadeUp {
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.box{
+    animation:fadeUp .6s ease forwards;
+}
+
+
+.box-desc{
+    font-size:14px;
+    color:#666;
+    margin-bottom:15px;
+}
+
+.plano-preco{
+    font-size:18px;
+    font-weight:700;
+    color:#7a0000;
+}
+
+.plano-desc{
+    margin-top:10px;
+    line-height:1.5;
+    font-size:14px;
+}
+
 
 .pagamento-container {
     width: 80%;
@@ -18,12 +61,20 @@ h1 {
 }
 
 .box {
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:30px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    transition:transform .25s ease, box-shadow .25s ease;
 }
+
+.box:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+
 .buttons-pay {
     display: flex;
     gap: 20px;
@@ -75,12 +126,18 @@ input:focus {
 }
 
 
-.plano-info {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #7a0000;
-}   
+.plano-info{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:8px;
+    border-left:4px solid #7a0000;
+    transition:all .3s ease;
+}
+
+.plano-info:hover{
+    background:#fff5f5;
+    transform:scale(1.01);
+}
 
 .dupla {
     display: flex;
@@ -110,7 +167,12 @@ input:focus {
     width:380px;
     height:220px;
     margin:40px auto;
-    perspective:1200px;
+    perspective:1500px;
+}
+
+.input-focus {
+    box-shadow: 0 0 10px rgba(122,0,0,0.4);
+    transform: scale(1.02);
 }
 
 .card-inner{
