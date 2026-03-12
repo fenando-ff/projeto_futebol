@@ -618,6 +618,12 @@ a{
     margin-bottom: 32px;
   }
 
+  .hero-carousel {
+    width: 60%;
+    height: 450px;
+    border-radius: 18px;
+  }
+
   .destaques {
     gap: 48px;
     margin: 64px auto;
