@@ -459,7 +459,7 @@ gap:10px;
 /* Hover suave */
 .sponsor-logos img:hover {
     transform: scale(1.95);
-    cursor: pointer;
+    cursor: default;
 }
 
 /* Links */
