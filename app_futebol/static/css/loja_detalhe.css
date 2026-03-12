@@ -4,6 +4,9 @@
   font-family: "Poppins", sans-serif;
 }
 
+
+
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -20,14 +23,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 150px 15px 260px;
+  padding:15px 210px;
   background: #ad0000;
   color: #fff;
 }
 
 .voltar {
   position: absolute;
-  left: 240px;
+  left: 95px;
   font-size: 1.9rem;
   color: #fff;
   text-decoration: none;
@@ -38,7 +41,9 @@ body {
 }
 
 .marca {
-  font-size: 1.7rem;
+  right: 80px;
+  position: absolute;
+  font-size: 1.2rem;
   letter-spacing: 2px;
 }
 
@@ -197,8 +202,101 @@ body {
   transform: translateY(-2px);
 }
 
+
+
+/* ===== CARROSSEL ESTILO LED ESTÁDIO ===== */
+
+.led-stadium{
+  width:100%;
+  overflow:hidden;
+
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+
+  padding:10px 0;
+  position:relative;
+}
+
+/* leve brilho lateral */
+.led-stadium::before,
+.led-stadium::after{
+  content:"";
+  position:absolute;
+  top:0;
+  width:80px;
+  height:100%;
+  z-index:2;
+}
+
+.led-stadium::before{
+  left:0;
+  background:linear-gradient(to right,#ad0000,transparent);
+}
+
+.led-stadium::after{
+  right:0;
+  background:linear-gradient(to left,#ad0000,transparent);
+}
+
+.led-track{
+  display:flex;
+  align-items:center;
+  gap:120px;
+  width:max-content;
+  animation:ledScroll 30s linear infinite;
+}
+
+/* TEXTO */
+.led-track .msg{
+  color:#ffffff;
+  font-size:0.85rem;
+  letter-spacing:3px;
+  font-weight:600;
+  text-transform:uppercase;
+  white-space:nowrap;
+  opacity:0.9;
+}
+
+/* LOGOS */
+.led-track img{
+  height:30px;
+  opacity:0.75;
+  filter:grayscale(100%);
+  transition:0.3s;
+}
+.led-track img:hover{
+  opacity:1;
+  filter:grayscale(0%);
+  transform:scale(1.1);
+}
+
+/* animação */
+@keyframes ledScroll{
+  from{
+    transform:translateX(0);
+  }
+  to{
+    transform:translateX(-50%);
+  }
+}
+
+
+/* pausa no hover */
+.led-track:hover{
+  animation-play-state:paused;
+}
+
 /* ---------- RESPONSIVIDADE ---------- */
 @media (max-width: 768px) {
+
+      .banner-loja{
+    display:none;
+    }
+
   .produto-container {
     flex-direction: column;
     align-items: center;
@@ -260,12 +358,26 @@ body {
 
 
   /* posiciona barra vermelha logo abaixo da navbar */
-  .topo {
-    padding: 15px 20px;
-  }
+.topo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:15px 100px;
+  background: #ad0000;
+  color: #fff;
+}
+
+
+.voltar {
+  font-size: 1.2rem;
+  left: 35px;
+
+}
 
   .marca{
-  font-size: 1.4rem;
+  font-size: 1.1rem;
+  right: 15px;
   }
 
   .titulo{
