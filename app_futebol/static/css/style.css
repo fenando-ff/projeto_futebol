@@ -188,7 +188,6 @@ gap:10px;
     height: 100%;
 
     background: #121212;
-    box-shadow: -24px 0 44px rgba(0,0,0,.55);
 
     transform: translateX(100%);
     transition: transform .28s ease;
