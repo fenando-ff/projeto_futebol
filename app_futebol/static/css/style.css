@@ -369,6 +369,9 @@ gap:10px;
 
 /* Melhor alinhamento mobile */
 @media (max-width: 767px){
+  .cabecalho {
+    padding: 0px 16px;
+  }
 
   .menu-hamburgue {
     gap: 8px;
