@@ -835,8 +835,8 @@ def pagamento_socio(request, plano_id):
     })
 
 
-def demo(request):
+def game(request):
     """
-    View que renderiza a página de apresentação interativa do projeto.
+    View que renderiza a página do mini-jogo.
     """
-    return render(request, 'demo.html')
+    return render(request, 'mini_game.html')
