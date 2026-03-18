@@ -839,4 +839,12 @@ def game(request):
     """
     View que renderiza a página do mini-jogo.
     """
-    return render(request, 'mini_game.html')
+    return render(request, 'game_inicio.html')
+
+
+
+def game_cadastro(request):
+    """
+    View que renderiza a página do mini-jogo para cadastro.
+    """
+    return render(request, 'game_cadastro.html')

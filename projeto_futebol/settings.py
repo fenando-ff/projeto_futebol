@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG dinâmico: False no Render, True local
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22", "192.168.61.90"]
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key')
 
@@ -67,7 +67,42 @@ ROOT_URLCONF = 'projeto_futebol.urls'
 WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
 # Banco de Dados: Usa DATABASE_URL do Render se existir 
-try:
+# try:
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": os.environ.get("DB_ENGINE"),
+#             "NAME": os.environ.get("DB_NAME"),
+#             "USER": os.environ.get("DB_USER"),
+#             "PASSWORD": os.environ.get("DB_PASSWORD"),
+#             "HOST": os.environ.get("DB_HOST"),
+#             "PORT": os.environ.get("DB_PORT"),
+#             "OPTIONS": {
+#                 "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
+#             },
+#         }
+#     }
+# except Exception as e:
+#     print(f"Erro ao configurar o banco de dados em produção: {e}")
+#     try:    
+#         DATABASES = {
+#             "default": {
+#                 "ENGINE": os.environ.get("DB_ENGINE_LOCAL"),
+#                 "NAME": os.environ.get("DB_NAME_LOCAL"),
+#                 "USER": os.environ.get("DB_USER_LOCAL"),
+#                 "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
+#                 "HOST": os.environ.get("DB_HOST_LOCAL"),
+#                 "PORT": os.environ.get("DB_PORT_LOCAL")
+#             }
+#         }
+#     except Exception as e:
+#         print(f"Erro ao configurar o banco de dados local: {e}")
+
+
+
+
+IS_RENDER = os.environ.get("RENDER", "False") == "True"
+
+if IS_RENDER:
     DATABASES = {
         "default": {
             "ENGINE": os.environ.get("DB_ENGINE"),
@@ -77,25 +112,26 @@ try:
             "HOST": os.environ.get("DB_HOST"),
             "PORT": os.environ.get("DB_PORT"),
             "OPTIONS": {
-                "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
+                "ssl": {
+                    "ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")
+                }
             },
         }
     }
-except Exception as e:
-    print(f"Erro ao configurar o banco de dados em produção: {e}")
-    try:    
-        DATABASES = {
-            "default": {
-                "ENGINE": os.environ.get("DB_ENGINE_LOCAL"),
-                "NAME": os.environ.get("DB_NAME_LOCAL"),
-                "USER": os.environ.get("DB_USER_LOCAL"),
-                "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
-                "HOST": os.environ.get("DB_HOST_LOCAL"),
-                "PORT": os.environ.get("DB_PORT_LOCAL")
-            }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": os.environ.get("DB_ENGINE_LOCAL"),
+            "NAME": os.environ.get("DB_NAME_LOCAL"),
+            "USER": os.environ.get("DB_USER_LOCAL"),
+            "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
+            "HOST": os.environ.get("DB_HOST_LOCAL"),
+            "PORT": os.environ.get("DB_PORT_LOCAL"),
         }
-    except Exception as e:
-        print(f"Erro ao configurar o banco de dados local: {e}")
+    }
+    
+    
+    
     
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -114,3 +150,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+print("RENDER =", os.environ.get("RENDER"))
+print("DB_HOST produção =", os.environ.get("DB_HOST"))
+print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
+print("Banco escolhido =", DATABASES["default"]["HOST"])
+print("Engine escolhida =", DATABASES["default"]["ENGINE"])
