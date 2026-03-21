@@ -1,70 +1,143 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const letters = document.querySelectorAll(".game-title span");
-    const media = document.querySelector(".game-media");
-    const button = document.querySelector(".start-button");
-    const intro = document.querySelector(".game-intro");
-    const video = document.getElementById("intro-video");
+const startText = document.getElementById("startText");
+const coinImg = document.getElementById("coinImg");
+const video = document.getElementById("coinVideo");
+const clickSound = document.getElementById("clickSound");
+const cadastroScreen = document.getElementById("cadastroScreen");
+const nomeInput = document.getElementById("nome");
+const sobrenomeInput = document.getElementById("sobrenome");
+const formSound = document.getElementById("formSound");
+const btn = document.getElementById("btnCadastrar");
+const transitionScreen = document.getElementById("transitionScreen");
+const transitionText = document.getElementById("transitionText");
 
-        window.addEventListener("load", () => {
-            video.pause();
+let started = false;
 
-    const syncVideoToScroll = () => {
-        const scrollTop = window.scrollY;
-        const maxScroll = document.body.scrollHeight - window.innerHeight;
+// 🎯 CLIQUE INICIAL
+startText.addEventListener("click", () => {
+    if (started) return;
+    started = true;
 
-        if (video.duration && maxScroll > 0) {
-            const progress = scrollTop / maxScroll;
-            video.currentTime = progress * video.duration;
+        // 📳 vibração
+    if (navigator.vibrate) {
+        navigator.vibrate(80);
+    }
+
+
+    clickSound.play();
+
+    startText.style.opacity = "0";
+
+    coinImg.style.transition = "opacity 0.4s ease";
+    video.style.transition = "opacity 0.4s ease";
+
+    video.style.display = "block";
+    video.offsetHeight;
+
+    coinImg.style.opacity = "0";
+    video.style.opacity = "1";
+
+    video.play();
+});
+
+// 🎬 FINAL DO VÍDEO (ÚNICO)
+video.addEventListener("ended", () => {
+    video.style.transform = "scale(1.5)";
+    video.style.opacity = "0";
+
+    setTimeout(() => {
+        cadastroScreen.style.opacity = "1";
+        cadastroScreen.style.pointerEvents = "all";
+        cadastroScreen.classList.add("active");
+
+        formSound.play();
+
+        setTimeout(() => {
+            nomeInput.focus();
+
+            typeEffect(nomeInput, "Digite seu nome...");
+            typeEffect(sobrenomeInput, "Digite seu sobrenome...");
+        }, 400);
+
+    }, 600);
+});
+
+// ✨ DIGITAÇÃO
+function typeEffect(input, text, speed = 60) {
+    let i = 0;
+    input.placeholder = "";
+
+    function typing() {
+        if (i < text.length) {
+            input.placeholder += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
         }
+    }
 
-        requestAnimationFrame(syncVideoToScroll);
-    };
+    typing();
+}
 
-    syncVideoToScroll();
+// 🚫 BLOQUEIA CLIQUE NA IMG
+coinImg.addEventListener("click", (e) => {
+    e.stopPropagation();
 });
 
-    if (!letters.length || !media || !button || !intro) return;
 
-    gsap.set(letters, {
-        opacity: 0,
-        y: 120
-    });
+btn.addEventListener("click", () => {
+    const nome = nomeInput.value.trim();
+    const sobrenome = sobrenomeInput.value.trim();
 
-    gsap.set(media, {
-        opacity: 0,
-        scale: 0.85,
-        y: 30
-    });
+    // validação simples
+    if (!nome || !sobrenome) {
+        btn.classList.add("error");
 
-    gsap.set(button, {
-        opacity: 0,
-        y: 25
-    });
+        setTimeout(() => {
+            btn.classList.remove("error");
+        }, 400);
 
-    gsap.set(intro, {
-        opacity: 1
-    });
+        return;
+    }
 
-    const tl = gsap.timeline();
+    // ativa loading
+    btn.classList.add("loading");
 
-    tl.to(letters, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.06,
-        duration: 1.1,
-        ease: "expo.out"
-    })
-    .to(media, {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "expo.out"
-    }, "-=0.5")
-    .to(button, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
-        ease: "power4.out"
-    }, "-=0.3");
+    // simula processamento
+    setTimeout(() => {
+        transitionScreen.classList.add("active");
+
+        typeEffectText(
+            transitionText,
+            `BEM-VINDO, ${nome.toUpperCase()}...`,
+            40
+        );
+
+        setTimeout(() => {
+            typeEffectText(
+                transitionText,
+                "PREPARE-SE...",
+                40
+            );
+        }, 1500);
+
+        setTimeout(() => {
+            window.location.href = "/jogo/";
+        }, 3000);
+
+    }, 1200);
 });
+
+
+function typeEffectText(element, text, speed = 50) {
+    element.innerHTML = "";
+    let i = 0;
+
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+
+    typing();
+}

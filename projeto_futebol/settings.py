@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 import cloudinary
 
 load_dotenv()
@@ -105,15 +104,15 @@ IS_RENDER = os.environ.get("RENDER", "False") == "True"
 if IS_RENDER:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE"),
+            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
             "NAME": os.environ.get("DB_NAME"),
             "USER": os.environ.get("DB_USER"),
             "PASSWORD": os.environ.get("DB_PASSWORD"),
             "HOST": os.environ.get("DB_HOST"),
-            "PORT": os.environ.get("DB_PORT"),
+            "PORT": int(os.environ.get("DB_PORT", 3306)),
             "OPTIONS": {
                 "ssl": {
-                    "ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")
+                    "ca": os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA"))
                 }
             },
         }
@@ -121,7 +120,7 @@ if IS_RENDER:
 else:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE_LOCAL"),
+            "ENGINE": os.environ.get("DB_ENGINE_LOCAL", "django.db.backends.mysql"),
             "NAME": os.environ.get("DB_NAME_LOCAL"),
             "USER": os.environ.get("DB_USER_LOCAL"),
             "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
@@ -129,7 +128,6 @@ else:
             "PORT": os.environ.get("DB_PORT_LOCAL"),
         }
     }
-    
     
     
     
@@ -141,9 +139,6 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Certificado SSL se o arquivo existir
-CA_CERT_PATH = os.path.join(BASE_DIR, "app_futebol", "certs", "ca.pem")
-if os.path.exists(CA_CERT_PATH):
-    DATABASES['default']['OPTIONS'] = {"ssl": {"ca": CA_CERT_PATH}}
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
