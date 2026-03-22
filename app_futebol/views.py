@@ -843,8 +843,8 @@ def game(request):
 
 
 
-def game_cadastro(request):
+def game_toturial(request):
     """
     View que renderiza a página do mini-jogo para cadastro.
     """
-    return render(request, 'game_cadastro.html')
+    return render(request, 'game_toturial.html')

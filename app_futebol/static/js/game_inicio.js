@@ -120,7 +120,7 @@ btn.addEventListener("click", () => {
         }, 1500);
 
         setTimeout(() => {
-            window.location.href = "/jogo/";
+            window.location.href = "/game_toturial/";
         }, 3000);
 
     }, 1200);
