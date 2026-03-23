@@ -2,8 +2,10 @@
 <link rel="stylesheet" href="{% static 'css/game_toturial.css' %}">
 <section class="tutorial">
     
-<div class="cards">
 
+<audio id="cardStackSound" src="{% static 'jogo/sons/cartas_mesa.mp3' %}" preload="auto"></audio>
+<audio id="cardFlipSound" src="{% static 'jogo/sons/carta_virando.mp3' %}" preload="auto"></audio>
+<div class="cards">
     <!-- ETAPA 1 -->
     <div class="card">
         <div class="card-inner">
@@ -53,6 +55,7 @@
 </div>
 
     <button class="next-btn">SEGUIR</button>
+
 
 </section>
 

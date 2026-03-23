@@ -286,3 +286,47 @@ body {
     border: 2px solid #820000;
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
 }
+
+
+.card.flip {
+    animation: shake 0.2s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
