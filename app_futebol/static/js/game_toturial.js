@@ -14,6 +14,21 @@ document.addEventListener("click", () => {
     startIntro();
 }, { once: true });
 
+function updateCards() {
+    cards.forEach((card, i) => {
+        card.classList.remove("prev", "active", "next");
+
+        if (i === current) {
+            card.classList.add("active");
+        } else if (i === current - 1) {
+            card.classList.add("prev");
+        } else if (i === current + 1) {
+            card.classList.add("next");
+        }
+    });
+}
+
+
 function startIntro() {
 
     // 🔊 SOM DAS CARTAS ENTRANDO
@@ -66,10 +81,9 @@ btn.addEventListener("click", () => {
 
     if (current >= cards.length - 1) return;
 
-    cards[current].classList.remove("active");
-
     current++;
 
+    updateCards();
     activateCard(current);
 });
 

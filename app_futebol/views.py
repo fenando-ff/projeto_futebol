@@ -848,3 +848,27 @@ def game_toturial(request):
     View que renderiza a página do mini-jogo para cadastro.
     """
     return render(request, 'game_toturial.html')
+
+
+
+
+import random
+from django.shortcuts import render
+
+def game_sorteio(request):
+
+    produtos = [
+        {"nome": "Camisa", "img": "jogo/produtos/camisa.png"},
+        {"nome": "Tênis", "img": "jogo/produtos/tenis.png"},
+        {"nome": "Boné", "img": "jogo/produtos/bone.png"},
+        {"nome": "Jaqueta", "img": "jogo/produtos/jaqueta.png"},
+        {"nome": "Relógio", "img": "jogo/produtos/relogio.png"},
+    ]
+
+    # 🎯 sorteia 3 itens (SEM REPETIR)
+    sorteados = random.sample(produtos, 3)
+
+    return render(request, "game_roleta.html", {
+        "produtos": produtos,   # lista completa (pra animação girar)
+        "sorteados": sorteados  # resultado final (777)
+    })
