@@ -863,6 +863,9 @@ def game_sorteio(request):
         {"nome": "Boné", "img": "jogo/produtos/bone.png"},
         {"nome": "Jaqueta", "img": "jogo/produtos/jaqueta.png"},
         {"nome": "Relógio", "img": "jogo/produtos/relogio.png"},
+        {"nome": "Relógio", "img": "jogo/produtos/relogio.png"},
+        {"nome": "Óculos", "img": "jogo/produtos/oculos.png"},
+        {"nome": "Mochila", "img": "jogo/produtos/mochila.png"},
     ]
 
     # 🎯 sorteia 3 itens (SEM REPETIR)

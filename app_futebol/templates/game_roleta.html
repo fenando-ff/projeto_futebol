@@ -25,7 +25,17 @@
         <img src="{% static 'jogo/icones/alavanca-de-controle.png' %}" id="lever">
     </div>
 
+
+<button id="startGameBtn" style="display:none;">
+    INICIAR DESAFIO
+</button>
+
+<audio id="leverSound" src="{% static 'jogo/sons/alavanca.mp3' %}" preload="auto"></audio>
+<audio id="spinSound" src="{% static 'jogo/sons/roleta.mp3' %}" preload="auto"></audio>
 </section>
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="{% static 'js/game_roleta.js' %}"></script>
