@@ -1,6 +1,7 @@
 const leverSound = document.getElementById("leverSound");
 const spinSound = document.getElementById("spinSound");
 const startBtn = document.getElementById("startGameBtn");
+
 const produtos = JSON.parse(
     document.getElementById("produtos-data").textContent
 );
@@ -11,6 +12,9 @@ const reels = document.querySelectorAll(".reel-track");
 const btn = document.getElementById("spinBtn");
 
 let reelsStopped = 0;
+let alreadyPlayed = false;
+let spinning = false;
+let completed = 0;
 
 
 
@@ -44,23 +48,23 @@ reels.forEach(reel => {
 // 🎰 GIRO
 const lever = document.getElementById("lever");
 
-let spinning = false;
-
 
 
 lever.addEventListener("click", () => {
 
-    if (spinning) return;
-    spinning = true;
+    if (alreadyPlayed || spinning) return;
 
-    // 🔊 som da alavanca
-    leverSound.playbackRate = 7.0; // 1.0 = normal | 1.5 = mais rápido
-    leverSound.currentTime = 0;
-    leverSound.play().catch(() => {});
+    alreadyPlayed = true;
+    spinning = true;
 
     lever.classList.add("pull");
 
-        // 🔊 som da roleta começa
+    // 🔊 som alavanca
+    leverSound.playbackRate = 1.4;
+    leverSound.currentTime = 0;
+    leverSound.play().catch(() => {});
+
+    // 🔊 som roleta
     spinSound.currentTime = 0;
     spinSound.loop = true;
     spinSound.play().catch(() => {});
@@ -70,14 +74,11 @@ lever.addEventListener("click", () => {
     setTimeout(() => {
         lever.classList.remove("pull");
     }, 300);
-
-    setTimeout(() => {
-        spinning = false;
-    }, 3500); // 👈 tempo total do spin
-
 });
 
 function startSpin() {
+
+    completed = 0;
 
     reels.forEach((reel, index) => {
 
@@ -88,9 +89,13 @@ function startSpin() {
             el.innerHTML.includes(itemSorteado.img)
         );
 
-        const extraSpins = 10;
-        const finalY = -(targetIndex * 100 + extraSpins * totalItems * 100);
+        const itemHeight = 100;
+        const extraSpins = 8;
 
+        const loopSize = produtos.length * itemHeight;        
+        const finalY = -(targetIndex * itemHeight + extraSpins * loopSize);
+
+        gsap.killTweensOf(reel);
         gsap.set(reel, { y: 0 });
 
         gsap.to(reel, {
@@ -99,18 +104,25 @@ function startSpin() {
             ease: "power3.out",
 
             onComplete: () => {
+                completed++;
 
-                // 🎯 quando o ÚLTIMO parar
-                if (index === reels.length - 1) {
+                // 🎯 quando TODOS pararem
+                if (completed === reels.length) {
 
-                    // 🔇 parar som da roleta
+                    // 🔇 parar som
                     spinSound.pause();
                     spinSound.currentTime = 0;
 
-                    // 🎉 mostrar botão
+                    // 💾 salvar itens
+                    localStorage.setItem("itens_sorteados", JSON.stringify(sorteados));
+
+                    // 🎉 efeitos
+                    triggerWinEffect();
+                    screenShake();
+
+                    // 🎮 botão aparecer
                     startBtn.style.display = "block";
 
-                    // 💥 opcional: efeito entrada
                     gsap.fromTo(startBtn,
                         { scale: 0, opacity: 0 },
                         { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }
@@ -118,12 +130,10 @@ function startSpin() {
 
                     spinning = false;
                 }
-
             }
         });
 
     });
-
 }
 
 
@@ -179,42 +189,7 @@ function screenShake() {
 
 
 
-let completed = 0;
 
-function startSpin() {
 
-    completed = 0;
 
-    reels.forEach((reel, index) => {
-
-        const totalItems = reel.children.length;
-        const itemSorteado = sorteados[index];
-
-        const targetIndex = Array.from(reel.children).findIndex(el =>
-            el.innerHTML.includes(itemSorteado.img)
-        );
-
-        const itemHeight = 100;
-        const extraSpins = 8;
-
-        const finalY = -(targetIndex * itemHeight + extraSpins * produtos.length * itemHeight);
-
-        gsap.set(reel, { y: 0 });
-
-        gsap.to(reel, {
-            y: finalY,
-            duration: 2 + index * 0.6,
-            ease: "power3.out",
-
-            onComplete: () => {
-                completed++;
-
-                if (completed === reels.length) {
-                    spinning = false; // 🔓 libera só no final REAL
-                }
-            }
-        });
-
-    });
-}
 
