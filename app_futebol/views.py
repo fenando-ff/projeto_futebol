@@ -858,14 +858,14 @@ from django.shortcuts import render
 def game_sorteio(request):
 
     produtos = [
-        {"nome": "Camisa", "img": "jogo/produtos/camisa.png"},
-        {"nome": "Tênis", "img": "jogo/produtos/tenis.png"},
-        {"nome": "Boné", "img": "jogo/produtos/bone.png"},
-        {"nome": "Jaqueta", "img": "jogo/produtos/jaqueta.png"},
-        {"nome": "Relógio", "img": "jogo/produtos/relogio.png"},
-        {"nome": "Relógio", "img": "jogo/produtos/relogio.png"},
-        {"nome": "Óculos", "img": "jogo/produtos/oculos.png"},
-        {"nome": "Mochila", "img": "jogo/produtos/mochila.png"},
+        {"nome": "Camisa", "img": "img/produtos/camisas/camisa 9/white_25.26(1).png"},
+        {"nome": "Touca", "img": "img/produtos/acessorios/objeto 3/touca_transparent.png"},
+        {"nome": "Camisa_n", "img": "img/produtos/camisas/camisa 7/preto_vermelho.png"},
+        {"nome": "Boneco", "img": "img/produtos/acessorios/objeto 2/boneco_transparent (3).png"},
+        {"nome": "Cachecol", "img": "img/produtos/acessorios/objeto 1/cachecol_transparent (3).png"},
+        {"nome": "Camisa_branca", "img": "img/produtos/camisas/camisa 3/Camisa_branco_red.png"},
+        {"nome": "Camisa_preta", "img": "img/produtos/camisas/camisa 10/Black_transpa.png"},
+        {"nome": "Casaco_preto", "img": "img/produtos/camisas/camisa 1/casaco_transparent.png"},
     ]
 
     # 🎯 sorteia 3 itens (SEM REPETIR)

@@ -54,6 +54,7 @@ lever.addEventListener("click", () => {
     spinning = true;
 
     // 🔊 som da alavanca
+    leverSound.playbackRate = 7.0; // 1.0 = normal | 1.5 = mais rápido
     leverSound.currentTime = 0;
     leverSound.play().catch(() => {});
 
