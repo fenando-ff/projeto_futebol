@@ -79,12 +79,23 @@ function activateCard(index) {
 // 👉 BOTÃO
 btn.addEventListener("click", () => {
 
-    if (current >= cards.length - 1) return;
+    // 👉 ainda tem cartas
+    if (current < cards.length - 1) {
+        current++;
 
-    current++;
+        updateCards();
+        activateCard(current);
 
-    updateCards();
-    activateCard(current);
+        // 👉 se chegou na última, muda texto
+        if (current === cards.length - 1) {
+            btn.innerText = "INICIAR";
+        }
+
+        return;
+    }
+
+    // 👉 acabou o tutorial → vai pra roleta
+   window.location.href = btn.dataset.url;
 });
 
 

@@ -74,6 +74,8 @@ lever.addEventListener("click", () => {
     setTimeout(() => {
         lever.classList.remove("pull");
     }, 300);
+
+    
 });
 
 function startSpin() {
@@ -120,8 +122,15 @@ function startSpin() {
                     triggerWinEffect();
                     screenShake();
 
-                    // 🎮 botão aparecer
+                    // 🎮 MOSTRAR BOTÃO
                     startBtn.style.display = "block";
+
+                    // 🎮 botão aparecer
+                    startBtn.addEventListener("click", () => {
+
+                        window.location.href = "/loja_produtos/?modo=jogo";
+
+                    });
 
                     gsap.fromTo(startBtn,
                         { scale: 0, opacity: 0 },

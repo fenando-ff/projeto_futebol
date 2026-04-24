@@ -667,3 +667,95 @@ html, body {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#missao-box {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 220px;
+
+    background: #111;
+    border: 2px solid gold;
+    border-radius: 12px;
+
+    padding: 15px;
+
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+
+    z-index: 999;
+}
+
+#missao-box h3 {
+    color: gold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#missao-list {
+    list-style: none;
+    padding: 0;
+}
+
+#missao-list li {
+    padding: 8px;
+    margin-bottom: 6px;
+
+    background: #1a1a1a;
+    border-radius: 6px;
+
+    color: white;
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+/* ✔️ ITEM COMPLETO */
+#missao-list li.concluido {
+    background: green;
+    color: white;
+    text-decoration: line-through;
+}
+
+#missao-list li.concluido {
+    color: lime;
+    text-decoration: line-through;
+}

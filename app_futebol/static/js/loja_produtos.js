@@ -1,40 +1,74 @@
+console.log("JS LOJA CARREGOU 🔥");
+const params = new URLSearchParams(window.location.search);
+const modoJogo = params.get("modo") === "jogo";
+const itensMissao = JSON.parse(localStorage.getItem("itens_sorteados")) || [];
+
+
+
+ 
 document.addEventListener("DOMContentLoaded", () => {
-  const cards = document.querySelectorAll(".produto-card");
-  cards.forEach(card => {
 
-  card.addEventListener("mousemove", (e) => {
+  const missaoBox = document.getElementById("missao-box");
+  const lista = document.getElementById("missao-list");
 
-    const rect = card.getBoundingClientRect();
+  if (modoJogo && missaoBox && lista) {
 
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+      console.log("MISSÃO ATIVADA ✅");
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+      missaoBox.style.display = "block";
 
-    const rotateX = (y - centerY) / 15;
-    const rotateY = (centerX - x) / 15;
+      itensMissao.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item.nome;
+          li.dataset.nome = item.nome;
 
-    card.style.transform =
-      `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-
-  });
-
-  card.addEventListener("mouseleave", () => {
-
-    card.style.transform =
-      "rotateX(0) rotateY(0) scale(1)";
-
-  });
-
-});
+          lista.appendChild(li);
+      });
+  }
 
 
-  
+const botoesAdicionar = document.querySelectorAll(".btn-adicionar");
 
+if (modoJogo && missaoBox && lista) {
 
+    missaoBox.style.display = "block";
 
+    itensMissao.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item.nome;
+        li.dataset.nome = item.nome;
 
+        lista.appendChild(li);
+    });
+}
+
+    // 🎯 EFEITO 3D NOS CARDS
+    const cards = document.querySelectorAll(".produto");
+
+    cards.forEach(card => {
+
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 15;
+            const rotateY = (centerX - x) / 15;
+
+            card.style.transform =
+                `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform =
+                "rotateX(0) rotateY(0) scale(1)";
+        });
+
+    });
 
 
 
@@ -157,62 +191,99 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ======= ADICIONAR AO CARRINHO =======
-  const botoesAdicionar = document.querySelectorAll(".btn-adicionar");
 
-  botoesAdicionar.forEach(btn => {
+  
+
+
+
+  
+  
+    
+    
+    // jog
+
+
+
+
+
+
+
+botoesAdicionar.forEach(btn => {
+
+    // 🎯 destaque visual dos itens da missão
+    const nome = btn.dataset.nome;
+
+    if (modoJogo && itensMissao.some(i => i.nome === nome)) {
+        const card = btn.closest(".produto");
+
+        if (card) {
+            card.style.boxShadow = "0 0 15px gold";
+            card.style.transform = "scale(1.02)";
+        }
+    }
 
     btn.addEventListener("click", async (e) => {
 
-      e.preventDefault();
+        e.preventDefault();
 
-      const produtoId = btn.dataset.id;
-      const produtoNome = btn.dataset.nome;
+        const produtoId = btn.dataset.id;
+        const produtoNome = btn.dataset.nome;
 
-      try {
+        try {
 
-        const response = await fetch(`/adicionar/${produtoId}/`, {
-          method: "POST",
-          headers: {
-            "X-Requested-With": "XMLHttpRequest",
-            "X-CSRFToken": getCookie("csrftoken")
-          }
-        });
+            const response = await fetch(`/adicionar/${produtoId}/`, {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": getCookie("csrftoken")
+                }
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (data.success) {
+            if (data.success) {
 
-          const originalText = btn.textContent;
+                // 🎯 MARCAR MISSÃO COMO CONCLUÍDA
+                if (modoJogo) {
 
-          btn.textContent = '✓ Adicionado!';
-          btn.classList.add("added");
+                    const li = document.querySelector(
+                        `#missao-list li[data-nome="${produtoNome}"]`
+                    );
 
-          setTimeout(() => {
+                    if (li && !li.classList.contains("concluido")) {
+                        li.classList.add("concluido");
+                    }
+                }
 
-          btn.textContent = originalText;
-          btn.classList.remove("added");
+                // 🎨 FEEDBACK VISUAL DO BOTÃO
+                const originalText = btn.textContent;
 
-          }, 2000);
+                btn.textContent = '✓ Adicionado!';
+                btn.classList.add("added");
 
-        } else {
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove("added");
+                }, 2000);
 
-          alert("Erro ao adicionar produto: " + data.message);
+            } else {
+
+                alert("Erro ao adicionar produto: " + data.message);
+
+            }
+
+        } catch (error) {
+
+            console.error("Erro:", error);
+            alert("Erro ao adicionar produto ao carrinho");
 
         }
 
-      } catch (error) {
-
-        console.error("Erro:", error);
-        alert("Erro ao adicionar produto ao carrinho");
-
-      }
-
-      
-
     });
 
-  });
-
 });
+
+});   
+
 
 
