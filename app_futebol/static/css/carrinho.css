@@ -638,3 +638,13 @@ html, body { overflow-x: hidden; }
     width: 52px;
   }
 }
+
+
+.modo-jogo {
+    background: linear-gradient(135deg, #000, #001a00);
+}
+
+.modo-jogo .carrinho {
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 20px #00ff88;
+}

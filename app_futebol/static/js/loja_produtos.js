@@ -11,6 +11,51 @@ document.addEventListener("DOMContentLoaded", () => {
   const missaoBox = document.getElementById("missao-box");
   const lista = document.getElementById("missao-list");
 
+
+
+
+
+  function verificarMissaoCompleta() {
+    const total = document.querySelectorAll("#missao-list li").length;
+    const concluidos = document.querySelectorAll("#missao-list li.concluido").length;
+
+    if (total > 0 && total === concluidos) {
+        mostrarBotaoFinalizar();
+    }
+}
+
+
+
+function mostrarBotaoFinalizar() {
+    let btn = document.getElementById("btn-finalizar-missao");
+
+    if (!btn) {
+        btn = document.createElement("button");
+        btn.id = "btn-finalizar-missao";
+        btn.innerText = "FINALIZAR MISSÃO 🛒";
+
+        btn.style.marginTop = "15px";
+        btn.style.padding = "15px";
+        btn.style.width = "100%";
+        btn.style.background = "#00ff88";
+        btn.style.border = "none";
+        btn.style.fontWeight = "bold";
+        btn.style.cursor = "pointer";
+        btn.style.animation = "pulse 1s infinite";
+
+        document.getElementById("missao-box").appendChild(btn);
+
+        btn.addEventListener("click", () => {
+            window.location.href = "/carrinho/?modo=jogo";
+        });
+    }
+}
+
+
+
+
+
+
   if (modoJogo && missaoBox && lista) {
 
       console.log("MISSÃO ATIVADA ✅");
@@ -274,6 +319,7 @@ botoesAdicionar.forEach(btn => {
 
                     if (li && !li.classList.contains("concluido")) {
                         li.classList.add("concluido");
+                        verificarMissaoCompleta(); // 🔥 AQUI SIM É O LUGAR CERTO
                     }
                 }
 

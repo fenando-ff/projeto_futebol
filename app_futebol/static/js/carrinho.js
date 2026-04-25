@@ -5,6 +5,9 @@
    - Atualiza quantidades e o resumo (.bloco-resumo) com os valores retornados pelo servidor
    - Mantém apenas UX (popup e animações) client-side
 */
+const params = new URLSearchParams(window.location.search);
+
+
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -15,6 +18,47 @@ function getCookie(name) {
 document.addEventListener('DOMContentLoaded', () => {
   const itensCarrinho = document.querySelectorAll('.item-carrinho');
   console.log('Itens encontrados:', itensCarrinho.length);
+
+
+
+
+
+  const modoJogo = params.get("modo") === "jogo";
+  const pagamentoNormal = document.getElementById("pagamento-normal");
+  const pagamentoJogo = document.getElementById("pagamento-jogo");
+
+if (modoJogo) {
+    if (pagamentoNormal) pagamentoNormal.style.display = "none";
+    if (pagamentoJogo) pagamentoJogo.style.display = "block";
+}
+
+
+  if (modoJogo) {
+      document.querySelectorAll(".btn-mais, .btn-menos, .lixeira").forEach(el => {
+          el.style.display = "none";
+      });
+  }
+
+  if (modoJogo) {
+      document.querySelectorAll(".qtd").forEach(qtd => {
+          qtd.textContent = "1";
+      });
+  }
+
+  if (modoJogo) {
+      document.body.classList.add("modo-jogo");
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   itensCarrinho.forEach(item => {
     // Seleciona os botões CORRETAMENTE pela classe
@@ -316,4 +360,45 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // ========== FIM: BLOCO DE POP-UP DE PAGAMENTO ==========
 
+
+
+
+
+
+  const btnPagamentoGame = document.getElementById("btnPagamentoGame");
+
+if (modoJogo && btnPagamentoGame) {
+    btnPagamentoGame.addEventListener("click", () => {
+        btnPagamentoGame.disabled = true;
+        btnPagamentoGame.textContent = "Processando missão...";
+
+        fetch('/finalizar_compra/', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken') || ''
+            },
+            credentials: 'same-origin'
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.sucesso) {
+                btnPagamentoGame.textContent = "MISSÃO CONCLUÍDA ✅";
+
+                setTimeout(() => {
+                    window.location.href = "/";
+                }, 2000);
+            } else {
+                alert(data.mensagem);
+                btnPagamentoGame.disabled = false;
+                btnPagamentoGame.textContent = "FINALIZAR MISSÃO 💳";
+            }
+        })
+        .catch(() => {
+            alert("Erro na missão");
+            btnPagamentoGame.disabled = false;
+            btnPagamentoGame.textContent = "FINALIZAR MISSÃO 💳";
+        });
+    });
+}
 });
