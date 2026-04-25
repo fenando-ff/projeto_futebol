@@ -852,26 +852,50 @@ def game_toturial(request):
 
 
 
-import random
 from django.shortcuts import render
-
+from .models import Produtos
+import random
 def game_sorteio(request):
 
+    produtos_db = list(Produtos.objects.all())
+
+    # 🎯 sorteia 3 produtos reais
+    sorteados = random.sample(produtos_db, 3)
+
     produtos = [
-        {"nome": "Camisa", "img": "img/produtos/camisas/camisa 9/white_25.26(1).png"},
-        {"nome": "Touca", "img": "img/produtos/acessorios/objeto 3/touca_transparent.png"},
-        {"nome": "Camisa_n", "img": "img/produtos/camisas/camisa 7/preto_vermelho.png"},
-        {"nome": "Boneco", "img": "img/produtos/acessorios/objeto 2/boneco_transparent (3).png"},
-        {"nome": "Cachecol", "img": "img/produtos/acessorios/objeto 1/cachecol_transparent (3).png"},
-        {"nome": "Camisa_branca", "img": "img/produtos/camisas/camisa 3/Camisa_branco_red.png"},
-        {"nome": "Camisa_preta", "img": "img/produtos/camisas/camisa 10/Black_transpa.png"},
-        {"nome": "Casaco_preto", "img": "img/produtos/camisas/camisa 1/casaco_transparent.png"},
+        {
+            "id": p.id_produtos,
+            "nome": p.nome_produtos,
+            "img": p.imagem_produtos
+        }
+        for p in produtos_db
     ]
 
-    # 🎯 sorteia 3 itens (SEM REPETIR)
-    sorteados = random.sample(produtos, 3)
+    sorteados_formatados = [
+        {
+            "id": p.id_produtos,
+            "nome": p.nome_produtos,
+            "img": p.imagem_produtos
+        }
+        for p in sorteados
+    ]
 
     return render(request, "game_roleta.html", {
-        "produtos": produtos,   # lista completa (pra animação girar)
-        "sorteados": sorteados  # resultado final (777)
+        "produtos": produtos,
+        "sorteados": sorteados_formatados
     })
+
+
+
+
+
+    #   produtos = [
+    #     {"nome": "Camisa", "img": "img/produtos/camisas/camisa 9/white_25.26(1).png"},
+    #     {"nome": "Touca", "img": "img/produtos/acessorios/objeto 3/touca_transparent.png"},
+    #     {"nome": "Camisa_n", "img": "img/produtos/camisas/camisa 7/preto_vermelho.png"},
+    #     {"nome": "Boneco", "img": "img/produtos/acessorios/objeto 2/boneco_transparent (3).png"},
+    #     {"nome": "Cachecol", "img": "img/produtos/acessorios/objeto 1/cachecol_transparent (3).png"},
+    #     {"nome": "Camisa_branca", "img": "img/produtos/camisas/camisa 3/Camisa_branco_red.png"},
+    #     {"nome": "Camisa_preta", "img": "img/produtos/camisas/camisa 10/Black_transpa.png"},
+    #     {"nome": "Casaco_preto", "img": "img/produtos/camisas/camisa 1/casaco_transparent.png"},
+    # ]

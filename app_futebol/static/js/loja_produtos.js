@@ -2,8 +2,8 @@ console.log("JS LOJA CARREGOU 🔥");
 const params = new URLSearchParams(window.location.search);
 const modoJogo = params.get("modo") === "jogo";
 const itensMissao = JSON.parse(localStorage.getItem("itens_sorteados")) || [];
-
-
+JSON.parse(localStorage.getItem("itens_sorteados"))
+localStorage.getItem("itens_sorteados")
 
  
 document.addEventListener("DOMContentLoaded", () => {
@@ -17,30 +17,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       missaoBox.style.display = "block";
 
-      itensMissao.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item.nome;
-          li.dataset.nome = item.nome;
+    itensMissao.forEach(item => {
+      item.id = Number(item.id); // 🔥 força número
+      const li = document.createElement("li");
 
-          lista.appendChild(li);
+    li.dataset.nome = item.nome;
+    li.innerHTML = `
+        <div class="missao-item">
+            <img src="/static/${item.img}" alt="${item.nome}">
+            // <span>${item.nome}</span
+        </div>
+    `;
+
+
+        li.dataset.id = Number(item.id);
+
+    lista.appendChild(li);
       });
   }
 
 
 const botoesAdicionar = document.querySelectorAll(".btn-adicionar");
 
-if (modoJogo && missaoBox && lista) {
-
-    missaoBox.style.display = "block";
-
-    itensMissao.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item.nome;
-        li.dataset.nome = item.nome;
-
-        lista.appendChild(li);
-    });
-}
 
     // 🎯 EFEITO 3D NOS CARDS
     const cards = document.querySelectorAll(".produto");
@@ -211,20 +209,21 @@ if (modoJogo && missaoBox && lista) {
 botoesAdicionar.forEach(btn => {
 
     // 🎯 destaque visual dos itens da missão
-    const nome = btn.dataset.nome;
+    const produtoId = Number(btn.dataset.id);
 
-    if (modoJogo && itensMissao.some(i => i.nome === nome)) {
-        const card = btn.closest(".produto");
+    // if (modoJogo && itensMissao.some(i => Number(i.id) === produtoId)) {
+    //     const card = btn.closest(".produto");
 
-        if (card) {
-            card.style.boxShadow = "0 0 15px gold";
-            card.style.transform = "scale(1.02)";
-        }
-    }
+    //     if (card) {
+    //         card.style.boxShadow = "0 0 15px gold";
+    //         card.style.transform = "scale(1.02)";
+        // }
+    // }
 
     btn.addEventListener("click", async (e) => {
 
         e.preventDefault();
+    
 
         const produtoId = btn.dataset.id;
         const produtoNome = btn.dataset.nome;
@@ -239,6 +238,8 @@ botoesAdicionar.forEach(btn => {
                 }
             });
 
+
+
             const data = await response.json();
 
             if (data.success) {
@@ -246,9 +247,30 @@ botoesAdicionar.forEach(btn => {
                 // 🎯 MARCAR MISSÃO COMO CONCLUÍDA
                 if (modoJogo) {
 
-                    const li = document.querySelector(
-                        `#missao-list li[data-nome="${produtoNome}"]`
-                    );
+                 const produtoIdNumber = Number(produtoId);
+                  const li = document.querySelector(
+                      `#missao-list li[data-id="${produtoIdNumber}"]`
+                  );
+                  
+
+                    if (modoJogo && !itensMissao.some(i => i.id === produtoIdNumber)) {
+
+                        const card = btn.closest(".produto");
+
+                        if (card) {
+                            card.classList.add("erro");
+
+                            // remove depois pra poder repetir o efeito
+                            setTimeout(() => {
+                                card.classList.remove("erro");
+                            }, 600);
+                        }
+
+                        return; // bloqueia ação
+                    }
+
+
+
 
                     if (li && !li.classList.contains("concluido")) {
                         li.classList.add("concluido");

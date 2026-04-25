@@ -1,6 +1,9 @@
 const leverSound = document.getElementById("leverSound");
 const spinSound = document.getElementById("spinSound");
 const startBtn = document.getElementById("startGameBtn");
+localStorage.getItem("itens_sorteados")
+
+// localStorage.setItem("itens_sorteados", JSON.stringify(sorteados));
 
 const produtos = JSON.parse(
     document.getElementById("produtos-data").textContent
@@ -28,7 +31,7 @@ function generateReelContent() {
     for (let i = 0; i < 20; i++) {
         produtos.forEach(p => {
             content.push(`
-                <div class="slot-item">
+                <div class="slot-item" data-img="${p.img}">
                     <img src="/static/${p.img}">
                 </div>
             `);
@@ -84,18 +87,34 @@ function startSpin() {
 
     reels.forEach((reel, index) => {
 
-        const totalItems = reel.children.length;
-        const itemSorteado = sorteados[index];
+        const coluna = Number(reel.dataset.coluna);
+        const itemSorteado = sorteados[coluna];
+       
+        
 
-        const targetIndex = Array.from(reel.children).findIndex(el =>
-            el.innerHTML.includes(itemSorteado.img)
-        );
 
-        const itemHeight = 100;
-        const extraSpins = 8;
+       const items = Array.from(reel.children);
 
-        const loopSize = produtos.length * itemHeight;        
-        const finalY = -(targetIndex * itemHeight + extraSpins * loopSize);
+const targetIndex = items.findIndex(el =>
+    el.dataset.img === itemSorteado.img
+);
+
+// 🛡️ proteção contra erro
+if (targetIndex === -1) {
+    console.error("Item não encontrado:", itemSorteado.img);
+    return;
+}
+
+
+
+
+
+const itemHeight = 100;
+const visibleOffset = 1; // 👈 AJUSTE AQUI (posição do centro visual)
+
+const extraSpins = 6;
+
+const finalY = -((targetIndex - visibleOffset) * itemHeight + extraSpins * produtos.length * itemHeight);
 
         gsap.killTweensOf(reel);
         gsap.set(reel, { y: 0 });
@@ -108,28 +127,25 @@ function startSpin() {
             onComplete: () => {
                 completed++;
 
-                // 🎯 quando TODOS pararem
                 if (completed === reels.length) {
 
-                    // 🔇 parar som
                     spinSound.pause();
                     spinSound.currentTime = 0;
 
-                    // 💾 salvar itens
-                    localStorage.setItem("itens_sorteados", JSON.stringify(sorteados));
+                    // 💾 salvar correto
+                    localStorage.removeItem("itens_sorteados");
+                    localStorage.setItem(
+                        "itens_sorteados",
+                        JSON.stringify(sorteados)
+                    );
 
-                    // 🎉 efeitos
                     triggerWinEffect();
                     screenShake();
 
-                    // 🎮 MOSTRAR BOTÃO
                     startBtn.style.display = "block";
 
-                    // 🎮 botão aparecer
                     startBtn.addEventListener("click", () => {
-
                         window.location.href = "/loja_produtos/?modo=jogo";
-
                     });
 
                     gsap.fromTo(startBtn,
