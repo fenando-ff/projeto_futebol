@@ -648,3 +648,246 @@ html, body { overflow-x: hidden; }
     border: 2px solid #00ff88;
     box-shadow: 0 0 20px #00ff88;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* pop-up */
+
+/* OVERLAY ESCURO */
+.game-payment-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+/* MODAL PRINCIPAL */
+.game-payment-modal {
+  width: 100%;
+  max-width: 780px;
+  background: #ffffff;
+  border-radius: 20px;
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+  animation: modalFade 0.25s ease;
+}
+
+/* ANIMAÇÃO */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================= */
+/* CARTÃO (LADO ESQUERDO) */
+/* ========================= */
+
+.card-preview {
+  flex: 1;
+  background: linear-gradient(135deg, #8B0000, #c40000);
+  padding: 28px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-preview__label {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.card-preview__number {
+  font-size: 1.4rem;
+  letter-spacing: 0.25em;
+  margin: 25px 0;
+}
+
+.card-preview__info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-preview__field-label {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+.card-preview__field-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+
+.card-preview__status {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+/* ========================= */
+/* FORMULÁRIO (LADO DIREITO) */
+/* ========================= */
+
+.game-payment-form {
+  flex: 1;
+  background: #ffffff;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-payment-form h2 {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.game-payment-form p {
+  color: #777;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+
+/* INPUTS */
+.game-payment-form input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  background: #f5f6f8;
+  transition: all 0.2s ease;
+}
+
+.game-payment-form input:focus {
+  border-color: #1f8ef1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(31, 142, 241, 0.15);
+}
+
+/* GRID VALIDADE + CVV */
+.game-payment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ERRO */
+.game-payment-error {
+  background: #ffe5e5;
+  color: #b70000;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+/* BOTÕES */
+.game-payment-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.btn-pagamento {
+  flex: 1;
+  background: linear-gradient(135deg, #1f8ef1, #0f6fd1);
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.card-preview__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-preview__cvv {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.card-preview__status {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+.btn-pagamento:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(31, 142, 241, 0.3);
+}
+
+.btn-secondary {
+  background: #eee;
+  color: #333;
+}
+
+
+.btn-secondary:hover {
+  background: #ddd;
+}
+
+.card-preview__cvv {
+  margin-top: 20px;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  text-align: right;
+  letter-spacing: 0.25em;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .game-payment-modal {
+    flex-direction: column;
+  }
+
+  .card-preview {
+    border-radius: 20px 20px 0 0;
+  }
+}

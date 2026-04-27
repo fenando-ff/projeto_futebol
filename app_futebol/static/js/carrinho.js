@@ -366,39 +366,128 @@ if (modoJogo) {
 
 
   const btnPagamentoGame = document.getElementById("btnPagamentoGame");
+  const gamePaymentOverlay = document.getElementById('gamePaymentOverlay');
+  const gamePaymentConfirm = document.getElementById('gamePaymentConfirm');
+  const gamePaymentCancel = document.getElementById('gamePaymentCancel');
+  const gameCardHolder = document.getElementById('gameCardHolder');
+  const gameCardNumber = document.getElementById('gameCardNumber');
+  const gameCardExpiry = document.getElementById('gameCardExpiry');
+  const gameCardCvv = document.getElementById('gameCardCvv');
+  const gamePaymentError = document.getElementById('gamePaymentError');
+  const gamePreviewNumber = document.getElementById('gamePreviewNumber');
 
-if (modoJogo && btnPagamentoGame) {
-    btnPagamentoGame.addEventListener("click", () => {
-        btnPagamentoGame.disabled = true;
-        btnPagamentoGame.textContent = "Processando missão...";
+  const expectedCardPrefix = gamePreviewNumber
+    ? gamePreviewNumber.textContent.replace(/\s+/g, '').slice(0, 4)
+    : '5319';
 
-        fetch('/finalizar_compra/', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': getCookie('csrftoken') || ''
-            },
-            credentials: 'same-origin'
-        })
+  function showGamePaymentError(message) {
+    if (!gamePaymentError) return;
+    gamePaymentError.textContent = message;
+    gamePaymentError.style.display = message ? 'block' : 'none';
+  }
+
+  function validateGamePaymentForm() {
+    const cardHolder = gameCardHolder?.value.trim() || '';
+    const cardNumber = (gameCardNumber?.value || '').replace(/\s+/g, '');
+    const expiry = gameCardExpiry?.value.trim() || '';
+    const cvv = (gameCardCvv?.value || '').trim();
+
+    if (!cardHolder) {
+      showGamePaymentError('Nome do titular é obrigatório.');
+      return false;
+    }
+
+    if (!cardNumber.startsWith(expectedCardPrefix)) {
+      showGamePaymentError('Use as informações do cartão exibido para continuar.');
+      return false;
+    }
+
+    if (!/^[0-9]{3,4}$/.test(cvv)) {
+      showGamePaymentError('CVV deve ter 3 ou 4 dígitos.');
+      return false;
+    }
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+      showGamePaymentError('Validade deve estar no formato MM/AA.');
+      return false;
+    }
+
+    return true;
+  }
+
+  function openGamePaymentModal() {
+    if (!gamePaymentOverlay) return;
+    gamePaymentOverlay.style.display = 'flex';
+    gamePaymentOverlay.classList.add('visible');
+    showGamePaymentError('');
+    if (gamePaymentConfirm) {
+      gamePaymentConfirm.disabled = false;
+      gamePaymentConfirm.textContent = 'Confirmar';
+    }
+  }
+
+  function closeGamePaymentModal() {
+    if (!gamePaymentOverlay) return;
+    gamePaymentOverlay.style.display = 'none';
+    gamePaymentOverlay.classList.remove('visible');
+    showGamePaymentError('');
+  }
+
+  if (gamePaymentOverlay) {
+    gamePaymentOverlay.addEventListener('click', (event) => {
+      if (event.target === gamePaymentOverlay) {
+        closeGamePaymentModal();
+      }
+    });
+  }
+
+  if (gamePaymentCancel) {
+    gamePaymentCancel.addEventListener('click', closeGamePaymentModal);
+  }
+
+  if (gamePaymentConfirm) {
+    gamePaymentConfirm.addEventListener('click', () => {
+      showGamePaymentError('');
+      if (!validateGamePaymentForm()) {
+        return;
+      }
+
+      gamePaymentConfirm.disabled = true;
+      gamePaymentConfirm.textContent = 'Processando...';
+
+      fetch('/finalizar_compra/', {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken') || ''
+        },
+        credentials: 'same-origin'
+      })
         .then(r => r.json())
         .then(data => {
-            if (data.sucesso) {
-                btnPagamentoGame.textContent = "MISSÃO CONCLUÍDA ✅";
+          if (data.sucesso) {
+            closeGamePaymentModal();
+            btnPagamentoGame.textContent = 'MISSÃO CONCLUÍDA ✅';
 
-                setTimeout(() => {
-                    window.location.href = "/";
-                }, 2000);
-            } else {
-                alert(data.mensagem);
-                btnPagamentoGame.disabled = false;
-                btnPagamentoGame.textContent = "FINALIZAR MISSÃO 💳";
-            }
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 2000);
+          } else {
+            showGamePaymentError(data.mensagem || 'Erro ao finalizar a missão.');
+            gamePaymentConfirm.disabled = false;
+            gamePaymentConfirm.textContent = 'Confirmar';
+          }
         })
         .catch(() => {
-            alert("Erro na missão");
-            btnPagamentoGame.disabled = false;
-            btnPagamentoGame.textContent = "FINALIZAR MISSÃO 💳";
+          showGamePaymentError('Erro na missão. Tente novamente.');
+          gamePaymentConfirm.disabled = false;
+          gamePaymentConfirm.textContent = 'Confirmar';
         });
     });
-}
+  }
+
+  if (modoJogo && btnPagamentoGame) {
+    btnPagamentoGame.addEventListener('click', openGamePaymentModal);
+  }
+
 });
