@@ -104,28 +104,44 @@ IS_RENDER = os.environ.get("RENDER", "False") == "True"
 if IS_RENDER:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
+            "ENGINE": os.environ.get("DB_ENGINE"),
             "NAME": os.environ.get("DB_NAME"),
             "USER": os.environ.get("DB_USER"),
             "PASSWORD": os.environ.get("DB_PASSWORD"),
             "HOST": os.environ.get("DB_HOST"),
-            "PORT": int(os.environ.get("DB_PORT", 3306)),
+            "PORT": int(os.environ.get("DB_PORT")),
             "OPTIONS": {
                 "ssl": {
                     "ca": os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA"))
                 }
             },
+        },
+        "minigame": {
+            "ENGINE": os.environ.get("DB_ENGINE"),
+            "NAME": os.environ.get("DB_NAME_MINIGAME"),
+            "USER": os.environ.get("DB_USER_MINIGAME"),
+            "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME"),
+            "HOST": os.environ.get("DB_HOST_MINIGAME"),
+            "PORT": int(os.environ.get("DB_PORT_MINIGAME")),
         }
     }
 else:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE_LOCAL", "django.db.backends.mysql"),
+            "ENGINE": os.environ.get("DB_ENGINE"),
             "NAME": os.environ.get("DB_NAME_LOCAL"),
             "USER": os.environ.get("DB_USER_LOCAL"),
             "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
             "HOST": os.environ.get("DB_HOST_LOCAL"),
             "PORT": os.environ.get("DB_PORT_LOCAL"),
+        },
+        "minigame": {
+            "ENGINE": os.environ.get("DB_ENGINE"),
+            "NAME": os.environ.get("DB_NAME_MINIGAME_LOCAL"),
+            "USER": os.environ.get("DB_USER_MINIGAME_LOCAL"),
+            "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME_LOCAL"),
+            "HOST": os.environ.get("DB_HOST_MINIGAME_LOCAL"),
+            "PORT": os.environ.get("DB_PORT_MINIGAME_LOCAL"),
         }
     }
     
