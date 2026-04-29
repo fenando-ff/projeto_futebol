@@ -8,7 +8,8 @@ import random
 from django.utils import timezone # timezone para pegar a data atual
 import logging
 import re 
-from .models import models
+from app_futebol.models import models
+from app_futebol.models.models import Produtos
 
 # -------------------------------
 # Helpers
@@ -852,8 +853,7 @@ def game_toturial(request):
 
 
 
-from django.shortcuts import render
-from ..models.models import Produtos
+
 import random
 def game_sorteio(request):
 
