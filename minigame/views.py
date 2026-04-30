@@ -1,27 +1,17 @@
 from django.shortcuts import render
 from app_futebol.models.models import Produtos
 from app_futebol.models import models
+import random
 
 # Create your views here.
 def game(request):
-    """
-    View que renderiza a página do mini-jogo.
-    """
-    return render(request, 'game_inicio.html')
-
+    return render(request, 'minigame_inicio.html')
 
 
 def game_toturial(request):
-    """
-    View que renderiza a página do mini-jogo para cadastro.
-    """
-    return render(request, 'game_toturial.html')
+    return render(request, 'minigame_toturial.html')
 
 
-
-
-
-import random
 def game_sorteio(request):
 
     produtos_db = list(Produtos.objects.all())
@@ -47,7 +37,7 @@ def game_sorteio(request):
         for p in sorteados
     ]
 
-    return render(request, "game_roleta.html", {
+    return render(request, "minigame_roleta.html", {
         "produtos": produtos,
         "sorteados": sorteados_formatados
     })
