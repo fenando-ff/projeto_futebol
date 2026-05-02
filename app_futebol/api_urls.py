@@ -6,4 +6,6 @@ urlpatterns = [
     path("", include("app_futebol.urls")),      # site normal 
     path("register/", include("accounts.urls")),
     path("api/", include("app_futebol.api_urls")),  # API
+     path("minigame/", include("minigame.urls")),
+    # path("api/", include("app_futebol.api_urls")),  # API
 ]

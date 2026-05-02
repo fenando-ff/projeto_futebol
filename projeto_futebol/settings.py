@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'accounts',
     'cloudinary',
     'cloudinary_storage',
+    'minigame',
 ]
 
 cloudinary.config(

@@ -5,11 +5,11 @@ import random
 
 # Create your views here.
 def game(request):
-    return render(request, 'minigame_inicio.html')
+    return render(request, 'minigame/game.html')
 
 
 def game_toturial(request):
-    return render(request, 'minigame_toturial.html')
+    return render(request, 'minigame/game_toturial.html')
 
 
 def game_sorteio(request):
@@ -37,7 +37,7 @@ def game_sorteio(request):
         for p in sorteados
     ]
 
-    return render(request, "minigame_roleta.html", {
+    return render(request, "minigame/game_roleta.html", {
         "produtos": produtos,
         "sorteados": sorteados_formatados
     })
