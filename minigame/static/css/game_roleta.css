@@ -10,40 +10,42 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
+    transform: scale(1.25);
 
     padding: 30px;
 
-    background: radial-gradient(circle at top, #1a0000, #000);
+    background: radial-gradient(circle at center,
+        rgba(40, 0, 0, 0.95),
+        rgba(0, 0, 0, 0.98)
+    );
+
     border-radius: 25px;
 
-    border: 3px solid #ff0000;
+    border: 2px solid rgba(255, 0, 0, 0.35);
 
     box-shadow:
-        0 0 40px rgba(255, 0, 0, 0.6),
-        inset 0 0 20px rgba(255, 0, 0, 0.3);
+        0 0 25px rgba(255, 0, 0, 0.25),
+        inset 0 0 20px rgba(0, 0, 0, 0.8);
 
     position: relative;
 }
 
+
+
+
 .slot-machine::before {
     content: "";
     position: absolute;
-    inset: -5px;
-    border-radius: 30px;
-    
+    inset: 0;
 
-    background: linear-gradient(
-        90deg,
-        rgb(82, 0, 0),
-        rgb(31, 31, 31),
-        rgb(88, 0, 0),
-        rgb(23, 23, 23)
+    border-radius: 25px;
+
+    background: radial-gradient(circle at center,
+        rgba(255, 0, 0, 0.08),
+        transparent 70%
     );
 
-    background-size: 200%;
-
-    animation: lights 3s linear infinite;
-    z-index: -1;
+    pointer-events: none;
 }
 
 @keyframes lights {
@@ -201,18 +203,69 @@ body {
 
     cursor: pointer;
     position: fixed;
-    bottom: 30px;
+    bottom: 40px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) scale(0.8);
 
-    padding: 15px 40px;
+    padding: 16px 45px;
     font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
 
-    background: rgb(95, 0, 0);
+    background: linear-gradient(145deg, #8b0000, #ff1a1a);
     color: white;
-    border-radius: 30px;
+
+    border: 2px solid #ff3b3b;
+    border-radius: 40px;
+
+    box-shadow:
+        0 0 15px rgba(255, 0, 0, 0.6),
+        0 0 40px rgba(255, 0, 0, 0.3);
 
     z-index: 999;
+
+    opacity: 0;
+    filter: brightness(1);
+}
+
+/* ✨ quando aparece */
+#startGameBtn.show {
+    display: block;
+    animation: btnAppear 0.6s ease forwards, pulseGlow 1.5s infinite;
+}
+
+/* entrada suave */
+@keyframes btnAppear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px) scale(0.6);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+}
+
+/* brilho pulsante */
+@keyframes pulseGlow {
+    0% {
+        box-shadow:
+            0 0 15px rgba(255, 0, 0, 0.5),
+            0 0 30px rgba(255, 0, 0, 0.2);
+        filter: brightness(1);
+    }
+    50% {
+        box-shadow:
+            0 0 25px rgba(255, 60, 0, 0.9),
+            0 0 60px rgba(255, 0, 0, 0.4);
+        filter: brightness(1.2);
+    }
+    100% {
+        box-shadow:
+            0 0 15px rgba(255, 0, 0, 0.5),
+            0 0 30px rgba(255, 0, 0, 0.2);
+        filter: brightness(1);
+    }
 }
 
 

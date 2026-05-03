@@ -2,20 +2,26 @@ from django.shortcuts import render
 from app_futebol.models.models import Produtos
 from app_futebol.models import models
 import random
+from .decorators import login_obrigatorio
+
 
 # Create your views here.
+@login_obrigatorio
 def game(request):
     return render(request, 'minigame/game_inicio.html')
 
 
+@login_obrigatorio
 def menu_fases(request):
     return render(request, 'minigame/menu_game.html')
 
 
+@login_obrigatorio
 def game_toturial(request):
     return render(request, 'minigame/game_toturial.html')
 
 
+@login_obrigatorio
 def game_sorteio(request):
 
     produtos_db = list(Produtos.objects.all())

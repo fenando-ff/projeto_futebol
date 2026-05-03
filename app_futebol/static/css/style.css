@@ -661,3 +661,50 @@ transform:rotate(25deg);
 }
 
 
+.container-messages{
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 2000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* base */
+.alert{
+  padding: 14px 18px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+  animation: slideIn .3s ease;
+}
+
+/* tipos */
+.alert.warning{
+  background: linear-gradient(135deg, #a90000, #0b0000);
+}
+
+.alert.success{
+  background: linear-gradient(135deg, #060000, #16a34a);
+}
+
+.alert.error{
+  background: linear-gradient(135deg, #0f0000, #dc2626);
+}
+
+/* animação */
+@keyframes slideIn{
+  from{
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

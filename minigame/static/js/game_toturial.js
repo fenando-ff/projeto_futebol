@@ -7,12 +7,9 @@ let current = 0;
 let started = false;
 
 // 🎯 PRIMEIRO CLIQUE NA TELA (desbloqueia áudio)
-document.addEventListener("click", () => {
-    if (started) return;
-    started = true;
-
+window.addEventListener("load", () => {
     startIntro();
-}, { once: true });
+});
 
 function updateCards() {
     cards.forEach((card, i) => {

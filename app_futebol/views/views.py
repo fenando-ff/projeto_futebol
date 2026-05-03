@@ -837,9 +837,9 @@ def pagamento_socio(request, plano_id):
 
 
 def game(request):
-    """
-    View que renderiza a página do mini-jogo.
-    """
+    if not request.session.get("cliente_id"):
+        return redirect("login")  # ou "tela_login" dependendo do nome da sua url
+    
     return render(request, 'game_inicio.html')
 
 

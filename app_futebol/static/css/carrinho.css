@@ -678,29 +678,26 @@ html, body { overflow-x: hidden; }
 /* OVERLAY ESCURO */
 .game-payment-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  padding: 20px;
 }
 
 /* MODAL PRINCIPAL */
 .game-payment-modal {
-  width: 100%;
-  max-width: 780px;
+  width: 900px;
+  max-width: 95%;
   background: #ffffff;
-  border-radius: 20px;
-  display: flex;
-  gap: 24px;
-  padding: 24px;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
-  animation: modalFade 0.25s ease;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+  animation: fadeUp 0.3s ease;
 }
 
 /* ANIMAÇÃO */
@@ -720,13 +717,25 @@ html, body { overflow-x: hidden; }
 /* ========================= */
 
 .card-preview {
-  flex: 1;
-  background: linear-gradient(135deg, #8B0000, #c40000);
-  padding: 28px;
+  background: linear-gradient(135deg, #8b0000, #b30000);
   color: #fff;
+  padding: 30px;
+  border-radius: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
+}
+
+.card-preview::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: rotate(25deg);
 }
 
 .card-preview__label {
@@ -737,9 +746,15 @@ html, body { overflow-x: hidden; }
 }
 
 .card-preview__number {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   letter-spacing: 0.25em;
-  margin: 25px 0;
+  margin-top: 30px;
+}
+
+.card-preview__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-preview__info {
@@ -765,6 +780,16 @@ html, body { overflow-x: hidden; }
   opacity: 0.85;
 }
 
+
+.card-preview__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* validade */
+.card-preview__expiry {
+  font-size: 0.85rem;
+}
 /* ========================= */
 /* FORMULÁRIO (LADO DIREITO) */
 /* ========================= */
@@ -778,26 +803,24 @@ html, body { overflow-x: hidden; }
 }
 
 .game-payment-form h2 {
-  font-size: 1.4rem;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
+
 .game-payment-form p {
-  color: #777;
-  margin-bottom: 18px;
-  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 /* INPUTS */
 .game-payment-form input {
   width: 100%;
   padding: 13px;
+  border-radius: 10px;
   border: 1px solid #ddd;
-  border-radius: 12px;
-  margin-bottom: 14px;
+  margin-bottom: 15px;
+  transition: 0.2s;
   font-size: 0.95rem;
-  background: #f5f6f8;
-  transition: all 0.2s ease;
 }
 
 .game-payment-form input:focus {
@@ -810,7 +833,7 @@ html, body { overflow-x: hidden; }
 .game-payment-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 /* ERRO */
@@ -819,9 +842,10 @@ html, body { overflow-x: hidden; }
   color: #b70000;
   padding: 10px;
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
   font-weight: 500;
 }
+
 
 /* BOTÕES */
 .game-payment-actions {
@@ -832,11 +856,11 @@ html, body { overflow-x: hidden; }
 
 .btn-pagamento {
   flex: 1;
-  background: linear-gradient(135deg, #1f8ef1, #0f6fd1);
+  background: #1f8ef1;
   color: #fff;
   border: none;
   padding: 13px;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
   transition: 0.2s;
@@ -849,9 +873,13 @@ html, body { overflow-x: hidden; }
 }
 
 .card-preview__cvv {
-  font-size: 0.75rem;
-  opacity: 0.6;
-}
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  letter-spacing: 3px;
+}  
 
 .card-preview__status {
   text-align: right;
@@ -859,9 +887,10 @@ html, body { overflow-x: hidden; }
 }
 
 .btn-pagamento:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(31, 142, 241, 0.3);
+  background: #0f6fd1;
+  transform: scale(1.02);
 }
+
 
 .btn-secondary {
   background: #eee;
