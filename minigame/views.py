@@ -5,7 +5,11 @@ import random
 
 # Create your views here.
 def game(request):
-    return render(request, 'minigame/game.html')
+    return render(request, 'minigame/game_inicio.html')
+
+
+def menu_fases(request):
+    return render(request, 'minigame/menu_game.html')
 
 
 def game_toturial(request):

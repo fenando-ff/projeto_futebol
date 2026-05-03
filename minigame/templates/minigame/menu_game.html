@@ -1,0 +1,48 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/menu_fases.css' %}">
+
+<section class="menu-fases">
+
+    <h1 class="menu-title">ESCOLHA SUA FASE</h1>
+
+    <div class="fases-container">
+
+        <!-- FASE 1 (liberada) -->
+        <a href="{% url 'mini_game_toturial' %}" class="fase-card">
+            <div class="fase-inner">
+                <span class="fase-label">FASE</span>
+                <span class="fase-num">01</span>
+            </div>
+        </a>
+
+        <!-- FASE 2 (bloqueada) -->
+        <a href="#" class="fase-card locked" id="fase2" data-locked="true">
+
+            <!-- CONTEÚDO NORMAL -->
+            <div class="fase-inner">
+                <span class="fase-label">FASE</span>
+                <span class="fase-num">02</span>
+            </div>
+
+            <!-- CADEADO (inicialmente invisível, JS controla) -->
+            <div class="lock-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 10V7a5 5 0 0110 0v3"
+                          stroke="#ff3b3b" stroke-width="1.5"/>
+                    <rect x="5" y="10" width="14" height="10" rx="2"
+                          stroke="#ff3b3b" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <!-- AVISO (também controlado via JS) -->
+            <div class="lock-warning" id="lockWarning">
+                Finalize a Fase 01
+            </div>
+
+        </a>
+
+    </div>
+
+    <script src="{% static 'js/game_menu.js' %}"></script>
+
+</section>

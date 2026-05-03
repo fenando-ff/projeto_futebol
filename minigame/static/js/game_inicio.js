@@ -120,7 +120,7 @@ btn.addEventListener("click", () => {
         }, 1500);
 
         setTimeout(() => {
-            window.location.href = "/game_toturial/";
+            window.location.href = "/game/menu_game/";
         }, 3000);
 
     }, 1200);
