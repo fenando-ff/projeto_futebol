@@ -20,6 +20,30 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Itens encontrados:', itensCarrinho.length);
 
 
+  let gameStartTime = Date.now();
+  let erros = 0;
+  let combo = 0;
+  let maxCombo = 0;
+
+  let timerInterval = null;
+  const gameTimerEl = document.getElementById('gameTimer');
+
+function iniciarTimer() {
+  if (!gameTimerEl) return;
+
+  timerInterval = setInterval(() => {
+    const tempoAtual = ((Date.now() - gameStartTime) / 1000).toFixed(1);
+    gameTimerEl.textContent = `⏱️ ${tempoAtual}s`;
+  }, 100);
+}
+
+function pararTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
 
 
 
@@ -48,8 +72,6 @@ if (modoJogo) {
   if (modoJogo) {
       document.body.classList.add("modo-jogo");
   }
-
-
 
 
 
@@ -375,6 +397,12 @@ if (modoJogo) {
   const gameCardCvv = document.getElementById('gameCardCvv');
   const gamePaymentError = document.getElementById('gamePaymentError');
   const gamePreviewNumber = document.getElementById('gamePreviewNumber');
+  const resultadoOverlay = document.getElementById('resultadoOverlay');
+  const resTempo = document.getElementById('resTempo');
+  const resCombo = document.getElementById('resCombo');
+  const resErros = document.getElementById('resErros');
+  const rankDisplay = document.getElementById('rankDisplay');
+  const resultadoClose = document.getElementById('resultadoClose');
 
   const expectedCardPrefix = gamePreviewNumber
     ? gamePreviewNumber.textContent.replace(/\s+/g, '').slice(0, 4)
@@ -386,51 +414,86 @@ if (modoJogo) {
     gamePaymentError.style.display = message ? 'block' : 'none';
   }
 
+  function calcularRank(tempo) {
+    if (tempo < 20) return 'S';
+    if (tempo < 30) return 'A';
+    if (tempo < 45) return 'B';
+    return 'C';
+  }
+
   function validateGamePaymentForm() {
-    const cardHolder = gameCardHolder?.value.trim() || '';
-    const cardNumber = (gameCardNumber?.value || '').replace(/\s+/g, '');
-    const expiry = gameCardExpiry?.value.trim() || '';
-    const cvv = (gameCardCvv?.value || '').trim();
+    if (!modoJogo) {
+      return true;
+    }
+
+    const cardHolder = gameCardHolder?.value.trim();
+    const cardNumber = gameCardNumber?.value.replace(/\s+/g, '');
+    const expiry = gameCardExpiry?.value.trim();
+    const cvv = gameCardCvv?.value.trim();
 
     if (!cardHolder) {
+      erros++;
+      combo = 0;
       showGamePaymentError('Nome do titular é obrigatório.');
       return false;
     }
 
     if (!cardNumber.startsWith(expectedCardPrefix)) {
+      erros++;
+      combo = 0;
       showGamePaymentError('Use as informações do cartão exibido para continuar.');
       return false;
     }
 
     if (!/^[0-9]{3,4}$/.test(cvv)) {
+      erros++;
+      combo = 0;
       showGamePaymentError('CVV deve ter 3 ou 4 dígitos.');
       return false;
     }
 
     if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiry)) {
+      erros++;
+      combo = 0;
       showGamePaymentError('Validade deve estar no formato MM/AA.');
       return false;
     }
 
+    combo += 1;
+    maxCombo = Math.max(maxCombo, combo);
     return true;
   }
 
+
+
+
   function openGamePaymentModal() {
     if (!gamePaymentOverlay) return;
+
     gamePaymentOverlay.style.display = 'flex';
     gamePaymentOverlay.classList.add('visible');
+
+    gameStartTime = Date.now(); // 🔥 reinicia tempo
+    iniciarTimer();             // 🔥 começa cronômetro
+
     showGamePaymentError('');
+
     if (gamePaymentConfirm) {
       gamePaymentConfirm.disabled = false;
       gamePaymentConfirm.textContent = 'Confirmar';
     }
   }
 
+
+
+
+
   function closeGamePaymentModal() {
     if (!gamePaymentOverlay) return;
     gamePaymentOverlay.style.display = 'none';
     gamePaymentOverlay.classList.remove('visible');
     showGamePaymentError('');
+    pararTimer();
   }
 
   if (gamePaymentOverlay) {
@@ -443,6 +506,12 @@ if (modoJogo) {
 
   if (gamePaymentCancel) {
     gamePaymentCancel.addEventListener('click', closeGamePaymentModal);
+  }
+
+  if (resultadoClose) {
+    resultadoClose.addEventListener('click', () => {
+      if (resultadoOverlay) resultadoOverlay.style.display = 'none';
+    });
   }
 
   if (gamePaymentConfirm) {
@@ -466,12 +535,18 @@ if (modoJogo) {
         .then(r => r.json())
         .then(data => {
           if (data.sucesso) {
+            pararTimer();
             closeGamePaymentModal();
             btnPagamentoGame.textContent = 'MISSÃO CONCLUÍDA ✅';
 
-            setTimeout(() => {
-              window.location.href = '/';
-            }, 2000);
+            const tempoFinal = Math.round((Date.now() - gameStartTime) / 1000);
+            const rank = calcularRank(tempoFinal);
+
+            if (resTempo) resTempo.textContent = `${tempoFinal}s`;
+            if (resCombo) resCombo.textContent = combo;
+            if (resErros) resErros.textContent = erros;
+            if (rankDisplay) rankDisplay.textContent = rank;
+            if (resultadoOverlay) resultadoOverlay.style.display = 'flex';
           } else {
             showGamePaymentError(data.mensagem || 'Erro ao finalizar a missão.');
             gamePaymentConfirm.disabled = false;

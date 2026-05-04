@@ -1,6 +1,12 @@
 const fase2 = document.getElementById("fase2");
 const warning = document.getElementById("lockWarning");
 
+
+document.querySelector('.fase-card').addEventListener('mouseenter', () => {
+    document.querySelector('.ranking-side').style.boxShadow =
+        "0 0 30px rgba(255,0,0,0.6)";
+});
+
 if (fase2 && warning) {
     fase2.addEventListener("click", function(e) {
 
@@ -46,3 +52,4 @@ if (fase2 && warning) {
         }
     });
 }
+

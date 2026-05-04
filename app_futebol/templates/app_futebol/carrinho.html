@@ -158,7 +158,7 @@
     <!-- 💳 CARTÃO -->
         <div class="card-preview">
 
-          <div class="card-preview__number">
+          <div id="gamePreviewNumber" class="card-preview__number">
             5319 8472 6631 9084
           </div>
 
@@ -208,9 +208,23 @@
         <button id="gamePaymentConfirm" class="btn-pagamento">Confirmar</button>
         <button id="gamePaymentCancel" class="btn-secondary">Cancelar</button>
       </div>
+      <div id="gameTimer" class="game-timer">⏱️ 0.0s</div>
 
     </div>
 
+  </div>
+</div>
+
+
+
+<div id="resultadoOverlay" class="resultado-overlay" style="display:none;">
+  <div class="resultado-modal">
+    <h2>Resultado da Missão</h2>
+    <p>Tempo: <strong id="resTempo">0s</strong></p>
+    <p>Combo: <strong id="resCombo">0</strong></p>
+    <p>Erros: <strong id="resErros">0</strong></p>
+    <p>Rank: <strong id="rankDisplay">C</strong></p>
+    <button id="resultadoClose" class="btn-pagamento">Fechar</button>
   </div>
 </div>
 

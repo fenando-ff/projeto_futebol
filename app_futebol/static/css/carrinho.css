@@ -645,8 +645,8 @@ html, body { overflow-x: hidden; }
 }
 
 .modo-jogo .carrinho {
-    border: 2px solid #00ff88;
-    box-shadow: 0 0 20px #00ff88;
+    border: 2px solid #830000;
+    box-shadow: 0 0 20px #db0000;
 }
 
 
@@ -824,7 +824,7 @@ html, body { overflow-x: hidden; }
 }
 
 .game-payment-form input:focus {
-  border-color: #1f8ef1;
+  border-color: #171717;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(31, 142, 241, 0.15);
 }
@@ -856,7 +856,7 @@ html, body { overflow-x: hidden; }
 
 .btn-pagamento {
   flex: 1;
-  background: #1f8ef1;
+  background: #141414;
   color: #fff;
   border: none;
   padding: 13px;
@@ -893,12 +893,19 @@ html, body { overflow-x: hidden; }
 
 
 .btn-secondary {
-  background: #eee;
-  color: #333;
+  flex: 1;
+  background: #141414;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
 }
 
 
-.btn-secondary:hover {
+..btn-secondary:hover {
   background: #ddd;
 }
 
@@ -910,6 +917,38 @@ html, body { overflow-x: hidden; }
   letter-spacing: 0.25em;
 }
 
+.resultado-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10001;
+}
+
+.resultado-modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 18px;
+  width: min(420px, 90vw);
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+}
+
+.resultado-modal h2 {
+  margin-bottom: 1rem;
+}
+
+.resultado-modal p {
+  font-size: 1rem;
+  margin: 0.6rem 0;
+}
+
+.resultado-modal button {
+  margin-top: 1.4rem;
+}
+
 /* RESPONSIVO */
 @media (max-width: 768px) {
   .game-payment-modal {
@@ -919,4 +958,29 @@ html, body { overflow-x: hidden; }
   .card-preview {
     border-radius: 20px 20px 0 0;
   }
+}
+
+
+.rank {
+  font-size: 120px;
+  color: gold;
+  transform: scale(0.5);
+  opacity: 0;
+  animation: rankPop 0.6s ease forwards;
+}
+
+@keyframes rankPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+
+.game-timer {
+  font-size: 24px;
+  font-weight: bold;
+  color: #a80000;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #540000;
 }

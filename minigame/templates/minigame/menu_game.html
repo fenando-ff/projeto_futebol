@@ -2,12 +2,43 @@
 <link rel="stylesheet" href="{% static 'css/menu_fases.css' %}">
 
 <section class="menu-fases">
-
     <h1 class="menu-title">ESCOLHA SUA FASE</h1>
 
+    <!-- 🔺 RANKING EM CIMA -->
+    <div class="ranking-top">
+        <h3 class="ranking-title">TOP PLAYERS 🔥</h3>
+
+        <div class="ranking-list">
+            <div class="rank-item">
+                <span>#1 Rafael</span>
+                <span>S • 14.2s</span>
+            </div>
+
+            <div class="rank-item">
+                <span>#2 Lucas</span>
+                <span>A • 21.8s</span>
+            </div>
+
+            <div class="rank-item">
+                <span>#3 Ana</span>
+                <span>S • 18.1s</span>
+            </div>
+
+            <div class="rank-item">
+                <span>#4 João</span>
+                <span>B • 30.5s</span>
+            </div>
+
+            <div class="rank-item ghost">
+                <span>#5 ???</span>
+                <span>— • ---</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔻 FASES EMBAIXO -->
     <div class="fases-container">
 
-        <!-- FASE 1 (liberada) -->
         <a href="{% url 'mini_game_toturial' %}" class="fase-card">
             <div class="fase-inner">
                 <span class="fase-label">FASE</span>
@@ -15,16 +46,12 @@
             </div>
         </a>
 
-        <!-- FASE 2 (bloqueada) -->
         <a href="#" class="fase-card locked" id="fase2" data-locked="true">
-
-            <!-- CONTEÚDO NORMAL -->
             <div class="fase-inner">
                 <span class="fase-label">FASE</span>
                 <span class="fase-num">02</span>
             </div>
 
-            <!-- CADEADO (inicialmente invisível, JS controla) -->
             <div class="lock-icon">
                 <svg viewBox="0 0 24 24" fill="none">
                     <path d="M7 10V7a5 5 0 0110 0v3"
@@ -34,15 +61,12 @@
                 </svg>
             </div>
 
-            <!-- AVISO (também controlado via JS) -->
             <div class="lock-warning" id="lockWarning">
                 Finalize a Fase 01
             </div>
-
         </a>
 
     </div>
 
     <script src="{% static 'js/game_menu.js' %}"></script>
-
 </section>
