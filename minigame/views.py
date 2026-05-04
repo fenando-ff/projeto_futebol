@@ -59,3 +59,37 @@ def game_sorteio(request):
         "produtos": produtos,
         "sorteados": sorteados_formatados
     })
+    
+    
+    
+@login_obrigatorio
+def game_quiz(request):
+
+    questoes_db = model_minigame.Questoes.objects.using('minigame').all() #anotado
+
+    perguntas = []
+
+    for q in questoes_db:
+        alternativas = q.alternativas_set.all()  # ⚠️ AQUI MUDA
+
+        opcoes = []
+
+        for alt in alternativas:
+            opcoes.append({
+                "id": alt.id_alternativa,
+                "texto": alt.opcao_resposta,
+                "correta": bool(alt.resposta_correta),  # 👈 converte 0/1 pra true/false
+                "ponto": alt.ponto
+            })
+
+        perguntas.append({
+            "id": q.id_questao,
+            "pergunta": q.pergunta,
+            "opcoes": opcoes
+        })
+
+    return render(request, "minigame/game_quiz.html", {
+        "perguntas": perguntas
+    })
+    
+    

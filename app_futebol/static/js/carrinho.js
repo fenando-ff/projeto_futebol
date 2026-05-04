@@ -293,25 +293,25 @@ if (modoJogo) {
     if (tipo === "visa" || tipo === "mastercard") {
       payTitle.textContent = `Pagamento com ${tipo.toUpperCase()}`;
       paySubtitle.textContent = "Preencha os dados do cartão:";
-      payForm.innerHTML = `
-        <label>Nome do titular</label>
-        <input type="text" placeholder="Nome no cartão">
+        payForm.innerHTML = `
+          <label for="cardName">Nome do titular</label>
+          <input id="cardName" type="text" placeholder="Nome no cartão">
 
-        <label>Número do cartão</label>
-        <input type="text" maxlength="19" placeholder="0000 0000 0000 0000">
+          <label for="cardNumber">Número do cartão</label>
+          <input id="cardNumber" type="text" maxlength="19" placeholder="0000 0000 0000 0000">
 
-        <div class="row">
-          <div>
-            <label>Validade</label>
-            <input type="text" maxlength="5" placeholder="MM/AA">
+          <div class="row">
+            <div>
+              <label for="cardExpiry">Validade</label>
+              <input id="cardExpiry" type="text" maxlength="5" placeholder="MM/AA">
+            </div>
+
+            <div>
+              <label for="cardCvv">CVV</label>
+              <input id="cardCvv" type="text" maxlength="4" placeholder="123">
+            </div>
           </div>
-
-          <div>
-            <label>CVV</label>
-            <input type="text" maxlength="4" placeholder="123">
-          </div>
-        </div>
-      `;
+        `;
     }
 
     // Formulário para PayPal
