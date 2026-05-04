@@ -607,6 +607,7 @@ def tela_login(request):
 
 def logout_view(request):
     request.session.flush()
+    # mensagem de sucesso opcional
     return redirect("home")
 
 
@@ -671,6 +672,7 @@ def tela_rec_senha(request):
                 fail_silently=False,
             )
         except Exception as e:
+            print(e)
             return render(request, "app_futebol/rec_senha.html", {
                 "erro": "Erro ao enviar email. Tente novamente."
             })
@@ -836,54 +838,54 @@ def pagamento_socio(request, plano_id):
     })
 
 
-def game(request):
-    if not request.session.get("cliente_id"):
-        return redirect("login")  # ou "tela_login" dependendo do nome da sua url
+# def game(request):
+#     if not request.session.get("cliente_id"):
+#         return redirect("login")  # ou "tela_login" dependendo do nome da sua url
     
-    return render(request, 'game_inicio.html')
+#     return render(request, 'game_inicio.html')
 
 
 
-def game_toturial(request):
-    """
-    View que renderiza a página do mini-jogo para cadastro.
-    """
-    return render(request, 'game_toturial.html')
+# def game_toturial(request):
+#     """
+#     View que renderiza a página do mini-jogo para cadastro.
+#     """
+#     return render(request, 'game_toturial.html')
 
 
 
 
 
-import random
-def game_sorteio(request):
+# import random
+# def game_sorteio(request):
 
-    produtos_db = list(Produtos.objects.all())
+#     produtos_db = list(Produtos.objects.all())
 
-    # 🎯 sorteia 3 produtos reais
-    sorteados = random.sample(produtos_db, 3)
+#     # 🎯 sorteia 3 produtos reais
+#     sorteados = random.sample(produtos_db, 3)
 
-    produtos = [
-        {
-            "id": p.id_produtos,
-            "nome": p.nome_produtos,
-            "img": p.imagem_produtos
-        }
-        for p in produtos_db
-    ]
+#     produtos = [
+#         {
+#             "id": p.id_produtos,
+#             "nome": p.nome_produtos,
+#             "img": p.imagem_produtos
+#         }
+#         for p in produtos_db
+#     ]
 
-    sorteados_formatados = [
-        {
-            "id": p.id_produtos,
-            "nome": p.nome_produtos,
-            "img": p.imagem_produtos
-        }
-        for p in sorteados
-    ]
+#     sorteados_formatados = [
+#         {
+#             "id": p.id_produtos,
+#             "nome": p.nome_produtos,
+#             "img": p.imagem_produtos
+#         }
+#         for p in sorteados
+#     ]
 
-    return render(request, "game_roleta.html", {
-        "produtos": produtos,
-        "sorteados": sorteados_formatados
-    })
+#     return render(request, "game_roleta.html", {
+#         "produtos": produtos,
+#         "sorteados": sorteados_formatados
+#     })
 
 
 

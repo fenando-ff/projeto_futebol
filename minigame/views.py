@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from app_futebol.models.models import Produtos
 from app_futebol.models import models
 import random
