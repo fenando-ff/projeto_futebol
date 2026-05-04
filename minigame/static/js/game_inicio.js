@@ -117,10 +117,6 @@
                 );
             }, 1500);
 
-            setTimeout(() => {
-                window.location.href = "/game/menu_game/";
-            }, 3000);
-
         }, 1200);
     });
 

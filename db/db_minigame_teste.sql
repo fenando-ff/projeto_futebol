@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `alternativas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `alternativas` (
-  `id_alternativa` int NOT NULL,
+  `id_alternativa` int NOT NULL AUTO_INCREMENT,
   `opcao_resposta` varchar(500) NOT NULL,
   `resposta_correta` tinyint NOT NULL,
   `ponto` int NOT NULL,
@@ -54,7 +54,7 @@ DROP TABLE IF EXISTS `participantes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `participantes` (
-  `id_participante` int NOT NULL,
+  `id_participante` int NOT NULL AUTO_INCREMENT,
   `nome_participante` varchar(45) NOT NULL,
   `tempo` time DEFAULT NULL,
   PRIMARY KEY (`id_participante`)
@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS `questoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `questoes` (
-  `id_questao` int NOT NULL,
+  `id_questao` int NOT NULL AUTO_INCREMENT,
   `pergunta` text NOT NULL,
   PRIMARY KEY (`id_questao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

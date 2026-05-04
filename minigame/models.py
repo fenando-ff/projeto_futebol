@@ -24,12 +24,12 @@ class Alternativas(models.Model):
 
 
 class Participantes(models.Model):
-    id_participante = models.IntegerField(primary_key=True)
+    id_participante = models.AutoField(primary_key=True)
     nome_participante = models.CharField(max_length=45)
     tempo = models.TimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'participantes'
         
     def __str__(self):

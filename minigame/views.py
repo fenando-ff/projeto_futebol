@@ -1,13 +1,21 @@
 from django.shortcuts import render, redirect
-from app_futebol.models.models import Produtos
+from minigame import models as model_minigame
 from app_futebol.models import models
 import random
 from .decorators import login_obrigatorio
 
-
 # Create your views here.
 @login_obrigatorio
 def game(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
+            mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
+            return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
+        
+        model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
+        return redirect('menu_fases')
+        
     return render(request, 'minigame/game_inicio.html')
 
 
@@ -24,7 +32,7 @@ def game_toturial(request):
 @login_obrigatorio
 def game_sorteio(request):
 
-    produtos_db = list(Produtos.objects.all())
+    produtos_db = list(models.Produtos.objects.all())
 
     # 🎯 sorteia 3 produtos reais
     sorteados = random.sample(produtos_db, 3)
