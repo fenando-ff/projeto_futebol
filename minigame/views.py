@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from app_futebol.models.models import Produtos
+from minigame import models as minigame_models
 from app_futebol.models import models
 import random
 from .decorators import login_obrigatorio
@@ -24,7 +24,7 @@ def game_toturial(request):
 @login_obrigatorio
 def game_sorteio(request):
 
-    produtos_db = list(Produtos.objects.all())
+    produtos_db = list(models.Produtos.objects.all())
 
     # 🎯 sorteia 3 produtos reais
     sorteados = random.sample(produtos_db, 3)
@@ -51,3 +51,37 @@ def game_sorteio(request):
         "produtos": produtos,
         "sorteados": sorteados_formatados
     })
+    
+    
+    
+@login_obrigatorio
+def game_quiz(request):
+
+    questoes_db = minigame_models.Questoes.objects.using('minigame').all() #anotado
+
+    perguntas = []
+
+    for q in questoes_db:
+        alternativas = q.alternativas_set.all()  # ⚠️ AQUI MUDA
+
+        opcoes = []
+
+        for alt in alternativas:
+            opcoes.append({
+                "id": alt.id_alternativa,
+                "texto": alt.opcao_resposta,
+                "correta": bool(alt.resposta_correta),  # 👈 converte 0/1 pra true/false
+                "ponto": alt.ponto
+            })
+
+        perguntas.append({
+            "id": q.id_questao,
+            "pergunta": q.pergunta,
+            "opcoes": opcoes
+        })
+
+    return render(request, "minigame/game_quiz.html", {
+        "perguntas": perguntas
+    })
+    
+    
