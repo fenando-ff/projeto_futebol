@@ -6,34 +6,19 @@
 
     <!-- 🔺 RANKING EM CIMA -->
     <div class="ranking-top">
-        <h3 class="ranking-title">TOP PLAYERS 🔥</h3>
-
-        <div class="ranking-list">
-            <div class="rank-item">
-                <span>#1 Rafael</span>
-                <span>S • 14.2s</span>
-            </div>
-
-            <div class="rank-item">
-                <span>#2 Lucas</span>
-                <span>A • 21.8s</span>
-            </div>
-
-            <div class="rank-item">
-                <span>#3 Ana</span>
-                <span>S • 18.1s</span>
-            </div>
-
-            <div class="rank-item">
-                <span>#4 João</span>
-                <span>B • 30.5s</span>
-            </div>
-
-            <div class="rank-item ghost">
-                <span>#5 ???</span>
-                <span>— • ---</span>
-            </div>
+      <div class="ranking-list">
+    {% for jogador in jogadores %}
+        <div class="rank-item">
+            <span>#{{ forloop.counter }} {{ jogador.nome_participante }}</span>
+            <span>— • ---</span>
         </div>
+    {% empty %}
+        <div class="rank-item ghost">
+            <span>Nenhum jogador ainda</span>
+            <span>—</span>
+        </div>
+    {% endfor %}
+</div>
     </div>
 
     <!-- 🔻 FASES EMBAIXO -->

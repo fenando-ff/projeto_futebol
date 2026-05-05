@@ -19,9 +19,17 @@ def game(request):
     return render(request, 'minigame/game_inicio.html')
 
 
+
+
+
 @login_obrigatorio
 def menu_fases(request):
-    return render(request, 'minigame/menu_game.html')
+    jogadores = model_minigame.Participantes.objects.using('minigame')\
+        .all().order_by('-id_participante')[:5]
+
+    return render(request, 'minigame/menu_game.html', {
+        'jogadores': jogadores
+    })
 
 
 @login_obrigatorio

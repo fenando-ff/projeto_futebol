@@ -4,6 +4,7 @@
     // const clickSound = document.getElementById("clickSound");
     const cadastroScreen = document.getElementById("cadastroScreen");
     const nomeInput = document.getElementById("nome");
+    const form = document.getElementById("cadastroForm");
 
     // const formSound = document.getElementById("formSound");
     const btn = document.getElementById("btnCadastrar");
@@ -82,43 +83,47 @@
     });
 
 
-    btn.addEventListener("click", () => {
-        const nome = nomeInput.value.trim();
+        btn.addEventListener("click", (e) => {
+            e.preventDefault(); // 🛑 impede envio imediato
 
-        // validação simples
-        if (!nome) {
-            btn.classList.add("error");
+            const nome = nomeInput.value.trim();
 
-            setTimeout(() => {
-                btn.classList.remove("error");
-            }, 400);
+            if (!nome) {
+                btn.classList.add("error");
 
-            return;
-        }
+                setTimeout(() => {
+                    btn.classList.remove("error");
+                }, 400);
 
-        // ativa loading
-        btn.classList.add("loading");
+                return;
+            }
 
-        // simula processamento
-        setTimeout(() => {
-            transitionScreen.classList.add("active");
-
-            typeEffectText(
-                transitionText,
-                `BEM-VINDO, ${nome.toUpperCase()}...`,
-                40
-            );
+            btn.classList.add("loading");
 
             setTimeout(() => {
+                transitionScreen.classList.add("active");
+
                 typeEffectText(
                     transitionText,
-                    "PREPARE-SE...",
+                    `BEM-VINDO, ${nome.toUpperCase()}...`,
                     40
                 );
-            }, 1500);
 
-        }, 1200);
-    });
+                setTimeout(() => {
+                    typeEffectText(
+                        transitionText,
+                        "PREPARE-SE...",
+                        40
+                    );
+                }, 1500);
+
+                // 🚀 ENVIA PRO DJANGO DEPOIS DA ANIMAÇÃO
+                setTimeout(() => {
+                    form.submit();
+                }, 2500);
+
+            }, 1200);
+        });
 
 
     function typeEffectText(element, text, speed = 50) {
