@@ -24,7 +24,11 @@ body {
  width: clamp(260px, 65vw, 420px);
 }
 
-
+.error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: -10px;
+}
 
 
 .start-text {
@@ -113,25 +117,14 @@ body {
     100% { transform: scale(1); }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .cadastro-screen {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.96);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease;
@@ -142,23 +135,18 @@ body {
     background: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(139, 0, 0, 0.2);
-
-        padding: clamp(25px, 5vw, 50px);
+    padding: clamp(25px, 5vw, 50px);
     border-radius: 16px;
-
     display: flex;
     flex-direction: column;
     gap: 25px;
     width: 90%;
     max-width: 340px;
-
     transform: translateY(60px);
     opacity: 0;
-
     box-shadow:
         0 0 40px rgba(139, 0, 0, 0.15),
         inset 0 0 20px rgba(139, 0, 0, 0.1);
-
     transition: all 0.6s ease;
 }
 
@@ -179,9 +167,6 @@ body {
     outline: none;
     border-radius: 6px;
 }
-
-
-
 
 .cadastro-box input {
     padding: 12px;
@@ -287,11 +272,6 @@ body {
     animation: spin 1s linear infinite;
 }
 
-
-
-
-
-
 .cadastro-box::before {
     content: "";
     position: absolute;
@@ -302,27 +282,6 @@ body {
     background: linear-gradient(to right, transparent, #8b0000, transparent);
     transform: translateX(-50%);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .transition-screen {
     position: fixed;
@@ -346,8 +305,6 @@ body {
     font-size: 20px;
     letter-spacing: 4px;
 }
-
-
 
 
 @media (max-width: 600px) {

@@ -19,9 +19,9 @@
 
     <section class="cadastro-screen" id="cadastroScreen">
         {% if mensagem %}<p class="error">{{ mensagem }}</p>{% endif %}
-        <div class="cadastro-box">
-            <form method="POST" id="cadastroForm">
-            {% csrf_token %}
+        <form method="POST" id="cadastroForm">
+        {% csrf_token %}
+            <div class="cadastro-box">
                 <h2>CADASTRO</h2>
                 <p class="cadastro-sub">Registre seu nome no ranking</p>
 
@@ -31,8 +31,8 @@
                     <span class="btn-text">CONTINUAR</span>
                     <span class="btn-loader"></span>
                 </button>
-            </form>
-        </div>
+            </div>
+        </form>
     </section>
 
 

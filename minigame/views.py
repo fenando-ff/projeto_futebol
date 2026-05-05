@@ -70,50 +70,6 @@ def game_sorteio(request):
     
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # views quiz        
 @login_obrigatorio
 def game_quiz(request):
