@@ -1,9 +1,6 @@
 const leverSound = document.getElementById("leverSound");
 const spinSound = document.getElementById("spinSound");
 const startBtn = document.getElementById("startGameBtn");
-localStorage.getItem("itens_sorteados")
-
-// localStorage.setItem("itens_sorteados", JSON.stringify(sorteados));
 
 const produtos = JSON.parse(
     document.getElementById("produtos-data").textContent
@@ -18,6 +15,14 @@ let reelsStopped = 0;
 let alreadyPlayed = false;
 let spinning = false;
 let completed = 0;
+let startTime = null; // 📊 cronômetro
+
+function getCSRFToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'))
+        ?.split('=')[1];
+}
 
 
 
@@ -59,6 +64,9 @@ lever.addEventListener("click", () => {
 
     alreadyPlayed = true;
     spinning = true;
+
+    // ⏱️ Inicia cronômetro
+    startTime = Date.now();
 
     lever.classList.add("pull");
 
@@ -152,6 +160,19 @@ const finalY = -((targetIndex - visibleOffset) * itemHeight + extraSpins * produ
                         { scale: 0, opacity: 0 },
                         { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }
                     );
+
+                    // ⏱️ Salvar tempo da roleta
+                    if (startTime) {
+                        const tempo_ms = Date.now() - startTime;
+                        fetch("/game/salvar_tempo_roleta/", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": getCSRFToken()
+                            },
+                            body: JSON.stringify({ tempo_ms: tempo_ms })
+                        }).catch(err => console.error("Erro ao salvar tempo:", err));
+                    }
 
                     spinning = false;
                 }

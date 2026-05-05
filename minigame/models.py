@@ -27,9 +27,10 @@ class Participantes(models.Model):
     id_participante = models.AutoField(primary_key=True)
     nome_participante = models.CharField(max_length=45)
     tempo = models.TimeField(blank=True, null=True)
+    pontuacao = models.IntegerField(default=0)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'participantes'
         
     def __str__(self):

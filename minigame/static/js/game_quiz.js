@@ -1,9 +1,17 @@
 let atual = 0;
 let pontuacao = 0;
+let respostas = []; // Array para armazenar respostas do usuário
 
 const perguntaEl = document.getElementById("pergunta");
 const opcoesEl = document.getElementById("opcoes");
 const progress = document.getElementById("progress");
+
+function getCSRFToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'))
+        ?.split('=')[1];
+}
 
 // 🔥 carregar pergunta
 function carregarPergunta() {
@@ -39,6 +47,12 @@ function responder(btn, op, q) {
 
     // trava cliques
     botoes.forEach(b => b.style.pointerEvents = "none");
+
+    // Salva resposta do usuário
+    respostas.push({
+        questao_id: q.id,
+        alternativa_id: op.id
+    });
 
     if (op.correta) {
         btn.classList.add("correta");
@@ -143,7 +157,7 @@ function finalizarQuiz() {
 
     progress.style.width = "100%";
 
-    // 🚀 ENVIA PARA O DJANGO
+    // 🚀 ENVIA DADOS PARA O DJANGO
     fetch("/game/salvar_pontuacao/", {
         method: "POST",
         headers: {
@@ -151,19 +165,13 @@ function finalizarQuiz() {
             "X-CSRFToken": getCSRFToken()
         },
         body: JSON.stringify({
-            pontuacao: pontuacao
+            pontuacao: pontuacao,
+            respostas: respostas
         })
     })
     .then(res => res.json())
     .then(data => {
-        console.log("Pontuação salva!", data);
-    });
-}
-
-
-function getCSRFToken() {
-    return document.cookie
-        .split('; ')
-        .find(row => row.startsWith('csrftoken'))
-        ?.split('=')[1];
+        console.log("Dados salvos!", data);
+    })
+    .catch(err => console.error("Erro ao salvar:", err));
 }

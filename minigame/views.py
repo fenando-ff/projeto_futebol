@@ -22,7 +22,8 @@ def game(request):
             mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
             return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
         
-        model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
+        participante = model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
+        request.session['participante_id'] = participante.id_participante
         
         if is_ajax:
             return JsonResponse({'success': True, 'redirect': reverse('menu_fases')})
@@ -118,14 +119,61 @@ def game_quiz(request):
 def salvar_pontuacao(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        pontuacao_total = data.get('pontuacao')
+        respostas_data = data.get('respostas', [])
+        
+        participante_id = request.session.get('participante_id')
+        if not participante_id:
+            return JsonResponse({'error': 'Sessão inválida'}, status=401)
+        
+        try:
+            participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
+        except model_minigame.Participantes.DoesNotExist:
+            return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+        
+        # Salva pontuação total
+        participante.pontuacao = pontuacao_total
+        participante.save()
+        
+        # Salva respostas individuais
+        for resp in respostas_data:
+            questao_id = resp.get('questao_id')
+            alternativa_id = resp.get('alternativa_id')
+            
+            if not questao_id or not alternativa_id:
+                continue
+            
+            model_minigame.Respostas.objects.using('minigame').update_or_create(
+                participante=participante,
+                questao_id=questao_id,
+                defaults={'alternativa_id': alternativa_id}
+            )
+        
+        return JsonResponse({'status': 'ok'})
 
-        pontuacao = data.get('pontuacao')
 
-        # pega o último participante (ou pode melhorar depois com sessão)
-        participante = model_minigame.Participantes.objects.using('minigame').last()
-
-        if participante:
-            participante.tempo = None  # opcional (ou usar outro campo depois)
-            participante.save()
-
+@login_obrigatorio
+def salvar_tempo_roleta(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        tempo_ms = data.get('tempo_ms')
+        
+        participante_id = request.session.get('participante_id')
+        if not participante_id:
+            return JsonResponse({'error': 'Sessão inválida'}, status=401)
+        
+        try:
+            participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
+        except model_minigame.Participantes.DoesNotExist:
+            return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+        
+        # Converte milissegundos para formato TimeField (HH:MM:SS)
+        segundos = tempo_ms / 1000
+        hours = int(segundos // 3600)
+        minutes = int((segundos % 3600) // 60)
+        seconds = int(segundos % 60)
+        tempo_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+        participante.tempo = tempo_str
+        participante.save()
+        
         return JsonResponse({'status': 'ok'})
