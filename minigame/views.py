@@ -3,6 +3,8 @@ from minigame import models as model_minigame
 from app_futebol.models import models
 import random
 from .decorators import login_obrigatorio
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 @login_obrigatorio
@@ -17,8 +19,6 @@ def game(request):
         return redirect('menu_fases')
         
     return render(request, 'minigame/game_inicio.html')
-
-
 
 
 
@@ -69,7 +69,52 @@ def game_sorteio(request):
     })
     
     
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# views quiz        
 @login_obrigatorio
 def game_quiz(request):
 
@@ -101,3 +146,20 @@ def game_quiz(request):
     })
     
     
+
+
+@login_obrigatorio
+def salvar_pontuacao(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        pontuacao = data.get('pontuacao')
+
+        # pega o último participante (ou pode melhorar depois com sessão)
+        participante = model_minigame.Participantes.objects.using('minigame').last()
+
+        if participante:
+            participante.tempo = None  # opcional (ou usar outro campo depois)
+            participante.save()
+
+        return JsonResponse({'status': 'ok'})

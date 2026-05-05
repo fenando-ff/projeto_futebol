@@ -93,6 +93,14 @@ function finalizarQuiz() {
     progress.style.width = "100%";
 }
 
+
+
+
+
+
+
+
+
 // 🚀 start
 carregarPergunta();
 
@@ -117,4 +125,45 @@ function criarParticulas(x, y) {
             p.remove();
         }, 1000);
     }
+}
+
+
+
+
+
+function finalizarQuiz() {
+    perguntaEl.innerText = "QUIZ FINALIZADO 🔥";
+
+    opcoesEl.innerHTML = `
+        <div class="resultado-box">
+            <h3>SUA PONTUAÇÃO</h3>
+            <p>${pontuacao} pontos</p>
+        </div>
+    `;
+
+    progress.style.width = "100%";
+
+    // 🚀 ENVIA PARA O DJANGO
+    fetch("/game/salvar_pontuacao/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCSRFToken()
+        },
+        body: JSON.stringify({
+            pontuacao: pontuacao
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Pontuação salva!", data);
+    });
+}
+
+
+function getCSRFToken() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('csrftoken'))
+        ?.split('=')[1];
 }
