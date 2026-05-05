@@ -1,30 +1,55 @@
     const startText = document.getElementById("startText");
     const coinImg = document.getElementById("coinImg");
     const video = document.getElementById("coinVideo");
-    // const clickSound = document.getElementById("clickSound");
     const cadastroScreen = document.getElementById("cadastroScreen");
     const nomeInput = document.getElementById("nome");
     const form = document.getElementById("cadastroForm");
-
-    // const formSound = document.getElementById("formSound");
     const btn = document.getElementById("btnCadastrar");
     const transitionScreen = document.getElementById("transitionScreen");
     const transitionText = document.getElementById("transitionText");
+    const errorMsg = document.getElementById("errorMsg");
 
     let started = false;
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function showError(message) {
+        errorMsg.textContent = message;
+        errorMsg.style.display = 'block';
+        btn.classList.add('error');
+        setTimeout(() => {
+            btn.classList.remove('error');
+        }, 400);
+    }
+
+    function hideError() {
+        errorMsg.textContent = '';
+        errorMsg.style.display = 'none';
+    }
+
+    nomeInput.addEventListener('input', hideError);
 
     // 🎯 CLIQUE INICIAL
     startText.addEventListener("click", () => {
         if (started) return;
         started = true;
 
-            // 📳 vibração
         if (navigator.vibrate) {
             navigator.vibrate(80);
         }
-
-
-        // clickSound.play();
 
         startText.style.opacity = "0";
 
@@ -50,11 +75,8 @@
             cadastroScreen.style.pointerEvents = "all";
             cadastroScreen.classList.add("active");
 
-            // formSound.play();
-
             setTimeout(() => {
                 nomeInput.focus();
-
                 typeEffect(nomeInput, "Digite seu nome...");
             }, 400);
 
@@ -82,27 +104,37 @@
         e.stopPropagation();
     });
 
+    // ✅ ENVIO VIA AJAX
+    btn.addEventListener("click", async (e) => {
+        e.preventDefault();
 
-        btn.addEventListener("click", (e) => {
-            e.preventDefault(); // 🛑 impede envio imediato
+        const nome = nomeInput.value.trim();
+        if (!nome) {
+            showError("Por favor, digite um nome.");
+            return;
+        }
 
-            const nome = nomeInput.value.trim();
+        hideError();
+        btn.classList.add("loading");
 
-            if (!nome) {
-                btn.classList.add("error");
+        try {
+            const response = await fetch("", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({ nome: nome })
+            });
 
-                setTimeout(() => {
-                    btn.classList.remove("error");
-                }, 400);
+            const data = await response.json();
 
-                return;
-            }
-
-            btn.classList.add("loading");
-
-            setTimeout(() => {
+            if (!response.ok) {
+                showError(data.error);
+                btn.classList.remove("loading");
+            } else {
                 transitionScreen.classList.add("active");
-
                 typeEffectText(
                     transitionText,
                     `BEM-VINDO, ${nome.toUpperCase()}...`,
@@ -117,14 +149,16 @@
                     );
                 }, 1500);
 
-                // 🚀 ENVIA PRO DJANGO DEPOIS DA ANIMAÇÃO
                 setTimeout(() => {
-                    form.submit();
+                    window.location.href = data.redirect;
                 }, 2500);
+            }
 
-            }, 1200);
-        });
-
+        } catch (error) {
+            showError("Erro na requisição. Tente novamente.");
+            btn.classList.remove("loading");
+        }
+    });
 
     function typeEffectText(element, text, speed = 50) {
         element.innerHTML = "";

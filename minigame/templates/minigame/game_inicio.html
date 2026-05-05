@@ -18,7 +18,7 @@
 
 
     <section class="cadastro-screen" id="cadastroScreen">
-        {% if mensagem %}<p class="error">{{ mensagem }}</p>{% endif %}
+        <p class="error" id="errorMsg"{% if not mensagem %} style="display: none;"{% endif %}>{% if mensagem %}{{ mensagem }}{% endif %}</p>
         <form method="POST" id="cadastroForm">
         {% csrf_token %}
             <div class="cadastro-box">
