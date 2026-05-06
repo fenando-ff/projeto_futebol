@@ -558,7 +558,7 @@ html, body {
     object-fit: cover;
     object-position: center;     /* centraliza a imagem */
     display: block;
-    transform: none !important;  /* garante que não “cresça” */
+    transform: none !important;  /* garante que não "cresça" */
   }
 
   /* desativa o hover que estoura no touch */
@@ -582,4 +582,3 @@ html, body {
     height: 220px;
   }
 }
-

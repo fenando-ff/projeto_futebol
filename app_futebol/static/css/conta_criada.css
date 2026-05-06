@@ -139,3 +139,166 @@ main{
     background-color: #0F0F0F;
 
 }
+
+/* ==============================
+   RESPONSIVIDADE
+   ============================== */
+
+/* Tablets e telas médias (até 768px) */
+@media (max-width: 768px) {
+  .conteiner {
+    width: 90%;
+    padding: 30px 20px;
+    margin: 80px auto;
+  }
+
+  .conta_criada {
+    width: 140px;
+    height: 130px;
+    margin: 0 auto 15%;
+  }
+
+  .etapas {
+    gap: 20px;
+  }
+
+  .circulo {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .etapa:not(:last-child)::after {
+    width: 20px;
+  }
+
+  .conteiner h2 {
+    font-size: 32px;
+  }
+
+  .botao {
+    width: 200px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .bemvindo-titulo {
+    font-size: 48px;
+    letter-spacing: 6px;
+  }
+}
+
+/* Celulares (até 480px) */
+@media (max-width: 480px) {
+  .conteiner {
+    width: 95%;
+    padding: 25px 15px;
+    margin: 60px auto;
+    border-radius: 16px;
+  }
+
+  .conteiner h2 {
+    font-size: 26px;
+  }
+
+  .conta_criada {
+    width: 120px;
+    height: 110px;
+    margin-bottom: 20%;
+  }
+
+  .etapas {
+    gap: 12px;
+  }
+
+  .circulo {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .etapa:not(:last-child)::after {
+    width: 16px;
+    height: 3px;
+  }
+
+  .botao {
+    width: 180px;
+    height: 42px;
+    font-size: 16px;
+    margin: 25px 0 35px;
+  }
+
+  .bemvindo-titulo {
+    font-size: 36px;
+    letter-spacing: 4px;
+  }
+
+  .bemvindo-botoes a {
+    width: 180px;
+    height: 55px;
+    font-size: 1rem;
+  }
+}
+
+/* Telas muito pequenas (até 360px) */
+@media (max-width: 360px) {
+  .conteiner {
+    padding: 20px 12px;
+    margin: 40px auto;
+  }
+
+  .conteiner h2 {
+    font-size: 22px;
+    letter-spacing: 0;
+  }
+
+  .conta_criada {
+    width: 100px;
+    height: 90px;
+    margin-bottom: 25%;
+  }
+
+  .circulo {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+
+  .botao {
+    width: 160px;
+    height: 40px;
+    font-size: 15px;
+    margin: 20px 0 30px;
+  }
+
+  .bemvindo-botoes a {
+    width: 160px;
+    height: 50px;
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+}
+
+/* Telas grandes (acima de 1200px) */
+@media (min-width: 1200px) {
+  .conteiner {
+    max-width: 700px;
+    padding: 60px 50px;
+  }
+
+  .conteiner h2 {
+    font-size: 48px;
+  }
+
+  .conta_criada {
+    width: 220px;
+    height: 210px;
+  }
+
+  .botao {
+    width: 260px;
+    height: 60px;
+    font-size: 24px;
+  }
+}

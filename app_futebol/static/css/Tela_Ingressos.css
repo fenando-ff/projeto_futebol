@@ -1,5 +1,5 @@
 /* ============================================================
-    1. RESET & CONFIGURAÇÕES GLOBAIS
+     1. RESET & CONFIGURAÇÕES GLOBAIS
 ============================================================ */
 * {
     margin: 0;
@@ -44,7 +44,7 @@ body::after {
 }
 
 /* ============================================================
-    2. ESTRUTURA PRINCIPAL (MAIN)
+     2. ESTRUTURA PRINCIPAL (MAIN)
 ============================================================ */
 main {
     flex: 1;
@@ -69,7 +69,7 @@ main {
 }
 
 /* ============================================================
-    3. DETALHES DA PARTIDA (TICKET PREMIUM)
+     3. DETALHES DA PARTIDA (TICKET PREMIUM)
 ============================================================ */
 .titulo-ingresso {
     background: var(--cor-bg-card);
@@ -181,7 +181,7 @@ main {
 }
 
 /* ============================================================
-    4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
+     4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
 ============================================================ */
 .container-estadio-ingressos {
     display: grid;
@@ -327,7 +327,7 @@ main {
 }
 
 /* ============================================================
-    5. PRÓXIMOS JOGOS (MODIFICADO: TAMANHO AUMENTADO)
+     5. PRÓXIMOS JOGOS (MODIFICADO: TAMANHO AUMENTADO)
 ============================================================ */
 .titulo-secundario {
     text-align: center;
@@ -425,7 +425,7 @@ main {
 }
 
 /* ============================================================
-    6. MENSAGEM DE SUCESSO (ESTILO VIDRO / GLASS)
+     6. MENSAGEM DE SUCESSO (ESTILO VIDRO / GLASS)
 ============================================================ */
 #mensagem-sucesso {
     position: fixed;
@@ -475,7 +475,7 @@ main {
 }
 
 /* ============================================================
-    7. RESPONSIVIDADE
+     7. RESPONSIVIDADE
 ============================================================ */
 @media (max-width: 900px) {
     .container-estadio-ingressos { align-items: stretch; }

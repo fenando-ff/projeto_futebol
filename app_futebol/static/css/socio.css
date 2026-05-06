@@ -29,6 +29,7 @@ body {
 
 
 
+
 .text-area {
   max-width: 400px;
   color: #e5e5e5;
@@ -260,6 +261,7 @@ body {
 
 
 
+
 .card{
   transition:
     transform .35s ease,
@@ -288,6 +290,7 @@ body {
   }
 
 }
+
 
 
 
@@ -473,4 +476,3 @@ body {
     font-size: 1rem;
   }
 }
-

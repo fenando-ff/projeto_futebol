@@ -134,20 +134,110 @@ main h1, .vitrine h2 {
 }
 
 /* -------- Responsivo -------- */
-@media (max-width: 500px) {
-  .produtos {
-    flex-direction: column;
-    align-items: center;
+
+/* Tablets (até 1024px) */
+@media (max-width: 1024px) {
+  .cabecalho {
+    gap: 20px;
+    padding: 12px 20px;
   }
 
-  .produto {
-    width: 70%;
+  .logo h1 {
+    font-size: 0.9rem;
+  }
+
+  .logo img {
+    width: 28px;
+  }
+
+  .menu-hamburgue {
+    gap: 12px;
+  }
+
+  .menu-hamburgue a {
+    font-size: 0.8rem;
+  }
+
+  .hamburguer-opcoes {
+    width: 25%;
+  }
+}
+
+/* Mobile (até 768px) */
+@media (max-width: 768px) {
+  .cabecalho {
+    justify-content: space-between;
+    padding: 10px 16px;
+    gap: 0;
+  }
+
+  .logo img {
+    width: 26px;
+  }
+
+  .logo h1 {
+    font-size: 0.85rem;
+    margin-left: 6px;
+  }
+
+  .only-mobile {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .nav.active {
+    display: block;
+    position: fixed;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background: #001A4A;
+    padding: 10px 0;
+    z-index: 1000;
   }
 
   .hamburguer-opcoes {
     width: 60%;
-    right: 0;
-    margin-right: 0;
+    right: auto;
+    margin-right: 16px;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 4px;
+  }
+
+  .hamburguer-opcoes a,
+  .hamburguer-opcoes .opcao-nav {
+    text-align: center;
+    padding: 4px 6px;
+    font-size: 0.8rem;
+  }
+
+  .hamburguer-opcoes img {
+    width: 20px;
+  }
+
+  main h1, .vitrine h2 {
+    font-size: 1.6rem;
+  }
+
+  .produtos {
+    gap: 12px;
+  }
+
+  .produto {
+    width: 48%;
+    min-width: 140px;
+  }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  .cabecalho {
+    padding: 8px 12px;
   }
 
   .logo img {
@@ -155,15 +245,65 @@ main h1, .vitrine h2 {
   }
 
   .logo h1 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    margin-left: 4px;
   }
 
-  .menu-hamburgue {
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 12px;
+  .hamburguer-opcoes {
+    width: 70%;
+    margin-right: 12px;
+  }
+
+  .hamburguer-opcoes a {
+    font-size: 0.75rem;
+    padding: 3px 5px;
+  }
+
+  .hamburguer-opcoes img {
+    width: 18px;
+  }
+
+  .produto {
+    width: 48%;
   }
 }
+
+/* Telas muito pequenas (até 360px) */
+@media (max-width: 360px) {
+  .cabecalho {
+    padding: 8px 10px;
+  }
+
+  .logo img {
+    width: 22px;
+  }
+
+  .logo h1 {
+    font-size: 0.75rem;
+    display: none;
+  }
+
+  .hamburguer-opcoes {
+    width: 80%;
+    margin-right: 8px;
+    gap: 4px;
+  }
+
+  .hamburguer-opcoes a {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+
+  .hamburguer-opcoes img {
+    width: 16px;
+  }
+
+  .produto {
+    width: 100%;
+    max-width: 180px;
+  }
+}
+
 
 footer {
   background: #001A4A;
