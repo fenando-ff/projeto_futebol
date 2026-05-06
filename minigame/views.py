@@ -6,30 +6,108 @@ import random
 from .decorators import login_obrigatorio
 from django.http import JsonResponse
 import json
+from django.contrib.auth.hashers import make_password, check_password
+
 
 # Create your views here.
+# @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
+# def game(request):
+#     if request.method == 'POST':
+#         nome = request.POST.get('nome')
+        
+#         # Verifica se é requisição AJAX
+#         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        
+#         if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
+#             if is_ajax:
+#                 return JsonResponse({'error': 'Nome já cadastrado. Por favor, escolha outro nome.'}, status=400)
+#             mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
+#             return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
+        
+#         participante = model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
+#         request.session['participante_id'] = participante.id_participante
+        
+#         if is_ajax:
+#             return JsonResponse({'success': True, 'redirect': reverse('menu_fases')})
+#         return redirect('menu_fases')
+        
+#     return render(request, 'minigame/game_inicio.html')
+
+
+
 @login_obrigatorio
 def game(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
-        
-        # Verifica se é requisição AJAX
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-        
-        if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
-            if is_ajax:
-                return JsonResponse({'error': 'Nome já cadastrado. Por favor, escolha outro nome.'}, status=400)
-            mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
-            return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
-        
-        participante = model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
-        request.session['participante_id'] = participante.id_participante
-        
-        if is_ajax:
-            return JsonResponse({'success': True, 'redirect': reverse('menu_fases')})
-        return redirect('menu_fases')
-        
+        senha = request.POST.get('senha')
+        modo = request.POST.get('modo')
+
+        if not nome or not senha:
+            return JsonResponse({'error': 'Dados inválidos'}, status=400)
+
+        # 🔹 CADASTRO
+        if modo == "cadastro":
+
+            if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
+                return JsonResponse({'error': 'Nome já existe'}, status=400)
+
+            nome_final = gerar_nome_unico(nome)
+
+            participante = model_minigame.Participantes.objects.using('minigame').create(
+                nome_participante=nome_final,
+                senha=make_password(senha)
+            )
+
+            request.session['participante_id'] = participante.id_participante
+
+            return JsonResponse({
+                'redirect': reverse('menu_fases'),
+                'nome_gerado': nome_final
+            })
+
+        # 🔹 LOGIN
+        else:
+            try:
+                participante = model_minigame.Participantes.objects.using('minigame').filter(nome_participante__startswith=nome).first()
+            except:
+                return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+
+            if not check_password(senha, participante.senha):
+                return JsonResponse({'error': 'Senha incorreta'}, status=400)
+
+            request.session['participante_id'] = participante.id_participante
+
+            return JsonResponse({
+                'redirect': reverse('menu_fases'),
+                'nome_gerado': participante.nome_participante
+            })
+
     return render(request, 'minigame/game_inicio.html')
+
+
+#gera o nome do jogador com um sufixo aleatório para evitar repetições
+def gerar_nome_unico(nome):
+    sufixos = [
+        "Capivara", "Dragao", "Fenix", "Lobo", "Tigre",
+        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","leão","cobra","gato","cadela","mocurento","flamenguista"
+        "cachorro","galo","bode","vaca","porco","macaco","tatu","jacare","canguru","urso","raposa"
+    ]
+
+    nome_base = nome.capitalize()
+    sufixo = random.choice(sufixos)
+
+    return f"{nome_base}_{sufixo}"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

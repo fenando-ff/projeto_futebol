@@ -22,10 +22,15 @@
         <form method="POST" id="cadastroForm">
         {% csrf_token %}
             <div class="cadastro-box">
-                <h2>CADASTRO</h2>
+               <h2 id="formTitle">Login</h2>
                 <p class="cadastro-sub">Registre seu nome no ranking</p>
 
                 <input type="text" placeholder="Nome" id="nome" name="nome">
+                <input type="password" placeholder="Senha" id="senha" name="senha">
+                <input type="password" placeholder="Confirmar Senha" id="confirmarSenha" name="confirmarSenha" class="hidden-field">
+                <p class="switch-mode">
+                    Não tem conta? <span id="toggleMode">Criar conta</span>
+                </p>
 
                 <button id="btnCadastrar">
                     <span class="btn-text">CONTINUAR</span>

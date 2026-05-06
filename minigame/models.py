@@ -28,6 +28,7 @@ class Participantes(models.Model):
     nome_participante = models.CharField(max_length=45)
     tempo = models.TimeField(blank=True, null=True)
     pontuacao = models.IntegerField(default=0)
+    senha = models.CharField(max_length=255)  # NOVO, agora tem campo de senha
 
     class Meta:
         managed = False

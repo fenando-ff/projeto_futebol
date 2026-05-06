@@ -3,6 +3,22 @@ body {
 }
 
 
+.switch-mode {
+    font-size: 12px;
+    text-align: center;
+    color: #aaa;
+}
+
+.switch-mode span {
+    color: #ff3b3b;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.switch-mode span:hover {
+    text-decoration: underline;
+}
+
 
 body {
     margin: 0;
@@ -306,6 +322,28 @@ body {
     letter-spacing: 4px;
 }
 
+
+/* Campo de confirmar senha - estado padrão (visível em cadastro) */
+.cadastro-box input {
+    padding: 12px;
+    background: #1a1a1a;
+    border: 2px solid transparent;
+    color: #fff;
+    outline: none;
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Campo de confirmar senha - oculto no login */
+.cadastro-box input.hidden-field {
+    max-height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
 
 @media (max-width: 600px) {
 
