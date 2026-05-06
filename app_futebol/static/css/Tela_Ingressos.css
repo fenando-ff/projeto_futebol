@@ -180,7 +180,7 @@ main {
 }
 
 /* ============================================================
-    4. ÁREA DE COMPRA (CENTRALIZAÇÃO APLICADA AQUI)
+    4. ÁREA DE COMPRA (MAPA + FORMULÁRIO)
 ============================================================ */
 .container-estadio-ingressos {
     display: grid;
@@ -188,8 +188,7 @@ main {
     gap: 40px;
     margin-bottom: 80px;
     width: 100%;
-    /* AJUSTE: Alinha os itens pelo centro para que fiquem pareados horizontalmente */
-    align-items: center; 
+    align-items: start;
 }
 
 .mapa-estadio, 
@@ -208,8 +207,7 @@ main {
 .lado-direito-ingressos {
     display: flex;
     flex-direction: column;
-    /* AJUSTE: Removemos o min-height fixo para o card não esticar mais que o mapa */
-    min-height: auto; 
+    min-height: 400px;
 }
 
 .card-header {
@@ -323,13 +321,12 @@ main {
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    /* AJUSTE: margin-top pequeno para não empurrar o card para o infinito */
-    margin-top: 15px; 
+    margin-top: auto;
     box-shadow: 0 5px 15px rgba(247, 43, 43, 0.3);
 }
 
 /* ============================================================
-    5. PRÓXIMOS JOGOS (ORIGINAL)
+    5. PRÓXIMOS JOGOS (MODIFICADO: TAMANHO AUMENTADO)
 ============================================================ */
 .titulo-secundario {
     text-align: center;
@@ -349,15 +346,15 @@ main {
 
 .jogo-card {
     background: #1f1f1f;
-    border-radius: 16px;
+    border-radius: 16px; /* Bordas mais arredondadas */
     border: 1px solid var(--cor-borda);
-    padding: 30px;
+    padding: 30px; /* Aumentado de 20px para 30px */
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 40px; /* Aumentado de 30px para 40px */
     transition: 0.3s ease;
     width: 100%;
-    max-width: 800px;
+    max-width: 800px; /* Aumentado de 650px para 800px */
     height: auto;
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
@@ -371,11 +368,11 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 25px;
-    min-width: 200px;
-    border-right: 2px solid var(--cor-borda);
-    padding-right: 40px;
-    height: 100px;
+    gap: 25px; /* Aumentado */
+    min-width: 200px; /* Aumentado */
+    border-right: 2px solid var(--cor-borda); /* Borda lateral mais visível */
+    padding-right: 40px; /* Aumentado */
+    height: 100px; /* Aumentado de 80px para 100px */
 }
 
 .jogo-times .escudo {
@@ -385,17 +382,17 @@ main {
 .jogo-times .escudo:first-child {
     width: 65px;
     height: 65px;
-    transform: scale(2.4);
+    transform: scale(2.4); /* Escudo do time da casa ainda mais imponente */
     margin-right: 10px;
 }
 
 .jogo-times .escudo:last-child {
-    width: 60px;
-    height: 60px;
+    width: 60px; /* Aumentado */
+    height: 60px; /* Aumentado */
 }
 
 .versus-mini {
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Aumentado */
     font-weight: 900;
     color: var(--cor-primaria);
     font-style: italic;
@@ -405,11 +402,11 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 8px;
+    gap: 8px; /* Mais espaço entre linhas */
 }
 
 .card-content h2 {
-    font-size: 1.6rem;
+    font-size: 1.6rem; /* Aumentado de 1.2rem para 1.6rem */
     margin-bottom: 5px;
     color: var(--cor-primaria);
     text-transform: uppercase;
@@ -418,7 +415,7 @@ main {
 }
 
 .card-content p {
-    font-size: 1.1rem;
+    font-size: 1.1rem; /* Aumentado de 0.95rem para 1.1rem */
     color: var(--cor-texto-cinza);
     margin: 4px 0;
     display: flex;
@@ -427,7 +424,7 @@ main {
 }
 
 /* ============================================================
-    6. MENSAGEM DE SUCESSO
+    6. MENSAGEM DE SUCESSO (ESTILO VIDRO / GLASS)
 ============================================================ */
 #mensagem-sucesso {
     position: fixed;
@@ -480,7 +477,6 @@ main {
     7. RESPONSIVIDADE
 ============================================================ */
 @media (max-width: 900px) {
-    /* No mobile, voltamos ao stretch para ocupar a largura toda */
     .container-estadio-ingressos { align-items: stretch; }
     .titulo-ingresso-conteudo { text-align: center; }
     .detalhes-jogo { border-top: 2px solid var(--cor-borda); padding-top: 20px; }

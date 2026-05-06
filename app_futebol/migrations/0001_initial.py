@@ -123,7 +123,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'jogos',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(

@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 
 load_dotenv()
 
@@ -55,20 +54,30 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'projeto_futebol.urls'
 WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
-# Banco de Dados: Usa DATABASE_URL do Render se existir 
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("DB_ENGINE"),
-        "NAME": os.environ.get("DB_NAME"),
-        "USER": os.environ.get("DB_USER"),
-        "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": os.environ.get("DB_HOST"),
-        "PORT": os.environ.get("DB_PORT"),
-        "OPTIONS": {
-            "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
-        },
+# Banco de Dados: Usa DATABASE_URL do Render se existir
+DB_ENGINE = os.environ.get("DB_ENGINE")
+if DB_ENGINE:
+    DATABASES = {
+        "default": {
+            "ENGINE": DB_ENGINE,
+            "NAME": os.environ.get("DB_NAME"),
+            "USER": os.environ.get("DB_USER"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+            "OPTIONS": {
+                "ssl": {"ca": str(BASE_DIR / "app_futebol" / "certs" / "ca.pem")}
+            },
+        }
     }
-}
+else:
+    # Fallback para SQLite em desenvolvimento local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -77,9 +86,9 @@ EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
-# Certificado SSL se o arquivo existir
+# Certificado SSL apenas para MySQL
 CA_CERT_PATH = os.path.join(BASE_DIR, "app_futebol", "certs", "ca.pem")
-if os.path.exists(CA_CERT_PATH):
+if os.path.exists(CA_CERT_PATH) and DB_ENGINE and 'mysql' in DB_ENGINE:
     DATABASES['default']['OPTIONS'] = {"ssl": {"ca": CA_CERT_PATH}}
 
 STATIC_URL = "/static/"

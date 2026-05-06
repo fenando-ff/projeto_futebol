@@ -160,7 +160,7 @@ class Jogos(models.Model):
     times_id_times = models.ForeignKey(Times, models.DO_NOTHING, db_column='times_id_times')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'jogos'
         
     def __str__(self):
