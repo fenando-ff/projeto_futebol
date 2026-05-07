@@ -85,6 +85,9 @@ def game(request):
     return render(request, 'minigame/game_inicio.html')
 
 
+
+
+
 #gera o nome do jogador com um sufixo aleatório para evitar repetições
 def gerar_nome_unico(nome):
     sufixos = [
