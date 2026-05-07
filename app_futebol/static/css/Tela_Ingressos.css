@@ -925,17 +925,7 @@ main {
     animation: bounceCheck 0.8s ease-out;
 }
 
-@keyframes glassPop {
-    from { 
-        opacity: 0; 
-        transform: translate(-50%, -50%) scale(0.5) rotateX(-20deg); 
-    }
-    to { 
-        opacity: 1; 
-        transform: translate(-50%, -50%) scale(1) rotateX(0deg); 
-    }
-}
-
+ @keyframes glassPop {
 @keyframes bounceCheck {
     0% { transform: scale(0); }
     40% { transform: scale(1.3); }
@@ -988,446 +978,969 @@ main {
      7. RESPONSIVIDADE
  ============================================================ */
 
- /* Desktop grande (até 1400px) */
- @media (max-width: 1400px) {
-     main {
-         max-width: 1200px;
-     }
-     
-     .jogo-card {
-         max-width: 750px;
-     }
- }
+  /* Desktop grande (até 1400px) */
+  @media (max-width: 1400px) {
+      main {
+          max-width: 1200px;
+          padding: 65px 20px 55px;
+      }
 
- /* Tablet e pequenos desktops (até 1200px) */
- @media (max-width: 1200px) {
-     .jogo-card {
-         max-width: 700px;
-         padding: 25px;
-         gap: 30px;
-     }
-     
-     .jogo-times {
-         min-width: 180px;
-         gap: 20px;
-         padding-right: 30px;
-     }
-     
-     .jogo-times .escudo:first-child {
-         width: 55px;
-         height: 55px;
-         transform: scale(2);
-     }
-     
-     .jogo-times .escudo:last-child {
-         width: 50px;
-         height: 50px;
-     }
-     
-     .card-content h2 {
-         font-size: 1.4rem;
-     }
-     
-     .card-content p {
-         font-size: 1rem;
-     }
-     
-     .mapa-estadio, 
-     .lado-direito-ingressos {
-         padding: 25px;
-     }
-     
-     .container-estadio-ingressos {
-         gap: 35px;
-     }
- }
+      .jogo-card {
+          max-width: 750px;
+      }
 
- /* Tablets (até 1024px) */
- @media (max-width: 1024px) {
-     main {
-         padding: 60px 20px 50px;
-     }
-     
-     .titulo-pagina {
-         font-size: 2.2rem;
-         margin-bottom: 35px;
-     }
-     
-     .titulo-ingresso {
-         max-width: 100%;
-     }
-     
-     .container-estadio-ingressos {
-         grid-template-columns: 1fr;
-         gap: 30px;
-     }
-     
-     .mapa-estadio, 
-     .lado-direito-ingressos {
-         padding: 25px;
-     }
-     
-     .jogo-card {
-         max-width: 650px;
-         padding: 22px;
-         gap: 25px;
-     }
-     
-     .titulo-secundario {
-         font-size: 1.9rem;
-         margin-bottom: 35px;
-     }
-     
-     .grid-jogos {
-         gap: 25px;
-     }
- }
+      .mapa-estadio img {
+          max-height: 380px;
+      }
+  }
 
- /* Tablets pequenos e smartphones grandes (até 900px) */
- @media (max-width: 900px) {
-     main {
-         padding: 55px 15px 45px;
-     }
-     
-     .titulo-pagina {
-         font-size: 1.9rem;
-         margin-bottom: 30px;
-     }
-     
-     .titulo-ingresso-conteudo {
-         padding: 18px;
-         gap: 12px;
-     }
-     
-     .times-ingresso {
-         gap: 15px;
-         margin-right: 0;
-     }
-     
-     .times-ingresso .time {
-         width: 110px;
-     }
-     
-     .times-ingresso .time img {
-         height: 55px;
-     }
-     
-     .times-ingresso .time:first-child img {
-         transform: scale(1.5);
-         margin-bottom: 8px;
-     }
-     
-     .times-ingresso .versus {
-         font-size: 1.4rem;
-     }
-     
-     .times-ingresso .time span {
-         font-size: 1rem;
-     }
-     
-     .detalhes-jogo {
-         gap: 12px;
-         padding: 10px 18px;
-     }
-     
-     .detalhes-jogo p {
-         font-size: 0.95rem;
-     }
-     
-     .mapa-estadio, 
-     .lado-direito-ingressos {
-         padding: 20px;
-     }
-     
-     .jogo-card {
-         max-width: 600px;
-         padding: 18px;
-         gap: 20px;
-     }
-     
-     .titulo-secundario {
-         font-size: 1.5rem;
-         margin-bottom: 25px;
-     }
-     
-     .grid-jogos {
-         gap: 20px;
-     }
- }
+  /* Tablet e pequenos desktops (até 1200px) */
+  @media (max-width: 1200px) {
+      .jogo-card {
+          max-width: 700px;
+          padding: 25px;
+          gap: 30px;
+      }
+      
+      .jogo-times {
+          min-width: 180px;
+          gap: 20px;
+          padding-right: 30px;
+      }
+      
+      .jogo-times .escudo:first-child {
+          width: 55px;
+          height: 55px;
+          transform: scale(2);
+      }
+      
+      .jogo-times .escudo:last-child {
+          width: 50px;
+          height: 50px;
+      }
+      
+      .card-content h2 {
+          font-size: 1.4rem;
+      }
+      
+      .card-content p {
+          font-size: 1rem;
+      }
+      
+      .mapa-estadio, 
+      .lado-direito-ingressos {
+          padding: 25px;
+      }
+      
+      .mapa-estadio img {
+          max-height: 350px;
+      }
+      
+      .container-estadio-ingressos {
+          gap: 35px;
+      }
+  }
 
- /* Smartphones grandes (até 768px) */
- @media (max-width: 768px) {
-     .container-estadio-ingressos {
-         gap: 25px;
-     }
-     
-     .jogo-card {
-         max-width: 100%;
-         padding: 20px;
-         gap: 20px;
-     }
-     
-     .jogo-times {
-         min-width: 160px;
-         gap: 15px;
-         padding-right: 20px;
-     }
-     
-     .jogo-times .escudo:first-child {
-         width: 50px;
-         height: 50px;
-         transform: scale(2.1);
-     }
-     
-     .jogo-times .escudo:last-child {
-         width: 45px;
-         height: 45px;
-     }
-     
-     .card-content h2 {
-         font-size: 1.3rem;
-     }
-     
-     .card-content p {
-         font-size: 0.95rem;
-     }
-     
-     .lista-ingressos ul {
-         max-height: 200px;
-     }
- }
+  /* Tablets (até 1024px) */
+  @media (max-width: 1024px) {
+      main {
+          padding: 60px 20px 50px;
+      }
 
- /* Smartphones (até 600px) */
- @media (max-width: 600px) {
-     main {
-         padding: 45px 10px 40px;
-     }
-     
-     .titulo-pagina {
-         font-size: 1.5rem;
-         letter-spacing: 1px;
-         margin-bottom: 20px;
-         padding-bottom: 10px;
-     }
-     
-     .titulo-pagina::after {
-         width: 80px;
-         height: 2px;
-     }
-     
-     .header-compra {
-         padding: 12px;
-         gap: 6px;
-         font-size: 0.9rem;
-     }
-     
-     .times-ingresso {
-         flex-direction: column;
-         gap: 8px;
-         margin-right: 0;
-     }
-     
-     .times-ingresso .time {
-         width: 100%;
-     }
-     
-     .times-ingresso .time img {
-         height: 45px;
-     }
-     
-     .times-ingresso .time:first-child img {
-         transform: scale(1.4);
-         margin-bottom: 5px;
-     }
-     
-     .times-ingresso .versus {
-         font-size: 1.2rem;
-         margin: 5px 0;
-     }
-     
-     .times-ingresso .time span {
-         font-size: 0.95rem;
-     }
-     
-     .detalhes-jogo {
-         flex-direction: column;
-         gap: 8px;
-         padding: 10px 15px;
-         width: 100%;
-     }
-     
-     .detalhes-jogo p {
-         font-size: 0.9rem;
-         text-align: center;
-     }
-     
-     .form-setor select, 
-     .form-setor input {
-         padding: 12px;
-         font-size: 0.95rem;
-         min-height: 44px;
-     }
-     
-     .botao-comprar {
-         padding: 14px;
-         font-size: 1rem;
-         min-height: 48px;
-     }
-     
-     .lista-ingressos {
-         margin-top: 20px;
-         padding-top: 15px;
-     }
-     
-     .lista-ingressos ul {
-         max-height: 220px;
-         padding-right: 8px;
-     }
-     
-     .lista-ingressos li {
-         padding: 12px;
-         font-size: 0.85rem;
-         flex-direction: column;
-         gap: 10px;
-         align-items: flex-start;
-         min-height: 80px;
-     }
-     
-     .lista-ingressos li button,
-     .lista-ingressos li .btn-excluir {
-         width: 100%;
-         padding: 10px;
-         font-size: 0.75rem;
-         min-height: 36px;
-     }
-     
-     .botao-finalizar {
-         padding: 16px;
-         font-size: 1rem;
-         min-height: 52px;
-         letter-spacing: 1px;
-     }
-     
-     .jogo-card {
-         max-width: 100%;
-         padding: 18px;
-         gap: 20px;
-     }
- }
+      .titulo-pagina {
+          font-size: 2.2rem;
+          margin-bottom: 35px;
+      }
 
- /* Smartphones pequenos (até 480px) */
- @media (max-width: 480px) {
-     .titulo-pagina {
-         font-size: 1.3rem;
-         letter-spacing: 0.5px;
-     }
-     
-     .titulo-ingresso-conteudo {
-         padding: 12px;
-         gap: 10px;
-     }
-     
-     .mapa-estadio, 
-     .lado-direito-ingressos {
-         padding: 15px;
-     }
-     
-     .jogo-times .escudo:first-child {
-         width: 45px;
-         height: 45px;
-         transform: scale(2.2);
-     }
-     
-     .jogo-times .escudo:last-child {
-         width: 40px;
-         height: 40px;
-     }
-     
-     .versus-mini {
-         font-size: 1rem;
-     }
-     
-     .card-content h2 {
-         font-size: 1.1rem;
-         margin-bottom: 3px;
-     }
-     
-     .card-content p {
-         font-size: 0.85rem;
-         gap: 8px;
-         flex-wrap: wrap;
-     }
-     
-     .titulo-secundario {
-         font-size: 1.2rem;
-         margin-bottom: 20px;
-     }
-     
-     .grid-jogos {
-         gap: 15px;
-     }
-     
-     #mensagem-sucesso {
-         padding: 20px 25px;
-         font-size: 0.85rem;
-         letter-spacing: 1px;
-         border-radius: 18px;
-     }
-     
-     #mensagem-sucesso i {
-         font-size: 2rem;
-         margin-bottom: 5px;
-     }
- }
+      .titulo-ingresso {
+          max-width: 100%;
+      }
 
- /* Telas muito pequenas (até 360px) */
- @media (max-width: 360px) {
-     .titulo-pagina {
-         font-size: 1.1rem;
-     }
-     
-     .times-ingresso .time img {
-         height: 40px;
-     }
-     
-     .times-ingresso .time:first-child img {
-         transform: scale(1.2);
-     }
-     
-     .times-ingresso .versus {
-         font-size: 1.1rem;
-     }
-     
-     .detalhes-jogo p {
-         font-size: 0.8rem;
-     }
-     
-     .form-setor select, 
-     .form-setor input {
-         padding: 10px;
-         font-size: 0.9rem;
-         min-height: 44px;
-     }
-     
-     .jogo-times .escudo:first-child {
-         width: 40px;
-         height: 40px;
-     }
-     
-     .jogo-times .escudo:last-child {
-         width: 35px;
-         height: 35px;
-     }
-     
-     .card-content p {
-         font-size: 0.8rem;
-     }
-     
-     .botao-comprar,
-     .botao-finalizar {
-         font-size: 0.9rem;
-     }
- }
+      .container-estadio-ingressos {
+          grid-template-columns: 1fr;
+          gap: 30px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 25px;
+      }
+
+      .mapa-estadio img {
+          max-height: 300px;
+          object-fit: contain;
+      }
+
+      .jogo-card {
+          max-width: 650px;
+          padding: 22px;
+          gap: 25px;
+      }
+
+      .titulo-secundario {
+          font-size: 1.9rem;
+          margin-bottom: 35px;
+      }
+
+      .grid-jogos {
+          gap: 25px;
+      }
+  }
+
+  /* Tablets pequenos e smartphones grandes (até 900px) */
+  @media (max-width: 900px) {
+      main {
+          padding: 55px 15px 45px;
+      }
+
+      .titulo-pagina {
+          font-size: 1.8rem;
+          margin-bottom: 30px;
+      }
+
+      .titulo-ingresso-conteudo {
+          padding: 18px;
+          gap: 12px;
+      }
+
+      .times-ingresso {
+          gap: 15px;
+          margin-right: 0;
+      }
+
+      .times-ingresso .time {
+          width: 110px;
+      }
+
+      .times-ingresso .time img {
+          height: 55px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.5);
+          margin-bottom: 8px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 1.4rem;
+      }
+
+      .times-ingresso .time span {
+          font-size: 1rem;
+      }
+
+      .detalhes-jogo {
+          gap: 12px;
+          padding: 10px 18px;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.95rem;
+      }
+
+      .mapa-estadio,
+      .lado-direito-ingressos {
+          padding: 20px;
+      }
+
+      .mapa-estadio img {
+          max-height: 280px;
+      }
+
+      .jogo-card {
+          max-width: 600px;
+          padding: 18px;
+          gap: 20px;
+      }
+
+      .titulo-secundario {
+          font-size: 1.6rem;
+          margin-bottom: 30px;
+      }
+
+      .grid-jogos {
+          gap: 20px;
+      }
+  }
+
+  /* Smartphones grandes (até 768px) */
+  @media (max-width: 768px) {
+      .container-estadio-ingressos {
+          grid-template-columns: 1fr;
+          gap: 25px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 20px;
+      }
+
+      .mapa-estadio img {
+          max-height: 250px;
+          object-fit: contain;
+          width: 100%;
+      }
+
+      .jogo-card {
+          max-width: 100%;
+          padding: 20px;
+          gap: 20px;
+          flex-direction: column;
+          text-align: center;
+      }
+
+      .jogo-times {
+          min-width: 100%;
+          gap: 12px;
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 2px solid var(--cor-borda);
+          padding-bottom: 15px;
+          width: 100%;
+          justify-content: center;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 55px;
+          height: 55px;
+          transform: scale(2);
+          margin-right: 0;
+          margin-bottom: 5px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 50px;
+          height: 50px;
+      }
+
+      .card-content h2 {
+          font-size: 1.3rem;
+      }
+
+      .card-content p {
+          font-size: 0.95rem;
+          justify-content: center;
+      }
+
+      .lista-ingressos ul {
+          max-height: 200px;
+      }
+
+      .titulo-secundario {
+          font-size: 1.6rem;
+          margin-bottom: 30px;
+      }
+
+      .grid-jogos {
+          gap: 20px;
+      }
+  }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 20px;
+      }
+
+      .mapa-estadio img {
+          max-height: 250px;
+          object-fit: contain;
+      }
+
+      .jogo-card {
+          max-width: 100%;
+          padding: 20px;
+          gap: 20px;
+          flex-direction: column;
+          text-align: center;
+      }
+
+      .jogo-times {
+          min-width: 100%;
+          gap: 12px;
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 2px solid var(--cor-borda);
+          padding-bottom: 15px;
+          width: 100%;
+          justify-content: center;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 55px;
+          height: 55px;
+          transform: scale(2);
+          margin-right: 0;
+          margin-bottom: 5px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 50px;
+          height: 50px;
+      }
+
+      .card-content h2 {
+          font-size: 1.3rem;
+      }
+
+      .card-content p {
+          font-size: 0.95rem;
+          justify-content: center;
+      }
+
+      .lista-ingressos ul {
+          max-height: 200px;
+      }
+
+      .titulo-secundario {
+          font-size: 1.6rem;
+          margin-bottom: 30px;
+      }
+
+      .grid-jogos {
+          gap: 20px;
+      }
+  }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 20px;
+      }
+
+      .jogo-card {
+          max-width: 100%;
+          padding: 20px;
+          gap: 20px;
+          flex-direction: column;
+          text-align: center;
+      }
+
+      .jogo-times {
+          min-width: 100%;
+          gap: 12px;
+          padding-right: 0;
+          border-right: none;
+          border-bottom: 2px solid var(--cor-borda);
+          padding-bottom: 15px;
+          width: 100%;
+          justify-content: center;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 55px;
+          height: 55px;
+          transform: scale(2);
+          margin-right: 0;
+          margin-bottom: 5px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 50px;
+          height: 50px;
+      }
+
+      .card-content h2 {
+          font-size: 1.3rem;
+      }
+
+      .card-content p {
+          font-size: 0.95rem;
+          justify-content: center;
+      }
+
+      .lista-ingressos ul {
+          max-height: 200px;
+      }
+
+      .titulo-secundario {
+          font-size: 1.6rem;
+          margin-bottom: 30px;
+      }
+
+      .grid-jogos {
+          gap: 20px;
+      }
+  }
+
+  /* Smartphones (até 600px) */
+  @media (max-width: 600px) {
+      main {
+          padding: 40px 10px 35px;
+      }
+
+      .titulo-pagina {
+          font-size: 1.4rem;
+          letter-spacing: 1px;
+          margin-bottom: 20px;
+          padding-bottom: 10px;
+      }
+
+      .titulo-pagina::after {
+          width: 70px;
+          height: 2px;
+      }
+
+      .header-compra {
+          padding: 10px;
+          gap: 6px;
+          font-size: 0.85rem;
+      }
+
+      .titulo-ingresso-conteudo {
+          padding: 15px;
+          gap: 10px;
+      }
+
+      .times-ingresso {
+          flex-direction: column;
+          gap: 8px;
+          margin-right: 0;
+      }
+
+      .times-ingresso .time {
+          width: 100%;
+      }
+
+      .times-ingresso .time img {
+          height: 50px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.5);
+          margin-bottom: 5px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 1.2rem;
+          margin: 3px 0;
+      }
+
+      .times-ingresso .time span {
+          font-size: 0.95rem;
+      }
+
+      .detalhes-jogo {
+          flex-direction: column;
+          gap: 8px;
+          padding: 10px 15px;
+          width: 100%;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.9rem;
+          text-align: center;
+      }
+
+      .form-setor select,
+      .form-setor input {
+          padding: 12px;
+          font-size: 0.95rem;
+          min-height: 44px;
+      }
+
+      .botao-comprar {
+          padding: 14px;
+          font-size: 1rem;
+          min-height: 48px;
+      }
+
+      .lista-ingressos {
+          margin-top: 20px;
+          padding-top: 15px;
+      }
+
+      .lista-ingressos ul {
+          max-height: 180px;
+          padding-right: 8px;
+      }
+
+      .lista-ingressos li {
+          padding: 12px;
+          font-size: 0.85rem;
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+          min-height: 80px;
+      }
+
+      .lista-ingressos li button,
+      .lista-ingressos li .btn-excluir {
+          width: 100%;
+          padding: 10px;
+          font-size: 0.75rem;
+          min-height: 36px;
+      }
+
+      .botao-finalizar {
+          padding: 16px;
+          font-size: 1rem;
+          min-height: 52px;
+          letter-spacing: 1px;
+      }
+
+      .jogo-card {
+          max-width: 100%;
+          padding: 18px;
+          gap: 20px;
+      }
+
+      .grid-jogos {
+          gap: 15px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 20px;
+      }
+
+      .mapa-estadio img {
+          max-height: 220px;
+      }
+  }
+
+  /* Smartphones pequenos (até 480px) */
+  @media (max-width: 480px) {
+      main {
+          padding: 35px 8px 30px;
+      }
+
+      .titulo-pagina {
+          font-size: 1.2rem;
+          letter-spacing: 0.5px;
+          margin-bottom: 15px;
+          padding-bottom: 8px;
+      }
+
+      .titulo-pagina::after {
+          width: 60px;
+          height: 2px;
+      }
+
+      .header-compra {
+          padding: 8px;
+          gap: 6px;
+          font-size: 0.8rem;
+      }
+
+      .titulo-ingresso-conteudo {
+          padding: 12px;
+          gap: 8px;
+      }
+
+      .times-ingresso .time img {
+          height: 45px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.4);
+          height: 40px;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 40px;
+          height: 40px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 36px;
+          height: 36px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 1rem;
+          margin: 2px 0;
+      }
+
+      .detalhes-jogo {
+          padding: 10px 12px;
+          gap: 6px;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.85rem;
+      }
+
+      .form-setor select,
+      .form-setor input {
+          padding: 12px;
+          font-size: 0.95rem;
+          min-height: 44px;
+      }
+
+      .botao-comprar {
+          padding: 14px;
+          font-size: 1rem;
+          min-height: 48px;
+      }
+
+      .lista-ingressos {
+          margin-top: 20px;
+          padding-top: 15px;
+      }
+
+      .lista-ingressos ul {
+          max-height: 180px;
+          padding-right: 8px;
+      }
+
+      .lista-ingressos li {
+          padding: 12px;
+          font-size: 0.85rem;
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+          min-height: 80px;
+      }
+
+      .lista-ingressos li button,
+      .lista-ingressos li .btn-excluir {
+          width: 100%;
+          padding: 10px;
+          font-size: 0.75rem;
+          min-height: 36px;
+      }
+
+      .botao-finalizar {
+          padding: 16px;
+          font-size: 1rem;
+          min-height: 52px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 15px;
+      }
+
+      .mapa-estadio img {
+          max-height: 200px;
+      }
+
+      .card-content h2 {
+          font-size: 1rem;
+          margin-bottom: 2px;
+      }
+
+      .card-content p {
+          font-size: 0.85rem;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .titulo-secundario {
+          font-size: 1.1rem;
+          margin-bottom: 15px;
+      }
+
+      .grid-jogos {
+          gap: 12px;
+      }
+
+      #mensagem-sucesso {
+          padding: 20px 25px;
+          font-size: 0.85rem;
+          letter-spacing: 1px;
+          border-radius: 18px;
+      }
+
+      #mensagem-sucesso i {
+          font-size: 2rem;
+          margin-bottom: 5px;
+      }
+
+      .jogo-card {
+          padding: 15px;
+      }
+  }
+
+      .titulo-pagina {
+          font-size: 1.2rem;
+          letter-spacing: 0.5px;
+          margin-bottom: 15px;
+          padding-bottom: 8px;
+      }
+
+      .titulo-pagina::after {
+          width: 60px;
+          height: 2px;
+      }
+
+      .header-compra {
+          padding: 8px;
+          gap: 6px;
+          font-size: 0.8rem;
+      }
+
+      .titulo-ingresso-conteudo {
+          padding: 12px;
+          gap: 8px;
+      }
+
+      .times-ingresso .time img {
+          height: 45px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.4);
+          height: 40px;
+      }
+
+      .times-ingresso .escudo:first-child {
+          width: 40px;
+          height: 40px;
+      }
+
+      .times-ingresso .escudo:last-child {
+          width: 36px;
+          height: 36px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 1rem;
+          margin: 2px 0;
+      }
+
+      .detalhes-jogo {
+          padding: 10px 12px;
+          gap: 6px;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.85rem;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 15px;
+      }
+
+      .card-content h2 {
+          font-size: 1rem;
+          margin-bottom: 2px;
+      }
+
+      .card-content p {
+          font-size: 0.85rem;
+          gap: 8px;
+          flex-wrap: wrap;
+      }
+
+      .titulo-secundario {
+          font-size: 1.1rem;
+          margin-bottom: 15px;
+      }
+
+      .grid-jogos {
+          gap: 12px;
+      }
+
+      #mensagem-sucesso {
+          padding: 20px 25px;
+          font-size: 0.85rem;
+          letter-spacing: 1px;
+          border-radius: 18px;
+      }
+
+      #mensagem-sucesso i {
+          font-size: 2rem;
+          margin-bottom: 5px;
+      }
+
+      .jogo-card {
+          padding: 15px;
+      }
+  }
+
+  /* Telas muito pequenas (até 360px) */
+  @media (max-width: 360px) {
+      main {
+          padding: 25px 5px 20px;
+      }
+
+      .titulo-pagina {
+          font-size: 1rem;
+          letter-spacing: 0;
+          margin-bottom: 10px;
+      }
+
+      .titulo-pagina::before {
+          display: none;
+      }
+
+      .header-compra {
+          padding: 6px;
+          font-size: 0.75rem;
+      }
+
+      .titulo-ingresso-conteudo {
+          padding: 10px;
+          gap: 6px;
+      }
+
+      .times-ingresso .time img {
+          height: 35px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.2);
+          height: 30px;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 30px;
+          height: 30px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 28px;
+          height: 28px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 0.9rem;
+          margin: 2px 0;
+      }
+
+      .detalhes-jogo {
+          padding: 8px 10px;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.75rem;
+      }
+
+      .form-setor select,
+      .form-setor input {
+          padding: 8px;
+          font-size: 0.85rem;
+          min-height: 40px;
+      }
+
+      .botao-comprar {
+          padding: 10px;
+          font-size: 0.85rem;
+          min-height: 44px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 10px;
+      }
+
+      .card-content h2 {
+          font-size: 0.9rem;
+      }
+
+      .card-content p {
+          font-size: 0.8rem;
+          gap: 6px;
+      }
+
+      .botao-finalizar {
+          padding: 12px;
+          font-size: 0.85rem;
+          min-height: 46px;
+      }
+
+      .lista-ingressos li {
+          padding: 8px;
+          font-size: 0.75rem;
+          min-height: 70px;
+      }
+
+      .lista-ingressos li button,
+      .lista-ingressos li .btn-excluir {
+          padding: 8px;
+          font-size: 0.7rem;
+          min-height: 32px;
+      }
+
+      .jogo-card {
+          padding: 10px;
+      }
+
+      .grid-jogos {
+          gap: 10px;
+      }
+  }
+
+      .titulo-pagina {
+          font-size: 1.1rem;
+          letter-spacing: 0;
+          margin-bottom: 12px;
+      }
+
+      .titulo-pagina::before {
+          display: none;
+      }
+
+      .header-compra {
+          padding: 8px;
+          font-size: 0.75rem;
+      }
+
+      .times-ingresso .time img {
+          height: 40px;
+      }
+
+      .times-ingresso .time:first-child img {
+          transform: scale(1.3);
+          height: 35px;
+      }
+
+      .jogo-times .escudo:first-child {
+          width: 35px;
+          height: 35px;
+      }
+
+      .jogo-times .escudo:last-child {
+          width: 32px;
+          height: 32px;
+      }
+
+      .times-ingresso .versus {
+          font-size: 1rem;
+      }
+
+      .detalhes-jogo {
+          padding: 8px 10px;
+      }
+
+      .detalhes-jogo p {
+          font-size: 0.8rem;
+      }
+
+      .form-setor select,
+      .form-setor input {
+          padding: 10px;
+          font-size: 0.9rem;
+          min-height: 42px;
+      }
+
+      .botao-comprar {
+          padding: 12px;
+          font-size: 0.9rem;
+          min-height: 46px;
+      }
+
+      .mapa-estadio, .lado-direito-ingressos {
+          padding: 12px;
+      }
+
+      .card-content h2 {
+          font-size: 0.95rem;
+      }
+
+      .card-content p {
+          font-size: 0.8rem;
+          gap: 6px;
+      }
+
+      .botao-finalizar {
+          padding: 14px;
+          font-size: 0.9rem;
+          min-height: 48px;
+      }
+
+      .lista-ingressos li {
+          padding: 10px;
+          font-size: 0.8rem;
+      }
+
+      .jogo-card {
+          padding: 12px;
+      }
+  }
 
  /* Modo paisagem em smartphones */
  @media (max-width: 767px) and (orientation: landscape) {
