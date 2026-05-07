@@ -1,17 +1,11 @@
 body {
   min-height: 100vh;
   display: flex;
-  
 }
 
 .socio-main {
   display: block;
-  justify-content: space-between;
-  flex-direction: row;
 }
-
-
-
 
 /* ========================= */
 /* CONTAINER PRINCIPAL */
@@ -26,9 +20,6 @@ body {
   gap: 50px;
   font-family: "Poppins", sans-serif;
 }
-
-
-
 
 .text-area {
   max-width: 400px;
@@ -100,12 +91,11 @@ body {
   box-shadow: 0 18px 40px rgba(0,0,0,.55);
 }
 
-.card.active {
-  width: 280px;
-  height: 170px;
-  opacity: 1;
-  transform: scale(1.1);
-  box-shadow: 0 18px 40px rgba(0,0,0,.55);
+.card {
+  transition:
+    transform .35s ease,
+    filter .35s ease,
+    opacity .35s ease;
 }
 
 .arrow {
@@ -259,17 +249,6 @@ body {
   animation: glowPulse 0.9s ease;
 }
 
-
-
-
-.card{
-  transition:
-    transform .35s ease,
-    filter .35s ease,
-    opacity .35s ease;
-}
-
-
 @keyframes glowPulse{
 
   0%{
@@ -291,9 +270,6 @@ body {
 
 }
 
-
-
-
 /* ========================= */
 /* RESPONSIVIDADE */
 /* ========================= */
@@ -301,33 +277,35 @@ body {
 /* Tablets e telas médias (até 1024px) */
 @media (max-width:1024px){
 
-.socio-container{
-  flex-direction:column;
-  text-align:center;
-  margin:100px auto;
+  .socio-container{
+    flex-direction:column;
+    text-align:center;
+    margin:80px auto;
+    gap:40px;
+  }
+
+  .carousel{
+    margin-top:10px;
+    width:100%;
+  }
+
+  .cards{
+    justify-content:center;
+  }
+
+  .card{
+    width:170px;
+    height:110px;
+  }
+
+  .card.active{
+    width:230px;
+    height:150px;
+  }
+
 }
 
-.carousel{
-  margin-top:20px;
-}
-
-.cards{
-  justify-content:center;
-}
-
-.card{
-  width:170px;
-  height:110px;
-}
-
-.card.active{
-  width:230px;
-  height:150px;
-}
-
-}
-
-/* Celulares (até 768px) */
+/* Celulares médios (até 768px) */
 @media (max-width: 768px) {
 
   .planos{
@@ -344,135 +322,202 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90%;
-    gap: 40px;
-    margin: 60px auto;
-    overflow: hidden;
+    width: 95%;
+    gap: 35px;
+    margin: 50px auto;
+    padding: 0 15px;
+    box-sizing: border-box;
   }
 
   .text-area h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
   }
 
   .text-area p {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   .btn-socio {
     width: 100%;
+    max-width: 280px;
     padding: 14px 0;
     font-size: 1rem;
   }
 
-.carousel{
-  width:100%;
-  overflow:hidden;
-}
+  .carousel{
+    position:relative;
+    width:100%;
+    margin-top:10px;
+  }
 
-.cards{
-  display:flex;
-  flex-direction:row;
-  overflow-x:auto;
+  .cards{
+    display:flex;
+    flex-direction:row;
+    overflow-x:auto;
+    gap:15px;
+    padding:15px 5px;
+    scroll-padding-left: calc(50% - 110px);
+    scroll-padding-right: calc(50% - 110px);
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling: touch;
+    justify-content:flex-start;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
 
-  gap:20px;
-  padding:10px;
+  .cards::-webkit-scrollbar{
+    display:none;
+  }
 
-  scroll-padding-left: calc(50% - 110px);
-  scroll-padding-right: calc(50% - 110px);
-  scroll-behavior:smooth;
+  .card{
+    flex:0 0 180px;
+    height:120px;
+    scroll-snap-align:center;
+    filter: blur(2px) brightness(.7);
+    opacity:.5;
+  }
 
-  -webkit-overflow-scrolling: touch;
-
-  justify-content:flex-start; /* importante */
-}
-
-.card{
-  flex:0 0 220px;
-  height:130px;
-  scroll-snap-align:center;
-}
-
-
-
-
+  .card.active{
+    flex:0 0 240px;
+    height:150px;
+    filter: blur(0) brightness(1);
+    opacity:1;
+  }
 
   .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
-    width: 38px;
-    height: 38px;
-    font-size: 1.2rem;
-    background-color: #e5e5e5;
+    z-index: 15;
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+    background-color: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 
-  #prev { left: 10px; }
-  #next { right: 10px; }
+  .arrow:hover {
+    background-color: #fff;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  #prev {
+    left: 5px;
+  }
+
+  #next {
+    right: 5px;
+  }
 
   .popup-content{
     padding:25px;
-    max-height:80vh;
+    max-height:85vh;
     overflow-y:auto;
+    width:min(400px,95%);
   }
 
-    .btn-socio:active{
-      transform:scale(.97);
-    }
-
-      .arrow{
-    display:none;
+  .btn-socio:active{
+    transform:scale(.97);
   }
 
-.cards::-webkit-scrollbar{
-  display:none;
 }
 
-.cards{
-  scrollbar-width:none;
-}
-
-.card{
-  filter: blur(2px) brightness(.7);
-  opacity:.5;
-}
-
-.card.active{
-  filter: blur(0) brightness(1);
-  opacity:1;
-}
-
-
-}
-
-/* Telas muito pequenas (até 480px) */
+/* Telas pequenas (até 480px) */
 @media (max-width: 480px) {
+  .socio-container {
+    margin: 30px auto;
+    gap: 30px;
+    padding: 0 10px;
+  }
+
   .text-area h1 {
     font-size: 1.6rem;
+    margin-bottom: 12px;
   }
 
   .text-area p {
     font-size: 0.9rem;
+    line-height: 1.5;
   }
 
   .btn-socio {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     padding: 12px 0;
+    max-width: 100%;
   }
 
-  .card,
+  .card {
+    flex: 0 0 160px;
+    height: 110px;
+  }
+
   .card.active {
-    width: 200px;
-    height: 120px;
-    flex-direction: column;
+    flex: 0 0 200px;
+    height: 130px;
   }
 
   .arrow {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+
+  #prev {
+    left: 2px;
+  }
+
+  #next {
+    right: 2px;
+  }
+
+  .plano-card {
+    padding: 20px;
+  }
+
+  .plano-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .btn-plano {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Telas muito pequenas (até 360px) */
+@media (max-width: 360px) {
+  .socio-container {
+    margin: 20px auto;
+    gap: 25px;
+  }
+
+  .text-area h1 {
+    font-size: 1.4rem;
+  }
+
+  .text-area p {
+    font-size: 0.85rem;
+  }
+
+  .card {
+    flex: 0 0 150px;
+    height: 100px;
+  }
+
+  .card.active {
+    flex: 0 0 180px;
+    height: 120px;
+  }
+
+  .arrow {
+    width: 32px;
+    height: 32px;
     font-size: 1rem;
   }
 }
