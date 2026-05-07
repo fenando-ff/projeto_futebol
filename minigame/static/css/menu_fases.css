@@ -192,7 +192,7 @@ body {
 /* garante que o conteúdo fique por cima */
 .fase-inner {
     position: relative;
-    z-index: 2;
+    z-index: 0;
 }
 
 
@@ -450,13 +450,17 @@ body.error-flash {
     align-items: center;
     justify-content: center;
 
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.75);
 
     opacity: 0;
     pointer-events: none;
 
-    transition: 0.25s ease;
+    transition: 0.3s ease;
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    z-index: 9999;
 }
 
 .profile-modal.show {
@@ -572,5 +576,67 @@ body.error-flash {
 
 .logout-btn:hover {
     background: rgba(255,0,0,0.15);
+    transform: scale(1.05);
+}
+
+.close-profile-btn {
+    margin-top: 15px;
+
+    width: 100%;
+    padding: 10px;
+
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: bold;
+
+    color: #fff;
+
+    background: rgba(139, 0, 0, 0.15);
+    border: 1px solid rgba(139, 0, 0, 0.6);
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+
+    box-shadow:
+        0 0 15px rgba(139, 0, 0, 0.25),
+        inset 0 0 10px rgba(139, 0, 0, 0.15);
+}
+
+
+.close-profile-btn:hover {
+    transform: scale(1.05);
+
+    background: rgba(139, 0, 0, 0.35);
+
+    box-shadow:
+        0 0 25px rgba(255, 0, 0, 0.5),
+        inset 0 0 15px rgba(255, 0, 0, 0.25);
+}
+
+.logout-btn {
+    display: block;
+    margin-top: 10px;
+
+    text-align: center;
+    padding: 8px;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+
+    color: #ff4d4d;
+
+    border: 1px solid rgba(255,0,0,0.4);
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255,0,0,0.2);
     transform: scale(1.05);
 }

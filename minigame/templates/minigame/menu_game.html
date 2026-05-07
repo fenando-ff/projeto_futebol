@@ -3,22 +3,36 @@
 
 
 <section class="menu-fases">
-    <button id="profileBtn" class="profile-btn">PERFIL</button>
-    <h2 class="profile-title">MEU PERFIL</h2>
+   <button id="profileBtn" class="profile-btn">PERFIL</button>
 
-    <div class="profile-info">
-        <div class="info-row">
-            <span class="label">ID</span>
-            <span class="value">{{ usuario.id_participante }}</span>
+
+
+
+<div id="profileModal" class="profile-modal">
+    <div class="profile-box">
+
+        <h2 class="profile-title">MEU PERFIL</h2>
+
+        <div class="profile-info">
+            <div class="info-row">
+                <span class="label">ID</span>
+                <span class="value">{{ usuario.id_participante }}</span>
+            </div>
+
+            <div class="info-row">
+                <span class="label">NOME</span>
+                <span class="value">{{ usuario.nome_participante }}</span>
+            </div>
         </div>
 
-        <div class="info-row">
-            <span class="label">NOME</span>
-            <span class="value">{{ usuario.nome_participante }}</span>
-        </div>
+        <a href="{% url 'logout' %}" class="logout-btn">SAIR DA CONTA</a>
+
+       <button id="closeProfile" class="close-profile-btn">FECHAR</button>
     </div>
-    <a href="{% url 'logout' %}" class="logout-btn">SAIR DA CONTA</a>
- 
+</div>
+
+
+
 
     <h1 class="menu-title">ESCOLHA SUA FASE</h1>
 
