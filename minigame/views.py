@@ -195,6 +195,8 @@ def game_quiz(request):
             "pergunta": q.pergunta,
             "opcoes": opcoes
         })
+        
+    perguntas = random.sample(perguntas, len(perguntas))
 
     return render(request, "minigame/game_quiz.html", {
         "perguntas": perguntas
