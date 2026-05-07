@@ -116,11 +116,18 @@ def gerar_nome_unico(nome):
 
 @login_obrigatorio
 def menu_fases(request):
+    participante_id = request.session.get('participante_id')
+
+    participante = model_minigame.Participantes.objects.using('minigame').get(
+        id_participante=participante_id
+    )
+
     jogadores = model_minigame.Participantes.objects.using('minigame')\
         .all().order_by('-id_participante')[:5]
 
     return render(request, 'minigame/menu_game.html', {
-        'jogadores': jogadores
+        'jogadores': jogadores,
+        'usuario': participante
     })
 
 

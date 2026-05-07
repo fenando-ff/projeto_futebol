@@ -1,11 +1,37 @@
 const fase2 = document.getElementById("fase2");
 const warning = document.getElementById("lockWarning");
+const profileBtn = document.getElementById("profileBtn");
+const profileModal = document.getElementById("profileModal");
+const closeProfile = document.getElementById("closeProfile");
 
+
+
+profileBtn.addEventListener("click", () => {
+    profileModal.classList.add("show");
+});
+
+closeProfile.addEventListener("click", () => {
+    profileModal.classList.remove("show");
+});
 
 document.querySelector('.fase-card').addEventListener('mouseenter', () => {
     document.querySelector('.ranking-side').style.boxShadow =
         "0 0 30px rgba(255,0,0,0.6)";
 });
+
+profileModal.addEventListener("click", (e) => {
+    if (e.target === profileModal) {
+        profileModal.classList.remove("show");
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        profileModal.classList.remove("show");
+    }
+});
+
+
 
 if (fase2 && warning) {
     fase2.addEventListener("click", function(e) {
