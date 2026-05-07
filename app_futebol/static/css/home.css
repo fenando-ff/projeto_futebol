@@ -355,16 +355,669 @@ a{
 /* ======================= RESPONSIVO ======================= */
 /* ===================== MOBILE PREMIUM (SEM MEXER NO PC) ===================== */
 
-/* ajuda geral no mobile */
-/* ===================== MOBILE PREMIUM (cole no FINAL) ===================== */
+/* Desktop grande (até 1400px) */
+@media (max-width: 1400px) {
+    .hero-carousel {
+        width: 700px;
+        height: 340px;
+    }
+    
+    .product-card {
+        width: 360px;
+    }
+}
 
-@media (max-width: 900px){
-  @media (max-width: 900px){
-  /* força começar do primeiro card (esquerda) */
-  .produtos-track{
-    justify-content: flex-start !important;
-    align-items: stretch;
-  }
+/* Tablet e pequenos desktops (até 1200px) */
+@media (max-width: 1200px) {
+    .hero {
+        padding: 64px 8% 64px;
+        gap: 24px;
+    }
+    
+    .hero-carousel {
+        width: 650px;
+        height: 320px;
+    }
+    
+    .card {
+        width: 310px;
+        height: 200px;
+    }
+    
+    .produtos-track .product-card {
+        flex: 0 0 90%;
+    }
+}
+
+/* Tablets (até 1024px) */
+@media (max-width: 1024px) {
+    .hero {
+        padding: 50px 6% 50px;
+    }
+    
+    .hero-carousel {
+        max-width: 600px;
+        height: 280px;
+    }
+    
+    .card {
+        width: 48%;
+        min-width: 280px;
+    }
+    
+    .jogo-card {
+        gap: 32px;
+    }
+    
+    .jogo-card img {
+        width: 100px;
+    }
+}
+
+/* Tablets pequenos e smartphones grandes (até 900px) */
+@media (max-width: 900px) {
+    /* força começar do primeiro card (esquerda) */
+    .produtos-track {
+        justify-content: flex-start !important;
+        align-items: stretch;
+    }
+    
+    .card {
+        transition: transform .12s ease, background .2s ease, border-color .2s ease;
+    }
+    
+    .destaques .card {
+        background: rgba(0,0,0,.28);
+    }
+    
+    /* melhora o "encaixe" do snap no início */
+    .produtos-carousel {
+        scroll-padding-left: 16px;
+    }
+    
+    .produtos-track .product-card {
+        scroll-snap-align: start;
+    }
+    
+    * { box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
+    img { max-width: 100%; height: auto; }
+    
+    .home-container { padding-bottom: 26px; }
+    
+    /* HERO */
+    .hero {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        text-align: center;
+        padding: 26px 16px;
+        gap: 16px;
+    }
+    
+    .hero-text h2 {
+        font-size: 1rem;
+        opacity: .95;
+        margin-bottom: 8px;
+    }
+    
+    .hero-text h1 {
+        font-size: clamp(1.55rem, 6vw, 2.2rem);
+        line-height: 1.05;
+        margin-bottom: 10px;
+    }
+    
+    .hero-text p {
+        font-size: clamp(.98rem, 3.6vw, 1.1rem);
+        opacity: .85;
+        margin-bottom: 14px;
+    }
+    
+    .btn-primary {
+        display: inline-block;
+        border-radius: 12px;
+        padding: 12px 18px;
+        min-height: 48px;
+    }
+    
+    /* CARROSSEL HERO (sem mexer em setas) */
+    .hero-carousel {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border-radius: 16px;
+    }
+    
+    .carousel-progress { height: 5px; }
+    
+    /* DESTAQUES */
+    .destaques {
+        flex-direction: column;
+        gap: 12px;
+        margin: 20px 16px 26px;
+    }
+    
+    .card {
+        width: 100%;
+        height: auto;
+        padding: 16px;
+        border-radius: 18px;
+        background: rgba(0,0,0,.25);
+        border: 1px solid rgba(255,255,255,.10);
+        gap: 13px;
+        min-height: 120px;
+    }
+    
+    .card i {
+        font-size: 30px;
+        margin-bottom: 4px;
+    }
+    
+    .card h3 { font-size: 1.05rem; }
+    .card p { margin: 0; opacity: .85; }
+    
+    .btn-secondary {
+        display: inline-block;
+        border-radius: 12px;
+        padding: 10px 14px;
+        min-height: 44px;
+    }
+    
+    /* PRÓXIMO JOGO */
+    .proximo-jogo {
+        padding: 26px 16px;
+    }
+    
+    .jogo-card {
+        gap: 16px;
+        margin: 22px auto;
+        flex-wrap: nowrap;
+        padding: 20px;
+        border-radius: 16px;
+    }
+    
+    .jogo-card img {
+        width: 72px;
+        border-radius: 14px;
+    }
+    
+    .versus { font-size: 34px; }
+    
+    .info {
+        font-size: 1rem;
+        margin-bottom: 16px;
+        opacity: .9;
+    }
+    
+    /* ===================== PRODUTOS: CARROSSEL MOBILE ===================== */
+    .produtos {
+        padding: 26px 16px;
+    }
+    
+    .produtos-carousel {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        margin: 0 0px;
+        padding-bottom: 14px;
+    }
+    
+    .produtos-track {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 40px;
+        padding: 0 16px;
+    }
+    
+    .produtos-track .product-card {
+        flex: 0 0 86%;
+        scroll-snap-align: start;
+    }
+    
+    .produtos-carousel::-webkit-scrollbar { height: 0; }
+    .produtos-carousel { scrollbar-width: none; }
+    
+    /* mobile: remove scale, mantém card grande e bonito */
+    .product-card {
+        width: 100%;
+        transform: none;
+        border-radius: 22px;
+        padding: 20px;
+    }
+    
+    .product-card:hover {
+        transform: none; /* no mobile sem "pula" */
+    }
+    
+    .product-image {
+        padding: 18px 14px;
+    }
+    
+    .product-image img {
+        height: 240px;
+        max-width: 230px;
+        transform: rotate(-8deg);
+    }
+    
+    .product-info {
+        padding: 16px;
+    }
+    
+    .product-tags {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    /* mobile não tem hover: mostra sempre */
+    .bottom {
+        opacity: 1;
+        transform: none;
+        padding: 12px 0 0;
+    }
+    
+    .price { font-size: 1.2rem; }
+    
+    .btn-add {
+        border-radius: 12px;
+        padding: 10px 14px;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 900px) {
+    .destaques { gap: 10px; }
+    
+    .card {
+        padding: 14px 14px;
+        gap: 8px;
+        border-radius: 18px;
+    }
+    
+    .card i {
+        font-size: 28px;
+        margin-bottom: 2px;
+        opacity: .95;
+    }
+    
+    .card h3 {
+        font-size: 1.02rem;
+        letter-spacing: .8px;
+    }
+    
+    .card p {
+        font-size: .98rem;
+        opacity: .9;
+    }
+    
+    /* sensação de toque */
+    .card:active {
+        transform: scale(.99);
+    }
+}
+
+/* TABLET: duas colunas (flex wrap) sem grid */
+@media (min-width: 640px) and (max-width: 900px) {
+    .destaques {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .destaques .card {
+        width: calc(50% - 6px);
+    }
+}
+
+/* Smartphones grandes (até 768px) */
+@media (max-width: 768px) {
+    .hero-carousel {
+        height: 240px;
+    }
+    
+    .product-card {
+        padding: 18px;
+    }
+    
+    .product-image img {
+        height: 220px;
+        max-width: 200px;
+    }
+    
+    .jogo-card img {
+        width: 65px;
+    }
+    
+    .versus {
+        font-size: 28px;
+    }
+}
+
+/* Smartphones (até 600px) */
+@media (max-width: 600px) {
+    .hero {
+        padding: 20px 12px 20px;
+        gap: 12px;
+    }
+    
+    .hero-text h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+    
+    .hero-text p {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+    
+    .hero-carousel {
+        border-radius: 12px;
+        height: 200px;
+    }
+    
+    .btn-primary {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        width: 100%;
+    }
+    
+    .btn-secondary {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .card {
+        padding: 14px;
+        min-height: 100px;
+    }
+    
+    .card i {
+        font-size: 26px;
+    }
+    
+    .card h3 {
+        font-size: 0.95rem;
+    }
+    
+    .card p {
+        font-size: 0.9rem;
+    }
+    
+    .proximo-jogo {
+        padding: 20px 12px;
+    }
+    
+    .jogo-card {
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+    }
+    
+    .jogo-card img {
+        width: 80px;
+        border-radius: 50%;
+    }
+    
+    .versus {
+        font-size: 26px;
+        margin: 8px 0;
+    }
+    
+    .info {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+    }
+    
+    .produtos {
+        padding: 20px 12px;
+    }
+    
+    .produtos-track {
+        gap: 20px;
+    }
+    
+    .produtos-track .product-card {
+        flex: 0 0 90%;
+    }
+    
+    .product-card {
+        padding: 16px;
+        border-radius: 18px;
+    }
+    
+    .product-image {
+        padding: 14px 10px;
+    }
+    
+    .product-image img {
+        height: 200px;
+        max-width: 180px;
+        transform: rotate(-6deg);
+    }
+    
+    .product-info {
+        padding: 12px;
+    }
+    
+    .product-tags {
+        gap: 6px;
+    }
+    
+    .price {
+        font-size: 1.1rem;
+    }
+    
+    .btn-add {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Smartphones pequenos (até 480px) */
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 1.35rem;
+    }
+    
+    .hero-text p {
+        font-size: 0.9rem;
+    }
+    
+    .hero-carousel {
+        height: 180px;
+        border-radius: 10px;
+    }
+    
+    .card {
+        padding: 12px;
+        gap: 6px;
+        border-radius: 16px;
+    }
+    
+    .card i {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+    
+    .card h3 {
+        font-size: 0.9rem;
+    }
+    
+    .card p {
+        font-size: 0.85rem;
+    }
+    
+    .btn-secondary {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .jogo-card img {
+        width: 70px;
+    }
+    
+    .versus {
+        font-size: 22px;
+    }
+    
+    .product-image img {
+        height: 180px;
+        max-width: 160px;
+        transform: rotate(-5deg);
+    }
+    
+    .product-tags .tag {
+        font-size: 0.7rem;
+        padding: 3px 6px;
+    }
+    
+    .price {
+        font-size: 1rem;
+    }
+    
+    .btn-add {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Telas muito pequenas (até 360px) */
+@media (max-width: 360px) {
+    .hero {
+        padding: 16px 10px;
+        gap: 10px;
+    }
+    
+    .hero-text h1 {
+        font-size: 1.2rem;
+    }
+    
+    .hero-text p {
+        font-size: 0.85rem;
+    }
+    
+    .btn-primary {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    .hero-carousel {
+        height: 160px;
+    }
+    
+    .card {
+        padding: 10px;
+        min-height: 90px;
+    }
+    
+    .card i {
+        font-size: 22px;
+    }
+    
+    .card h3 {
+        font-size: 0.85rem;
+    }
+    
+    .card p {
+        font-size: 0.8rem;
+    }
+    
+    .jogo-card {
+        padding: 12px;
+    }
+    
+    .jogo-card img {
+        width: 60px;
+    }
+    
+    .versus {
+        font-size: 20px;
+    }
+    
+    .info {
+        font-size: 0.85rem;
+    }
+    
+    .product-image img {
+        height: 160px;
+        max-width: 140px;
+    }
+}
+
+/* Modo paisagem em smartphones */
+@media (max-width: 767px) and (orientation: landscape) {
+    .hero {
+        flex-direction: row;
+        align-items: center;
+        padding: 16px;
+        gap: 12px;
+    }
+    
+    .hero-carousel {
+        width: 50%;
+        max-width: 300px;
+    }
+    
+    .hero-text {
+        flex: 1;
+    }
+    
+    .hero-text h1 {
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+    
+    .destaques {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 16px;
+    }
+    
+    .card {
+        width: calc(50% - 4px);
+        padding: 10px;
+        min-height: 100px;
+    }
+    
+    .card i {
+        font-size: 20px;
+    }
+    
+    .card h3 {
+        font-size: 0.85rem;
+    }
+    
+    .card p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Altura mínima para telas pequenas em modo paisagem */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .hero-carousel {
+        height: 150px;
+    }
+    
+    .destaques {
+        margin: 12px 8px;
+    }
+    
+    .card {
+        padding: 8px;
+        min-height: 80px;
+    }
+    
+    .proximo-jogo {
+        padding: 16px 12px;
+    }
+    
+    .jogo-card {
+        gap: 12px;
+        padding: 12px;
+    }
+}
   .card{
     transition: transform .12s ease, background .2s ease, border-color .2s ease;
   }
