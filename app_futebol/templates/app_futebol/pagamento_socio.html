@@ -8,36 +8,60 @@
 {% block conteudo_pagina %}
 <main class="pagamento-container">
 
-    <h1>Tornar-se Sócio</h1>
+    <h1 class="titulo-principal">Tornar-se Sócio</h1>
 
     <!-- DADOS DO USUÁRIO -->
     <section class="box">
         <h2>Seus Dados</h2>
+        <p class="box-desc">
+            Confira suas informações cadastradas. Caso algum dado esteja incorreto,
+            atualize em seu perfil antes de continuar com a assinatura.
+        </p>
 
         <div class="dados-usuario">
             <p><strong>Nome:</strong> {{ cliente.nome_clientes }} {{ cliente.sobrenome_clientes }}</p>
-            <p><strong>Email:</strong> {{ cliente.email_clientes }} </p>
-            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }} </p>
-            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }} </p>
+            <p><strong>Email:</strong> {{ cliente.email_clientes }}</p>
+            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }}</p>
+            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }}</p>
         </div>
     </section>
 
     <!-- PLANO -->
     <section class="box">
-        <h2>Plano Atual</h2>
-        <div class="plano-info">
-            <p><strong>Plano: </strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
+        <h2>Seu Plano Atual</h2>
+
+        <p class="box-desc">
+            Este é o plano de sócio que está atualmente vinculado à sua conta.
+        </p>
+
+        <div class="plano-info plano-card">
+            <p><strong>Plano Atual:</strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
         </div>
     </section>
 
-    <section class="box">
-        <h2>Plano Selecionado</h2>
-        <div class="plano-info">
-            <p><strong>Plano: </strong>{{ plano.nome_categoria_clientes }}</p>
-            <p><strong>Valor: </strong>R${{ plano.preco_categoria|floatformat:2}}</p> {% comment %} 'floatformat:2' é para deixar dois numeros depois da vírgula {% endcomment %}
-            <p><strong>Descrição: </strong>{{ plano.descricao_categ_cli}}</p>
-        </div>
-    </section>
+        <section class="box">
+            <h2>Plano Selecionado</h2>
+
+            <p class="box-desc">
+                Você está prestes a assinar o plano abaixo. Revise os detalhes antes de confirmar o pagamento.
+            </p>
+
+            <div class="plano-info plano-card">
+
+                <p><strong>Plano:</strong> {{ plano.nome_categoria_clientes }}</p>
+
+                <p class="plano-preco">
+                    <strong>Valor da Assinatura:</strong>
+                    R$ {{ plano.preco_categoria|floatformat:2 }}
+                </p>
+
+                <p class="plano-desc">
+                    {{ plano.descricao_categ_cli }}
+                </p>
+
+            </div>
+
+        </section>
 
     <!-- FORMAS DE PAGAMENTO -->
     <section class="box">
@@ -47,6 +71,42 @@
             <button type="button" class="pay-btn" data-type="cartao">Cartão de Crédito</button>
             <button type="button" class="pay-btn" data-type="paypal">PayPal</button>
         </div>
+
+
+            <div class="card-preview">
+
+                <div class="card-inner" id="card-inner">
+
+                    <div class="card-front">
+
+                        <div class="card-number" id="preview-number">
+                            #### #### #### ####
+                        </div>
+
+                        <div class="card-info">
+                            <span id="preview-name">SEU NOME</span>
+                            <span id="preview-valid">MM/AA</span>
+                        </div>
+
+                    </div>
+
+                    <div class="card-back">
+
+                        <div class="stripe"></div>
+
+                        <div class="cvv-box" id="preview-cvv">
+                            ###
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
 
         <!-- CARTÃO -->
         <form id="form-cartao" class="form-pay" method="POST" style="display:none;">
@@ -73,23 +133,189 @@
     </section>
 </main>
 {% endblock conteudo_pagina %}
-
 {% block js_pagina %}
 <script>
-    const botoes = document.querySelectorAll('.pay-btn');
-    const formCartao = document.getElementById('form-cartao');
-    const formPaypal = document.getElementById('form-paypal');
+document.addEventListener("DOMContentLoaded", function(){
 
-    botoes.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (btn.dataset.type === "cartao") {
-                formCartao.style.display = "block";
-                formPaypal.style.display = "none";
-            } else {
-                formPaypal.style.display = "block";
-                formCartao.style.display = "none";
-            }
-        });
-    });
+let flipped = false;
+let cvvFocused = false;
+
+const card = document.querySelector(".card-preview");
+const cardInner3D = document.querySelector(".card-inner");
+
+/* ======================
+EFEITO 3D DO CARTÃO
+====================== */
+
+card.addEventListener("mousemove", (e) => {
+
+if(cvvFocused) return;
+
+const rect = card.getBoundingClientRect();
+
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+const centerX = rect.width / 2;
+const centerY = rect.height / 2;
+
+const rotateX = ((y - centerY) / centerY) * 20;
+const rotateY = ((x - centerX) / centerX) * 20;
+
+let flipRotation = flipped ? 180 : 0;
+
+cardInner3D.style.transform =
+`rotateX(${-rotateX}deg) rotateY(${rotateY + flipRotation}deg)`;
+
+});
+
+card.addEventListener("mouseleave", () => {
+
+if(cvvFocused) return;
+
+let flipRotation = flipped ? 180 : 0;
+
+cardInner3D.style.transform =
+`rotateX(0deg) rotateY(${flipRotation}deg)`;
+
+});
+
+/* ======================
+BOTÕES PAGAMENTO
+====================== */
+
+const botoes = document.querySelectorAll('.pay-btn');
+const formCartao = document.getElementById('form-cartao');
+const formPaypal = document.getElementById('form-paypal');
+const cardPreview = document.querySelector('.card-preview');
+
+botoes.forEach(btn => {
+
+btn.addEventListener('click', () => {
+
+botoes.forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+
+if(btn.dataset.type === "cartao"){
+
+formCartao.style.display = "flex";
+formPaypal.style.display = "none";
+cardPreview.style.display = "block";
+
+}
+
+if(btn.dataset.type === "paypal"){
+
+formPaypal.style.display = "flex";
+formCartao.style.display = "none";
+cardPreview.style.display = "none";
+
+}
+
+});
+
+});
+
+/* ======================
+INPUTS
+====================== */
+
+const numberInput = document.querySelector('[name="card_number"]');
+const nameInput = document.querySelector('[name="card_name"]');
+const validInput = document.querySelector('[name="card_valid"]');
+const cvvInput = document.querySelector('[name="card_cvv"]');
+
+const previewNumber = document.getElementById("preview-number");
+const previewName = document.getElementById("preview-name");
+const previewValid = document.getElementById("preview-valid");
+const previewCvv = document.getElementById("preview-cvv");
+
+/* número cartão */
+
+numberInput.addEventListener("input", () => {
+
+let valor = numberInput.value
+.replace(/\D/g,"")
+.substring(0,16)
+.replace(/(.{4})/g,"$1 ")
+.trim();
+
+numberInput.value = valor;
+
+previewNumber.textContent = valor || "#### #### #### ####";
+
+});
+
+/* nome */
+
+nameInput.addEventListener("input", () => {
+
+let valor = nameInput.value
+.replace(/[^a-zA-Z\s]/g,"")
+.toUpperCase();
+
+nameInput.value = valor;
+
+previewName.textContent = valor || "SEU NOME";
+
+});
+
+/* validade */
+
+validInput.addEventListener("input", () => {
+
+let valor = validInput.value
+.replace(/\D/g,"")
+.substring(0,4);
+
+if(valor.length >= 3){
+valor = valor.replace(/(\d{2})(\d)/,"$1/$2");
+}
+
+validInput.value = valor;
+
+previewValid.textContent = valor || "MM/AA";
+
+});
+
+/* ======================
+CVV INPUT + LIMITADOR
+====================== */
+
+cvvInput.addEventListener("input", () => {
+
+let valor = cvvInput.value
+.replace(/\D/g,"")
+.substring(0,3);
+
+cvvInput.value = valor;
+
+previewCvv.textContent = valor || "###";
+
+});
+
+/* ======================
+VIRAR CARTÃO NO CVV
+====================== */
+
+cvvInput.addEventListener("focus", () => {
+
+cvvFocused = true;
+flipped = true;
+
+cardInner3D.style.transform = "rotateY(180deg)";
+
+});
+
+cvvInput.addEventListener("blur", () => {
+
+cvvFocused = false;
+flipped = false;
+
+cardInner3D.style.transform = "rotateY(0deg)";
+
+});
+
+});
 </script>
 {% endblock js_pagina %}

@@ -1,0 +1,69 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/game_toturial.css' %}">
+<section class="tutorial">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<audio id="cardStackSound" src="{% static 'jogo/sons/cartas_mesa.mp3' %}" preload="auto"></audio>
+<audio id="cardFlipSound" src="{% static 'jogo/sons/carta_virando.mp3' %}" preload="auto"></audio>
+<div class="cards">
+    <!-- ETAPA 1 -->
+    <div class="card">
+        <div class="card-inner">
+
+            <div class="card-front">
+                <!-- Etapa 1 -->
+            </div>
+
+            <div class="card-back">
+                selecione os itens sorteados o mais rápido possível
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ETAPA 2 -->
+    <div class="card">
+        <div class="card-inner">
+
+            <div class="card-front">
+                <!-- Etapa 2 -->
+            </div>
+
+            
+            <div class="card-back">
+                encontre os itens na loja e adicione ao carrinho
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ETAPA 3 -->
+    <div class="card">
+        <div class="card-inner">
+
+            <div class="card-front">
+                <!-- Etapa 3 -->
+            </div>
+
+            <div class="card-back">
+                finalize a compra o mais rápido possível
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<button class="next-btn" data-url="{% url 'game_sorteio' %}">
+    SEGUIR
+</button>
+
+             
+
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="{% static 'js/game_toturial.js' %}"></script>

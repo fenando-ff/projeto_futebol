@@ -5,8 +5,8 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.db import transaction
 import json
 
-from . import models
-from .views import login_cliente, get_cliente_logado
+from .models import models
+from .views.views import login_cliente, get_cliente_logado
 
 
 def _json_body(request):

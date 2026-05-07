@@ -4,6 +4,9 @@
 {% block css_extra %}
     <link rel="stylesheet" href="{% static 'css/loja_detalhe.css' %}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{% static "img/icones/Escudo_Drakos.png" %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@600&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 {% endblock css_extra %}
 
 {% block titulo %} Detalhes {% endblock titulo %}
@@ -11,12 +14,46 @@
 
 
   {% block conteudo_pagina %}
-  <header class="topo">
-    <a href= "{% url "produtos" %}" class="voltar"><i class="fa-solid fa-arrow-left"></i></a>
-    <h1 class="marca">DRAKOS FC</h1>
-  </header>
+        <header class="topo">
+            <div class="led-stadium">
 
-  <main class="produto-container">
+              <div class="led-track">
+
+                <span class="msg">⚡ FRETE GRÁTIS ACIMA DE R$150</span>
+                <span class="msg">🔥 10% DE DESCONTO PARA SÓCIOS</span>
+
+                <a href="#" target="_blank"><img src="https://logospng.org/download/tiktok/logo-tiktok-512.png"  style="filter: invert(100%); transform: scale(1.7);"/></a>
+
+                <span class="msg">NOVA COLEÇÃO DRAKOS FC</span>
+
+                <a href="#" target="_blank"><img src="https://logospng.org/download/puma/logo-puma-512.png" style="filter: invert(100%); transform: scale(1.9);"/></a>
+                <img src="https://logo.svgcdn.com/logos/visa.svg" alt="Visa Logo" width="70">
+
+                <span class="msg">COMPRE 2 PRODUTOS E GANHE DESCONTO</span>
+
+                <!-- duplicado para loop infinito -->
+                <span class="msg">FRETE GRÁTIS ACIMA DE R$150</span>
+                <span class="msg">🔥 10% DE DESCONTO PARA SÓCIOS</span>
+
+                <img src="{% static 'img/patrocinadores/nike.png' %}" alt="Nike">
+                <img src="{% static 'img/patrocinadores/adidas.png' %}" alt="Adidas">
+
+                <span class="msg">NOVA COLEÇÃO DRAKOS FC</span>
+
+                <img src="{% static 'img/patrocinadores/redbull.png' %}" alt="Red Bull">
+                <img src="https://logo.svgcdn.com/logos/visa.svg" alt="Visa Logo" width="70">
+
+              </div>
+
+            </div>
+          <a href= "{% url "produtos" %}" class="voltar"><i class="fa-solid fa-arrow-left"></i></a>
+          <h1 class="marca">STORE</h1>
+        </header>
+
+
+
+
+  <div class="produto-container">
     <!-- IMAGEM DO PRODUTO -->
       <section class="galeria">
         {% if produto.imagens.all %}
@@ -64,7 +101,7 @@
         </button>
       </div>
     </section>
-  </main>
+  </div>
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}

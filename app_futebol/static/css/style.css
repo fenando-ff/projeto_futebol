@@ -9,14 +9,27 @@
 ========================= */
 
 /* -------- Reset -------- */
+
+:root {
+    --cor-primaria: #F72B2B;   /* Vermelho oficial */
+    --cor-primaria-hover: #d61f1f;
+    --cor-preto: #0d0d0d;
+    --cor-preto-secundario: #1a1a1a;
+    --cor-branco: #ffffff;
+    --cor-cinza-texto: #cfcfcf;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
 
 
-html, body {
-    height: 100%;
-}
+/* ===== LAYOUT BASE PROFISSIONAL ===== */
+
+
+
+/* BLINDAGEM VISUAL GLOBAL */
+
 
 body {
     display: flex;
@@ -26,7 +39,16 @@ body {
 
 main {
     flex: 1;
+    display: flex;
+    flex-direction: column;
 }
+
+/* Footer nunca usa margin-top */
+.footer {
+    margin-top: 0;
+}
+
+
 
 /* Acessibilidade */
 .sr-only{
@@ -43,7 +65,7 @@ main {
   z-index: 1000;
 
   height: 64px;
-  padding: 0 18px;
+  padding: 0 78px;
 
   display: flex;
   align-items: center;
@@ -64,10 +86,10 @@ main{ padding-top: 64px; }
   text-decoration: none;
   min-width: 180px;
 }
-.logo img{ width: 34px; height: 34px; object-fit: contain; }
+.logo img{ width: 84px; height: 84px; object-fit: contain; transform: scale(2.0); }
 .logo h1{
   color: #fff;
-  font-size: 14px;
+  font-size: 18px;
   letter-spacing: 1px;
   white-space: nowrap;
 }
@@ -133,6 +155,13 @@ main{ padding-top: 64px; }
   pointer-events: auto;
 }
 
+.acoes-mobile{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+
 /* =========================================
    NAV (mobile drawer container)
 ========================================= */
@@ -159,7 +188,6 @@ main{ padding-top: 64px; }
     height: 100%;
 
     background: #121212;
-    box-shadow: -24px 0 44px rgba(0,0,0,.55);
 
     transform: translateX(100%);
     transition: transform .28s ease;
@@ -238,6 +266,7 @@ main{ padding-top: 64px; }
 
   /* no mobile, se você quiser mostrar login/sair/carrinho dentro do drawer */
   .btn-esconde{ display: block; }
+
 }
 
 
@@ -246,9 +275,16 @@ main{ padding-top: 64px; }
 /* ============ DESKTOP (menu horizontal) ============ */
 @media (min-width: 768px){
 
+.header__inline-menu .header__icon--cart{
+    display: none !important;
+}
+
   /* no desktop, escondemos overlay e ações mobile */
   .menu-overlay{ display: none; }
-  .menu-hamburgue{ display: none; }
+  .only-mobile { display: none; }
+
+
+
 
   /* nav vira parte do header */
   .nav{
@@ -332,6 +368,9 @@ main{ padding-top: 64px; }
 
 /* Melhor alinhamento mobile */
 @media (max-width: 767px){
+  .cabecalho {
+    padding: 0px 16px;
+  }
 
   .menu-hamburgue {
     gap: 8px;
@@ -347,15 +386,25 @@ main{ padding-top: 64px; }
 }
 
 
+.logo{
+    justify-self: start;
+}
+
+
+
+
 
 /* ======================= FOOTER ======================= */
 
 .footer {
-    margin-top: 120px; /* mantém como era antes */
+    position: relative;
+    /* margin-top: 120px;  */
     background: #111;
     color: #fff;
     padding: 60px 5%;
     font-family: 'Poppins', sans-serif;
+    z-index: 3;
+
 }
 
 .footer-container {
@@ -394,8 +443,14 @@ main{ padding-top: 64px; }
     flex-wrap: wrap;
 }
 
+.Patriocinio{
+
+  text-align: center;
+}
+
 /* IMAGENS AJUSTADAS (sem estourar) */
 .sponsor-logos img {
+    transform: scale(1.5);
     height: 40px;
     width: auto;
     max-width: 120px;      /* evita estourar */
@@ -405,8 +460,8 @@ main{ padding-top: 64px; }
 
 /* Hover suave */
 .sponsor-logos img:hover {
-    transform: scale(1.15);
-    cursor: pointer;
+    transform: scale(1.95);
+    cursor: default;
 }
 
 /* Links */
@@ -441,8 +496,47 @@ main{ padding-top: 64px; }
     padding-top: 20px;
 }
 
-/* ======================= RESPONSIVO ======================= */
 
+
+
+.card-front{
+
+background: linear-gradient(
+135deg,
+#141E30,
+#243B55
+);
+
+position:relative;
+overflow:hidden;
+
+}
+
+.card-front::after{
+
+content:"";
+
+position:absolute;
+
+top:-50%;
+left:-50%;
+
+width:200%;
+height:200%;
+
+background: linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.15),
+transparent
+);
+
+transform:rotate(25deg);
+
+}
+
+/* ======================= RESPONSIVO ======================= */
+/*------------ pc ---------------*/
 @media (max-width: 900px) {
 
     .footer-container {
@@ -459,7 +553,158 @@ main{ padding-top: 64px; }
         height: 34px;
         max-width: 100px;
     }
+
+    .carrinho-mobile{
+    display:flex;
+}
+
+    
+}
+/* Carrinho visível só no desktop */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .cabecalho {
+    gap: 22px;
+  }
+
+
+
+  .acoes-mobile{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+#botao_hamburguer{
+    order: 1;
+}
+
+.btn-carrinho{
+    order: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.logo{
+    justify-self: center;
+
+}
+
+.logo img{
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.hamb-btn{
+    width: 38px;
+    height: 38px;
+}
+
+/* =========================
+   CONTROLE DOS CARRINHOS
+========================= */
+
+/* MOBILE primeiro */
+.carrinho-mobile{
+    display:flex;
+}
+
+/* desktop escondido */
+.carrinho-desktop{
+    display:none;
+}
+
+/* DESKTOP */
+@media (min-width:768px){
+
+    .carrinho-mobile{
+        display:none;
+    }
+
+    .carrinho-desktop{
+        display:flex;
+    }
+
 }
 
 
 
+.cabecalho{
+  gap: 16px;
+}
+
+.hamb-btn i,
+.icon-btn i{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.container-messages{
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 2000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* base */
+.alert{
+  padding: 14px 18px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+
+  box-shadow: 0 10px 20px rgba(0,0,0,.25);
+  animation: slideIn .3s ease;
+}
+
+/* tipos */
+.alert.warning{
+  background: linear-gradient(135deg, #a90000, #0b0000);
+}
+
+.alert.success{
+  background: linear-gradient(135deg, #060000, #16a34a);
+}
+
+.alert.error{
+  background: linear-gradient(135deg, #0f0000, #dc2626);
+}
+
+/* animação */
+@keyframes slideIn{
+  from{
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

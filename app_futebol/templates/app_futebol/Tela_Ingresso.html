@@ -2,158 +2,144 @@
 {% load static %}
 
 {% block css_extra %}
-  <link rel="stylesheet" href="{% static 'css/proximos_jogos.css' %}">
-  <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}">
+  <link rel="stylesheet" href="{% static 'css/Tela_Ingressos.css' %}?v=1.2">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock css_extra %}
 
-{% block titulo %}Ingressos{% endblock titulo %}
+{% block titulo %}Ingressos | Drakos FC{% endblock titulo %}
 
 {% block conteudo_pagina %}
-
-<!-- ================= JOGO EM DESTAQUE ================= -->
-<section class="jogo-destaque">
-  {% if jogo_destaque %}
-  <p class="rodada">PRÓXIMO JOGO</p>
-
-  <div class="confronto">
-    <div class="time">
-      <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
-      <p>Drakos FC</p>
-    </div>
-
-    <span class="versus">X</span>
-
-    <div class="time">
-      {% if jogo_destaque.times_id_times.url_brasao %}
-        <img src="{% static jogo_destaque.times_id_times.url_brasao %}">
-      {% else %}
-        <img src="{% static 'img/icones/Escudo_Drakos.png' %}">
-      {% endif %}
-      <p>{{ jogo_destaque.times_id_times.nome_time }}</p>
-    </div>
-  </div>
-
-  <p class="info-jogo">{{ jogo_destaque.dia_jogo|date:"d/m/Y" }} - {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
-  <p class="info-jogo">{{ jogo_destaque.local_jogo }}</p>
-  {% else %}
-  <p class="rodada">NENHUM JOGO AGENDADO</p>
-  <p class="info-jogo">Aguarde próximos jogos</p>
-  {% endif %}
-</section>
-
-<!-- ================= COMPRA DE INGRESSOS ================= -->
 <main>
-
   <h1>Compra de Ingressos</h1>
 
   <section class="titulo-ingresso">
-    <h3>Próximo Jogo</h3>
+    <div class="header-compra">
+        <i class="fa-solid fa-ticket-alt"></i>
+        <h3>Detalhes da Partida</h3>
+    </div>
+    
     {% if jogo_destaque %}
       <div class="titulo-ingresso-conteudo">
         <div class="times-ingresso">
           <div class="time">
-            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo Drakos">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Drakos FC">
             <span>Drakos FC</span>
           </div>
 
-          <div class="versus"><i class="fas fa-times"></i></div>
+          <div class="versus">VS</div>
 
           <div class="time">
             {% if jogo_destaque.times_id_times.url_brasao %}
-              <img src="{% static jogo_destaque.times_id_times.url_brasao %}" alt="Escudo {{ jogo_destaque.times_id_times.nome_time }}">
+              <img src="{% static jogo_destaque.times_id_times.url_brasao %}" alt="Adversário">
             {% else %}
-              <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo">
+              <img src="{% static 'img/icones/palmeiras.png' %}" alt="Adversário">
             {% endif %}
-            <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
+            <span>Grêmio</span>
           </div>
         </div>
 
         <div class="detalhes-jogo">
-          <p class="info-jogo">{{ jogo_destaque.local_jogo }} • {{ jogo_destaque.dia_jogo|date:"d/m/Y" }} • {{ jogo_destaque.hora_jogo|time:"H:i" }}</p>
+          <p class="info-jogo">
+            <i class="fa-solid fa-location-dot"></i> <strong>{{ jogo_destaque.local_jogo }}</strong><br>
+            <i class="fa-regular fa-calendar"></i> {{ jogo_destaque.dia_jogo|date:"d \d\e F" }} • {{ jogo_destaque.hora_jogo|time:"H:i" }}
+          </p>
         </div>
       </div>
     {% else %}
-      <h3>Nenhum jogo disponível</h3>
-      <h2>Aguarde os próximos jogos</h2>
+      <div class="sem-jogos">
+          <h3>Nenhum jogo disponível no momento</h3>
+      </div>
     {% endif %}
   </section>
 
   <div class="container-estadio-ingressos">
 
-    <!-- MAPA -->
     <section class="mapa-estadio">
-      <h3>Mapa do Estádio</h3>
-      <img src="{% static 'img/icones/estadio_atualizado.png' %}">
+      <div class="card-header">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <h3>Mapa do Estádio</h3>
+      </div>
+      <img src="{% static 'img/icones/estadio_atualizado.png' %}" alt="Mapa do Estádio">
     </section>
 
-    <!-- COMPRA -->
     <section class="lado-direito-ingressos">
+      <div class="card-header">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <h3>Selecionar Setor</h3>
+      </div>
+
       <form class="form-setor" method="POST">
         {% csrf_token %}
+        <div class="input-group">
+            <label for="setor"><i class="fa-solid fa-couch"></i> Setor:</label>
+            <select id="setor" name="setor" required>
+              <option value="">Clique para escolher</option>
+              {% for ingresso in ingressos %}
+                <option value="{{ ingresso.id_produtos }}" data-preco="{{ ingresso.valor_produtos }}">
+                  {{ ingresso.nome_produtos }} — R$ {{ ingresso.valor_produtos }}
+                </option>
+              {% endfor %}
+            </select>
+        </div>
 
-        <label for="setor">Setor:</label>
-        <select id="setor" name="setor" required>
-          <option value="">Selecione</option>
-          {% for ingresso in ingressos %}
-            <option 
-              value="{{ ingresso.id_produtos }}"
-              data-preco="{{ ingresso.valor_produtos }}">
-              {{ ingresso.nome_produtos }} - R$ {{ ingresso.valor_produtos }}
-            </option>
-          {% endfor %}
-        </select>
-
-        <label for="quantidade">Quantidade:</label>
-        <input id="quantidade" name="quantidade" type="number" min="0" max="10" value="0" required>
+        <div class="input-group">
+            <label for="quantidade"><i class="fa-solid fa-users"></i> Quantidade:</label>
+            <input id="quantidade" name="quantidade" type="number" min="1" max="10" value="1" required>
+        </div>
 
         <button type="submit" class="botao-comprar">
-          Adicionar Ingresso
+          <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
         </button>
       </form>
 
       <section class="lista-ingressos">
-        <h3>Ingressos Selecionados</h3>
-        <ul></ul>
+        <div class="card-header">
+            <i class="fa-solid fa-receipt"></i>
+            <h3>Seu Pedido</h3>
+        </div>
+        <ul id="lista-itens">
+            </ul>
 
         <button type="button" id="btn-finalizar" class="botao-finalizar">
-          Finalizar compra • R$ <span id="valor-final">0.00</span>
+          Finalizar Compra • R$ <span id="valor-final">0.00</span>
         </button>
       </section>
     </section>
   </div>
 
-  <!-- ================= PRÓXIMOS JOGOS ================= -->
   <section class="jogos-container">
-    <h2 class="titulo-secundario">PRÓXIMOS JOGOS</h2>
+    <h2 class="titulo-secundario">PRÓXIMOS CONFRONTOS</h2>
 
-    {% for jogo in proximos_jogos %}
-    <div class="jogo-card">
-      <div class="jogo-times">
-        {% if jogo.times_id_times.url_brasao %}
-          <img src="{% static jogo.times_id_times.url_brasao %}" class="escudo">
-        {% endif %}
-      </div>
-      <h2>
-        {% if jogo.casa_fora == 'casa' %}
-          Drakos FC vs {{ jogo.times_id_times.nome_time }}
-        {% else %}
-          {{ jogo.times_id_times.nome_time }} vs Drakos FC
-        {% endif %}
-      </h2>
-      <p class="data">{{ jogo.dia_jogo|date:"d/m/Y" }} • {{ jogo.hora_jogo|time:"H\hi" }}</p>
-      <p class="local">Local: {{ jogo.local_jogo }}</p>
+    <div class="grid-jogos">
+        {% for jogo in proximos_jogos %}
+        <div class="jogo-card">
+          <div class="jogo-times">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="escudo" alt="Drakos">
+            <span class="versus-mini">VS</span>
+            {% if jogo.times_id_times.url_brasao %}
+              <img src="{% static jogo.times_id_times.url_brasao %}" class="escudo" alt="Adversário">
+            {% else %}
+              <img src="{% static 'img/icones/escudo_fluminense.png' %}" class="escudo" alt="Fluminense">
+            {% endif %}
+          </div>
+          
+          <div class="card-content">
+              <h2>{{ jogo.times_id_times.nome_time }}</h2>
+              <p><i class="fa-regular fa-clock"></i> {{ jogo.dia_jogo|date:"d/m/Y" }} • {{ jogo.hora_jogo|time:"H\hi" }}</p>
+              <p><i class="fa-solid fa-location-dot"></i> {{ jogo.local_jogo }}</p>
+          </div>
+        </div>
+        {% empty %}
+        <p class="aviso-vazio">Nenhum outro jogo agendado.</p>
+        {% endfor %}
     </div>
-    {% empty %}
-    <p>Nenhum jogo agendado no momento.</p>
-    {% endfor %}
   </section>
 
-  <div id="mensagem-sucesso" class="mensagem-sucesso" style="display:none;">
-    Compra realizada com sucesso!
+ <div id="mensagem-sucesso">
+      <span>Compra realizada com sucesso!</span>
   </div>
 
 </main>
-
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}

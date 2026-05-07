@@ -1,8 +1,8 @@
 from django.contrib import admin
-from . import models
+from .models import models
 
 
-# Register your models here.
+# 2. Registros do banco padrão (default)
 admin.site.register(models.Clientes)
 admin.site.register(models.Produtos)
 admin.site.register(models.Funcionarios)

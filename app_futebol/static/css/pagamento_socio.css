@@ -1,40 +1,121 @@
+main{
+    margin-top: -100px;
+}
+
+
+.titulo-principal {
+    font-size:2.4rem;
+    margin-bottom:30px;
+    font-weight:800;
+    color:#a50000;
+    animation:fadeUp .8s ease;
+}
+
+
+@keyframes fadeUp {
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.box{
+    animation:fadeUp .6s ease forwards;
+}
+
+
+.box-desc{
+    font-size:14px;
+    color:#666;
+    margin-bottom:15px;
+}
+
+.plano-preco{
+    font-size:18px;
+    font-weight:700;
+    color:#7a0000;
+}
+
+.plano-desc{
+    margin-top:10px;
+    line-height:1.5;
+    font-size:14px;
+}
+
+
 .pagamento-container {
     width: 80%;
     margin: 140px auto;
     font-family: "Poppins", sans-serif;
 }
 
-h1 {
+.titulo-principal {
     font-size: 2.4rem;
     margin-bottom: 30px;
     font-weight: 800;
+    color: white;
 }
 
+/* standardized section box */
 .box {
     background: #fff;
-    padding: 25px;
-    border-radius: 12px;
+    padding: 30px;
+    border-radius: 16px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-left: 6px solid #8c0000;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
+
+.box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.box h2 {
+    color: #8c0000;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.box-desc {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
 
 .buttons-pay {
     display: flex;
     gap: 20px;
+    margin-top: 10px;
 }
 
 .pay-btn {
-    padding: 12px 25px;
-    border: none;
+    flex: 1;
+    padding: 16px;
+    border: 2px solid #ddd;
     cursor: pointer;
-    border-radius: 8px;
-    background: #7a0000;
-    color: white;
-    transition: .3s;
+    border-radius: 10px;
+    background: #f7f7f7;
+    color: #333;
+    font-weight: 600;
+    transition: all .25s ease;
 }
 
 .pay-btn:hover {
-    background: #a10000;
+    border-color: #7a0000;
+    background: #fff;
+}
+
+.pay-btn.active {
+    border-color: #7a0000;
+    background: #7a0000;
+    color: white;
 }
 
 .form-pay {
@@ -45,9 +126,63 @@ h1 {
 }
 
 input {
-    padding: 12px;
+    padding: 14px;
     border-radius: 8px;
     border: 1px solid #ccc;
+    font-size: 14px;
+    transition: .2s;
+}
+
+input:focus {
+    border-color: #7a0000;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(122,0,0,0.1);
+}
+
+
+.plano-info{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:8px;
+    border-left:4px solid #7a0000;
+    transition:all .3s ease;
+}
+
+.plano-info:hover{
+    background:#fff5f5;
+    transform:scale(1.01);
+}
+
+/* card styling when applied to plano-info */
+.plano-info.plano-card{
+    background: linear-gradient(135deg,#8c0000,#4a0000);
+    color: #fff;
+    border: none;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+.plano-info.plano-card::before{
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.08);
+    transform: rotate(45deg);
+}
+.plano-info.plano-card p{
+    color: #fff;
+}
+.plano-info.plano-card .plano-preco{
+    color: #ffe5e5;
+}
+.plano-info.plano-card:hover{
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
 }
 
 .dupla {
@@ -67,4 +202,692 @@ input {
 
 .confirmar:hover, .paypal-btn:hover {
     background: #00a000;
+}
+
+
+/* =========================
+   CARTÃO 3D
+========================= */
+
+.card-preview{
+    width:380px;
+    height:220px;
+    margin:40px auto;
+    perspective:1500px;
+}
+
+.input-focus {
+    box-shadow: 0 0 10px rgba(122,0,0,0.4);
+    transform: scale(1.02);
+}
+
+.card-inner{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .6s;
+}
+
+.card-inner.flip{
+    transform:rotateY(180deg);
+}
+
+.card-front,
+.card-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:15px;
+    padding:25px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    backface-visibility:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+/* frente */
+
+.card-front{
+    background:linear-gradient(135deg,#7a0000,#9e0000);
+}
+
+
+.card-front::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:50%;
+height:100%;
+background:linear-gradient(
+120deg,
+transparent,
+rgba(255,255,255,0.4),
+transparent
+);
+transform:skewX(-25deg);
+}
+
+
+.card-preview:hover .card-front::after{
+left:150%;
+transition:1s;
+}
+
+/* verso */
+
+.card-back{
+    transform:rotateY(180deg);
+    background:linear-gradient(135deg,#5a0000,#780000);
+}
+
+/* faixa magnética */
+
+.stripe{
+    width:100%;
+    height:45px;
+    background:black;
+    margin-top:20px;
+}
+
+/* CVV */
+
+.cvv-box{
+    align-self:flex-end;
+    background:white;
+    color:black;
+    padding:5px 10px;
+    border-radius:5px;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+/* número */
+
+.card-number{
+    font-size:22px;
+    letter-spacing:3px;
+}
+
+/* nome + validade */
+
+.card-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    border-left:4px solid #7a0000;
+}
+
+.plano-info p{
+    margin-bottom:6px;
+}
+
+/* =========================
+   BOTÕES PAGAMENTO
+========================= */
+
+.buttons-pay{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+}
+
+.pay-btn{
+    flex:1;
+    padding:16px;
+    border:2px solid #ddd;
+    cursor:pointer;
+    border-radius:10px;
+    background:#f7f7f7;
+    color:#333;
+    font-weight:600;
+    transition:all .25s ease;
+}
+
+.pay-btn:hover{
+    border-color:#7a0000;
+    background:#fff;
+}
+
+.pay-btn.active{
+    border-color:#7a0000;
+    background:#7a0000;
+    color:white;
+}
+
+/* =========================
+   FORMULÁRIOS
+========================= */
+
+.form-pay{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input{
+    padding:14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:.2s;
+}
+
+input:focus{
+    border-color:#7a0000;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(122,0,0,0.1);
+}
+
+/* inputs lado a lado */
+
+.dupla{
+    display:flex;
+    gap:10px;
+}
+
+/* =========================
+   BOTÕES CONFIRMAR
+========================= */
+
+.confirmar,
+.paypal-btn{
+    margin-top:10px;
+    padding:14px;
+    background:#008000;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.confirmar:hover,
+.paypal-btn:hover{
+    background:#00a000;
+}
+
+/* =========================
+   CARTÃO 3D
+========================= */
+
+.card-preview{
+    width:100%;
+    max-width:380px;
+    height:220px;
+    margin:40px auto;
+    perspective:1200px;
+}
+
+.card-inner{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .6s;
+}
+
+.card-inner.flip{
+    transform:rotateY(180deg);
+}
+
+.card-front,
+.card-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:15px;
+    padding:25px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    backface-visibility:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+/* frente */
+
+.card-front{
+        background:linear-gradient(135deg,#7a0000,#780000);
+}
+
+/* verso */
+
+.card-back{
+    transform:rotateY(180deg);
+        background:linear-gradient(135deg,#7a0000,#780000);
+}
+
+/* faixa magnética */
+
+.stripe{
+    width:100%;
+    height:45px;
+    background:black;
+    margin-top:20px;
+}
+
+/* CVV */
+
+.cvv-box{
+    align-self:flex-end;
+    background:white;
+    color:black;
+    padding:5px 10px;
+    border-radius:5px;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+/* número */
+
+.card-number{
+    font-size:22px;
+    letter-spacing:3px;
+}
+
+/* nome + validade */
+
+.card-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+}
+
+/* =========================
+   RESPONSIVIDADE TABLET
+========================= */
+
+@media (max-width:768px){
+
+.pagamento-container{
+    width:94%;
+    margin:120px auto;
+}
+
+.titulo-principal{
+    font-size:1.9rem;
+    text-align:center;
+}
+
+.box{
+    padding:20px;
+}
+
+.buttons-pay{
+    flex-direction:column;
+}
+
+.pay-btn{
+    padding:14px;
+}
+
+.dupla{
+    flex-direction:column;
+}
+
+input{
+    font-size:16px;
+    padding:16px;
+}
+
+.card-preview{
+    max-width:320px;
+    height:200px;
+}
+
+.card-number{
+    font-size:19px;
+}
+
+}
+
+/* =========================
+   RESPONSIVIDADE CELULAR
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Poppins",sans-serif;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.pagamento-container{
+    width:80%;
+    max-width:1100px;
+    margin:140px auto;
+}
+
+/* =========================
+   TITULOS
+========================= */
+
+.titulo-principal {
+    font-size:2.4rem;
+    margin-bottom:30px;
+    font-weight:800;
+    color: #a50000;
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+/* =========================
+   BOXES
+========================= */
+
+.box{
+    background:#fff;
+    padding:30px;
+    border-radius:16px;
+    margin-bottom:30px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.1);
+    border-left:6px solid #8c0000;
+}
+
+/* =========================
+   DADOS USUARIO
+========================= */
+
+.dados-usuario p{
+    margin-bottom:6px;
+    font-size:15px;
+}
+
+/* =========================
+   PLANO INFO
+========================= */
+
+.plano-info{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:8px;
+    border-left:4px solid #7a0000;
+}
+
+.plano-info p{
+    margin-bottom:6px;
+}
+
+/* =========================
+   BOTÕES PAGAMENTO
+========================= */
+
+.buttons-pay{
+    display:flex;
+    gap:20px;
+    margin-top:10px;
+}
+
+.pay-btn{
+    flex:1;
+    padding:16px;
+    border:2px solid #ddd;
+    cursor:pointer;
+    border-radius:10px;
+    background:#f7f7f7;
+    color:#333;
+    font-weight:600;
+    transition:all .25s ease;
+}
+
+.pay-btn:hover{
+    border-color:#7a0000;
+    background:#fff;
+}
+
+.pay-btn.active{
+    border-color:#7a0000;
+    background:#7a0000;
+    color:white;
+}
+
+/* =========================
+   FORMULÁRIOS
+========================= */
+
+.form-pay{
+    margin-top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+input{
+    padding:14px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:.2s;
+}
+
+input:focus{
+    border-color:#7a0000;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(122,0,0,0.1);
+}
+
+/* inputs lado a lado */
+
+.dupla{
+    display:flex;
+    gap:10px;
+}
+
+/* =========================
+   BOTÕES CONFIRMAR
+========================= */
+
+.confirmar,
+.paypal-btn{
+    margin-top:10px;
+    padding:14px;
+    background:#008000;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.confirmar:hover,
+.paypal-btn:hover{
+    background:#00a000;
+}
+
+/* =========================
+   CARTÃO 3D
+========================= */
+
+.card-preview{
+    width:100%;
+    max-width:380px;
+    height:220px;
+    margin:40px auto;
+    perspective:1200px;
+}
+
+.card-inner{
+    width:100%;
+    height:100%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform .6s;
+}
+
+.card-inner.flip{
+    transform:rotateY(180deg);
+}
+
+.card-front,
+.card-back{
+    position:absolute;
+    width:100%;
+    height:100%;
+    border-radius:15px;
+    padding:25px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    backface-visibility:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.4);
+}
+
+/* frente */
+
+.card-front{
+        background:linear-gradient(135deg,#390000,#9f0000);
+}
+
+/* verso */
+
+.card-back{
+    transform:rotateY(180deg);
+        background:linear-gradient(135deg,#390000,#9f0000);
+}
+
+/* faixa magnética */
+
+.stripe{
+    width:100%;
+    height:45px;
+    background:black;
+    margin-top:20px;
+}
+
+/* CVV */
+
+.cvv-box{
+    align-self:flex-end;
+    background:white;
+    color:black;
+    padding:5px 10px;
+    border-radius:5px;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+/* número */
+
+.card-number{
+    font-size:22px;
+    letter-spacing:3px;
+}
+
+/* nome + validade */
+
+.card-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+}
+
+/* =========================
+   RESPONSIVIDADE TABLET
+========================= */
+
+@media (max-width:768px){
+
+.pagamento-container{
+    width:94%;
+    margin:120px auto;
+}
+
+.titulo-principal{
+    font-size:1.9rem;
+}
+
+.box{
+    padding:20px;
+}
+
+.buttons-pay{
+    flex-direction:column;
+}
+
+.pay-btn{
+    padding:14px;
+}
+
+.dupla{
+    flex-direction:column;
+}
+
+input{
+    font-size:16px;
+    padding:16px;
+}
+
+.card-preview{
+    max-width:320px;
+    height:200px;
+}
+
+.card-number{
+    font-size:19px;
+}
+
+}
+
+/* =========================
+   RESPONSIVIDADE CELULAR
+========================= */
+
+@media (max-width:480px){
+
+main{
+    margin-top: -100px;
+}
+
+
+.pagamento-container{
+    width:95%;
+    margin:110px auto;
+}
+
+.titulo-principal{
+    font-size:1.7rem;
+}
+
+h2{
+    font-size:1.1rem;
+}
+
+.dados-usuario p{
+    font-size:14px;
+}
+
+.card-preview{
+    max-width:290px;
+    height:180px;
+}
+
+.card-number{
+    font-size:17px;
+    letter-spacing:2px;
+}
+
+.card-info{
+    font-size:12px;
+}
+
 }

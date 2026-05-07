@@ -36,3 +36,13 @@ nav.addEventListener("click", (e) => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeMenu();
 });
+
+
+setTimeout(() => {
+  const alerts = document.querySelectorAll(".alert");
+  alerts.forEach(alert => {
+    alert.style.opacity = "0";
+    alert.style.transform = "translateX(50px)";
+    setTimeout(() => alert.remove(), 300);
+  });
+}, 3000);

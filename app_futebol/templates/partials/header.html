@@ -7,78 +7,96 @@
     <img src="{% static "img/icones/Escudo_Drakos.png" %}" alt="escudo do drakos">
     <h1>DRAKOS FC</h1>
   </a>
+  <!-- Ações do topo (mobile) -->
+
+  <ul class="menu-hamburgue">
+      {% if request.session.cliente_id %}
+      <li><a href="{% url "logout" %}">Sair</a></li>
+      {% else %}
+      <li><a href= "{% url "login" %}">Login</a></li>
+      {% endif %}
+      <li id="botao_hamburguer"> <a href="#">Menu</a></li>
+      <li><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+  </ul> 
+    <div class="nav">
+      <ul class="hamburguer-opcoes">
+        {% if request.session.cliente_id %}
+        <li class="opcao-nav btn-esconde">  <a href="{% url 'logout' %}">Sair</a></li>
+        {% else %}
+        <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
+        <li class="opcao-nav"><a href="{% url 'produtos' %}">Loja</a></li>
+        <li class="opcao-nav"><a href="{% url 'historia' %}">História</a></li>
+        <li class="opcao-nav"><a href="{% url 'ingresso' %}">Ingressos</a></li>
+        <li class="opcao-nav"><a href="{% url 'socio' %}">Sócios</a></li>
+        <li class="opcao-nav"><a href="{% url "perfil" %}">Perfil</a></li>
+        <li class="opcao-nav btn-esconde"><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
+      </ul>
+    </div>
+</header>
+    </li>
+
 
   <!-- Ações do topo (mobile) -->
-  <ul class="menu-hamburgue">
-    <li>
-        <a href="{% url 'carrinho' %}" class="icon-btn" aria-label="Carrinho">
-            <i class="fa-solid fa-cart-shopping"></i>
-        </a>
-<<<<<<< HEAD
-        <ul class="menu-hamburgue">
-            {% if request.session.cliente_id %}
-            <li><a href="{% url "logout" %}">Sair</a></li>
-            {% else %}
-            <li><a href= "{% url "login" %}">Login</a></li>
-            {% endif %}
-            <li id="botao_hamburguer"> <a href="#">Menu</a></li>
-            <li><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
-        </ul> 
-        <div class="nav">
-            <ul class="hamburguer-opcoes">
-                {% if request.session.cliente_id %}
-                <li class="opcao-nav btn-esconde">  <a href="{% url 'logout' %}">Sair</a></li>
-                {% else %}
-                <li class="opcao-nav btn-esconde">  <a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
-                <li class="opcao-nav"><a href="{% url 'produtos' %}">Loja</a></li>
-                <li class="opcao-nav"><a href="{% url 'historia' %}">História</a></li>
-                <li class="opcao-nav"><a href="{% url 'ingresso' %}">Ingressos</a></li>
-                <li class="opcao-nav"><a href="{% url 'socio' %}">Sócios</a></li>
-                <li class="opcao-nav"><a href="{% url "perfil" %}">Perfil</a></li>
-                <li class="opcao-nav btn-esconde"><a href="{% url "carrinho" %}"><i class="fa-solid fa-cart-shopping"></i></a></li>
-            </ul>
-        </div>
-    </header>
-=======
-    </li>
 
-    <li>
-        <button id="botao_hamburguer"
-                class="hamb-btn"
-                type="button"
-                aria-expanded="false"
-                aria-controls="menuNav">
-            <i class="bx bx-menu"></i>
-        </button>
-    </li>
-</ul
+<div class="acoes-mobile">
+
+<button id="botao_hamburguer"
+        class="hamb-btn only-mobile"
+        type="button"
+        aria-expanded="false"
+        aria-controls="menuNav">
+    <i class="bx bx-menu"></i>
+</button>
+
+<a href="{% url 'carrinho' %}" class="icon-btn carrinho-mobile">
+    <i class="bx bx-cart"></i>
+</a>
+
+</div>
+
+
 
   <!-- NAV (desktop e drawer mobile) -->
   <div class="nav" id="menuNav">
     <div class="drawer">
       <!-- Topo do drawer (somente mobile) -->
+       
       <div class="drawer-top">
+
         <span class="drawer-title">MENU</span>
+        
         <button type="button"
                 class="hamb-close"
                 id="fechar_menu"
                 aria-label="Fechar menu">
           <i class="bx bx-x"></i>
+
         </button>
+
       </div>
+
+      
 
       <ul class="hamburguer-opcoes">
         {% if request.session.cliente_id %}
-          <li class="opcao-nav btn-esconde">
+          <li class="opcao-nav">
             <a href="{% url 'logout' %}"><i class="bx bx-log-out"></i> Sair</a>
           </li>
         {% else %}
-          <li class="opcao-nav btn-esconde">
+          <li class="opcao-nav">
             <a href="{% url 'login' %}"><i class="bx bx-user"></i> Login</a>
           </li>
         {% endif %}
+          
 
+          <li class="opcao-nav">
+            <a href="{% url 'game_comeco' %}">
+              <i class="bx bx-joystick"></i> Game
+            </a>
+          </li>
+          
+          
         <li class="opcao-nav">
           <a href="{% url 'produtos' %}"><i class="bx bx-store"></i> Loja</a>
         </li>
@@ -86,7 +104,7 @@
           <a href="{% url 'historia' %}"><i class="bx bx-book"></i> História</a>
         </li>
         <li class="opcao-nav">
-          <a href="{% url 'ingresso' %}"><i class="bx bx-ticket"></i> Ingressos</a>
+          <a href="{% url 'ingresso' %}"><i class="fa-solid fa-ticket-alt"></i> Ingressos</a>
         </li>
         <li class="opcao-nav">
           <a href="{% url 'socio' %}"><i class="bx bx-crown"></i> Sócios</a>
@@ -95,14 +113,21 @@
           <a href="{% url "perfil" %}"><i class="bx bx-user-circle"></i> Perfil</a>
         </li>
 
-        <li class="opcao-nav btn-esconde">
-          <a href="{% url "carrinho" %}"><i class="bx bx-cart"></i> Carrinho</a>
-        </li>
+
+        <li class="opcao-nav carrinho-desktop">
+          <a href="{% url 'carrinho' %}">
+            <i class="bx bx-cart"></i> Carrinho
+          </a>
+      </li>
+
+
+
       </ul>
+
+
     </div>
   </div>
 </header>
 
 <!-- Overlay do drawer (somente mobile) -->
 <div class="menu-overlay" id="menuOverlay"></div>
->>>>>>> feature/api-render

@@ -1,0 +1,38 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/game_roleta.css' %}">
+
+<section class="slot-machine">
+
+    {{ produtos|json_script:"produtos-data" }}
+    {{ sorteados|json_script:"sorteados-data" }}
+
+   <div class="reel" id="reel1">
+        <div class="reel-track" data-coluna="0"></div>
+    </div>
+
+    <div class="reel" id="reel2">
+        <div class="reel-track" data-coluna="1"></div>
+    </div>
+
+    <div class="reel" id="reel3">
+        <div class="reel-track" data-coluna="2"></div>
+    </div>
+
+    <div class="lever-container">
+        <img src="{% static 'jogo/icones/alavanca-de-controle.png' %}" id="lever">
+    </div>
+
+
+<button id="startGameBtn" style="display:none;">
+    INICIAR DESAFIO
+</button>
+
+<audio id="leverSound" src="{% static 'jogo/sons/Alavanca_roleta.mp3' %}" preload="auto"></audio>
+<audio id="spinSound" src="{% static 'jogo/sons/maquina_sorteando.org.mp3' %}" preload="auto"></audio>
+</section>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="{% static 'js/game_roleta.js' %}"></script>

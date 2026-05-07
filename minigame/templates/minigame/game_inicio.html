@@ -1,0 +1,53 @@
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/game_inicio.css' %}">
+
+    <section class="entry" id="entry">
+        
+        
+        <div class="coin-container">
+            <img src="{% static 'img/icones/Escudo_Drakos.png' %}" class="coin-img" id="coinImg">
+
+        <video id="coinVideo" class="coin-video" muted playsinline preload="auto">
+                <source src="{% static 'Jogo/videos/anim_logo.mp4' %}" type="video/mp4">
+            </video>
+        </div>
+        
+        <p id="startText" class="start-text">CLIQUE PARA JOGAR</p>
+
+    </section>
+
+
+    <section class="cadastro-screen" id="cadastroScreen">
+        <p class="error" id="errorMsg"{% if not mensagem %} style="display: none;"{% endif %}>{% if mensagem %}{{ mensagem }}{% endif %}</p>
+        <form method="POST" id="cadastroForm">
+        {% csrf_token %}
+            <div class="cadastro-box">
+               <h2 id="formTitle">Login</h2>
+                <p class="cadastro-sub">Registre seu nome no ranking</p>
+
+                <input type="text" placeholder="Nome" id="nome" name="nome">
+                <input type="password" placeholder="Senha" id="senha" name="senha">
+                <input type="password" placeholder="Confirmar Senha" id="confirmarSenha" name="confirmarSenha" class="hidden-field">
+                <p class="switch-mode">
+                    Não tem conta? <span id="toggleMode">Criar conta</span>
+                </p>
+
+                <button id="btnCadastrar">
+                    <span class="btn-text">CONTINUAR</span>
+                    <span class="btn-loader"></span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+
+
+
+    <section class="transition-screen" id="transitionScreen">
+        <h1 id="transitionText"></h1>
+    </section>
+
+
+    <audio id="formSound" src="{% static 'Jogo/sounds/form.mp3' %}"></audio>
+    <audio id="clickSound" src="{% static 'jogo/sons/futurista.mp3' %}"></audio>
+    <script src="{% static 'js/game_inicio.js' %}"></script>

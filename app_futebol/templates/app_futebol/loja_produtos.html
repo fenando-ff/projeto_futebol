@@ -15,6 +15,12 @@
 
 <main class="container">
 
+  {% comment %} game {% endcomment %}
+    <div id="missao-box" style="display: none;">
+      <h3>🎯 MISSÃO</h3>
+      <ul id="missao-list"></ul>
+  </div>
+
   <!-- Banner com título à esquerda e carrossel automático à direita -->
   <section class="banner-wrapper">
     <div class="banner-title">
@@ -23,13 +29,13 @@
 
     <div class="banner-carousel">
       <div class="banner-slide active">
-        <img src= "{% static "img/banners/banner1.png" %}" alt="Banner 1">
+        <img src= "{% static "img/banners/Gemini_Generated_Image_jbbiq3jbbiq3jbbi.png" %}" alt="Banner 1">
       </div>
       <div class="banner-slide">
-        <img src= "{% static "img/banners/banner2.png" %}" alt="Banner 2">
+        <img src= "{% static "img/banners/unnamed.jpg" %}" alt="Banner 2">
       </div>
       <div class="banner-slide">
-        <img src= "{% static "img/banners/banner3.png" %}" alt="Banner 3">
+        <img src= "{% static "img/banners/bilhete_expandido.webp" %}" alt="Banner 3">
       </div>
     </div>
   </section>
@@ -50,67 +56,82 @@
   <div class="season-wrapper">
     <div class="season-carousel">
       <div class="season-slide active">
-         <img src= "{% static "img/pessoas_modelos/primerio_carrosel.png" %}" alt="Slide 1">
+         <img src= "{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 1">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 2">
+        <img src= "{% static "img/banners/img_dois.png" %}" alt="Slide 2">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/pessoas_modelos/uniforme_braco.png" %}" alt="Slide 3">
+        <img src= "{% static "img/banners/loja_roupas.png" %}" alt="Slide 3">
       </div>
     </div>
-    <button class="next-slide">&#8250;</button>
+    <button class="next-slide" style="color: rgb(12, 12, 12);">&#8250;</button>
   </div>
 </section>
 
   <!-- Seção de produtos -->
-  <section class="produtos">
-    <h2>PRODUTOS</h2>
-    <nav class="filter">
-      <a href="#">Todos</a>
-      {% for categoria, produtos in produtos_por_categoria.items %}
-        <a href="#categoria-{{ categoria.id_categoria_produtos }}">{{ categoria.nome_categoria_produtos }}</a>
-      {% endfor %}
-    </nav>
+<section class="produtos">
 
-    {% for categoria, produtos in produtos_por_categoria.items %} <!-- Anda pela categoria e produtos  -->
-    {% if produtos %}
-   	<section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
-   	  <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
-   	  <div class="carrossel-produtos">
-   	    <!-- Botão de voltar -->
-   	    <button class="btn-prev">&#10094;</button>
+  {% for categoria, produtos in produtos_por_categoria.items %}
+  {% if produtos %}
 
-   	  <!-- Container dos produtos -->
-   		<div class="flex">
-   	   	{% for produto in produtos %}
-   	   	<div class="produto">
-            	<a href="{% url 'loja_detalhe' produto.id_produtos %}">
-            	{% if produto.imagem_produtos %}
-            	  <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
-            	{% else %}
-            	  <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
-            	{% endif %}
-            	</a>
-              
-            	<h3>{{ produto.nome_produtos }}</h3>
-            	<p>R${{ produto.valor_produtos|floatformat:2 }}</p>
-            	<button class="btn-adicionar" data-id="{{ produto.id_produtos }}" data-nome="{{ produto.nome_produtos }}">
-            	 Adicionar ao Carrinho
-            	</button>
-         	</div>
+  <section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
+    <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
 
-            {% empty %}
-            	<p style="color: #fff;">Nenhum produto nesta categoria</p>
-         	{% endfor %}
+    <div class="carrossel-produtos">
+
+      <button class="btn-prev">&#10094;</button>
+
+      <div class="flex">
+
+        {% for produto in produtos %}
+
+        <a href="{% url 'loja_detalhe' produto.id_produtos %}">
+        <div class="produto">
+          <div class="produto-img">
+
+              {% if produto.imagem_produtos %}
+                <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+              {% else %}
+                <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+              {% endif %}
+
+            </a>
+          </div>
+
+          <div class="produto-info">
+
+            <h3>{{ produto.nome_produtos }}</h3>
+
+            <p class="preco">
+              R$ {{ produto.valor_produtos|floatformat:2 }}
+            </p>
+
+            <button class="btn-adicionar"
+                    data-id="{{ produto.id_produtos }}"
+                    data-nome="{{ produto.nome_produtos }}">
+              Adicionar ao Carrinho
+            </button>
+
+          </div>
+
         </div>
+        </a>
 
-        <!-- Botão de avançar -->
-        <button class="btn-next">&#10095;</button>
+        {% empty %}
+          <p>Nenhum produto nesta categoria</p>
+        {% endfor %}
+
       </div>
-    </section>
-    {% endif %}
-    {% endfor %}
+
+      <button class="btn-next">&#10095;</button>
+
+    </div>
+
+  </section>
+
+  {% endif %}
+  {% endfor %}
 
 </section>
 
