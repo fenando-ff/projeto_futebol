@@ -36,7 +36,7 @@ from django.utils import timezone
 
 
 
-@login_obrigatorio
+# @login_obrigatorio
 def game(request):
 
     if request.method == 'POST':
@@ -131,6 +131,14 @@ def gerar_nome_unico(nome):
 
 
 
+
+
+# logout não exige login
+def logout_minigame(request):
+    """Logout apenas do minigame, mantendo sessão do app_futebol intacta"""
+    request.session.pop("participante_id", None)
+    request.session.pop("quiz_inicio", None)
+    return redirect("game_comeco")
 
 
 @login_obrigatorio
