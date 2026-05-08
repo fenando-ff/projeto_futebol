@@ -10,7 +10,9 @@ const timerEl = document.getElementById("quizTimer");
 let tempoInicial = null;
 let intervaloTimer = null;
 
-// 🔐 csrf
+// 🔥 ESCONDE QUIZ NO INÍCIO
+document.querySelector(".quiz-container").style.visibility = "hidden";
+
 function getCSRFToken() {
     return document.cookie
         .split('; ')
@@ -18,7 +20,39 @@ function getCSRFToken() {
         ?.split('=')[1];
 }
 
-// 🚀 inicia quiz + timer
+// 🚀 INTRO
+function iniciarIntro() {
+
+    const overlay = document.getElementById("introOverlay");
+    const number = document.getElementById("introNumber");
+
+    const sequencia = ["3", "2", "1", "GO"];
+
+    let index = 0;
+
+    const troca = setInterval(() => {
+
+        index++;
+
+        if (index < sequencia.length) {
+
+            number.innerText = sequencia[index];
+
+        } else {
+
+            clearInterval(troca);
+
+            overlay.style.display = "none";
+
+            document.querySelector(".quiz-container").style.visibility = "visible";
+
+            iniciarQuiz();
+        }
+
+    }, 1000);
+}
+
+// 🚀 INICIA QUIZ
 function iniciarQuiz() {
 
     tempoInicial = Date.now();
@@ -39,9 +73,11 @@ function carregarPergunta() {
     void perguntaEl.offsetWidth;
 
     perguntaEl.innerText = q.pergunta;
+
     perguntaEl.classList.add("fade");
 
     opcoesEl.innerHTML = "";
+
     opcoesEl.classList.add("fade");
 
     q.opcoes.forEach(op => {
@@ -95,6 +131,7 @@ function responder(btn, op, q) {
             if (b.innerText === correta.texto) {
                 b.classList.add("correta");
             }
+
         });
     }
 
@@ -146,8 +183,6 @@ function finalizarQuiz() {
 
     clearInterval(intervaloTimer);
 
-    const tempoFinal = Date.now() - tempoInicial;
-
     perguntaEl.innerText = "QUIZ FINALIZADO";
 
     opcoesEl.innerHTML = `
@@ -159,10 +194,6 @@ function finalizarQuiz() {
                 ${pontuacao} pontos
             </p>
 
-            <p class="resultado-tempo">
-                Tempo: ${timerEl.innerText}
-            </p>
-
             <a href="/game/menu_game/" class="btn-menu">
                 VOLTAR AO MENU
             </a>
@@ -171,6 +202,8 @@ function finalizarQuiz() {
     `;
 
     progress.style.width = "100%";
+
+    const tempoFinal = Date.now() - tempoInicial;
 
     fetch("/game/salvar_pontuacao/", {
 
@@ -192,12 +225,8 @@ function finalizarQuiz() {
     .then(data => {
         console.log("Dados salvos!", data);
     })
-    .catch(err => {
-        console.error("Erro ao salvar:", err);
-    });
-
-    console.log("Tempo final:", tempoFinal);
+    .catch(err => console.error("Erro:", err));
 }
 
 // 🚀 START
-iniciarQuiz();
+iniciarIntro();

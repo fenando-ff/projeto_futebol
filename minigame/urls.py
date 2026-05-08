@@ -7,6 +7,7 @@ urlpatterns = [
     path('game_toturial/', views.game_toturial, name='mini_game_toturial'),
     path('menu_game/', views.menu_fases, name='menu_fases'),
     path('game_quiz/', views.game_quiz, name='game_quiz'),
+    path('quiz_tutorial/', views.quiz_toturial, name='quiz_tutorial'),
     path('salvar_pontuacao/', views.salvar_pontuacao, name='salvar_pontuacao'),
     path('salvar_tempo_roleta/', views.salvar_tempo_roleta, name='salvar_tempo_roleta'),
 ]

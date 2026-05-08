@@ -170,6 +170,11 @@ def game_toturial(request):
 
 
 @login_obrigatorio
+def quiz_toturial(request):
+    return render(request, 'minigame/quiz_toturial.html')
+
+
+@login_obrigatorio
 def game_sorteio(request):
 
     produtos_db = list(models.Produtos.objects.all())
