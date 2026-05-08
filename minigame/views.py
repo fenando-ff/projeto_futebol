@@ -7,7 +7,8 @@ from .decorators import login_obrigatorio
 from django.http import JsonResponse
 import json
 from django.contrib.auth.hashers import make_password, check_password
-
+from datetime import time
+from django.utils import timezone
 
 # Create your views here.
 # @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
@@ -35,9 +36,11 @@ from django.contrib.auth.hashers import make_password, check_password
 
 
 
-@login_obrigatorio
+# @login_obrigatorio
 def game(request):
+
     if request.method == 'POST':
+
         nome = request.POST.get('nome')
         senha = request.POST.get('senha')
         modo = request.POST.get('modo')
@@ -45,11 +48,16 @@ def game(request):
         if not nome or not senha:
             return JsonResponse({'error': 'Dados inválidos'}, status=400)
 
-        # 🔹 CADASTRO
+        # CADASTRO
         if modo == "cadastro":
 
-            if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
-                return JsonResponse({'error': 'Nome já existe'}, status=400)
+            if model_minigame.Participantes.objects.using('minigame').filter(
+                nome_participante=nome
+            ).exists():
+
+                return JsonResponse({
+                    'error': 'Nome já existe'
+                }, status=400)
 
             nome_final = gerar_nome_unico(nome)
 
@@ -65,15 +73,23 @@ def game(request):
                 'nome_gerado': nome_final
             })
 
-        # 🔹 LOGIN
+        # LOGIN
         else:
-            try:
-                participante = model_minigame.Participantes.objects.using('minigame').filter(nome_participante__startswith=nome).first()
-            except:
-                return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+
+            participante = model_minigame.Participantes.objects.using('minigame').filter(
+                nome_participante__startswith=nome
+            ).first()
+
+            if not participante:
+                return JsonResponse({
+                    'error': 'Usuário não encontrado'
+                }, status=404)
 
             if not check_password(senha, participante.senha):
-                return JsonResponse({'error': 'Senha incorreta'}, status=400)
+
+                return JsonResponse({
+                    'error': 'Senha incorreta'
+                }, status=400)
 
             request.session['participante_id'] = participante.id_participante
 
@@ -83,6 +99,9 @@ def game(request):
             })
 
     return render(request, 'minigame/game_inicio.html')
+
+
+
 
 
 
@@ -114,26 +133,71 @@ def gerar_nome_unico(nome):
 
 
 
+# logout não exige login
+def logout_minigame(request):
+    """Logout apenas do minigame, mantendo sessão do app_futebol intacta"""
+    request.session.pop("participante_id", None)
+    request.session.pop("quiz_inicio", None)
+    return redirect("game_comeco")
+
+
 @login_obrigatorio
 def menu_fases(request):
+
     participante_id = request.session.get('participante_id')
 
-    participante = model_minigame.Participantes.objects.using('minigame').get(
+    usuario = model_minigame.Participantes.objects.using('minigame').get(
         id_participante=participante_id
     )
 
+    # 🔥 ranking global
     jogadores = model_minigame.Participantes.objects.using('minigame')\
-        .all().order_by('-id_participante')[:5]
+        .all()\
+        .order_by('-pontuacao', 'tempo')[:5]
+
+    # 🔥 formata tempo para exibição
+    ranking_formatado = []
+
+    for jogador in jogadores:
+
+        tempo_formatado = "00:00"
+
+        if jogador.tempo:
+
+            total_segundos = (
+                jogador.tempo.hour * 3600 +
+                jogador.tempo.minute * 60 +
+                jogador.tempo.second
+            )
+
+            minutos = total_segundos // 60
+            segundos = total_segundos % 60
+
+            tempo_formatado = f"{minutos:02}:{segundos:02}"
+
+        ranking_formatado.append({
+            'nome': jogador.nome_participante,
+            'pontuacao': jogador.pontuacao,
+            'tempo': tempo_formatado
+        })
 
     return render(request, 'minigame/menu_game.html', {
-        'jogadores': jogadores,
-        'usuario': participante
+        'jogadores': ranking_formatado,
+        'usuario': usuario
     })
+
+
+
 
 
 @login_obrigatorio
 def game_toturial(request):
     return render(request, 'minigame/game_toturial.html')
+
+
+@login_obrigatorio
+def quiz_toturial(request):
+    return render(request, 'minigame/quiz_toturial.html')
 
 
 @login_obrigatorio
@@ -173,20 +237,24 @@ def game_sorteio(request):
 @login_obrigatorio
 def game_quiz(request):
 
-    questoes_db = model_minigame.Questoes.objects.using('minigame').all() #anotado
+    # 🔥 pega todas as questões
+    questoes_db = model_minigame.Questoes.objects.using('minigame').all()
 
     perguntas = []
 
     for q in questoes_db:
-        alternativas = q.alternativas_set.all()  # ⚠️ AQUI MUDA
+
+        # 🔹 pega alternativas da questão
+        alternativas = q.alternativas_set.all()
 
         opcoes = []
 
         for alt in alternativas:
+
             opcoes.append({
                 "id": alt.id_alternativa,
                 "texto": alt.opcao_resposta,
-                "correta": bool(alt.resposta_correta),  # 👈 converte 0/1 pra true/false
+                "correta": bool(alt.resposta_correta),
                 "ponto": alt.ponto
             })
 
@@ -195,6 +263,12 @@ def game_quiz(request):
             "pergunta": q.pergunta,
             "opcoes": opcoes
         })
+
+    # 🔀 embaralha perguntas
+    perguntas = random.sample(perguntas, len(perguntas))
+
+    # ⏱️ inicia tempo do quiz na sessão
+    request.session['quiz_inicio'] = timezone.now().isoformat()
 
     return render(request, "minigame/game_quiz.html", {
         "perguntas": perguntas
@@ -205,10 +279,15 @@ def game_quiz(request):
 
 @login_obrigatorio
 def salvar_pontuacao(request):
+    
     if request.method == 'POST':
         data = json.loads(request.body)
         pontuacao_total = data.get('pontuacao')
         respostas_data = data.get('respostas', [])
+        tempo_ms = data.get('tempo_ms')
+        print(data)
+        print(tempo_ms)
+        print(type(tempo_ms))
         
         participante_id = request.session.get('participante_id')
         if not participante_id:
@@ -218,6 +297,19 @@ def salvar_pontuacao(request):
             participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
         except model_minigame.Participantes.DoesNotExist:
             return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+        
+        if tempo_ms is not None:
+            segundos = tempo_ms / 1000
+
+            hours = int(segundos // 3600)
+            minutes = int((segundos % 3600) // 60)
+            seconds = int(segundos % 60)
+
+            participante.tempo = time(
+                hour=hours,
+                minute=minutes,
+                second=seconds
+            )
         
         # Salva pontuação total
         participante.pontuacao = pontuacao_total
