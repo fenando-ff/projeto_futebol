@@ -1,0 +1,363 @@
+body {
+    cursor: url("/static/jogo/icones/mouse_pointer.png"), auto;
+}
+
+
+.switch-mode {
+    font-size: 12px;
+    text-align: center;
+    color: #aaa;
+}
+
+.switch-mode span {
+    color: #ff3b3b;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.switch-mode span:hover {
+    text-decoration: underline;
+}
+
+
+body {
+    margin: 0;
+    background: #000000;
+    overflow: hidden;
+}
+
+.entry {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(25px, 5vh, 60px);
+     padding: 20px;
+}
+
+.coin-img {
+ width: clamp(260px, 65vw, 420px);
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+
+.start-text {
+    color: #d8d8d8;
+    font-size: clamp(12px, 3.5vw, 16px);
+    letter-spacing: clamp(3px, 1vw, 6px);
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: 0.3s ease;
+    margin-top: -20px;
+    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
+}
+
+.start-text:hover {
+    color: #ffffff;
+    opacity: 1;
+    transform: scale(1.05);
+   
+}
+
+
+.coin-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px; /* 👈 REDUZ A ÁREA */
+    display: flex;
+    justify-content: center;
+}
+
+/* imagem */
+.coin-img {
+    width: 100%;
+    max-width: 900px; /* 👈 controla tamanho no PC */
+}
+
+/* vídeo em cima */
+.coin-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.coin-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+    z-index: 2; /* 👈 MUITO IMPORTANTE */
+}
+
+.coin-img {
+    position: relative;
+    z-index: 1;
+}
+
+.coin-img {
+    width: 100%;
+    display: block;
+    position: relative;
+    z-index: 1;
+
+    pointer-events: none; /* 👈 impede clique */
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+/* efeito ao passar o mouse na tela */
+
+.coin-img {
+    animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.cadastro-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+/* CAIXA */
+.cadastro-box {
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(139, 0, 0, 0.2);
+    padding: clamp(25px, 5vw, 50px);
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 90%;
+    max-width: 340px;
+    transform: translateY(60px);
+    opacity: 0;
+    box-shadow:
+        0 0 40px rgba(139, 0, 0, 0.15),
+        inset 0 0 20px rgba(139, 0, 0, 0.1);
+    transition: all 0.6s ease;
+}
+
+/* ESTADO ATIVO */
+.cadastro-screen.active .cadastro-box {
+    transform: translateY(0);
+    opacity: 1;
+
+    box-shadow: 0 0 30px rgba(120, 0, 0, 0.4); /* 👈 glow vermelho */
+}
+
+/* INPUTS */
+.cadastro-box input {
+    padding: 12px;
+    background: #1a1a1a;
+    border: none;
+    color: #fff;
+    outline: none;
+    border-radius: 6px;
+}
+
+.cadastro-box input {
+    padding: 12px;
+    background: #1a1a1a;
+    border: 2px solid transparent;
+    color: #fff;
+    outline: none;
+    border-radius: 6px;
+    position: relative;
+    transition: 0.3s;
+    
+}
+
+/* efeito ao focar */
+.cadastro-box input:focus {
+    border: 2px solid #8b0000;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
+}
+
+.cadastro-box input::placeholder {
+    color: #888;
+}
+
+/* cursor fake */
+.cadastro-box input:focus::after {
+    content: "|";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.cadastro-screen {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cadastro-box h2 {
+    color: #fff;
+    text-align: center;
+    letter-spacing: 3px;
+    font-size: 18px;
+}
+
+.cadastro-sub {
+    text-align: center;
+    font-size: 12px;
+    color: #777;
+    margin-top: -10px;
+}
+
+.cadastro-box button {
+    padding: 14px;
+    background: linear-gradient(45deg, #5a0000, #8b0000);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    letter-spacing: 2px;
+
+    transition: 0.3s;
+    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
+}
+
+.cadastro-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.5);
+}
+
+.cadastro-box button {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-text {
+    transition: 0.3s;
+}
+
+.btn-loader {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: spin 1s linear infinite;
+}
+
+
+
+.btn-loader {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid #fff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: spin 1s linear infinite;
+}
+
+.cadastro-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b0000, transparent);
+    transform: translateX(-50%);
+}
+
+.transition-screen {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.6s ease;
+}
+
+.transition-screen.active {
+    opacity: 1;
+}
+
+#transitionText {
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+
+
+/* Campo de confirmar senha - estado padrão (visível em cadastro) */
+.cadastro-box input {
+    padding: 12px;
+    background: #1a1a1a;
+    border: 2px solid transparent;
+    color: #fff;
+    outline: none;
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Campo de confirmar senha - oculto no login */
+.cadastro-box input.hidden-field {
+    max-height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+
+    /* layout estilo app */
+    .cadastro-screen {
+        align-items: flex-end;
+        padding-bottom: 60px;
+    }
+
+    .coin-img {
+        width: 75vw;
+    }
+
+    .start-text {
+        margin-top: -10px;
+    }
+}

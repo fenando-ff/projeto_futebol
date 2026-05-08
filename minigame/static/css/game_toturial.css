@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    cursor: url("/static/jogo/icones/mouse_pointer.png"), auto;
+}
+
+.tutorial {
+    height: 100vh;
+    background: #0a0a0a;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.cards {
+    display: flex;
+    gap: clamp(15px, 3vw, 40px);
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px; /* 👈 importante pro 3D */
+}
+
+
+.card {
+    width: clamp(220px, 20vw, 300px);
+    height: clamp(320px, 35vw, 420px);
+    background: #a00000;
+    border-radius: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    /* começa fora da tela */
+    transform: translateY(200px) rotate(20deg) scale(1);
+    opacity: 0;
+    flex: 0 0 auto;
+
+}
+
+.card {
+    will-change: transform;
+}
+/* destaque */
+
+
+
+
+
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    transform-style: preserve-3d;
+    transition: transform 0.8s;
+}
+
+/* frente */
+.card-front,
+.card-back {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+    backface-visibility: hidden;
+}
+
+/* frente (título) */
+.card-front {
+    background: #a00000;
+    color: white;
+    font-size: clamp(18px, 2vw, 26px);
+
+}
+
+
+.card-front::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    opacity: 0.30; /* 👈 MUITO IMPORTANTE */
+}
+
+.card:nth-child(1) .card-front::before {
+    background-image: url("/static/jogo/icones/tridente_icon.png");
+}
+
+.card:nth-child(2) .card-front::before {
+    background-image: url("/static/jogo/icones/dragon_icon.png");
+    
+}
+
+.card:nth-child(3) .card-front::before {
+    background-image: url("/static/jogo/icones/coroa_icon.png");
+    
+}
+
+
+
+
+/* verso (explicação) */
+.card-back {
+    background: #111;
+    color: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+    text-align: center;
+    font-size: clamp(14px, 1.2vw, 18px);
+}
+
+
+
+
+
+/* estado virado */
+.card.flip .card-inner {
+    transform: rotateY(180deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* camada da borda animada */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+
+    border-radius: 20px;
+
+    background: linear-gradient(
+        120deg,
+        transparent,
+        #ff0000,
+        #ff3c00,
+        #ff0000,
+        transparent
+    );
+
+    background-size: 300% 300%;
+
+    opacity: 0;
+    transition: 0.3s;
+
+    z-index: 0;
+}
+
+/* animação correndo */
+.card.active::before {
+    opacity: 1;
+    animation: borderFlow 2s linear infinite;
+}
+
+/* conteúdo acima */
+.card-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* máscara interna pra parecer borda */
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 2px;
+    background: #0a0a0a;
+    border-radius: 18px;
+    z-index: 1;
+}
+
+/* animação */
+@keyframes borderFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
+}
+
+
+
+
+
+.card.active {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1.08) rotate(0deg); }
+    50% { transform: scale(1.12) rotate(0deg); }
+    100% { transform: scale(1.08) rotate(0deg); }
+}
+
+
+
+
+
+
+
+
+
+.next-btn {
+    background: linear-gradient(
+        90deg,
+        #5a0000,
+        #ff0000,
+        #ff0000,
+        #5a0000
+    );
+
+    background-size: 200%;
+
+    color: #ffffff;
+    padding: 14px 40px;
+    border-radius: 40px;
+
+    border: 1px solid #330000;
+
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+    text-shadow: 0 0 5px #000;
+
+    cursor: pointer;
+    transition: 0.6s;
+    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
+}
+
+
+
+
+.next-btn:hover {
+    background-position: 0%;
+    box-shadow: 0 0 35px rgba(197, 0, 0, 0.8);
+    border: 1px solid #731b00;
+}
+
+.next-btn {
+    animation: fireFlow 3s linear infinite;
+}
+
+@keyframes fireFlow {
+    0% { background-position: 0%; }
+    100% { background-position: 200%; }
+}
+
+
+
+.card.active {
+    transform: scale(1.08);
+    z-index: 3;
+    border: 2px solid #820000;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+}
+
+
+.card.flip {
+    animation: shake 0.2s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    50% { transform: translateX(3px); }
+    100% { transform: translateX(0); }
+}
+
+
+
+
+
+@media (max-width: 768px) {
+
+    body {
+        cursor: default;
+    }
+
+    .tutorial {
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .cards {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card {
+        position: absolute;
+        width: 80vw;
+        height: 65vh;
+
+        max-width: 320px;
+        max-height: 480px;
+
+        transition: 0.4s ease;
+        opacity: 0.4;
+        transform: scale(0.85);
+    }
+
+    /* carta ativa (centro) */
+    .card.active {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 3;
+    }
+
+    /* carta anterior */
+    .card.prev {
+        transform: translateX(-60%) scale(0.75);
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    /* carta próxima */
+    .card.next {
+        transform: translateX(60%) scale(0.75);
+        opacity: 0.3;
+        z-index: 1;
+    }
+
+    .next-btn {
+        width: 80%;
+        max-width: 300px;
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

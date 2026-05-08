@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/game_quiz.css' %}">
+
+<section class="quiz-container">
+
+    <h1 class="quiz-title">FASE QUIZ</h1>
+
+    <!-- progresso -->
+    <div class="progress-bar">
+        <div id="progress"></div>
+    </div>
+
+    <!-- pergunta -->
+    <div class="quiz-box">
+        <h2 id="pergunta"></h2>
+    </div>
+
+    <!-- opções -->
+    <div id="opcoes" class="opcoes"></div>
+
+</section>
+
+<!-- ✅ dados seguros -->
+{{ perguntas|json_script:"quiz-data" }}
+
+<script>
+    const perguntas = JSON.parse(
+        document.getElementById("quiz-data").textContent
+    );
+</script>
+
+<script src="{% static 'js/game_quiz.js' %}"></script>

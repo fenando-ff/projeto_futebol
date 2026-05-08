@@ -8,36 +8,60 @@
 {% block conteudo_pagina %}
 <main class="pagamento-container">
 
-    <h1>Tornar-se Sócio</h1>
+    <h1 class="titulo-principal">Tornar-se Sócio</h1>
 
     <!-- DADOS DO USUÁRIO -->
     <section class="box">
         <h2>Seus Dados</h2>
+        <p class="box-desc">
+            Confira suas informações cadastradas. Caso algum dado esteja incorreto,
+            atualize em seu perfil antes de continuar com a assinatura.
+        </p>
 
         <div class="dados-usuario">
             <p><strong>Nome:</strong> {{ cliente.nome_clientes }} {{ cliente.sobrenome_clientes }}</p>
-            <p><strong>Email:</strong> {{ cliente.email_clientes }} </p>
-            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }} </p>
-            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }} </p>
+            <p><strong>Email:</strong> {{ cliente.email_clientes }}</p>
+            <p><strong>CPF:</strong> {{ cliente.cpf_clientes }}</p>
+            <p><strong>Telefone:</strong> {{ cliente.telefone_clientes }}</p>
         </div>
     </section>
 
     <!-- PLANO -->
     <section class="box">
-        <h2>Plano Atual</h2>
-        <div class="plano-info">
-            <p><strong>Plano: </strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
+        <h2>Seu Plano Atual</h2>
+
+        <p class="box-desc">
+            Este é o plano de sócio que está atualmente vinculado à sua conta.
+        </p>
+
+        <div class="plano-info plano-card">
+            <p><strong>Plano Atual:</strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
         </div>
     </section>
 
-    <section class="box">
-        <h2>Plano Selecionado</h2>
-        <div class="plano-info">
-            <p><strong>Plano: </strong>{{ plano.nome_categoria_clientes }}</p>
-            <p><strong>Valor: </strong>R${{ plano.preco_categoria|floatformat:2}}</p> {% comment %} 'floatformat:2' é para deixar dois numeros depois da vírgula {% endcomment %}
-            <p><strong>Descrição: </strong>{{ plano.descricao_categ_cli}}</p>
-        </div>
-    </section>
+        <section class="box">
+            <h2>Plano Selecionado</h2>
+
+            <p class="box-desc">
+                Você está prestes a assinar o plano abaixo. Revise os detalhes antes de confirmar o pagamento.
+            </p>
+
+            <div class="plano-info plano-card">
+
+                <p><strong>Plano:</strong> {{ plano.nome_categoria_clientes }}</p>
+
+                <p class="plano-preco">
+                    <strong>Valor da Assinatura:</strong>
+                    R$ {{ plano.preco_categoria|floatformat:2 }}
+                </p>
+
+                <p class="plano-desc">
+                    {{ plano.descricao_categ_cli }}
+                </p>
+
+            </div>
+
+        </section>
 
     <!-- FORMAS DE PAGAMENTO -->
     <section class="box">
@@ -111,8 +135,54 @@
 {% endblock conteudo_pagina %}
 {% block js_pagina %}
 <script>
-
 document.addEventListener("DOMContentLoaded", function(){
+
+let flipped = false;
+let cvvFocused = false;
+
+const card = document.querySelector(".card-preview");
+const cardInner3D = document.querySelector(".card-inner");
+
+/* ======================
+EFEITO 3D DO CARTÃO
+====================== */
+
+card.addEventListener("mousemove", (e) => {
+
+if(cvvFocused) return;
+
+const rect = card.getBoundingClientRect();
+
+const x = e.clientX - rect.left;
+const y = e.clientY - rect.top;
+
+const centerX = rect.width / 2;
+const centerY = rect.height / 2;
+
+const rotateX = ((y - centerY) / centerY) * 20;
+const rotateY = ((x - centerX) / centerX) * 20;
+
+let flipRotation = flipped ? 180 : 0;
+
+cardInner3D.style.transform =
+`rotateX(${-rotateX}deg) rotateY(${rotateY + flipRotation}deg)`;
+
+});
+
+card.addEventListener("mouseleave", () => {
+
+if(cvvFocused) return;
+
+let flipRotation = flipped ? 180 : 0;
+
+cardInner3D.style.transform =
+`rotateX(0deg) rotateY(${flipRotation}deg)`;
+
+});
+
+/* ======================
+BOTÕES PAGAMENTO
+====================== */
 
 const botoes = document.querySelectorAll('.pay-btn');
 const formCartao = document.getElementById('form-cartao');
@@ -146,6 +216,10 @@ cardPreview.style.display = "none";
 
 });
 
+/* ======================
+INPUTS
+====================== */
+
 const numberInput = document.querySelector('[name="card_number"]');
 const nameInput = document.querySelector('[name="card_name"]');
 const validInput = document.querySelector('[name="card_valid"]');
@@ -155,7 +229,6 @@ const previewNumber = document.getElementById("preview-number");
 const previewName = document.getElementById("preview-name");
 const previewValid = document.getElementById("preview-valid");
 const previewCvv = document.getElementById("preview-cvv");
-const cardInner = document.getElementById("card-inner");
 
 /* número cartão */
 
@@ -205,7 +278,9 @@ previewValid.textContent = valor || "MM/AA";
 
 });
 
-/* CVV */
+/* ======================
+CVV INPUT + LIMITADOR
+====================== */
 
 cvvInput.addEventListener("input", () => {
 
@@ -219,17 +294,25 @@ previewCvv.textContent = valor || "###";
 
 });
 
-/* flip cartão */
+/* ======================
+VIRAR CARTÃO NO CVV
+====================== */
 
 cvvInput.addEventListener("focus", () => {
 
-cardInner.classList.add("flip");
+cvvFocused = true;
+flipped = true;
+
+cardInner3D.style.transform = "rotateY(180deg)";
 
 });
 
 cvvInput.addEventListener("blur", () => {
 
-cardInner.classList.remove("flip");
+cvvFocused = false;
+flipped = false;
+
+cardInner3D.style.transform = "rotateY(0deg)";
 
 });
 

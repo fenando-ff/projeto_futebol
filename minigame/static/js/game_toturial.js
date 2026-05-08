@@ -1,0 +1,100 @@
+const cards = document.querySelectorAll(".card");
+const btn = document.querySelector(".next-btn");
+const flipSound = document.getElementById("cardFlipSound");
+const stackSound = document.getElementById("cardStackSound");
+
+let current = 0;
+let started = false;
+
+// 🎯 PRIMEIRO CLIQUE NA TELA (desbloqueia áudio)
+window.addEventListener("load", () => {
+    startIntro();
+});
+
+function updateCards() {
+    cards.forEach((card, i) => {
+        card.classList.remove("prev", "active", "next");
+
+        if (i === current) {
+            card.classList.add("active");
+        } else if (i === current - 1) {
+            card.classList.add("prev");
+        } else if (i === current + 1) {
+            card.classList.add("next");
+        }
+    });
+}
+
+
+function startIntro() {
+
+    // 🔊 SOM DAS CARTAS ENTRANDO
+    stackSound.currentTime = 0;
+    stackSound.volume = 0.5;
+    stackSound.play().catch(() => {});
+
+    // 🎬 ANIMAÇÃO
+    gsap.fromTo(".card",
+    {
+        x: () => gsap.utils.random(-300, 300),
+        y: 200,
+        rotation: () => gsap.utils.random(-30, 30),
+        opacity: 0
+    },
+    {
+        x: 0,
+        y: 0,
+        rotation: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: "back.out(1.8)",
+        stagger: 0.2,
+
+        onComplete: () => {
+            activateCard(0);
+        }
+    });
+}
+
+// 🎯 ATIVA CARTA
+function activateCard(index) {
+    const card = cards[index];
+
+    card.classList.add("active");
+
+    // 🔊 SOM DO FLIP
+    setTimeout(() => {
+        flipSound.currentTime = 0;
+        flipSound.play().catch(() => {});
+    }, 150);
+
+    setTimeout(() => {
+        card.classList.add("flip");
+    }, 200);
+}
+
+// 👉 BOTÃO
+btn.addEventListener("click", () => {
+
+    // 👉 ainda tem cartas
+    if (current < cards.length - 1) {
+        current++;
+
+        updateCards();
+        activateCard(current);
+
+        // 👉 se chegou na última, muda texto
+        if (current === cards.length - 1) {
+            btn.innerText = "INICIAR";
+        }
+
+        return;
+    }
+
+    // 👉 acabou o tutorial → vai pra roleta
+   window.location.href = btn.dataset.url;
+});
+
+
+stackSound.volume = 2.0; // máximo
+flipSound.volume = 0.8;

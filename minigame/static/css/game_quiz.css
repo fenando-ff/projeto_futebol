@@ -1,0 +1,234 @@
+body {
+    margin: 0;
+    background: radial-gradient(circle at center, #050000, #000);
+    font-family: 'Poppins', sans-serif;
+    color: #fff;
+    overflow: hidden;
+}
+
+/* CONTAINER */
+.quiz-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* TÍTULO */
+.quiz-title {
+    letter-spacing: 6px;
+    font-size: 20px;
+    opacity: 0.8;
+    position: relative;
+}
+
+/* LINHA TOP (igual seus cards) */
+.quiz-title::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b0000, transparent);
+    transform: translateX(-50%);
+}
+
+/* CAIXA DA PERGUNTA */
+.quiz-box {
+    width: 90%;
+    max-width: 500px;
+
+    padding: 25px;
+    border-radius: 12px;
+
+    background: linear-gradient(145deg, #0a0a0a, #140000);
+    border: 1px solid rgba(139, 0, 0, 0.2);
+
+    box-shadow:
+        0 0 40px rgba(139, 0, 0, 0.35),
+        inset 0 0 20px rgba(139, 0, 0, 0.15);
+
+    text-align: center;
+
+    animation: float 3s ease-in-out infinite;
+}
+
+/* animação leve igual suas fases */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+/* OPÇÕES */
+.opcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 90%;
+    max-width: 500px;
+}
+
+/* BOTÃO */
+.opcao {
+    padding: 14px;
+    border-radius: 10px;
+
+    background: linear-gradient(145deg, #0a0a0a, #140000);
+    border: 1px solid rgba(139, 0, 0, 0.2);
+
+    box-shadow:
+        0 0 20px rgba(139, 0, 0, 0.25),
+        inset 0 0 10px rgba(139, 0, 0, 0.1);
+
+    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
+
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* brilho topo (igual fase-card) */
+.opcao::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #8b0000, transparent);
+    transform: translateX(-50%);
+}
+
+/* hover */
+.opcao:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 30px rgba(139, 0, 0, 0.6),
+        inset 0 0 15px rgba(139, 0, 0, 0.2);
+}
+
+/* clique feedback */
+.opcao:active {
+    transform: scale(0.97);
+}
+
+/* CORRETA */
+.opcao.correta {
+    background: #062e0f;
+    border-color: #00ff88;
+    box-shadow: 0 0 25px rgba(0,255,100,0.8);
+    animation: pulseGreen 0.6s ease;
+}
+
+@keyframes pulseGreen {
+    0% { box-shadow: 0 0 0 rgba(0,255,100,0); }
+    50% { box-shadow: 0 0 40px rgba(0,255,100,0.9); }
+    100% { box-shadow: 0 0 25px rgba(0,255,100,0.6); }
+}
+
+/* ERRADA */
+.opcao.errada {
+    background: #2a0000;
+    border-color: #ff0000;
+    box-shadow: 0 0 25px rgba(255,0,0,0.8);
+    animation: shake 0.4s;
+}
+
+/* SHAKE (igual seu sistema) */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* PROGRESSO */
+.progress-bar {
+    width: 90%;
+    max-width: 500px;
+    height: 5px;
+    background: #111;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #8b0000, #ff0000);
+    transition: width 0.4s ease;
+}
+
+/* FLASH DE ERRO GLOBAL */
+body.error-flash {
+    animation: screenFlash 0.2s;
+}
+
+@keyframes screenFlash {
+    0% { background: #000; }
+    50% { background: #200000; }
+    100% { background: #000; }
+}
+
+/* ANIMAÇÃO */
+.fade {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 🔥 partículas explosivas */
+.particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+
+    background: radial-gradient(circle, #ffae00, #ff0000);
+    pointer-events: none;
+
+    opacity: 1;
+    z-index: 9999;
+
+    filter: blur(0.5px);
+
+    animation: explosao 0.9s ease-out forwards;
+}
+
+/* 🔥 variações */
+.particle.big {
+    width: 10px;
+    height: 10px;
+    filter: blur(1px);
+}
+
+.particle.small {
+    width: 4px;
+    height: 4px;
+}
+
+/* 💥 animação explosiva */
+@keyframes explosao {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0.2);
+        opacity: 0;
+    }
+}

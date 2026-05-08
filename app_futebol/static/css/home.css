@@ -222,7 +222,7 @@ a{
 .jogo-card img {
     width: 120px;
     height: auto;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 50%;
 }
 
@@ -1253,6 +1253,72 @@ a{
   .destaques .card{
     width: calc(50% - 6px);
   }
+}
+
+/* TV / large desktop screens */
+@media (min-width: 1600px){
+  /* increase spacing and font sizes for very large displays */
+  .hero {
+    padding: 96px 12%;
+    gap: 64px;
+  }
+  .hero-text h1 {
+    font-size: 3.5rem;
+    margin-bottom: 28px;
+  }
+  .hero-text p {
+    font-size: 1.4rem;
+    margin-bottom: 32px;
+  }
+
+  .hero-carousel {
+    width: 60%;
+    height: 450px;
+    border-radius: 18px;
+  }
+
+  .destaques {
+    gap: 48px;
+    margin: 64px auto;
+  }
+  .card {
+    width: 380px;
+    height: 240px;
+    padding: 32px;
+    gap: 1.5rem;
+  }
+  .card i {
+    font-size: 48px;
+  }
+
+  .proximo-jogo {
+    padding: 80px 0;
+  }
+  .jogo-card {
+    gap: 64px;
+    margin: 60px auto;
+  }
+  .jogo-card img {
+    width: 140px;
+  }
+  .versus { font-size: 56px; }
+  .info { font-size: 24px; margin-bottom: 32px; }
+
+  .produtos {
+    padding: 80px 0;
+  }
+  .cards-produtos-container {
+    gap: 16px;
+  }
+  .product-card {
+    width: 440px;
+    transform: scale(0.9);
+  }
+  .product-image img {
+    max-width: 300px;
+    height: 420px;
+  }
+  .price { font-size: 1.6rem; }
 }
 
 

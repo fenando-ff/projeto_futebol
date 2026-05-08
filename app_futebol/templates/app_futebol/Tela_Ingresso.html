@@ -34,7 +34,7 @@
             {% else %}
               <img src="{% static 'img/icones/palmeiras.png' %}" alt="Adversário">
             {% endif %}
-            <span>Palmeiras</span>
+            <span>Grêmio</span>
           </div>
         </div>
 
@@ -126,7 +126,7 @@
           <div class="card-content">
               <h2>{{ jogo.times_id_times.nome_time }}</h2>
               <p><i class="fa-regular fa-clock"></i> {{ jogo.dia_jogo|date:"d/m/Y" }} • {{ jogo.hora_jogo|time:"H\hi" }}</p>
-              <p><i class="fa-solid fa-location-arrow"></i> {{ jogo.local_jogo }}</p>
+              <p><i class="fa-solid fa-location-dot"></i> {{ jogo.local_jogo }}</p>
           </div>
         </div>
         {% empty %}

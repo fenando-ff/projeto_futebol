@@ -8,7 +8,7 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #cccccc;
+  background: #a50000;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -637,4 +637,368 @@ html, body { overflow-x: hidden; }
   .formas img{
     width: 52px;
   }
+}
+
+
+.modo-jogo {
+    background: linear-gradient(135deg, #000, #001a00);
+}
+
+.modo-jogo .carrinho {
+    border: 2px solid #830000;
+    box-shadow: 0 0 20px #db0000;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* pop-up */
+
+/* OVERLAY ESCURO */
+.game-payment-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* MODAL PRINCIPAL */
+.game-payment-modal {
+  width: 900px;
+  max-width: 95%;
+  background: #ffffff;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  overflow: hidden;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+  animation: fadeUp 0.3s ease;
+}
+
+/* ANIMAÇÃO */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ========================= */
+/* CARTÃO (LADO ESQUERDO) */
+/* ========================= */
+
+.card-preview {
+  background: linear-gradient(135deg, #8b0000, #b30000);
+  color: #fff;
+  padding: 30px;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.card-preview::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: rotate(25deg);
+}
+
+.card-preview__label {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.card-preview__number {
+  font-size: 1.5rem;
+  letter-spacing: 0.25em;
+  margin-top: 30px;
+}
+
+.card-preview__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-preview__info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#payForm label {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.card-preview__field-label {
+  font-size: 0.7rem;
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+#payForm label {
+    background: rgba(255,0,0,0.3);
+}
+
+.card-preview__field-value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+
+.card-preview__status {
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+
+.card-preview__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* validade */
+.card-preview__expiry {
+  font-size: 0.85rem;
+}
+/* ========================= */
+/* FORMULÁRIO (LADO DIREITO) */
+/* ========================= */
+
+.game-payment-form {
+  flex: 1;
+  background: #ffffff;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-payment-form h2 {
+  margin-bottom: 5px;
+}
+
+
+.game-payment-form p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+/* INPUTS */
+.game-payment-form input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  transition: 0.2s;
+  font-size: 0.95rem;
+}
+
+.game-payment-form input:focus {
+  border-color: #171717;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(31, 142, 241, 0.15);
+}
+
+/* GRID VALIDADE + CVV */
+.game-payment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ERRO */
+.game-payment-error {
+  background: #ffe5e5;
+  color: #b70000;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+
+/* BOTÕES */
+.game-payment-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.btn-pagamento {
+  flex: 1;
+  background: #141414;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.card-preview__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-preview__cvv {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  letter-spacing: 3px;
+}  
+
+.card-preview__status {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+.btn-pagamento:hover {
+  background: #0f6fd1;
+  transform: scale(1.02);
+}
+
+
+.btn-secondary {
+  flex: 1;
+  background: #141414;
+  color: #fff;
+  border: none;
+  padding: 1px 1px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+
+.btn-secondary:hover {
+  background: #ddd;
+}
+
+.card-preview__cvv {
+  margin-top: 20px;
+  font-size: 0.75rem;
+  opacity: 0.5;
+  text-align: right;
+  letter-spacing: 0.25em;
+}
+
+.resultado-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10001;
+}
+
+.resultado-modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 18px;
+  width: min(420px, 90vw);
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+}
+
+.resultado-modal h2 {
+  margin-bottom: 1rem;
+}
+
+.resultado-modal p {
+  font-size: 1rem;
+  margin: 0.6rem 0;
+}
+
+.resultado-modal button {
+  margin-top: 1.4rem;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .game-payment-modal {
+    flex-direction: column;
+  }
+
+  .card-preview {
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+
+.rank {
+  font-size: 120px;
+  color: gold;
+  transform: scale(0.5);
+  opacity: 0;
+  animation: rankPop 0.6s ease forwards;
+}
+
+@keyframes rankPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+
+.game-timer {
+  font-size: 24px;
+  font-weight: bold;
+  color: #a80000;
+  text-align: center;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #540000;
+}
+
+
+#gamePaymentOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 999;
 }

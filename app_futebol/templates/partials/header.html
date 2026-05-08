@@ -8,11 +8,11 @@
     <h1>DRAKOS FC</h1>
   </a>
 
-      <a href="{% url 'carrinho' %}" class="icon-btn only-mobile carrinho-mobile">
-            <i class="fa-solid fa-cart-shopping"></i>
-      </a>
+
 
   <!-- Ações do topo (mobile) -->
+
+<div class="acoes-mobile">
 
 <button id="botao_hamburguer"
         class="hamb-btn only-mobile"
@@ -21,6 +21,12 @@
         aria-controls="menuNav">
     <i class="bx bx-menu"></i>
 </button>
+
+<a href="{% url 'carrinho' %}" class="icon-btn carrinho-mobile">
+    <i class="bx bx-cart"></i>
+</a>
+
+</div>
 
 
 
@@ -55,7 +61,14 @@
             <a href="{% url 'login' %}"><i class="bx bx-user"></i> Login</a>
           </li>
         {% endif %}
+          
 
+          <li class="opcao-nav">
+            <a href="{% url 'game_comeco' %}">
+              <i class="bx bx-joystick"></i> Game
+            </a>
+          </li>
+          
           
         <li class="opcao-nav">
           <a href="{% url 'produtos' %}"><i class="bx bx-store"></i> Loja</a>
@@ -64,7 +77,7 @@
           <a href="{% url 'historia' %}"><i class="bx bx-book"></i> História</a>
         </li>
         <li class="opcao-nav">
-          <a href="{% url 'ingresso' %}"><i class="bx bx-ticket"></i> Ingressos</a>
+          <a href="{% url 'ingresso' %}"><i class="fa-solid fa-ticket-alt"></i> Ingressos</a>
         </li>
         <li class="opcao-nav">
           <a href="{% url 'socio' %}"><i class="bx bx-crown"></i> Sócios</a>
@@ -72,14 +85,19 @@
         <li class="opcao-nav">
           <a href="{% url "perfil" %}"><i class="bx bx-user-circle"></i> Perfil</a>
         </li>
+
+
         <li class="opcao-nav carrinho-desktop">
           <a href="{% url 'carrinho' %}">
-            <i class="fa-solid fa-cart-shopping"></i>
+            <i class="bx bx-cart"></i> Carrinho
           </a>
-        </li>
+      </li>
+
 
 
       </ul>
+
+
     </div>
   </div>
 </header>

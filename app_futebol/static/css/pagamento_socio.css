@@ -3,6 +3,49 @@ main{
 }
 
 
+.titulo-principal {
+    font-size:2.4rem;
+    margin-bottom:30px;
+    font-weight:800;
+    color:#a50000;
+    animation:fadeUp .8s ease;
+}
+
+
+@keyframes fadeUp {
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.box{
+    animation:fadeUp .6s ease forwards;
+}
+
+
+.box-desc{
+    font-size:14px;
+    color:#666;
+    margin-bottom:15px;
+}
+
+.plano-preco{
+    font-size:18px;
+    font-weight:700;
+    color:#7a0000;
+}
+
+.plano-desc{
+    margin-top:10px;
+    line-height:1.5;
+    font-size:14px;
+}
+
 
 .pagamento-container {
     width: 80%;
@@ -10,20 +53,42 @@ main{
     font-family: "Poppins", sans-serif;
 }
 
-h1 {
+.titulo-principal {
     font-size: 2.4rem;
     margin-bottom: 30px;
     font-weight: 800;
     color: white;
 }
 
+/* standardized section box */
 .box {
     background: #fff;
-    padding: 25px;
-    border-radius: 12px;
+    padding: 30px;
+    border-radius: 16px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    border-left: 6px solid #8c0000;
+    transition: transform .3s ease, box-shadow .3s ease;
 }
+
+.box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
+
+.box h2 {
+    color: #8c0000;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.box-desc {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+
 .buttons-pay {
     display: flex;
     gap: 20px;
@@ -75,12 +140,50 @@ input:focus {
 }
 
 
-.plano-info {
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid #7a0000;
-}   
+.plano-info{
+    background:#f9f9f9;
+    padding:15px;
+    border-radius:8px;
+    border-left:4px solid #7a0000;
+    transition:all .3s ease;
+}
+
+.plano-info:hover{
+    background:#fff5f5;
+    transform:scale(1.01);
+}
+
+/* card styling when applied to plano-info */
+.plano-info.plano-card{
+    background: linear-gradient(135deg,#8c0000,#4a0000);
+    color: #fff;
+    border: none;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
+}
+.plano-info.plano-card::before{
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: rgba(255,255,255,0.08);
+    transform: rotate(45deg);
+}
+.plano-info.plano-card p{
+    color: #fff;
+}
+.plano-info.plano-card .plano-preco{
+    color: #ffe5e5;
+}
+.plano-info.plano-card:hover{
+    transform: translateY(-4px) scale(1.02);
+    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+}
 
 .dupla {
     display: flex;
@@ -110,7 +213,12 @@ input:focus {
     width:380px;
     height:220px;
     margin:40px auto;
-    perspective:1200px;
+    perspective:1500px;
+}
+
+.input-focus {
+    box-shadow: 0 0 10px rgba(122,0,0,0.4);
+    transform: scale(1.02);
 }
 
 .card-inner{
@@ -403,7 +511,7 @@ input:focus{
     margin:120px auto;
 }
 
-h1{
+.titulo-principal{
     font-size:1.9rem;
     text-align:center;
 }
@@ -470,11 +578,11 @@ body{
    TITULOS
 ========================= */
 
-h1{
+.titulo-principal {
     font-size:2.4rem;
     margin-bottom:30px;
     font-weight:800;
-    color:white;
+    color: #a50000;
 }
 
 h2{
@@ -487,10 +595,11 @@ h2{
 
 .box{
     background:#fff;
-    padding:25px;
-    border-radius:12px;
+    padding:30px;
+    border-radius:16px;
     margin-bottom:30px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    box-shadow:0 8px 24px rgba(0,0,0,0.1);
+    border-left:6px solid #8c0000;
 }
 
 /* =========================
@@ -703,9 +812,8 @@ input:focus{
     margin:120px auto;
 }
 
-h1{
+.titulo-principal{
     font-size:1.9rem;
-    text-align:center;
 }
 
 .box{
@@ -756,7 +864,7 @@ main{
     margin:110px auto;
 }
 
-h1{
+.titulo-principal{
     font-size:1.7rem;
 }
 
