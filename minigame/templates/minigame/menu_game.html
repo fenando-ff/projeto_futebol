@@ -41,8 +41,27 @@
       <div class="ranking-list">
     {% for jogador in jogadores %}
         <div class="rank-item">
-            <span>#{{ forloop.counter }} {{ jogador.nome_participante }}</span>
-            <span>— • ---</span>
+            
+            <div class="rank-left">
+                <span class="rank-position">
+                    #{{ forloop.counter }}
+                </span>
+
+                <span class="rank-name">
+                    {{ jogador.nome }}
+                </span>
+            </div>
+
+            <div class="rank-right">
+                <span class="rank-score">
+                    {{ jogador.pontuacao }} pts
+                </span>
+
+                <span class="rank-time">
+                    {{ jogador.tempo }}
+                </span>
+            </div>
+
         </div>
     {% empty %}
         <div class="rank-item ghost">
@@ -56,7 +75,7 @@
     <!-- 🔻 FASES EMBAIXO -->
     <div class="fases-container">
 
-        <a href="{% url 'mini_game_toturial' %}" class="fase-card">
+        <a href="{% url 'game_quiz' %}" class="fase-card">
             <div class="fase-inner">
                 <span class="fase-label">FASE</span>
                 <span class="fase-num">01</span>
@@ -83,17 +102,6 @@
             </div>
         </a>
 
-    </div>
-
-    <div id="profileModal" class="profile-modal">
-        <div class="profile-box">
-        <h2>MEU PERFIL</h2>
-
-        <p><strong>ID:</strong> {{ request.session.participante_id }}</p>
-        <p><strong>Nome:</strong> {{ jogadores.0.nome_participante }}</p>
-
-        <button id="closeProfile">FECHAR</button>
-        
     </div>
 </div>
     <script src="{% static 'js/game_menu.js' %}"></script>

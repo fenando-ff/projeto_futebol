@@ -7,7 +7,8 @@ from .decorators import login_obrigatorio
 from django.http import JsonResponse
 import json
 from django.contrib.auth.hashers import make_password, check_password
-
+from datetime import time
+from django.utils import timezone
 
 # Create your views here.
 # @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
@@ -116,19 +117,51 @@ def gerar_nome_unico(nome):
 
 @login_obrigatorio
 def menu_fases(request):
+
     participante_id = request.session.get('participante_id')
 
-    participante = model_minigame.Participantes.objects.using('minigame').get(
+    usuario = model_minigame.Participantes.objects.using('minigame').get(
         id_participante=participante_id
     )
 
+    # 🔥 ranking global
     jogadores = model_minigame.Participantes.objects.using('minigame')\
-        .all().order_by('-id_participante')[:5]
+        .all()\
+        .order_by('-pontuacao', 'tempo')[:5]
+
+    # 🔥 formata tempo para exibição
+    ranking_formatado = []
+
+    for jogador in jogadores:
+
+        tempo_formatado = "00:00"
+
+        if jogador.tempo:
+
+            total_segundos = (
+                jogador.tempo.hour * 3600 +
+                jogador.tempo.minute * 60 +
+                jogador.tempo.second
+            )
+
+            minutos = total_segundos // 60
+            segundos = total_segundos % 60
+
+            tempo_formatado = f"{minutos:02}:{segundos:02}"
+
+        ranking_formatado.append({
+            'nome': jogador.nome_participante,
+            'pontuacao': jogador.pontuacao,
+            'tempo': tempo_formatado
+        })
 
     return render(request, 'minigame/menu_game.html', {
-        'jogadores': jogadores,
-        'usuario': participante
+        'jogadores': ranking_formatado,
+        'usuario': usuario
     })
+
+
+
 
 
 @login_obrigatorio
@@ -173,20 +206,24 @@ def game_sorteio(request):
 @login_obrigatorio
 def game_quiz(request):
 
-    questoes_db = model_minigame.Questoes.objects.using('minigame').all() #anotado
+    # 🔥 pega todas as questões
+    questoes_db = model_minigame.Questoes.objects.using('minigame').all()
 
     perguntas = []
 
     for q in questoes_db:
-        alternativas = q.alternativas_set.all()  # ⚠️ AQUI MUDA
+
+        # 🔹 pega alternativas da questão
+        alternativas = q.alternativas_set.all()
 
         opcoes = []
 
         for alt in alternativas:
+
             opcoes.append({
                 "id": alt.id_alternativa,
                 "texto": alt.opcao_resposta,
-                "correta": bool(alt.resposta_correta),  # 👈 converte 0/1 pra true/false
+                "correta": bool(alt.resposta_correta),
                 "ponto": alt.ponto
             })
 
@@ -195,8 +232,12 @@ def game_quiz(request):
             "pergunta": q.pergunta,
             "opcoes": opcoes
         })
-        
+
+    # 🔀 embaralha perguntas
     perguntas = random.sample(perguntas, len(perguntas))
+
+    # ⏱️ inicia tempo do quiz na sessão
+    request.session['quiz_inicio'] = timezone.now().isoformat()
 
     return render(request, "minigame/game_quiz.html", {
         "perguntas": perguntas
@@ -207,10 +248,15 @@ def game_quiz(request):
 
 @login_obrigatorio
 def salvar_pontuacao(request):
+    
     if request.method == 'POST':
         data = json.loads(request.body)
         pontuacao_total = data.get('pontuacao')
         respostas_data = data.get('respostas', [])
+        tempo_ms = data.get('tempo_ms')
+        print(data)
+        print(tempo_ms)
+        print(type(tempo_ms))
         
         participante_id = request.session.get('participante_id')
         if not participante_id:
@@ -220,6 +266,19 @@ def salvar_pontuacao(request):
             participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
         except model_minigame.Participantes.DoesNotExist:
             return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+        
+        if tempo_ms is not None:
+            segundos = tempo_ms / 1000
+
+            hours = int(segundos // 3600)
+            minutes = int((segundos % 3600) // 60)
+            seconds = int(segundos % 60)
+
+            participante.tempo = time(
+                hour=hours,
+                minute=minutes,
+                second=seconds
+            )
         
         # Salva pontuação total
         participante.pontuacao = pontuacao_total
