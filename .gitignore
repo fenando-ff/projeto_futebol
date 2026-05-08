@@ -55,3 +55,4 @@ Thumbs.db
 # O arquivo .env é a forma mais comum de gerenciar isso.
 .env
 certs/
+staticfiles/
