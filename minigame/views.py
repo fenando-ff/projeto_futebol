@@ -38,7 +38,9 @@ from django.utils import timezone
 
 @login_obrigatorio
 def game(request):
+
     if request.method == 'POST':
+
         nome = request.POST.get('nome')
         senha = request.POST.get('senha')
         modo = request.POST.get('modo')
@@ -46,11 +48,16 @@ def game(request):
         if not nome or not senha:
             return JsonResponse({'error': 'Dados inválidos'}, status=400)
 
-        # 🔹 CADASTRO
+        # CADASTRO
         if modo == "cadastro":
 
-            if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
-                return JsonResponse({'error': 'Nome já existe'}, status=400)
+            if model_minigame.Participantes.objects.using('minigame').filter(
+                nome_participante=nome
+            ).exists():
+
+                return JsonResponse({
+                    'error': 'Nome já existe'
+                }, status=400)
 
             nome_final = gerar_nome_unico(nome)
 
@@ -66,15 +73,23 @@ def game(request):
                 'nome_gerado': nome_final
             })
 
-        # 🔹 LOGIN
+        # LOGIN
         else:
-            try:
-                participante = model_minigame.Participantes.objects.using('minigame').filter(nome_participante__startswith=nome).first()
-            except:
-                return JsonResponse({'error': 'Usuário não encontrado'}, status=404)
+
+            participante = model_minigame.Participantes.objects.using('minigame').filter(
+                nome_participante__startswith=nome
+            ).first()
+
+            if not participante:
+                return JsonResponse({
+                    'error': 'Usuário não encontrado'
+                }, status=404)
 
             if not check_password(senha, participante.senha):
-                return JsonResponse({'error': 'Senha incorreta'}, status=400)
+
+                return JsonResponse({
+                    'error': 'Senha incorreta'
+                }, status=400)
 
             request.session['participante_id'] = participante.id_participante
 
@@ -84,6 +99,9 @@ def game(request):
             })
 
     return render(request, 'minigame/game_inicio.html')
+
+
+
 
 
 
