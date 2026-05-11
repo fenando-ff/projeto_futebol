@@ -111,8 +111,10 @@ def game(request):
 def gerar_nome_unico(nome):
     sufixos = [
         "Capivara", "Dragao", "Fenix", "Lobo", "Tigre",
-        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Cadela","Mocurento","Flamenguista"
-        "Cachorro","Galo","Bode","Vaca","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa"
+        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Morcego",
+        "Mocurento","Flamenguista"
+        "Cachorro","Galo","Bode","Gamba","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa", "Zebra",
+        "Elefante","Girafa","Rinoceronte","Hipopotamo","Camelo","Coelho","Panda","Arara","Sapo"
     ]
 
     nome_base = nome.capitalize()

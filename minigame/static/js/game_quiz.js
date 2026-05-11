@@ -1,6 +1,9 @@
 let atual = 0;
 let pontuacao = 0;
 let respostas = [];
+let acertos = 0;
+let comboAtual = 0;
+let comboMaximo = 0;
 
 const perguntaEl = document.getElementById("pergunta");
 const opcoesEl = document.getElementById("opcoes");
@@ -114,7 +117,19 @@ function responder(btn, op, q) {
 
         pontuacao += op.ponto || 0;
 
+        acertos++;
+
+        comboAtual++;
+
+        mostrarCombo(comboAtual);
+
+        if (comboAtual > comboMaximo) {
+            comboMaximo = comboAtual;
+        }
+
     } else {
+
+        comboAtual = 0;
 
         btn.classList.add("errada");
 
@@ -178,32 +193,253 @@ function atualizarTimer() {
         `${String(minutos).padStart(2, "0")}:${String(segRestantes).padStart(2, "0")}`;
 }
 
+
+
+
+function mostrarCombo(combo) {
+
+    const popup = document.getElementById("comboPopup");
+
+    let texto = "";
+
+    if (combo >= 5) {
+
+        texto = "🔥 LENDÁRIO";
+
+    } else if (combo >= 4) {
+
+        texto = "⚡ MONSTRO";
+
+    } else if (combo >= 3) {
+
+        texto = "💀 MITANDO";
+
+    } else if (combo >= 2) {
+
+        texto = "🏆 BOA!";
+    }
+
+    if (!texto) return;
+
+    popup.innerText = `${texto} x${combo}`;
+
+    popup.classList.add("show");
+
+
+    if (combo >= 5) {
+
+    document.body.classList.add("combo-glow");
+
+    document.body.classList.add("shake-screen");
+
+    criarParticulasDouradas();
+
+    setTimeout(() => {
+
+        document.body.classList.remove("combo-glow");
+
+        document.body.classList.remove("shake-screen");
+
+    }, 500);
+}
+
+
+    setTimeout(() => {
+        popup.classList.remove("show");
+    }, 700);
+}
+
+
+
+function criarParticulasDouradas() {
+
+    for (let i = 0; i < 25; i++) {
+
+        const p = document.createElement("div");
+
+        p.classList.add("gold-particle");
+
+        p.style.left = window.innerWidth / 2 + "px";
+
+        p.style.top = window.innerHeight / 2 + "px";
+
+        p.style.setProperty(
+            "--x",
+            `${(Math.random() - .5) * 500}px`
+        );
+
+        p.style.setProperty(
+            "--y",
+            `${(Math.random() - .5) * 500}px`
+        );
+
+        document.body.appendChild(p);
+
+        setTimeout(() => {
+            p.remove();
+        }, 1000);
+    }
+}
+
+
+
 // 🏁 final
 function finalizarQuiz() {
 
     clearInterval(intervaloTimer);
 
-    perguntaEl.innerText = "QUIZ FINALIZADO";
-
-    opcoesEl.innerHTML = `
-        <div class="resultado-box fade">
-
-            <h3>SUA PONTUAÇÃO</h3>
-
-            <p class="resultado-pontos">
-                ${pontuacao} pontos
-            </p>
-
-            <a href="/game/menu_game/" class="btn-menu">
-                VOLTAR AO MENU
-            </a>
-
-        </div>
-    `;
-
     progress.style.width = "100%";
 
     const tempoFinal = Date.now() - tempoInicial;
+
+    const totalSegundos = Math.floor(tempoFinal / 1000);
+
+    const minutos = Math.floor(totalSegundos / 60);
+
+    const segundos = totalSegundos % 60;
+
+    const tempoFormatado =
+        `${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
+
+    const precisao =
+        Math.round((acertos / perguntas.length) * 100);
+
+    // 🏆 títulos
+    let titulo = "Bagre da Série B";
+
+    if (pontuacao >= 20) {
+
+        titulo = "Pelé do Quiz";
+
+    } else if (pontuacao >= 15) {
+
+        titulo = "Rei da Libertadores";
+
+    } else if (pontuacao >= 10) {
+
+        titulo = "Artilheiro do Brasileirão";
+
+    } else if (pontuacao >= 5) {
+
+        titulo = "Craque da Série A";
+    }
+
+
+
+
+
+
+
+
+
+
+    perguntaEl.innerText = "Quiz Finalizado";
+    opcoesEl.innerHTML = `
+
+    <div class="resultado-box fade">
+
+        <div class="resultado-titulo">
+            🏆 ${titulo}
+        </div>
+
+        <div class="resultado-stats">
+
+            <div class="resultado-item">
+                🎯 Precisão:
+                <span>${precisao}%</span>
+            </div>
+
+            <div class="resultado-item">
+                ⚡ Tempo:
+                <span>${tempoFormatado}</span>
+            </div>
+
+            <div class="resultado-item">
+                🔥 Combo Máximo:
+                <span>x${comboMaximo}</span>
+            </div>
+
+            <div class="resultado-item">
+                ⭐ Pontuação:
+                <span>${pontuacao}</span>
+            </div>
+
+        </div>
+
+       <div id="titulosBox" class="titulos-box">
+
+            <h4>🏆 TÍTULOS DESBLOQUEÁVEIS</h4>
+
+            <div class="titulos-grid">
+
+                <div id="titulo0" class="titulo-badge">
+                    ⚪ Bagre da Série B
+                </div>
+
+                <div id="titulo5" class="titulo-badge">
+                    🟢 Craque Série A
+                </div>
+
+                <div id="titulo10" class="titulo-badge">
+                    🔵 Artilheiro BR
+                </div>
+
+                <div id="titulo15" class="titulo-badge">
+                    🟣 Rei da Libertadores
+                </div>
+
+                <div id="titulo20" class="titulo-badge">
+                    🟡 Pelé do Quiz
+                </div>
+
+            </div>
+
+        </div>
+
+        <a href="/game/menu_game/" class="btn-menu">
+            VOLTAR AO MENU
+        </a>
+
+    </div>
+
+`;
+
+// 🏆 desbloquear títulos
+
+document.getElementById("titulo0")
+    .classList.add("ativo");
+
+if (pontuacao >= 5) {
+
+    document.getElementById("titulo5")
+        .classList.add("ativo");
+}
+
+if (pontuacao >= 10) {
+
+    document.getElementById("titulo10")
+        .classList.add("ativo");
+}
+
+if (pontuacao >= 15) {
+
+    document.getElementById("titulo15")
+        .classList.add("ativo");
+}
+
+if (pontuacao >= 20) {
+
+    document.getElementById("titulo20")
+        .classList.add("ativo", "especial");
+}
+
+
+
+
+
+
+
+
 
     fetch("/game/salvar_pontuacao/", {
 
@@ -226,6 +462,10 @@ function finalizarQuiz() {
         console.log("Dados salvos!", data);
     })
     .catch(err => console.error("Erro:", err));
+
+    
+    // tabela de títulos
+
 }
 
 // 🚀 START
