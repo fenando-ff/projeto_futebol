@@ -1,12 +1,14 @@
+/* game_quiz.css - VERSÃO RESPONSIVA COMPLETA */
 body {
     margin: 0;
     background: radial-gradient(circle at center, #050000, #000);
     font-family: 'Poppins', sans-serif;
     color: #fff;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
 }
 
-/* CONTAINER */
 .quiz-container {
     min-height: 100vh;
     display: flex;
@@ -14,17 +16,17 @@ body {
     align-items: center;
     justify-content: center;
     gap: 30px;
+    padding: 20px;
 }
 
-/* TÍTULO */
 .quiz-title {
     letter-spacing: 6px;
     font-size: 20px;
     opacity: 0.8;
     position: relative;
+    text-align: center;
 }
 
-/* LINHA TOP (igual seus cards) */
 .quiz-title::after {
     content: "";
     position: absolute;
@@ -36,34 +38,29 @@ body {
     transform: translateX(-50%);
 }
 
-/* CAIXA DA PERGUNTA */
 .quiz-box {
     width: 90%;
     max-width: 500px;
-
     padding: 25px;
     border-radius: 12px;
-
     background: linear-gradient(145deg, #0a0a0a, #140000);
     border: 1px solid rgba(139, 0, 0, 0.2);
-
-    box-shadow:
-        0 0 40px rgba(139, 0, 0, 0.35),
-        inset 0 0 20px rgba(139, 0, 0, 0.15);
-
+    box-shadow: 0 0 40px rgba(139, 0, 0, 0.35), inset 0 0 20px rgba(139, 0, 0, 0.15);
     text-align: center;
-
     animation: float 3s ease-in-out infinite;
 }
 
-/* animação leve igual suas fases */
 @keyframes float {
     0% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
     100% { transform: translateY(0); }
 }
 
-/* OPÇÕES */
+.quiz-box h2 {
+    font-size: clamp(16px, 4vw, 22px);
+    word-wrap: break-word;
+}
+
 .opcoes {
     display: flex;
     flex-direction: column;
@@ -72,26 +69,21 @@ body {
     max-width: 500px;
 }
 
-/* BOTÃO */
 .opcao {
     padding: 14px;
     border-radius: 10px;
-
     background: linear-gradient(145deg, #0a0a0a, #140000);
     border: 1px solid rgba(139, 0, 0, 0.2);
-
-    box-shadow:
-        0 0 20px rgba(139, 0, 0, 0.25),
-        inset 0 0 10px rgba(139, 0, 0, 0.1);
-
-    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
-
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.25), inset 0 0 10px rgba(139, 0, 0, 0.1);
+    cursor: pointer;
     transition: 0.25s ease;
     position: relative;
     overflow: hidden;
+    font-size: clamp(13px, 3.5vw, 16px);
+    text-align: center;
+    word-wrap: break-word;
 }
 
-/* brilho topo (igual fase-card) */
 .opcao::before {
     content: "";
     position: absolute;
@@ -103,20 +95,15 @@ body {
     transform: translateX(-50%);
 }
 
-/* hover */
 .opcao:hover {
     transform: scale(1.05);
-    box-shadow:
-        0 0 30px rgba(139, 0, 0, 0.6),
-        inset 0 0 15px rgba(139, 0, 0, 0.2);
+    box-shadow: 0 0 30px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(139, 0, 0, 0.2);
 }
 
-/* clique feedback */
 .opcao:active {
     transform: scale(0.97);
 }
 
-/* CORRETA */
 .opcao.correta {
     background: #062e0f;
     border-color: #00ff88;
@@ -130,7 +117,6 @@ body {
     100% { box-shadow: 0 0 25px rgba(0,255,100,0.6); }
 }
 
-/* ERRADA */
 .opcao.errada {
     background: #2a0000;
     border-color: #ff0000;
@@ -138,7 +124,6 @@ body {
     animation: shake 0.4s;
 }
 
-/* SHAKE (igual seu sistema) */
 @keyframes shake {
     0% { transform: translateX(0); }
     25% { transform: translateX(-6px); }
@@ -147,7 +132,6 @@ body {
     100% { transform: translateX(0); }
 }
 
-/* PROGRESSO */
 .progress-bar {
     width: 90%;
     max-width: 500px;
@@ -164,7 +148,6 @@ body {
     transition: width 0.4s ease;
 }
 
-/* FLASH DE ERRO GLOBAL */
 body.error-flash {
     animation: screenFlash 0.2s;
 }
@@ -175,7 +158,6 @@ body.error-flash {
     100% { background: #000; }
 }
 
-/* ANIMAÇÃO */
 .fade {
     animation: fadeIn 0.3s ease;
 }
@@ -191,25 +173,19 @@ body.error-flash {
     }
 }
 
-/* 🔥 partículas explosivas */
 .particle {
     position: fixed;
     width: 6px;
     height: 6px;
     border-radius: 50%;
-
     background: radial-gradient(circle, #ffae00, #ff0000);
     pointer-events: none;
-
     opacity: 1;
     z-index: 9999;
-
     filter: blur(0.5px);
-
     animation: explosao 0.9s ease-out forwards;
 }
 
-/* 🔥 variações */
 .particle.big {
     width: 10px;
     height: 10px;
@@ -221,7 +197,6 @@ body.error-flash {
     height: 4px;
 }
 
-/* 💥 animação explosiva */
 @keyframes explosao {
     0% {
         transform: translate(0, 0) scale(1);
@@ -233,25 +208,16 @@ body.error-flash {
     }
 }
 
-
-/* RESULTADO FINAL */
 .resultado-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-
     padding: 30px;
     border-radius: 14px;
-
     background: linear-gradient(145deg, #0a0a0a, #140000);
-
     border: 1px solid rgba(139, 0, 0, 0.3);
-
-    box-shadow:
-        0 0 35px rgba(139, 0, 0, 0.4),
-        inset 0 0 20px rgba(139, 0, 0, 0.15);
-
+    box-shadow: 0 0 35px rgba(139, 0, 0, 0.4), inset 0 0 20px rgba(139, 0, 0, 0.15);
     animation: resultPop 0.5s ease;
 }
 
@@ -259,80 +225,59 @@ body.error-flash {
     margin: 0;
     letter-spacing: 3px;
     color: #aaa;
+    font-size: clamp(14px, 4vw, 18px);
 }
 
 .resultado-pontos {
-    font-size: 38px;
+    font-size: clamp(28px, 8vw, 38px);
     font-weight: bold;
-
     color: #fff;
-
-    text-shadow:
-        0 0 10px rgba(255,0,0,0.5),
-        0 0 20px rgba(255,0,0,0.3);
+    text-shadow: 0 0 10px rgba(255,0,0,0.5), 0 0 20px rgba(255,0,0,0.3);
 }
 
-/* BOTÃO MENU */
 .btn-menu {
     padding: 14px 24px;
-
     border-radius: 10px;
-
     text-decoration: none;
     color: #fff;
-
     letter-spacing: 2px;
     font-size: 13px;
-
     background: linear-gradient(145deg, #240000, #3b0000);
-
     border: 1px solid rgba(255,0,0,0.2);
-
-    box-shadow:
-        0 0 20px rgba(139,0,0,0.3),
-        inset 0 0 10px rgba(139,0,0,0.1);
-
+    box-shadow: 0 0 20px rgba(139,0,0,0.3), inset 0 0 10px rgba(139,0,0,0.1);
     transition: 0.25s ease;
+    display: inline-block;
+    text-align: center;
 }
 
 .btn-menu:hover {
     transform: scale(1.07);
-
-    box-shadow:
-        0 0 35px rgba(255,0,0,0.5),
-        inset 0 0 15px rgba(139,0,0,0.2);
+    box-shadow: 0 0 35px rgba(255,0,0,0.5), inset 0 0 15px rgba(139,0,0,0.2);
 }
 
 .btn-menu:active {
     transform: scale(0.96);
 }
 
-/* animação resultado */
 @keyframes resultPop {
     from {
         opacity: 0;
         transform: scale(0.8) translateY(20px);
     }
-
     to {
         opacity: 1;
         transform: scale(1) translateY(0);
     }
 }
 
-
 .quiz-timer {
     font-size: 14px;
     letter-spacing: 3px;
     color: #ff4d4d;
-
     text-shadow: 0 0 10px rgba(255,0,0,0.4);
-
     margin-top: -10px;
 }
 
-
-/* INTRO QUIZ */
 .intro-overlay {
     position: fixed;
     inset: 0;
@@ -341,19 +286,14 @@ body.error-flash {
     align-items: center;
     justify-content: center;
     z-index: 99999;
-
     animation: fadeOverlay 4s forwards;
 }
 
 .intro-number {
-    font-size: 140px;
+    font-size: clamp(60px, 20vw, 140px);
     font-weight: bold;
     color: #ff1e1e;
-
-    text-shadow:
-        0 0 20px rgba(255,0,0,0.9),
-        0 0 60px rgba(255,0,0,0.5);
-
+    text-shadow: 0 0 20px rgba(255,0,0,0.9), 0 0 60px rgba(255,0,0,0.5);
     animation: pulseIntro 1s infinite;
 }
 
@@ -362,12 +302,10 @@ body.error-flash {
         transform: scale(0.8);
         opacity: 0.4;
     }
-
     50% {
         transform: scale(1.1);
         opacity: 1;
     }
-
     100% {
         transform: scale(1);
         opacity: 0.7;
@@ -378,13 +316,167 @@ body.error-flash {
     0% {
         opacity: 1;
     }
-
     90% {
         opacity: 1;
     }
-
     100% {
         opacity: 0;
         visibility: hidden;
+    }
+}
+
+/* ========== RESPONSIVO ========== */
+
+/* TABLET (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .quiz-container {
+        gap: 25px;
+        padding: 30px;
+    }
+    
+    .quiz-box {
+        padding: 30px;
+    }
+    
+    .quiz-box h2 {
+        font-size: 20px;
+    }
+    
+    .opcao {
+        padding: 18px;
+        font-size: 16px;
+    }
+    
+    .resultado-box {
+        padding: 35px;
+    }
+    
+    .resultado-pontos {
+        font-size: 34px;
+    }
+}
+
+/* CELULAR (até 767px) */
+@media (max-width: 767px) {
+    body {
+        cursor: default;
+        overflow-x: hidden;
+    }
+    
+    .quiz-container {
+        gap: 20px;
+        padding: 15px;
+        justify-content: center;
+    }
+    
+    .quiz-title {
+        font-size: 16px;
+        letter-spacing: 4px;
+    }
+    
+    .quiz-box {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .quiz-box h2 {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+    
+    .opcoes {
+        width: 95%;
+        gap: 12px;
+    }
+    
+    .opcao {
+        padding: 16px;
+        font-size: 15px;
+    }
+    
+    .progress-bar {
+        width: 95%;
+    }
+    
+    .quiz-timer {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+    
+    .resultado-box {
+        padding: 25px;
+        gap: 15px;
+        width: 90%;
+    }
+    
+    .resultado-box h3 {
+        font-size: 14px;
+    }
+    
+    .resultado-pontos {
+        font-size: 28px;
+    }
+    
+    .btn-menu {
+        padding: 16px 28px;
+        font-size: 15px;
+    }
+    
+    @media (max-width: 480px) {
+        .quiz-title {
+            font-size: 14px;
+            letter-spacing: 3px;
+        }
+        
+        .quiz-box {
+            padding: 15px;
+        }
+        
+        .quiz-box h2 {
+            font-size: 14px;
+        }
+        
+        .opcao {
+            padding: 12px;
+            font-size: 13px;
+        }
+        
+        .resultado-pontos {
+            font-size: 24px;
+        }
+    }
+}
+
+/* ORIENTAÇÃO PAISAGEM */
+@media (max-width: 767px) and (orientation: landscape) {
+    .quiz-container {
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .quiz-box {
+        padding: 12px;
+    }
+    
+    .quiz-box h2 {
+        font-size: 14px;
+    }
+    
+    .opcoes {
+        gap: 10px;
+    }
+    
+    .opcao {
+        padding: 12px;
+        font-size: 13px;
+    }
+    
+    .resultado-box {
+        padding: 20px;
+    }
+    
+    .btn-menu {
+        padding: 14px 24px;
+        font-size: 14px;
     }
 }

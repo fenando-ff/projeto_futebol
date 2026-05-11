@@ -9,9 +9,7 @@ const sorteados = JSON.parse(
     document.getElementById("sorteados-data").textContent
 );
 const reels = document.querySelectorAll(".reel-track");
-const btn = document.getElementById("spinBtn");
 
-let reelsStopped = 0;
 let alreadyPlayed = false;
 let spinning = false;
 let completed = 0;
@@ -230,10 +228,6 @@ function screenShake() {
         duration: 0.1
     });
 }
-
-
-
-
 
 
 

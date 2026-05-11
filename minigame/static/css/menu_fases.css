@@ -1,11 +1,13 @@
+/* menu_fases.css - VERSÃO RESPONSIVA COMPLETA */
 body {
     margin: 0;
     background: #000;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
 }
 
-/* CONTAINER */
 .menu-fases {
     min-height: 100vh;
     display: flex;
@@ -13,52 +15,43 @@ body {
     align-items: center;
     justify-content: center;
     gap: 60px;
-    position: relative; /* IMPORTANTE pro botão perfil */
+    position: relative;
+    padding: 80px 20px 40px;
 }
 
-/* TÍTULO */
 .menu-title {
     color: #fff;
     font-size: clamp(18px, 4vw, 28px);
     letter-spacing: 6px;
     opacity: 0.8;
+    text-align: center;
 }
 
-/* CONTAINER DOS CARDS */
 .fases-container {
     display: flex;
     gap: clamp(20px, 5vw, 60px);
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* CARD */
 .fase-card {
     width: clamp(120px, 25vw, 180px);
     height: clamp(120px, 25vw, 180px);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     text-decoration: none;
     color: white;
-
     border-radius: 12px;
-
     background: linear-gradient(145deg, #0a0a0a, #140000);
     border: 1px solid rgba(139, 0, 0, 0.2);
-
-    box-shadow:
-        0 0 40px rgba(139, 0, 0, 0.35),
-        inset 0 0 20px rgba(139, 0, 0, 0.15);
-
+    box-shadow: 0 0 40px rgba(139, 0, 0, 0.35), inset 0 0 20px rgba(139, 0, 0, 0.15);
     transition: 0.3s ease;
     position: relative;
     overflow: visible;
-
-    cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
+    cursor: pointer;
 }
 
-/* BRILHO TOP (igual seu cadastro) */
 .fase-card::before {
     content: "";
     position: absolute;
@@ -70,17 +63,13 @@ body {
     transform: translateX(-50%);
 }
 
-/* HOVER */
 .fase-card:hover {
     transform: scale(1.08);
-    box-shadow:
-        0 0 30px rgba(139, 0, 0, 0.5),
-        inset 0 0 15px rgba(139, 0, 0, 0.2);
+    box-shadow: 0 0 30px rgba(139, 0, 0, 0.5), inset 0 0 15px rgba(139, 0, 0, 0.2);
 }
 
-/* TEXTO INTERNO */
 .fase-inner {
-     position: relative;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,14 +92,11 @@ body {
     color: #fff;
 }
 
-/* BLOQUEADO */
 .fase-card.locked {
-        opacity: 0.5;
+    opacity: 0.5;
     filter: grayscale(0.7);
-
 }
 
-/* ANIMAÇÃO SUAVE */
 .fase-card {
     animation: float 3s ease-in-out infinite;
 }
@@ -121,8 +107,6 @@ body {
     100% { transform: translateY(0); }
 }
 
-
-/* SHAKE quando tentar clicar bloqueado */
 .fase-card.shake {
     animation: shake 0.4s;
 }
@@ -135,24 +119,12 @@ body {
     100% { transform: translateX(0); }
 }
 
-/* efeito vermelho mais forte ao tentar clicar */
 .fase-card.blocked-feedback {
-    box-shadow:
-        0 0 40px rgba(139, 0, 0, 0.8),
-        inset 0 0 20px rgba(139, 0, 0, 0.4);
+    box-shadow: 0 0 40px rgba(139, 0, 0, 0.8), inset 0 0 20px rgba(139, 0, 0, 0.4);
 }
-
 
 .fase-card.unlock-effect {
     animation: unlockFlash 0.6s ease;
-}
-
-.fase-card:hover {
-    transform: scale(1.1);
-
-    box-shadow:
-        0 0 60px rgba(139, 0, 0, 0.7),
-        inset 0 0 25px rgba(139, 0, 0, 0.25);
 }
 
 @keyframes unlockFlash {
@@ -170,31 +142,25 @@ body {
     }
 }
 
-/* camada vermelha */
 .fase-card::after {
     content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(139,0,0,0.8), rgba(80,0,0,0.9));
-    
     transform: scaleY(0);
     transform-origin: bottom;
-
     transition: transform 0.4s ease;
     z-index: 1;
 }
 
-/* ativa o efeito */
 .fase-card.block-fill::after {
     transform: scaleY(1);
 }
 
-/* garante que o conteúdo fique por cima */
 .fase-inner {
     position: relative;
     z-index: 0;
 }
-
 
 body.error-flash {
     animation: screenFlash 0.2s;
@@ -206,17 +172,14 @@ body.error-flash {
     100% { background: #000; }
 }
 
-
 .lock-warning {
     position: absolute;
     bottom: -35px;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
-
     font-size: 10px;
     letter-spacing: 2px;
     color: #aaa;
-
     opacity: 0;
     transition: 0.3s ease;
     pointer-events: none;
@@ -233,18 +196,13 @@ body.error-flash {
 .lock-icon {
     position: absolute;
     inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     transform: scale(0.7);
-
     transition: 0.3s ease;
-
     z-index: 3;
-
     filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.6));
 }
 
@@ -266,13 +224,11 @@ body.error-flash {
     animation: lockFloat 0.6s ease;
 }
 
-/* SVG ocupa o espaço */
 .lock-icon svg {
     width: 70px;
     height: 70px;
 }
 
-/* animação leve */
 .lock-icon {
     animation: lockFloat 2s ease-in-out infinite;
 }
@@ -286,24 +242,17 @@ body.error-flash {
 .ranking-top {
     width: 100%;
     max-width: 400px;
-
     margin: 0 auto 20px;
-
     padding: 20px;
     border-radius: 12px;
-
     background: rgba(0, 0, 0, 0.7);
     border: 1px solid rgba(139, 0, 0, 0.3);
-
-    box-shadow:
-        0 0 30px rgba(139, 0, 0, 0.4),
-        inset 0 0 15px rgba(139, 0, 0, 0.1);
-
+    box-shadow: 0 0 30px rgba(139, 0, 0, 0.4), inset 0 0 15px rgba(139, 0, 0, 0.1);
     text-align: center;
 }
 
-.ranking-title{
- color: rgb(135, 0, 0);
+.ranking-title {
+    color: rgb(135, 0, 0);
 }
 
 .menu-fases {
@@ -316,14 +265,6 @@ body.error-flash {
     text-align: center;
     margin-bottom: 1px;
 }
-.ranking-side h3 {
-    color: #fff;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
 
 .ranking-side h3 {
     color: #fff;
@@ -338,21 +279,14 @@ body.error-flash {
     right: 40px;
     top: 50%;
     transform: translateY(-50%);
-
-     width: 260px; /* antes 220 */
+    width: 260px;
     padding: 20px;
-
     background: rgba(0, 0, 0, 0.75);
     border: 1px solid rgba(139, 0, 0, 0.3);
     border-radius: 12px;
-
     backdrop-filter: blur(10px);
-
-    box-shadow:
-        0 0 20px rgba(139, 0, 0, 0.2),
-        inset 0 0 10px rgba(139, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.2), inset 0 0 10px rgba(139, 0, 0, 0.1);
 }
-
 
 .ranking-list {
     display: flex;
@@ -381,15 +315,6 @@ body.error-flash {
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-    .ranking-side {
-        position: static;
-        transform: none;
-        width: 90%;
-        margin: 30px auto 0;
-    }
-}
-
 .rank-item:first-child {
     background: linear-gradient(90deg, rgba(255,0,0,0.2), transparent);
     color: #fff;
@@ -403,7 +328,7 @@ body.error-flash {
 
 @keyframes pulseGlow {
     from { box-shadow: 0 0 15px rgba(255,0,0,0.3); }
-    to   { box-shadow: 0 0 30px rgba(255,0,0,0.6); }
+    to { box-shadow: 0 0 30px rgba(255,0,0,0.6); }
 }
 
 .rank-item:nth-child(1) {
@@ -441,26 +366,20 @@ body.error-flash {
     box-shadow: 0 0 50px rgba(139,0,0,0.6);
 }
 
-
 .profile-modal {
     position: fixed;
     inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: rgba(0, 0, 0, 0.75);
-
     opacity: 0;
     pointer-events: none;
-
     transition: 0.3s ease;
-
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
     z-index: 9999;
+    padding: 20px;
 }
 
 .profile-modal.show {
@@ -470,17 +389,14 @@ body.error-flash {
 
 .profile-box {
     width: 320px;
+    max-width: 90%;
     padding: 25px;
-
     background: #111;
     border: 1px solid rgba(139,0,0,0.6);
     border-radius: 14px;
-
     box-shadow: 0 0 40px rgba(139,0,0,0.4);
-
     transform: translateY(20px) scale(0.95);
     opacity: 0;
-
     transition: 0.3s ease;
 }
 
@@ -489,36 +405,27 @@ body.error-flash {
     opacity: 1;
 }
 
-
-
-
 .profile-btn {
     position: absolute;
     top: 20px;
     right: 30px;
-
     padding: 8px 16px;
     font-size: 12px;
     letter-spacing: 2px;
-
     background: rgba(139,0,0,0.2);
     border: 1px solid rgba(139,0,0,0.5);
     color: white;
-
     cursor: pointer;
-
     transition: 0.3s;
     border-radius: 6px;
-
     box-shadow: 0 0 15px rgba(139,0,0,0.3);
+    z-index: 100;
 }
 
 .profile-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 0 25px rgba(139,0,0,0.6);
 }
-
-
 
 .profile-title {
     color: white;
@@ -537,11 +444,11 @@ body.error-flash {
 .info-row {
     display: flex;
     justify-content: space-between;
-
     padding: 8px 10px;
     background: rgba(255,255,255,0.03);
-
     border-radius: 8px;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
 .label {
@@ -553,24 +460,21 @@ body.error-flash {
 .value {
     color: white;
     font-weight: bold;
+    word-break: break-word;
+    text-align: right;
 }
 
 .logout-btn {
     display: block;
     margin-top: 15px;
-
     text-align: center;
     padding: 8px;
-
     font-size: 12px;
     letter-spacing: 2px;
-
     color: #ff4d4d;
     text-decoration: none;
-
     border: 1px solid rgba(255,0,0,0.3);
     border-radius: 8px;
-
     transition: 0.2s;
 }
 
@@ -581,64 +485,275 @@ body.error-flash {
 
 .close-profile-btn {
     margin-top: 15px;
-
     width: 100%;
     padding: 10px;
-
     font-size: 12px;
     letter-spacing: 3px;
     font-weight: bold;
-
     color: #fff;
-
     background: rgba(139, 0, 0, 0.15);
     border: 1px solid rgba(139, 0, 0, 0.6);
-
     border-radius: 8px;
-
     cursor: pointer;
-
     transition: 0.25s ease;
-
-    box-shadow:
-        0 0 15px rgba(139, 0, 0, 0.25),
-        inset 0 0 10px rgba(139, 0, 0, 0.15);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.25), inset 0 0 10px rgba(139, 0, 0, 0.15);
 }
-
 
 .close-profile-btn:hover {
     transform: scale(1.05);
-
     background: rgba(139, 0, 0, 0.35);
-
-    box-shadow:
-        0 0 25px rgba(255, 0, 0, 0.5),
-        inset 0 0 15px rgba(255, 0, 0, 0.25);
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.5), inset 0 0 15px rgba(255, 0, 0, 0.25);
 }
 
-.logout-btn {
-    display: block;
-    margin-top: 10px;
+/* ========== RESPONSIVO ========== */
 
-    text-align: center;
-    padding: 8px;
-
-    font-size: 12px;
-    letter-spacing: 2px;
-
-    color: #ff4d4d;
-
-    border: 1px solid rgba(255,0,0,0.4);
-    border-radius: 8px;
-
-    text-decoration: none;
-
-    transition: 0.2s;
+/* TABLET (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .menu-fases {
+        gap: 45px;
+        padding: 70px 20px 40px;
+    }
+    
+    .ranking-side {
+        position: static;
+        transform: none;
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .fases-container {
+        gap: 40px;
+    }
+    
+    .fase-card {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .fase-num {
+        font-size: 36px;
+    }
+    
+    .fase-label {
+        font-size: 11px;
+        letter-spacing: 3px;
+    }
+    
+    .lock-icon svg {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .lock-warning {
+        font-size: 13px;
+    }
+    
+    .profile-btn {
+        top: 15px;
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+    
+    .ranking-side {
+        position: static;
+        transform: none;
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .fases-container {
+        gap: 40px;
+    }
+    
+    .profile-btn {
+        top: 15px;
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }
 
-.logout-btn:hover {
-    background: rgba(255,0,0,0.2);
-    transform: scale(1.05);
+/* CELULAR (até 767px) */
+@media (max-width: 767px) {
+    body {
+        cursor: default;
+    }
+    
+    .menu-fases {
+        gap: 30px;
+        padding: 70px 15px 30px;
+    }
+    
+    .menu-title {
+        font-size: 18px;
+        letter-spacing: 5px;
+    }
+    
+    .fases-container {
+        gap: 30px;
+    }
+    
+    .fase-card {
+        width: 130px;
+        height: 130px;
+    }
+    
+    .fase-num {
+        font-size: 32px;
+    }
+    
+    .fase-label {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+    
+    .lock-icon svg {
+        width: 65px;
+        height: 65px;
+    }
+    
+    .lock-warning {
+        font-size: 12px;
+        bottom: -40px;
+    }
+    
+    .ranking-side {
+        position: static;
+        transform: none;
+        width: 95%;
+        max-width: 350px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+    
+    .ranking-list {
+        max-height: 180px;
+    }
+    
+    .rank-item {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
+    
+    .profile-btn {
+        top: 10px;
+        right: 15px;
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    .profile-box {
+        width: 90%;
+        padding: 20px;
+    }
+    
+    .profile-title {
+        font-size: 18px;
+    }
+    
+    .info-row {
+        padding: 6px 8px;
+    }
+    
+    .label, .value {
+        font-size: 10px;
+    }
+    
+    .logout-btn, .close-profile-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    @media (max-width: 480px) {
+        .fase-card {
+            width: 110px;
+            height: 110px;
+        }
+        
+        .fase-num {
+            font-size: 28px;
+        }
+        
+        .fase-label {
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+        
+        .lock-icon svg {
+            width: 55px;
+            height: 55px;
+        }
+        
+        .lock-warning {
+            font-size: 10px;
+            bottom: -35px;
+        }
+        
+        .menu-title {
+            font-size: 16px;
+            letter-spacing: 4px;
+        }
+        
+        .ranking-side {
+            padding: 12px;
+        }
+        
+        .rank-item {
+            font-size: 10px;
+        }
+        
+        .profile-btn {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+        
+        .logout-btn, .close-profile-btn {
+            padding: 10px;
+            font-size: 12px;
+        }
+    }
 }
 
-
+/* ORIENTAÇÃO PAISAGEM EM CELULAR */
+@media (max-width: 767px) and (orientation: landscape) {
+    .menu-fases {
+        gap: 20px;
+        padding: 60px 15px 20px;
+    }
+    
+    .fases-container {
+        gap: 20px;
+    }
+    
+    .fase-card {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .fase-num {
+        font-size: 18px;
+    }
+    
+    .ranking-side {
+        margin: 10px auto;
+        max-height: 150px;
+    }
+    
+    .ranking-list {
+        max-height: 100px;
+    }
+    
+    .profile-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+    
+    .logout-btn, .close-profile-btn {
+        padding: 10px;
+        font-size: 12px;
+    }
+}

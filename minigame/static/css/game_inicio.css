@@ -1,7 +1,7 @@
+/* game_inicio.css - VERSÃO RESPONSIVA COMPLETA */
 body {
     cursor: url("/static/jogo/icones/mouse_pointer.png"), auto;
 }
-
 
 .switch-mode {
     font-size: 12px;
@@ -19,11 +19,12 @@ body {
     text-decoration: underline;
 }
 
-
 body {
     margin: 0;
     background: #000000;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
 }
 
 .entry {
@@ -33,11 +34,11 @@ body {
     align-items: center;
     justify-content: center;
     gap: clamp(25px, 5vh, 60px);
-     padding: 20px;
+    padding: 20px;
 }
 
 .coin-img {
- width: clamp(260px, 65vw, 420px);
+    width: clamp(260px, 65vw, 420px);
 }
 
 .error {
@@ -45,7 +46,6 @@ body {
     font-size: 14px;
     margin-top: -10px;
 }
-
 
 .start-text {
     color: #d8d8d8;
@@ -63,25 +63,21 @@ body {
     color: #ffffff;
     opacity: 1;
     transform: scale(1.05);
-   
 }
-
 
 .coin-container {
     position: relative;
     width: 100%;
-    max-width: 900px; /* 👈 REDUZ A ÁREA */
+    max-width: 900px;
     display: flex;
     justify-content: center;
 }
 
-/* imagem */
 .coin-img {
     width: 100%;
-    max-width: 900px; /* 👈 controla tamanho no PC */
+    max-width: 900px;
 }
 
-/* vídeo em cima */
 .coin-video {
     position: absolute;
     inset: 0;
@@ -92,18 +88,15 @@ body {
     pointer-events: none;
 }
 
-
 .coin-video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
-
     opacity: 0;
     transition: opacity 0.4s ease;
-
-    z-index: 2; /* 👈 MUITO IMPORTANTE */
+    z-index: 2;
 }
 
 .coin-img {
@@ -116,12 +109,9 @@ body {
     display: block;
     position: relative;
     z-index: 1;
-
-    pointer-events: none; /* 👈 impede clique */
+    pointer-events: none;
     transition: transform 0.4s ease, filter 0.4s ease;
 }
-
-/* efeito ao passar o mouse na tela */
 
 .coin-img {
     animation: breathe 3s ease-in-out infinite;
@@ -144,9 +134,9 @@ body {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.6s ease;
+    z-index: 100;
 }
 
-/* CAIXA */
 .cadastro-box {
     background: rgba(10, 10, 10, 0.85);
     backdrop-filter: blur(10px);
@@ -160,21 +150,16 @@ body {
     max-width: 340px;
     transform: translateY(60px);
     opacity: 0;
-    box-shadow:
-        0 0 40px rgba(139, 0, 0, 0.15),
-        inset 0 0 20px rgba(139, 0, 0, 0.1);
+    box-shadow: 0 0 40px rgba(139, 0, 0, 0.15), inset 0 0 20px rgba(139, 0, 0, 0.1);
     transition: all 0.6s ease;
 }
 
-/* ESTADO ATIVO */
 .cadastro-screen.active .cadastro-box {
     transform: translateY(0);
     opacity: 1;
-
-    box-shadow: 0 0 30px rgba(120, 0, 0, 0.4); /* 👈 glow vermelho */
+    box-shadow: 0 0 30px rgba(120, 0, 0, 0.4);
 }
 
-/* INPUTS */
 .cadastro-box input {
     padding: 12px;
     background: #1a1a1a;
@@ -193,10 +178,8 @@ body {
     border-radius: 6px;
     position: relative;
     transition: 0.3s;
-    
 }
 
-/* efeito ao focar */
 .cadastro-box input:focus {
     border: 2px solid #8b0000;
     box-shadow: 0 0 10px rgba(139, 0, 0, 0.6);
@@ -206,7 +189,6 @@ body {
     color: #888;
 }
 
-/* cursor fake */
 .cadastro-box input:focus::after {
     content: "|";
     animation: blink 1s infinite;
@@ -245,7 +227,6 @@ body {
     border-radius: 8px;
     cursor: pointer;
     letter-spacing: 2px;
-
     transition: 0.3s;
     cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
 }
@@ -274,8 +255,6 @@ body {
     opacity: 0;
     animation: spin 1s linear infinite;
 }
-
-
 
 .btn-loader {
     position: absolute;
@@ -306,10 +285,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-
     opacity: 0;
     pointer-events: none;
     transition: 0.6s ease;
+    z-index: 200;
 }
 
 .transition-screen.active {
@@ -322,8 +301,6 @@ body {
     letter-spacing: 4px;
 }
 
-
-/* Campo de confirmar senha - estado padrão (visível em cadastro) */
 .cadastro-box input {
     padding: 12px;
     background: #1a1a1a;
@@ -335,7 +312,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Campo de confirmar senha - oculto no login */
 .cadastro-box input.hidden-field {
     max-height: 0;
     padding: 0 !important;
@@ -345,19 +321,175 @@ body {
     overflow: hidden;
 }
 
-@media (max-width: 600px) {
+/* ========== RESPONSIVO ========== */
 
-    /* layout estilo app */
-    .cadastro-screen {
-        align-items: flex-end;
-        padding-bottom: 60px;
+/* TABLET (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .entry {
+        gap: 30px;
+        justify-content: center;
     }
-
+    
     .coin-img {
-        width: 75vw;
+        max-width: 500px;
     }
-
+    
     .start-text {
+        font-size: 14px;
+        letter-spacing: 4px;
+    }
+    
+    .cadastro-box {
+        max-width: 380px;
+        padding: 35px;
+    }
+    
+    .cadastro-box input {
+        padding: 14px;
+        font-size: 16px;
+    }
+    
+    .cadastro-box button {
+        padding: 18px;
+        font-size: 16px;
+    }
+}
+
+/* CELULAR (até 767px) */
+@media (max-width: 767px) {
+    body {
+        cursor: default;
+        overflow-x: hidden;
+    }
+    
+    .entry {
+        gap: 20px;
+        padding: 15px;
+        min-height: 100vh;
+        justify-content: center;
+    }
+    
+    .coin-container {
+        max-width: 280px;
+    }
+    
+    .coin-img {
+        width: 280px;
+        max-width: 280px;
+    }
+    
+    .start-text {
+        font-size: 11px;
+        letter-spacing: 3px;
         margin-top: -10px;
+    }
+    
+    .cadastro-screen {
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .cadastro-box {
+        width: 95%;
+        max-width: 300px;
+        padding: 25px 20px;
+        gap: 18px;
+    }
+    
+    .cadastro-box h2 {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+    
+    .cadastro-sub {
+        font-size: 10px;
+    }
+    
+    .cadastro-box input {
+        padding: 14px;
+        font-size: 16px;
+    }
+    
+    .cadastro-box button {
+        padding: 16px;
+        font-size: 16px;
+    }
+    
+    .switch-mode {
+        font-size: 11px;
+    }
+    
+    #transitionText {
+        font-size: 16px;
+        letter-spacing: 3px;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    /* Ajuste para dispositivos muito pequenos */
+    @media (max-width: 480px) {
+        .coin-container {
+            max-width: 240px;
+        }
+        
+        .coin-img {
+            width: 240px;
+        }
+        
+        .start-text {
+            font-size: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .cadastro-box {
+            padding: 20px 15px;
+            gap: 15px;
+        }
+        
+        .cadastro-box input {
+            padding: 12px;
+            font-size: 14px;
+        }
+        
+        .cadastro-box button {
+            padding: 14px;
+            font-size: 14px;
+        }
+    }
+}
+
+/* ORIENTAÇÃO PAISAGEM EM CELULAR */
+@media (max-width: 767px) and (orientation: landscape) {
+    .entry {
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .coin-container {
+        max-width: 200px;
+    }
+    
+    .coin-img {
+        width: 200px;
+    }
+    
+    .start-text {
+        font-size: 10px;
+        margin-top: -5px;
+    }
+    
+    .cadastro-box {
+        padding: 15px 20px;
+        gap: 12px;
+        max-width: 280px;
+    }
+    
+    .cadastro-box input {
+        padding: 12px;
+    }
+    
+    .cadastro-box button {
+        padding: 14px;
+        font-size: 14px;
     }
 }

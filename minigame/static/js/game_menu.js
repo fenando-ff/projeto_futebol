@@ -15,7 +15,7 @@ closeProfile.addEventListener("click", () => {
 });
 
 document.querySelector('.fase-card').addEventListener('mouseenter', () => {
-    document.querySelector('.ranking-side').style.boxShadow =
+    document.querySelector('.ranking-top').style.boxShadow =
         "0 0 30px rgba(255,0,0,0.6)";
 });
 
