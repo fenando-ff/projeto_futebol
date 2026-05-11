@@ -1,10 +1,17 @@
 let atual = 0;
 let pontuacao = 0;
-let respostas = []; // Array para armazenar respostas do usuário
+let respostas = [];
 
 const perguntaEl = document.getElementById("pergunta");
 const opcoesEl = document.getElementById("opcoes");
 const progress = document.getElementById("progress");
+const timerEl = document.getElementById("quizTimer");
+
+let tempoInicial = null;
+let intervaloTimer = null;
+
+// 🔥 ESCONDE QUIZ NO INÍCIO
+document.querySelector(".quiz-container").style.visibility = "hidden";
 
 function getCSRFToken() {
     return document.cookie
@@ -13,24 +20,72 @@ function getCSRFToken() {
         ?.split('=')[1];
 }
 
+// 🚀 INTRO
+function iniciarIntro() {
+
+    const overlay = document.getElementById("introOverlay");
+    const number = document.getElementById("introNumber");
+
+    const sequencia = ["3", "2", "1", "GO"];
+
+    let index = 0;
+
+    const troca = setInterval(() => {
+
+        index++;
+
+        if (index < sequencia.length) {
+
+            number.innerText = sequencia[index];
+
+        } else {
+
+            clearInterval(troca);
+
+            overlay.style.display = "none";
+
+            document.querySelector(".quiz-container").style.visibility = "visible";
+
+            iniciarQuiz();
+        }
+
+    }, 1000);
+}
+
+// 🚀 INICIA QUIZ
+function iniciarQuiz() {
+
+    tempoInicial = Date.now();
+
+    intervaloTimer = setInterval(atualizarTimer, 1000);
+
+    carregarPergunta();
+}
+
 // 🔥 carregar pergunta
 function carregarPergunta() {
+
     const q = perguntas[atual];
 
     perguntaEl.classList.remove("fade");
     opcoesEl.classList.remove("fade");
 
-    void perguntaEl.offsetWidth; // reset animação
+    void perguntaEl.offsetWidth;
 
     perguntaEl.innerText = q.pergunta;
+
     perguntaEl.classList.add("fade");
 
     opcoesEl.innerHTML = "";
+
     opcoesEl.classList.add("fade");
 
     q.opcoes.forEach(op => {
+
         const btn = document.createElement("div");
+
         btn.classList.add("opcao");
+
         btn.innerText = op.texto;
 
         btn.onclick = () => responder(btn, op, q);
@@ -43,135 +98,135 @@ function carregarPergunta() {
 
 // 🎯 responder
 function responder(btn, op, q) {
+
     const botoes = document.querySelectorAll(".opcao");
 
-    // trava cliques
     botoes.forEach(b => b.style.pointerEvents = "none");
 
-    // Salva resposta do usuário
     respostas.push({
         questao_id: q.id,
         alternativa_id: op.id
     });
 
     if (op.correta) {
+
         btn.classList.add("correta");
+
         pontuacao += op.ponto || 0;
+
     } else {
+
         btn.classList.add("errada");
 
-        // efeito de erro (igual seu sistema 🔥)
         document.body.classList.add("error-flash");
+
         setTimeout(() => {
             document.body.classList.remove("error-flash");
         }, 200);
 
-        // mostra correta
         const correta = q.opcoes.find(o => o.correta);
 
         botoes.forEach(b => {
+
             if (b.innerText === correta.texto) {
                 b.classList.add("correta");
             }
+
         });
     }
 
     setTimeout(() => {
+
         atual++;
 
         if (atual < perguntas.length) {
+
             carregarPergunta();
+
         } else {
+
             finalizarQuiz();
         }
+
     }, 1200);
 }
 
 // 📊 progresso
 function atualizarBarra() {
+
     const pct = (atual / perguntas.length) * 100;
+
     progress.style.width = pct + "%";
+}
+
+// ⏱ timer
+function atualizarTimer() {
+
+    if (!tempoInicial) return;
+
+    const agora = Date.now();
+
+    const diff = agora - tempoInicial;
+
+    const segundos = Math.floor(diff / 1000);
+
+    const minutos = Math.floor(segundos / 60);
+
+    const segRestantes = segundos % 60;
+
+    timerEl.innerText =
+        `${String(minutos).padStart(2, "0")}:${String(segRestantes).padStart(2, "0")}`;
 }
 
 // 🏁 final
 function finalizarQuiz() {
-    perguntaEl.innerText = "QUIZ FINALIZADO 🔥";
+
+    clearInterval(intervaloTimer);
+
+    perguntaEl.innerText = "QUIZ FINALIZADO";
 
     opcoesEl.innerHTML = `
-        <div class="resultado-box">
+        <div class="resultado-box fade">
+
             <h3>SUA PONTUAÇÃO</h3>
-            <p>${pontuacao} pontos</p>
-        </div>
-    `;
 
-    progress.style.width = "100%";
-}
+            <p class="resultado-pontos">
+                ${pontuacao} pontos
+            </p>
 
+            <a href="/game/menu_game/" class="btn-menu">
+                VOLTAR AO MENU
+            </a>
 
-
-
-
-
-
-
-
-// 🚀 start
-carregarPergunta();
-
-function criarParticulas(x, y) {
-    for (let i = 0; i < 12; i++) {
-        const p = document.createElement("div");
-        p.classList.add("particle");
-
-        // posição inicial (onde clicou)
-        p.style.left = x + "px";
-        p.style.top = y + "px";
-
-        // variação aleatória lateral
-        const randomX = (Math.random() - 0.5) * 60;
-        const randomY = Math.random() * -80;
-
-        p.style.transform = `translate(${randomX}px, ${randomY}px)`;
-
-        document.body.appendChild(p);
-
-        setTimeout(() => {
-            p.remove();
-        }, 1000);
-    }
-}
-
-
-
-
-
-function finalizarQuiz() {
-    perguntaEl.innerText = "QUIZ FINALIZADO 🔥";
-
-    opcoesEl.innerHTML = `
-        <div class="resultado-box">
-            <h3>SUA PONTUAÇÃO</h3>
-            <p>${pontuacao} pontos</p>
         </div>
     `;
 
     progress.style.width = "100%";
 
-    // 🚀 ENVIA DADOS PARA O DJANGO
+    const tempoFinal = Date.now() - tempoInicial;
+
     fetch("/game/salvar_pontuacao/", {
+
         method: "POST",
+
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": getCSRFToken()
         },
+
         body: JSON.stringify({
             pontuacao: pontuacao,
-            respostas: respostas
+            respostas: respostas,
+            tempo_ms: tempoFinal
         })
+
     })
     .then(res => res.json())
     .then(data => {
         console.log("Dados salvos!", data);
     })
-    .catch(err => console.error("Erro ao salvar:", err));
+    .catch(err => console.error("Erro:", err));
 }
+
+// 🚀 START
+iniciarIntro();

@@ -1,100 +1,178 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/menu_fases.css' %}">
 
-
 <section class="menu-fases">
-   <button id="profileBtn" class="profile-btn">PERFIL</button>
 
+    
 
+    <button id="profileBtn" class="profile-btn">
+        PERFIL
+    </button>
 
+    <!-- MODAL PERFIL -->
+    <div id="profileModal" class="profile-modal">
 
-<div id="profileModal" class="profile-modal">
-    <div class="profile-box">
+        <div class="profile-box">
 
-        <h2 class="profile-title">MEU PERFIL</h2>
+            <h2 class="profile-title">
+                MEU PERFIL
+            </h2>
 
-        <div class="profile-info">
-            <div class="info-row">
-                <span class="label">ID</span>
-                <span class="value">{{ usuario.id_participante }}</span>
+            <div class="profile-info">
+
+                <div class="info-row">
+                    <span class="label">ID</span>
+                    <span class="value">
+                        {{ usuario.id_participante }}
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">NOME</span>
+                    <span class="value">
+                        {{ usuario.nome_participante }}
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">RECORDE</span>
+                    <span class="value">
+                        {{ usuario.pontuacao }} pts
+                    </span>
+                </div>
+
+                <div class="info-row">
+                    <span class="label">TEMPO</span>
+                    <span class="value">
+                        {{ usuario.tempo }}
+                    </span>
+                </div>
+
             </div>
 
-            <div class="info-row">
-                <span class="label">NOME</span>
-                <span class="value">{{ usuario.nome_participante }}</span>
-            </div>
+            <a href="{% url 'logout_minigame' %}" class="logout-btn">
+                SAIR DA CONTA
+            </a>
+
+            <button id="closeProfile" class="close-profile-btn">
+                FECHAR
+            </button>
+
         </div>
-
-        <a href="{% url 'logout' %}" class="logout-btn">SAIR DA CONTA</a>
-
-       <button id="closeProfile" class="close-profile-btn">FECHAR</button>
     </div>
-</div>
 
+    <!-- TÍTULO -->
+    <h1 class="menu-title">
+        ESCOLHA SUA FASE
+    </h1>
 
-
-
-    <h1 class="menu-title">ESCOLHA SUA FASE</h1>
-
-    <!-- 🔺 RANKING EM CIMA -->
+    <!-- RANKING -->
     <div class="ranking-top">
-      <div class="ranking-list">
-    {% for jogador in jogadores %}
-        <div class="rank-item">
-            <span>#{{ forloop.counter }} {{ jogador.nome_participante }}</span>
-            <span>— • ---</span>
+
+        <div class="ranking-list">
+
+            {% for jogador in jogadores %}
+            <div class="rank-item">
+
+                <div class="rank-left">
+
+                    <span class="rank-position">
+                        #{{ forloop.counter }}
+                    </span>
+
+                    <span class="rank-name">
+                        {{ jogador.nome }}
+                    </span>
+
+                </div>
+
+                <div class="rank-right">
+
+                    <span class="rank-score">
+                        {{ jogador.pontuacao }} pts
+                    </span>
+
+                    <span class="rank-time">
+                        {{ jogador.tempo }}
+                    </span>
+
+                </div>
+
+            </div>
+            {% empty %}
+
+            <div class="rank-item ghost">
+                <span>Nenhum jogador ainda</span>
+                <span>—</span>
+            </div>
+
+            {% endfor %}
+
         </div>
-    {% empty %}
-        <div class="rank-item ghost">
-            <span>Nenhum jogador ainda</span>
-            <span>—</span>
-        </div>
-    {% endfor %}
-</div>
+
     </div>
 
-    <!-- 🔻 FASES EMBAIXO -->
+    <!-- FASES -->
     <div class="fases-container">
 
-        <a href="{% url 'mini_game_toturial' %}" class="fase-card">
+        <a href="{% url 'game_sorteio' %}" class="fase-card">
+
             <div class="fase-inner">
-                <span class="fase-label">FASE</span>
-                <span class="fase-num">01</span>
+
+                <span class="fase-label">
+                    FASE
+                </span>
+
+                <span class="fase-num">
+                    01
+                </span>
+
             </div>
+
         </a>
 
-        <a href="#" class="fase-card locked" id="fase2" data-locked="true">
+        <a href="{% url "game_quiz" %}" class="fase-card locked" id="fase2" data-locked="true">
+
             <div class="fase-inner">
-                <span class="fase-label">FASE</span>
-                <span class="fase-num">02</span>
+
+                <span class="fase-label">
+                    FASE
+                </span>
+
+                <span class="fase-num">
+                    02
+                </span>
+
             </div>
 
             <div class="lock-icon">
+
                 <svg viewBox="0 0 24 24" fill="none">
+
                     <path d="M7 10V7a5 5 0 0110 0v3"
-                          stroke="#ff3b3b" stroke-width="1.5"/>
-                    <rect x="5" y="10" width="14" height="10" rx="2"
-                          stroke="#ff3b3b" stroke-width="1.5"/>
+                        stroke="#ff3b3b"
+                        stroke-width="1.5"/>
+
+                    <rect x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                        stroke="#ff3b3b"
+                        stroke-width="1.5"/>
+
                 </svg>
+
             </div>
 
             <div class="lock-warning" id="lockWarning">
                 Finalize a Fase 01
             </div>
+
         </a>
 
     </div>
 
-    <div id="profileModal" class="profile-modal">
-        <div class="profile-box">
-        <h2>MEU PERFIL</h2>
-
-        <p><strong>ID:</strong> {{ request.session.participante_id }}</p>
-        <p><strong>Nome:</strong> {{ jogadores.0.nome_participante }}</p>
-
-        <button id="closeProfile">FECHAR</button>
-        
-    </div>
-</div>
     <script src="{% static 'js/game_menu.js' %}"></script>
+
 </section>
