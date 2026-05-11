@@ -44,8 +44,8 @@ body {
     padding: 25px;
     border-radius: 12px;
 
-    background: linear-gradient(145deg, #0a0a0a, #140000);
-    border: 1px solid rgba(139, 0, 0, 0.2);
+    background: linear-gradient(145deg, #0e0e0e, #a30000);
+    border: 1px solid rgba(139, 0, 0, 0.6);
 
     box-shadow:
         0 0 40px rgba(139, 0, 0, 0.35),
@@ -77,7 +77,7 @@ body {
     padding: 14px;
     border-radius: 10px;
 
-    background: linear-gradient(145deg, #0a0a0a, #140000);
+    background: linear-gradient(145deg, #310000, #1b0909);
     border: 1px solid rgba(139, 0, 0, 0.2);
 
     box-shadow:
@@ -107,7 +107,7 @@ body {
 .opcao:hover {
     transform: scale(1.05);
     box-shadow:
-        0 0 30px rgba(139, 0, 0, 0.6),
+        0 0 15px rgb(255, 39, 39),
         inset 0 0 15px rgba(139, 0, 0, 0.2);
 }
 
