@@ -208,39 +208,44 @@ body {
     100% { transform: translateX(0); }
 }
 
-/* ========== RESPONSIVO ========== */
+/* Substitua as media queries do final de AMBOS os arquivos por: */
 
 /* TABLET (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .tutorial {
-        gap: 35px;
-        padding: 30px;
+        gap: 50px;
+        padding: 40px;
     }
     
     .cards {
-        gap: 25px;
+        gap: 35px;
     }
     
     .card {
-        width: 260px;
-        height: 360px;
+        width: 320px;
+        height: 420px;
+    }
+    
+    .card-back {
+        font-size: 20px;
+        padding: 30px;
     }
     
     .next-btn {
-        padding: 16px 40px;
-        font-size: 16px;
+        padding: 20px 50px;
+        font-size: 18px;
     }
 }
 
-/* CELULAR (até 767px) */
+/* CELULAR (até 767px) - MAIORES */
 @media (max-width: 767px) {
     body {
         cursor: default;
     }
 
     .tutorial {
-        gap: 20px;
-        padding: 20px;
+        gap: 30px;
+        padding: 25px;
         justify-content: center;
     }
 
@@ -248,7 +253,7 @@ body {
         width: 100%;
         overflow: hidden;
         position: relative;
-        min-height: 480px;
+        min-height: 550px;
     }
 
     .cards {
@@ -259,10 +264,10 @@ body {
 
     .card {
         position: absolute;
-        width: 80vw;
-        height: 65vh;
-        max-width: 320px;
-        max-height: 480px;
+        width: 85vw;
+        height: 70vh;
+        max-width: 380px;
+        max-height: 550px;
         transition: 0.4s ease;
         opacity: 0.4;
         transform: scale(0.85);
@@ -273,47 +278,52 @@ body {
         transform: scale(1);
         z-index: 3;
     }
+    
+    .card-back {
+        font-size: 18px;
+        padding: 25px;
+    }
 
     .card.prev {
-        transform: translateX(-60%) scale(0.75);
+        transform: translateX(-70%) scale(0.75);
         opacity: 0.3;
         z-index: 1;
     }
 
     .card.next {
-        transform: translateX(60%) scale(0.75);
+        transform: translateX(70%) scale(0.75);
         opacity: 0.3;
         z-index: 1;
     }
 
     .next-btn {
         width: 80%;
-        max-width: 300px;
-        padding: 18px;
-        font-size: 16px;
-        margin-top: 20px;
+        max-width: 350px;
+        padding: 20px;
+        font-size: 18px;
+        margin-top: 30px;
     }
     
     @media (max-width: 480px) {
         .tutorial {
-            gap: 15px;
-            padding: 15px;
+            gap: 25px;
+            padding: 20px;
         }
         
         .card {
-            width: 85vw;
-            height: 60vh;
-            max-height: 420px;
+            width: 90vw;
+            height: 65vh;
+            max-height: 480px;
         }
         
         .card-back {
-            padding: 15px;
-            font-size: 14px;
+            padding: 20px;
+            font-size: 16px;
         }
         
         .next-btn {
-            padding: 16px;
-            font-size: 15px;
+            padding: 18px;
+            font-size: 17px;
         }
     }
 }
@@ -321,28 +331,28 @@ body {
 /* ORIENTAÇÃO PAISAGEM */
 @media (max-width: 767px) and (orientation: landscape) {
     .tutorial {
-        gap: 15px;
-        padding: 10px;
+        gap: 20px;
+        padding: 15px;
     }
     
     .cards {
-        min-height: 320px;
+        min-height: 380px;
     }
     
     .card {
-        width: 60vw;
-        height: 55vh;
-        max-height: 300px;
+        width: 65vw;
+        height: 60vh;
+        max-height: 350px;
     }
     
     .card-back {
-        padding: 12px;
-        font-size: 12px;
+        padding: 15px;
+        font-size: 14px;
     }
     
     .next-btn {
-        padding: 12px;
-        font-size: 14px;
+        padding: 15px;
+        font-size: 16px;
         width: 60%;
     }
 }

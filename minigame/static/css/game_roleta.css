@@ -213,22 +213,63 @@ body {
 /* TABLET (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .slot-machine {
-        transform: scale(1);
-        gap: 15px;
-        padding: 20px;
+        transform: scale(1.2);
+        gap: 25px;
+        padding: 35px;
     }
     
     .reel {
-        width: 85px;
-        height: 260px;
+        width: 120px;
+        height: 360px;
     }
     
     .item {
-        height: 100px;
+        height: 120px;
     }
     
     .item img {
-        width: 50px;
+        width: 70px;
+    }
+    
+    #lever {
+        width: 100px;
+    }
+    
+    #startGameBtn {
+        padding: 22px 60px;
+        font-size: 22px;
+        bottom: 40px;
+    }
+}
+
+/* CELULAR (até 767px) - MAIORES */
+@media (max-width: 767px) {
+    body {
+        cursor: default;
+        padding: 15px;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .slot-machine {
+        transform: scale(1);
+        gap: 15px;
+        padding: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .reel {
+        width: 95px;
+        height: 285px;
+    }
+    
+    .item {
+        height: 95px;
+    }
+    
+    .item img {
+        width: 55px;
     }
     
     #lever {
@@ -236,27 +277,54 @@ body {
     }
     
     #startGameBtn {
-        padding: 18px 50px;
-        font-size: 18px;
-        bottom: 30px;
+        padding: 20px 50px;
+        font-size: 20px;
+        bottom: 25px;
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 480px) {
+        .slot-machine {
+            transform: scale(0.9);
+            gap: 12px;
+            padding: 20px;
+        }
+        
+        .reel {
+            width: 80px;
+            height: 240px;
+        }
+        
+        .item {
+            height: 80px;
+        }
+        
+        .item img {
+            width: 50px;
+        }
+        
+        #lever {
+            width: 65px;
+        }
+        
+        #startGameBtn {
+            padding: 18px 45px;
+            font-size: 18px;
+            bottom: 20px;
+        }
     }
 }
 
-/* CELULAR (até 767px) */
-@media (max-width: 767px) {
+/* ORIENTAÇÃO PAISAGEM EM CELULAR */
+@media (max-width: 767px) and (orientation: landscape) {
     body {
-        cursor: default;
         padding: 10px;
-        align-items: center;
-        justify-content: center;
     }
     
     .slot-machine {
-        transform: scale(0.8);
-        gap: 10px;
+        transform: scale(0.85);
+        gap: 12px;
         padding: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
     }
     
     .reel {
@@ -269,7 +337,7 @@ body {
     }
     
     .item img {
-        width: 40px;
+        width: 45px;
     }
     
     #lever {
@@ -277,76 +345,8 @@ body {
     }
     
     #startGameBtn {
-        padding: 16px 40px;
+        padding: 14px 35px;
         font-size: 16px;
-        bottom: 20px;
-        white-space: nowrap;
-    }
-    
-    @media (max-width: 480px) {
-        .slot-machine {
-            transform: scale(0.7);
-            gap: 8px;
-            padding: 10px;
-        }
-        
-        .reel {
-            width: 60px;
-            height: 180px;
-        }
-        
-        .item {
-            height: 60px;
-        }
-        
-        .item img {
-            width: 35px;
-        }
-        
-        #lever {
-            width: 50px;
-        }
-        
-        #startGameBtn {
-            padding: 14px 35px;
-            font-size: 14px;
-            bottom: 15px;
-        }
-    }
-}
-
-/* ORIENTAÇÃO PAISAGEM EM CELULAR */
-@media (max-width: 767px) and (orientation: landscape) {
-    body {
-        padding: 5px;
-    }
-    
-    .slot-machine {
-        transform: scale(0.65);
-        gap: 8px;
-        padding: 10px;
-    }
-    
-    .reel {
-        width: 55px;
-        height: 165px;
-    }
-    
-    .item {
-        height: 55px;
-    }
-    
-    .item img {
-        width: 30px;
-    }
-    
-    #lever {
-        width: 45px;
-    }
-    
-    #startGameBtn {
-        padding: 12px 30px;
-        font-size: 14px;
-        bottom: 10px;
+        bottom: 15px;
     }
 }
