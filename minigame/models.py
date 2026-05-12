@@ -70,6 +70,7 @@ class Respostas(models.Model):
     participante = models.ForeignKey(Participantes, models.DO_NOTHING)
     questao = models.ForeignKey(Questoes, models.DO_NOTHING)
     alternativa = models.ForeignKey(Alternativas, models.DO_NOTHING)
+    combo_max = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
