@@ -29,7 +29,6 @@ function getCSRFToken() {
 
 
 
-// 🧠 cria lista grande (efeito infinito)
 function generateReelContent() {
     let content = [];
 
@@ -37,7 +36,7 @@ function generateReelContent() {
         produtos.forEach(p => {
             content.push(`
                 <div class="slot-item" data-img="${p.img}">
-                    <img src="/static/${p.img}">
+                    <img src="${p.img}">
                 </div>
             `);
         });

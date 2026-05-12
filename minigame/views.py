@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.templatetags.static import static
+from django.contrib.staticfiles import finders
 from minigame import models as model_minigame
 from app_futebol.models import models
 import random
@@ -234,11 +236,30 @@ def game_sorteio(request):
     # 🎯 sorteia 3 produtos reais
     sorteados = random.sample(produtos_db, 3)
 
+    def get_img_for_product(p):
+        # Tenta usar imagem cadastrada se existir no staticfiles
+        if p.imagem_produtos:
+            try:
+                finders.find(p.imagem_produtos)
+                return static(p.imagem_produtos)
+            except ValueError:
+                pass
+        # Fallback baseado na categoria
+        cat_id = p.categoria_produtos_id_categoria_produtos_id
+        if cat_id == 1:  # Acessórios
+            return static('jogo/icones/dragon_icon.png')
+        elif cat_id == 2:  # Camisas FC
+            return static('jogo/icones/tridente_icon.png')
+        elif cat_id == 3:  # Calçados
+            return static('jogo/icones/coroa_icon.png')
+        else:  # Outros (ex: Ingressos)
+            return static('jogo/icones/mouse_click.png')
+
     produtos = [
         {
             "id": p.id_produtos,
             "nome": p.nome_produtos,
-            "img": p.imagem_produtos
+            "img": get_img_for_product(p)
         }
         for p in produtos_db
     ]
@@ -247,7 +268,7 @@ def game_sorteio(request):
         {
             "id": p.id_produtos,
             "nome": p.nome_produtos,
-            "img": p.imagem_produtos
+            "img": get_img_for_product(p)
         }
         for p in sorteados
     ]
