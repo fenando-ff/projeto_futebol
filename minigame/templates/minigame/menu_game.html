@@ -66,10 +66,10 @@
         ESCOLHA SUA FASE
     </h1>
 
-<div class="dashboard-carousel">
+<div class="dashboard-carousel" id="dashboardCarousel">
 
     <!-- CARD ESQUERDO -->
-    <div class="dashboard-card side-card">
+    <div class="dashboard-card" data-pos="left">
 
         <div class="card-header">
             ⚡ SPEED KING
@@ -94,7 +94,7 @@
     </div>
 
     <!-- CARD CENTRAL -->
-    <div class="dashboard-card main-card">
+    <div class="dashboard-card" data-pos="center">
 
         <div class="card-header">
             🏆 TOP RANKING
@@ -144,34 +144,64 @@
 
     </div>
 
-    <!-- CARD DIREITO -->
-    <div class="dashboard-card side-card">
+
+    <!-- PLAYER STATUS -->
+    <div class="dashboard-card player-card" data-pos="right">
 
         <div class="card-header">
-            🔥 ATIVIDADE
+            👤 PLAYER STATUS
         </div>
 
-        <div class="activity-list">
+        <div class="player-profile">
 
-            <div class="activity-item">
-                Daniel entrou há 2 min
+            <div class="player-avatar">
+                {{ usuario.nome_participante|slice:":1" }}
             </div>
 
-            <div class="activity-item">
-                Corvo fez 70 pts
+            <div class="player-name">
+                {{ usuario.nome_participante }}
             </div>
 
-            <div class="activity-item">
-                Nayane terminou Fase 1
-            </div>
-
-            <div class="activity-item">
-                Gabriel bateu combo x12
+            <div class="player-id">
+                ID #{{ usuario.id_participante }}
             </div>
 
         </div>
 
-    </div>
+
+
+<!-- CARD DIREITO -->
+        <div class="player-stat">
+                    <span>🏆 Título</span>
+                    <strong>
+                        {{ usuario.titulo }}
+                    </strong>
+                </div>
+
+                <div class="player-stat">
+                    <span>⚡ Melhor Tempo</span>
+                    <strong>
+                        {{ usuario.tempo }}
+                    </strong>
+                </div>
+
+                <div class="player-stat">
+                    <span>🔥 Combo Máx</span>
+                    <strong>
+                        x{{ usuario.combo_maximo }}
+                    </strong>
+                </div>
+
+                <div class="player-stat">
+                    <span>⭐ Recorde</span>
+                    <strong>
+                        {{ usuario.pontuacao }} pts
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
 
 </div>
 

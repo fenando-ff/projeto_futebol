@@ -79,3 +79,42 @@ if (fase2 && warning) {
     });
 }
 
+const cards = document.querySelectorAll(".dashboard-card");
+
+cards.forEach(card => {
+
+    card.addEventListener("click", () => {
+
+        const clickedPos = card.dataset.pos;
+
+        if(clickedPos === "center") return;
+
+        const centerCard =
+            document.querySelector('[data-pos="center"]');
+
+        if(clickedPos === "left"){
+
+            centerCard.dataset.pos = "right";
+
+            card.dataset.pos = "center";
+
+            document
+                .querySelector('[data-pos="right"]:not(.player-card)')
+                ?.setAttribute("data-pos", "left");
+
+        }
+
+        else if(clickedPos === "right"){
+
+            centerCard.dataset.pos = "left";
+
+            card.dataset.pos = "center";
+
+            document
+                .querySelector('[data-pos="left"]:not(.player-card)')
+                ?.setAttribute("data-pos", "right");
+        }
+
+    });
+
+});

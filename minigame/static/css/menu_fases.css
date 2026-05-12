@@ -336,32 +336,9 @@ body.error-flash {
     margin-bottom: 15px;
 }
 
-.ranking-side {
-    position: absolute;
-    right: 40px;
-    top: 50%;
-    transform: translateY(-50%);
-
-     width: 260px; /* antes 220 */
-    padding: 20px;
-
-    background: rgba(0, 0, 0, 0.75);
-    border: 1px solid rgba(139, 0, 0, 0.3);
-    border-radius: 12px;
-
-    backdrop-filter: blur(10px);
-
-    box-shadow:
-        0 0 20px rgba(139, 0, 0, 0.2),
-        inset 0 0 10px rgba(139, 0, 0, 0.1);
-}
 
 
-.ranking-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+
 
 .rank-item {
     display: flex;
@@ -384,24 +361,13 @@ body.error-flash {
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-    .ranking-side {
-        position: static;
-        transform: none;
-        width: 90%;
-        margin: 30px auto 0;
-    }
-}
+
 
 .rank-item:first-child {
     background: linear-gradient(90deg, rgba(255,0,0,0.2), transparent);
     color: #fff;
     font-weight: bold;
     box-shadow: 0 0 10px rgba(255,0,0,0.4);
-}
-
-.ranking-side {
-    animation: pulseGlow 2s infinite alternate;
 }
 
 @keyframes pulseGlow {
@@ -639,10 +605,10 @@ body.error-flash {
     transition: 0.2s;
 }
 
-.logout-btn:hover {
+/* .logout-btn:hover {
     background: rgba(255,0,0,0.2);
     transform: scale(1.05);
-}
+} */
 
 
 
@@ -653,38 +619,166 @@ body.error-flash {
 ======================================== */
 
 .dashboard-carousel{
+    position: relative;
+
     width: 100%;
-    max-width: 1300px;
+    height: 380px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    gap: 35px;
+    perspective: 1200px;
 }
 
 /* CARD BASE */
 
 .dashboard-card{
-    position: relative;
+    position: absolute;
+
+    width: 500px;
+    min-height: 320px;
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    cursor: pointer;
+
+    transition:
+        transform .55s ease,
+        opacity .55s ease,
+        filter .55s ease,
+        box-shadow .55s ease;
 
     background:
         linear-gradient(
             145deg,
-            rgba(15,15,15,0.95),
-            rgba(25,0,0,0.95)
+            rgba(15,15,15,.96),
+            rgba(25,0,0,.96)
         );
 
-    border: 1px solid rgba(139,0,0,0.25);
+    border: 1px solid rgba(139,0,0,.25);
 
-    border-radius: 22px;
-
-    overflow: hidden;
-
-    backdrop-filter: blur(12px);
-
-    transition: 0.4s ease;
+    backdrop-filter: blur(10px);
 }
+
+
+
+
+/* CARD CENTRO */
+
+.dashboard-card[data-pos="center"]{
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    opacity: 1;
+
+    z-index: 5;
+
+    filter: blur(0);
+
+    box-shadow:
+        0 0 60px rgba(139,0,0,.45);
+}
+
+.dashboard-card[data-pos="left"]{
+
+    transform:
+        translateX(-430px)
+        scale(.88)
+        rotateY(14deg);
+
+    opacity: .68;
+
+    z-index: 2;
+
+    filter: blur(.4px);
+
+    box-shadow:
+        0 0 35px rgba(139,0,0,.18);
+
+    transition: .45s ease;
+}
+
+
+
+/* CARD DIREITA */
+
+.dashboard-card[data-pos="right"]{
+
+    transform:
+        translateX(430px)
+        scale(.88)
+        rotateY(-14deg);
+
+    opacity: .68;
+
+    z-index: 2;
+
+    filter: blur(.4px);
+
+    box-shadow:
+        0 0 35px rgba(139,0,0,.18);
+
+    transition: .45s ease;
+}
+/* HOVER */
+
+.dashboard-card:hover{
+    box-shadow:
+        0 0 80px rgba(139,0,0,.6);
+}
+
+.dashboard-card[data-pos="center"]:hover{
+
+    transform:
+        scale(1.03)
+        translateY(-6px);
+
+    box-shadow:
+        0 0 90px rgba(139,0,0,.65);
+}
+
+
+.dashboard-card[data-pos="left"]:hover{
+
+    transform:
+        translateX(-430px)
+        scale(.93)
+        rotateY(10deg)
+        translateY(-8px);
+
+    opacity: .95;
+
+    filter: blur(0);
+
+    z-index: 1;
+
+    box-shadow:
+         0 0 55px rgba(235, 235, 235, 0.878);
+}
+
+.dashboard-card[data-pos="right"]:hover{
+
+    transform:
+        translateX(430px)
+        scale(.93)
+        rotateY(-10deg)
+        translateY(-8px);
+
+    opacity: .95;
+
+    filter: blur(0);
+
+    z-index: 1;
+
+    box-shadow:
+       0 0 55px rgba(235, 235, 235, 0.878);
+}
+
 
 /* LINHA SUPERIOR */
 
@@ -712,7 +806,7 @@ body.error-flash {
 
 /* CARD CENTRAL */
 
-.main-card{
+/* .main-card{
     width: 520px;
     min-height: 350px;
 
@@ -722,11 +816,11 @@ body.error-flash {
 
     box-shadow:
         0 0 50px rgba(139,0,0,0.35);
-}
+} */
 
 /* CARDS LATERAIS */
 
-.side-card{
+/* .side-card{
     width: 260px;
     min-height: 280px;
 
@@ -740,24 +834,12 @@ body.error-flash {
 
     box-shadow:
         0 0 20px rgba(139,0,0,0.15);
-}
+} */
 
 /* HOVER */
 
-.dashboard-card:hover{
-    transform: translateY(-6px);
-}
 
-.side-card:hover{
-    opacity: 1;
 
-    transform:
-        scale(0.95)
-        translateY(-6px);
-
-    box-shadow:
-        0 0 40px rgba(139,0,0,0.35);
-}
 
 .main-card:hover{
     box-shadow:
@@ -948,4 +1030,107 @@ body.error-flash {
             rgba(205,127,50,0.18),
             transparent
         );
+}
+
+
+/* ========================================
+   PLAYER STATUS
+======================================== */
+
+.player-card{
+    position: relative;
+}
+
+.player-profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+
+.player-avatar{
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    font-weight: bold;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            145deg,
+            #2a0000,
+            #660000
+        );
+
+    border: 1px solid rgba(255,0,0,0.35);
+
+    box-shadow:
+        0 0 25px rgba(255,0,0,0.25);
+}
+
+.player-name{
+    margin-top: 14px;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.player-id{
+    margin-top: 4px;
+
+    color: #777;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.player-stats{
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.player-stat{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 10px 12px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.03);
+
+    transition: 0.25s ease;
+}
+
+.player-stat:hover{
+    background: rgba(139,0,0,0.15);
+
+    transform: scale(1.02);
+}
+
+.player-stat span{
+    color: #999;
+
+    font-size: 12px;
+}
+
+.player-stat strong{
+    color: white;
+
+    font-size: 12px;
 }
