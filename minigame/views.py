@@ -9,6 +9,7 @@ import json
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import time
 from django.utils import timezone
+from django.contrib import messages
 
 # Create your views here.
 # @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
@@ -151,6 +152,12 @@ def menu_fases(request):
     usuario = model_minigame.Participantes.objects.using('minigame').get(
         id_participante=participante_id
     )
+    # Verifica se fase2 está liberada
+    try:
+        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=usuario)
+        fase2_liberada = progresso.fase2_liberada
+    except model_minigame.ProgressoFases.DoesNotExist:
+        fase2_liberada = False
 
     # 🔥 ranking global
     jogadores = model_minigame.Participantes.objects.using('minigame')\
@@ -185,7 +192,8 @@ def menu_fases(request):
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,
-        'usuario': usuario
+        'usuario': usuario,
+        'fase2_liberada': fase2_liberada
     })
 
 
@@ -205,6 +213,22 @@ def quiz_toturial(request):
 @login_obrigatorio
 def game_sorteio(request):
 
+    participante_id = request.session.get('participante_id')
+    try:
+        participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
+    except model_minigame.Participantes.DoesNotExist:
+        return redirect('game_comeco')
+    
+    # Check if fase2 is unlocked
+    try:
+        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=participante)
+        if not progresso.fase2_liberada:
+            messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
+            return redirect('menu_fases')
+    except model_minigame.ProgressoFases.DoesNotExist:
+        messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
+        return redirect('menu_fases')
+    
     produtos_db = list(models.Produtos.objects.all())
 
     # 🎯 sorteia 3 produtos reais
@@ -330,6 +354,15 @@ def salvar_pontuacao(request):
                 questao_id=questao_id,
                 defaults={'alternativa_id': alternativa_id}
             )
+        
+        # Liberar fase 2 após completar fase 1 (quiz)
+        progresso, created = model_minigame.ProgressoFases.objects.using('minigame').get_or_create(
+            participante=participante,
+            defaults={'fase2_liberada': True}
+        )
+        if not created:
+            progresso.fase2_liberada = True
+            progresso.save()
         
         return JsonResponse({'status': 'ok'})
 

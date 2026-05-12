@@ -19,7 +19,7 @@ class Alternativas(models.Model):
     class Meta:
         managed = False
         db_table = 'alternativas'
-        
+
     def __str__(self):
         return f"{self.opcao_resposta} - {'Correta' if self.resposta_correta else 'Incorreta'}"
 
@@ -33,7 +33,7 @@ class HistoricoTitulos(models.Model):
     class Meta:
         managed = False
         db_table = 'historico_titulos'
-        
+
     def __str__(self):
         return f"{self.participante.nome_participante} - {self.titulo.nome_titulo} - {'Ativo' if self.ativo else 'Inativo'}"
 
@@ -48,7 +48,7 @@ class Participantes(models.Model):
     class Meta:
         managed = False
         db_table = 'participantes'
-        
+
     def __str__(self):
         return self.nome_participante
 
@@ -60,7 +60,7 @@ class Questoes(models.Model):
     class Meta:
         managed = False
         db_table = 'questoes'
-        
+
     def __str__(self):
         return self.pergunta
 
@@ -87,3 +87,12 @@ class Titulos(models.Model):
 
     def __str__(self):
         return self.nome_titulo
+
+
+class ProgressoFases(models.Model):
+    participante = models.OneToOneField('Participantes', on_delete=models.CASCADE, primary_key=True)
+    fase2_liberada = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+        db_table = 'progresso_fases'
