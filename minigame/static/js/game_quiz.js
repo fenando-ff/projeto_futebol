@@ -453,7 +453,8 @@ if (pontuacao >= 20) {
         body: JSON.stringify({
             pontuacao: pontuacao,
             respostas: respostas,
-            tempo_ms: tempoFinal
+            tempo_ms: tempoFinal,
+            combo_maximo: comboMaximo
         })
 
     })

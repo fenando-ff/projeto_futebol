@@ -44,7 +44,7 @@
                 <div class="info-row">
                     <span class="label">TEMPO</span>
                     <span class="value">
-                        {{ usuario.tempo }}
+                        {{ tempo_usuario }}
                     </span>
                 </div>
 
@@ -172,39 +172,35 @@
 
 <!-- CARD DIREITO -->
         <div class="player-stat">
-                    <span>🏆 Título</span>
-                    <strong>
-                        {{ usuario.titulo }}
-                    </strong>
-                </div>
+            <span>🏆 Título</span>
+            <strong>
+                {{ titulo_ativo }}
+            </strong>
+        </div>
 
-                <div class="player-stat">
-                    <span>⚡ Melhor Tempo</span>
-                    <strong>
-                        {{ usuario.tempo }}
-                    </strong>
-                </div>
+        <div class="player-stat">
+            <span>⚡ Melhor Tempo</span>
+            <strong>
+                {{ tempo_usuario }}
+            </strong>
+        </div>
 
-                <div class="player-stat">
-                    <span>🔥 Combo Máx</span>
-                    <strong>
-                        x{{ usuario.combo_maximo }}
-                    </strong>
-                </div>
+        <div class="player-stat">
+            <span>🔥 Combo Máx</span>
+            <strong>
+                x{{ melhor_combo }}
+            </strong>
+        </div>
 
-                <div class="player-stat">
-                    <span>⭐ Recorde</span>
-                    <strong>
-                        {{ usuario.pontuacao }} pts
-                    </strong>
-                </div>
-
-            </div>
-
+        <div class="player-stat">
+            <span>⭐ Recorde</span>
+            <strong>
+                {{ usuario.pontuacao|default:"0" }} pts
+            </strong>
         </div>
 
 </div>
-
+</div>
 
 
 
@@ -230,7 +226,7 @@
 
         </a>
 
-        <a href="{% url "game_sorteio" %}" class="fase-card {% if not fase2_liberada %}locked{% endif %}" id="fase2" {% if not fase2_liberada %}data-locked="true"{% endif %}>
+        <a href="{% url "game_sorteio" %}" class="fase-card locked" id="fase2" data-locked="true">
 
             <div class="fase-inner">
 
@@ -244,7 +240,6 @@
 
             </div>
 
-            {% if not fase2_liberada %}
             <div class="lock-icon">
 
                 <svg viewBox="0 0 24 24" fill="none">
@@ -268,7 +263,6 @@
             <div class="lock-warning" id="lockWarning">
                 Finalize a Fase 01
             </div>
-            {% endif %}
 
         </a>
 

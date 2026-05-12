@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.templatetags.static import static
 from django.contrib.staticfiles import finders
+from urllib3 import request
 from minigame import models as model_minigame
 from app_futebol.models import models
 import random
@@ -12,6 +13,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from datetime import time
 from django.utils import timezone
 from django.contrib import messages
+from django.db.models import Max
 
 # Create your views here.
 # @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
@@ -71,6 +73,8 @@ def game(request):
 
             request.session['participante_id'] = participante.id_participante
 
+
+
             return JsonResponse({
                 'redirect': reverse('menu_fases'),
                 'nome_gerado': nome_final
@@ -100,6 +104,9 @@ def game(request):
                 'redirect': reverse('menu_fases'),
                 'nome_gerado': participante.nome_participante
             })
+
+
+
 
     return render(request, 'minigame/game_inicio.html')
 
@@ -154,6 +161,32 @@ def menu_fases(request):
     usuario = model_minigame.Participantes.objects.using('minigame').get(
         id_participante=participante_id
     )
+    
+    # =================================
+    # TÍTULO ATIVO
+    # =================================
+
+    titulo_ativo = model_minigame.HistoricoTitulos.objects.using('minigame').filter(
+        participante=usuario,
+        ativo=1
+    ).select_related('titulo').first()
+
+    usuario.titulo = "Sem título"
+
+    if titulo_ativo:
+        usuario.titulo = titulo_ativo.titulo.nome_titulo
+        
+    # =================================
+    # MELHOR COMBO
+    # =================================
+
+    melhor_combo = model_minigame.Respostas.objects.using('minigame').filter(
+        participante=usuario
+    ).aggregate(Max('combo_max'))
+
+    usuario.combo_maximo = melhor_combo['combo_max__max'] or 0
+    
+    
     # Verifica se fase2 está liberada
     try:
         progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=usuario)
@@ -191,11 +224,36 @@ def menu_fases(request):
             'pontuacao': jogador.pontuacao,
             'tempo': tempo_formatado
         })
+        
+        
+    # =========================
+    # TEMPO FORMATADO DO USUÁRIO
+    # =========================
+
+    tempo_usuario = "00:00"
+
+    if usuario.tempo:
+
+        total_segundos = (
+            usuario.tempo.hour * 3600 +
+            usuario.tempo.minute * 60 +
+            usuario.tempo.second
+        )
+
+        minutos = total_segundos // 60
+        segundos = total_segundos % 60
+
+        tempo_usuario = f"{minutos:02}:{segundos:02}" 
+    
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,
         'usuario': usuario,
-        'fase2_liberada': fase2_liberada
+        'fase2_liberada': fase2_liberada,
+
+        'titulo_ativo': usuario.titulo,
+        'melhor_combo': usuario.combo_maximo,
+        'tempo_usuario': tempo_usuario,
     })
 
 
@@ -324,6 +382,11 @@ def game_quiz(request):
     
 
 
+
+
+
+
+
 @login_obrigatorio
 def salvar_pontuacao(request):
     
@@ -332,6 +395,7 @@ def salvar_pontuacao(request):
         pontuacao_total = data.get('pontuacao')
         respostas_data = data.get('respostas', [])
         tempo_ms = data.get('tempo_ms')
+        combo_maximo = data.get('combo_maximo', 0)
         print(data)
         print(tempo_ms)
         print(type(tempo_ms))
@@ -373,7 +437,10 @@ def salvar_pontuacao(request):
             model_minigame.Respostas.objects.using('minigame').update_or_create(
                 participante=participante,
                 questao_id=questao_id,
-                defaults={'alternativa_id': alternativa_id}
+                defaults={
+                'alternativa_id': alternativa_id,
+                'combo_max': combo_maximo
+            }
             )
         
         # Liberar fase 2 após completar fase 1 (quiz)
@@ -385,7 +452,61 @@ def salvar_pontuacao(request):
             progresso.fase2_liberada = True
             progresso.save()
         
+        
+        # =========================================
+        # SISTEMA DE TÍTULOS
+        # =========================================
+
+        titulo_nome = "Bagre da Série B"
+
+        if pontuacao_total >= 20:
+            titulo_nome = "Pelé do Quiz"
+
+        elif pontuacao_total >= 15:
+            titulo_nome = "Rei da Libertadores"
+
+        elif pontuacao_total >= 10:
+            titulo_nome = "Artilheiro"
+
+        elif pontuacao_total >= 5:
+            titulo_nome = "Craque da Série A"
+
+
+        # pega título no banco
+        titulo_obj = model_minigame.Titulos.objects.using('minigame').get(
+            nome_titulo=titulo_nome
+        )
+
+        # desativa títulos antigos
+        model_minigame.HistoricoTitulos.objects.using('minigame').filter(
+            participante=participante
+        ).update(ativo=0)
+
+        # cria ou atualiza histórico
+        historico, created = model_minigame.HistoricoTitulos.objects.using('minigame').get_or_create(
+            participante=participante,
+            titulo=titulo_obj,
+            defaults={'ativo': 1}
+        )
+
+        # se já existia → ativa novamente
+        if not created:
+            historico.ativo = 1
+            historico.save()
+        
         return JsonResponse({'status': 'ok'})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_obrigatorio
@@ -408,8 +529,11 @@ def salvar_tempo_roleta(request):
         hours = int(segundos // 3600)
         minutes = int((segundos % 3600) // 60)
         seconds = int(segundos % 60)
-        tempo_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-        participante.tempo = tempo_str
+        participante.tempo = time(
+            hour=hours,
+            minute=minutes,
+            second=seconds
+        )
         participante.save()
         
         return JsonResponse({'status': 'ok'})
