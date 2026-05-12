@@ -2,7 +2,8 @@ body {
     margin: 0;
     background: #000;
     font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+   overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* CONTAINER */
@@ -11,9 +12,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 60px;
+    justify-content: flex-start;
+    gap: 45px;
     position: relative; /* IMPORTANTE pro botão perfil */
+    padding-top: 120px;
+    padding-bottom: 80px;
 }
 
 /* TÍTULO */
@@ -642,3 +645,307 @@ body.error-flash {
 }
 
 
+
+
+
+/* ========================================
+   CARROSSEL DASHBOARD
+======================================== */
+
+.dashboard-carousel{
+    width: 100%;
+    max-width: 1300px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 35px;
+}
+
+/* CARD BASE */
+
+.dashboard-card{
+    position: relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,15,15,0.95),
+            rgba(25,0,0,0.95)
+        );
+
+    border: 1px solid rgba(139,0,0,0.25);
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    backdrop-filter: blur(12px);
+
+    transition: 0.4s ease;
+}
+
+/* LINHA SUPERIOR */
+
+.dashboard-card::before{
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 70%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(255,0,0,0.8),
+            transparent
+        );
+}
+
+/* CARD CENTRAL */
+
+.main-card{
+    width: 520px;
+    min-height: 350px;
+
+    padding: 25px;
+
+    z-index: 5;
+
+    box-shadow:
+        0 0 50px rgba(139,0,0,0.35);
+}
+
+/* CARDS LATERAIS */
+
+.side-card{
+    width: 260px;
+    min-height: 280px;
+
+    padding: 22px;
+
+    opacity: 0.72;
+
+    transform: scale(0.88);
+
+    filter: blur(0.3px);
+
+    box-shadow:
+        0 0 20px rgba(139,0,0,0.15);
+}
+
+/* HOVER */
+
+.dashboard-card:hover{
+    transform: translateY(-6px);
+}
+
+.side-card:hover{
+    opacity: 1;
+
+    transform:
+        scale(0.95)
+        translateY(-6px);
+
+    box-shadow:
+        0 0 40px rgba(139,0,0,0.35);
+}
+
+.main-card:hover{
+    box-shadow:
+        0 0 70px rgba(139,0,0,0.55);
+}
+
+/* TITULO DOS CARDS */
+
+.card-header{
+    margin-bottom: 20px;
+
+    color: white;
+
+    font-size: 13px;
+    letter-spacing: 4px;
+    font-weight: bold;
+
+    text-align: center;
+
+    opacity: 0.9;
+}
+
+/* ========================================
+   SPEED KING
+======================================== */
+
+.speed-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    margin-top: 25px;
+}
+
+.speed-player{
+    font-size: 18px;
+    font-weight: bold;
+
+    color: #fff;
+}
+
+.speed-time{
+    font-size: 42px;
+    font-weight: bold;
+
+    color: #4db8ff;
+
+    text-shadow:
+        0 0 15px rgba(77,184,255,0.8);
+}
+
+.speed-desc{
+    text-align: center;
+
+    color: #888;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   ATIVIDADE
+======================================== */
+
+.activity-list{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 15px;
+}
+
+.activity-item{
+    padding: 12px;
+
+    border-radius: 10px;
+
+    background: rgba(255,255,255,0.03);
+
+    color: #bbb;
+
+    font-size: 12px;
+
+    transition: 0.25s ease;
+}
+
+.activity-item:hover{
+    background: rgba(139,0,0,0.2);
+
+    transform: translateX(4px);
+
+    color: white;
+}
+
+/* ========================================
+   RANKING
+======================================== */
+
+.ranking-list{
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.rank-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px 14px;
+
+    border-radius: 12px;
+
+    background: rgba(255,255,255,0.03);
+
+    transition: 0.25s ease;
+}
+
+.rank-item:hover{
+    transform: scale(1.02);
+
+    background: rgba(139,0,0,0.2);
+}
+
+.rank-left,
+.rank-right{
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.rank-position{
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+.rank-name{
+    color: white;
+}
+
+.rank-score{
+    color: #fff;
+    font-weight: bold;
+}
+
+.rank-time{
+    color: #888;
+}
+
+/* TOP 1 */
+
+.rank-item:nth-child(1){
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,140,0,0.35),
+            transparent
+        );
+
+    border: 1px solid rgba(255,180,0,0.35);
+
+    box-shadow:
+        0 0 20px rgba(255,140,0,0.2);
+}
+
+/* TOP 2 */
+
+.rank-item:nth-child(2){
+    background:
+        linear-gradient(
+            90deg,
+            rgba(180,180,180,0.18),
+            transparent
+        );
+}
+
+/* TOP 3 */
+
+.rank-item:nth-child(3){
+    background:
+        linear-gradient(
+            90deg,
+            rgba(205,127,50,0.18),
+            transparent
+        );
+}
