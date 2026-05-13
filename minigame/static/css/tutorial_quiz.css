@@ -72,7 +72,7 @@ body {
 .card-front {
     background: #a00000;
     color: white;
-    font-size: clamp(18px, 2vw, 26px);
+    font-size: clamp(20px, 2vw, 30px);
 }
 
 .card-front::before {
@@ -103,7 +103,7 @@ body {
     transform: rotateY(180deg);
     padding: 20px;
     text-align: center;
-    font-size: clamp(14px, 1.2vw, 18px);
+    font-size: clamp(16px, 1.2vw, 20px);
 }
 
 .card.flip .card-inner {
@@ -164,7 +164,7 @@ body {
     background: linear-gradient(90deg, #5a0000, #ff0000, #ff0000, #5a0000);
     background-size: 200%;
     color: #ffffff;
-    padding: 14px 40px;
+    padding: 18px 45px;
     border-radius: 40px;
     border: 1px solid #330000;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
@@ -172,7 +172,7 @@ body {
     cursor: pointer;
     transition: 0.6s;
     cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
-    font-size: clamp(12px, 3vw, 16px);
+    font-size: clamp(14px, 3vw, 18px);
 }
 
 .next-btn:hover {
@@ -213,27 +213,31 @@ body {
 /* TABLET (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
     .tutorial {
-        gap: 50px;
-        padding: 40px;
+        gap: 60px;
+        padding: 50px;
     }
-    
+
     .cards {
-        gap: 35px;
+        gap: 45px;
     }
-    
+
     .card {
-        width: 320px;
-        height: 420px;
+        width: 340px;
+        height: 440px;
     }
-    
+
+    .card-front {
+        font-size: 32px;
+    }
+
     .card-back {
-        font-size: 20px;
-        padding: 30px;
+        font-size: 24px;
+        padding: 35px;
     }
-    
+
     .next-btn {
-        padding: 20px 50px;
-        font-size: 18px;
+        padding: 22px 55px;
+        font-size: 22px;
     }
 }
 
@@ -244,8 +248,8 @@ body {
     }
 
     .tutorial {
-        gap: 30px;
-        padding: 25px;
+        gap: 50px;
+        padding: 30px;
         justify-content: center;
     }
 
@@ -253,7 +257,7 @@ body {
         width: 100%;
         overflow: hidden;
         position: relative;
-        min-height: 550px;
+        min-height: 600px;
     }
 
     .cards {
@@ -264,10 +268,10 @@ body {
 
     .card {
         position: absolute;
-        width: 85vw;
-        height: 70vh;
-        max-width: 380px;
-        max-height: 550px;
+        width: 90vw;
+        height: 75vh;
+        max-width: 420px;
+        max-height: 580px;
         transition: 0.4s ease;
         opacity: 0.4;
         transform: scale(0.85);
@@ -278,10 +282,22 @@ body {
         transform: scale(1);
         z-index: 3;
     }
-    
+
+    .card-front {
+        font-size: 26px;
+    }
+
     .card-back {
-        font-size: 18px;
+        font-size: 22px;
+        padding: 28px;
+    }
+
+    .next-btn {
+        width: 85%;
+        max-width: 380px;
         padding: 25px;
+        font-size: 24px;
+        margin-top: 40px;
     }
 
     .card.prev {
@@ -297,33 +313,52 @@ body {
     }
 
     .next-btn {
-        width: 80%;
-        max-width: 350px;
-        padding: 20px;
-        font-size: 18px;
-        margin-top: 30px;
+        width: 85%;
+        max-width: 380px;
+        padding: 24px;
+        font-size: 22px;
+        margin-top: 35px;
     }
-    
+
     @media (max-width: 480px) {
         .tutorial {
-            gap: 25px;
+            gap: 30px;
             padding: 20px;
         }
-        
+
         .card {
-            width: 90vw;
-            height: 65vh;
-            max-height: 480px;
+            width: 92vw;
+            height: 70vh;
+            max-height: 520px;
         }
-        
+
+        .card-front {
+            font-size: 26px;
+        }
+
         .card-back {
-            padding: 20px;
-            font-size: 16px;
+            padding: 22px;
+            font-size: 21px;
         }
-        
+
         .next-btn {
-            padding: 18px;
-            font-size: 17px;
+            padding: 21px;
+            font-size: 21px;
+        }
+
+        .card-front {
+            font-size: 28px;
+        }
+
+        .card-back {
+            padding: 25px;
+            font-size: 23px;
+        }
+
+        .next-btn {
+            padding: 22px;
+            font-size: 23px;
+            width: 85%;
         }
     }
 }
@@ -331,28 +366,32 @@ body {
 /* ORIENTAÇÃO PAISAGEM */
 @media (max-width: 767px) and (orientation: landscape) {
     .tutorial {
-        gap: 20px;
+        gap: 25px;
         padding: 15px;
     }
-    
+
     .cards {
-        min-height: 380px;
+        min-height: 400px;
     }
-    
+
     .card {
-        width: 65vw;
-        height: 60vh;
-        max-height: 350px;
+        width: 70vw;
+        height: 65vh;
+        max-height: 380px;
     }
-    
+
+    .card-front {
+        font-size: 24px;
+    }
+
     .card-back {
-        padding: 15px;
-        font-size: 14px;
+        padding: 20px;
+        font-size: 20px;
     }
-    
+
     .next-btn {
-        padding: 15px;
-        font-size: 16px;
-        width: 60%;
+        padding: 20px;
+        font-size: 22px;
+        width: 75%;
     }
 }

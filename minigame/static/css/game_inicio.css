@@ -9,7 +9,7 @@ body {
 }
 
 .switch-mode {
-    font-size: 12px;
+    font-size: 16px;
     text-align: center;
     color: #aaa;
 }
@@ -40,15 +40,15 @@ body {
 
 .error {
     color: #ff4d4d;
-    font-size: 14px;
+    font-size: 18px;
     margin-top: -10px;
     text-align: center;
 }
 
 .start-text {
     color: #d8d8d8;
-    font-size: clamp(12px, 3.5vw, 16px);
-    letter-spacing: clamp(3px, 1vw, 6px);
+    font-size: clamp(16px, 3.5vw, 22px);
+    letter-spacing: clamp(4px, 1vw, 8px);
     text-transform: uppercase;
     cursor: pointer;
     opacity: 0.8;
@@ -176,22 +176,22 @@ body {
 .cadastro-box h2 {
     color: #fff;
     text-align: center;
-    letter-spacing: 3px;
-    font-size: 22px;
+    letter-spacing: 4px;
+    font-size: 26px;
     margin: 0 0 5px 0;
     font-weight: 500;
 }
 
-.cadastro-sub {
-    text-align: center;
-    font-size: 12px;
-    color: #777;
-    margin-top: -8px;
-    margin-bottom: 5px;
-}
+    .cadastro-sub {
+        text-align: center;
+        font-size: 14px;
+        color: #777;
+        margin-top: -8px;
+        margin-bottom: 5px;
+    }
 
 .cadastro-box input {
-    padding: 14px 16px;
+    padding: 16px 18px;
     background: #1a1a1a;
     border: 2px solid transparent;
     color: #fff;
@@ -200,7 +200,7 @@ body {
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
-    font-size: 15px;
+    font-size: 17px;
     text-align: center;
 }
 
@@ -219,7 +219,7 @@ body {
 }
 
 .cadastro-box button {
-    padding: 14px;
+    padding: 16px;
     background: linear-gradient(45deg, #5a0000, #8b0000);
     color: #fff;
     border: none;
@@ -232,7 +232,7 @@ body {
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     margin-top: 5px;
 }
@@ -281,7 +281,7 @@ body {
 
 #transitionText {
     color: #fff;
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 4px;
     text-align: center;
 }
@@ -318,7 +318,7 @@ body {
     }
     
     .start-text {
-        font-size: 14px;
+        font-size: 16px;
         letter-spacing: 4px;
         margin-top: -10px;
         text-align: center;
@@ -351,34 +351,35 @@ body {
     }
     
     .cadastro-box h2 {
-        font-size: 20px;
+        font-size: 28px;
         letter-spacing: 2px;
         text-align: center;
         width: 100%;
     }
     
     .cadastro-sub {
-        font-size: 11px;
+        font-size: 15px;
         text-align: center;
         width: 100%;
     }
     
     .cadastro-box input {
         padding: 14px 16px;
-        font-size: 15px;
+        font-size: 17px;
         text-align: center;
         width: 100%;
     }
     
     .cadastro-box button {
         padding: 14px;
-        font-size: 16px;
+        font-size: 18px;
         width: 100%;
     }
     
     .switch-mode {
-        font-size: 12px;
+        font-size: 16px;
         text-align: center;
+        color: #aaa;
         width: 100%;
     }
 }
@@ -409,7 +410,7 @@ body {
     }
     
     .start-text {
-        font-size: 13px;
+        font-size: 17px;
         letter-spacing: 3px;
     }
     
@@ -427,18 +428,20 @@ body {
     }
     
     .cadastro-box h2 {
-        font-size: 18px;
+        font-size: 20px;
     }
     
     .cadastro-box input {
-        padding: 12px 14px;
-        font-size: 14px;
+        padding: 14px 16px;
+        font-size: 18px;
         text-align: center;
+        width: 100%;
     }
     
     .cadastro-box button {
-        padding: 12px;
-        font-size: 15px;
+        padding: 14px;
+        font-size: 19px;
+        width: 100%;
     }
 }
 
@@ -458,7 +461,7 @@ body {
     }
     
     .start-text {
-        font-size: 12px;
+        font-size: 14px;
         margin-top: -5px;
     }
     
@@ -476,24 +479,24 @@ body {
     }
     
     .cadastro-box h2 {
-        font-size: 18px;
+        font-size: 22px;
         margin-bottom: 0;
     }
-    
+
     .cadastro-sub {
-        font-size: 10px;
+        font-size: 14px;
         margin-top: -5px;
     }
-    
+
     .cadastro-box input {
-        padding: 10px 14px;
-        font-size: 14px;
+        padding: 11px 14px;
+        font-size: 17px;
         text-align: center;
     }
-    
+
     .cadastro-box button {
-        padding: 10px;
-        font-size: 14px;
+        padding: 11px;
+        font-size: 17px;
     }
 }
 
@@ -522,26 +525,26 @@ body {
     }
     
     .cadastro-box h2 {
-        font-size: 24px;
+        font-size: 26px;
     }
     
     .cadastro-sub {
-        font-size: 14px;
+        font-size: 16px;
     }
     
     .cadastro-box input {
         padding: 16px 18px;
-        font-size: 16px;
+        font-size: 18px;
         text-align: center;
     }
     
     .cadastro-box button {
         padding: 16px;
-        font-size: 17px;
+        font-size: 19px;
     }
     
     .switch-mode {
-        font-size: 14px;
+        font-size: 16px;
     }
 }
 
