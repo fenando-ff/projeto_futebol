@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.templatetags.static import static
+from django.contrib.staticfiles import finders
+from urllib3 import request
 from minigame import models as model_minigame
 from app_futebol.models import models
 import random
@@ -9,34 +12,9 @@ import json
 from django.contrib.auth.hashers import make_password, check_password
 from datetime import time
 from django.utils import timezone
+from django.contrib import messages
+from django.db.models import Max
 
-# Create your views here.
-# @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
-# def game(request):
-#     if request.method == 'POST':
-#         nome = request.POST.get('nome')
-        
-#         # Verifica se é requisição AJAX
-#         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-        
-#         if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
-#             if is_ajax:
-#                 return JsonResponse({'error': 'Nome já cadastrado. Por favor, escolha outro nome.'}, status=400)
-#             mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
-#             return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
-        
-#         participante = model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
-#         request.session['participante_id'] = participante.id_participante
-        
-#         if is_ajax:
-#             return JsonResponse({'success': True, 'redirect': reverse('menu_fases')})
-#         return redirect('menu_fases')
-        
-#     return render(request, 'minigame/game_inicio.html')
-
-
-
-# @login_obrigatorio
 def game(request):
 
     if request.method == 'POST':
@@ -68,6 +46,8 @@ def game(request):
 
             request.session['participante_id'] = participante.id_participante
 
+
+
             return JsonResponse({
                 'redirect': reverse('menu_fases'),
                 'nome_gerado': nome_final
@@ -98,6 +78,9 @@ def game(request):
                 'nome_gerado': participante.nome_participante
             })
 
+
+
+
     return render(request, 'minigame/game_inicio.html')
 
 
@@ -111,8 +94,10 @@ def game(request):
 def gerar_nome_unico(nome):
     sufixos = [
         "Capivara", "Dragao", "Fenix", "Lobo", "Tigre",
-        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Cadela","Mocurento","Flamenguista"
-        "Cachorro","Galo","Bode","Vaca","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa"
+        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Morcego",
+        "Mocurento","Flamenguista"
+        "Cachorro","Galo","Bode","Gamba","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa", "Zebra",
+        "Elefante","Girafa","Rinoceronte","Hipopotamo","Camelo","Coelho","Panda","Arara","Sapo"
     ]
 
     nome_base = nome.capitalize()
@@ -149,6 +134,38 @@ def menu_fases(request):
     usuario = model_minigame.Participantes.objects.using('minigame').get(
         id_participante=participante_id
     )
+    
+    # =================================
+    # TÍTULO ATIVO
+    # =================================
+
+    titulo_ativo = model_minigame.HistoricoTitulos.objects.using('minigame').filter(
+        participante=usuario,
+        ativo=1
+    ).select_related('titulo').first()
+
+    usuario.titulo = "Sem título"
+
+    if titulo_ativo:
+        usuario.titulo = titulo_ativo.titulo.nome_titulo
+        
+    # =================================
+    # MELHOR COMBO
+    # =================================
+
+    melhor_combo = model_minigame.Respostas.objects.using('minigame').filter(
+        participante=usuario
+    ).aggregate(Max('combo_max'))
+
+    usuario.combo_maximo = melhor_combo['combo_max__max'] or 0
+    
+    
+    # Verifica se fase2 está liberada
+    try:
+        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=usuario)
+        fase2_liberada = progresso.fase2_liberada
+    except model_minigame.ProgressoFases.DoesNotExist:
+        fase2_liberada = False
 
     # 🔥 ranking global
     jogadores = model_minigame.Participantes.objects.using('minigame')\
@@ -180,10 +197,36 @@ def menu_fases(request):
             'pontuacao': jogador.pontuacao,
             'tempo': tempo_formatado
         })
+        
+        
+    # =========================
+    # TEMPO FORMATADO DO USUÁRIO
+    # =========================
+
+    tempo_usuario = "00:00"
+
+    if usuario.tempo:
+
+        total_segundos = (
+            usuario.tempo.hour * 3600 +
+            usuario.tempo.minute * 60 +
+            usuario.tempo.second
+        )
+
+        minutos = total_segundos // 60
+        segundos = total_segundos % 60
+
+        tempo_usuario = f"{minutos:02}:{segundos:02}" 
+    
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,
-        'usuario': usuario
+        'usuario': usuario,
+        'fase2_liberada': fase2_liberada,
+
+        'titulo_ativo': usuario.titulo,
+        'melhor_combo': usuario.combo_maximo,
+        'tempo_usuario': tempo_usuario,
     })
 
 
@@ -203,16 +246,51 @@ def quiz_toturial(request):
 @login_obrigatorio
 def game_sorteio(request):
 
+    participante_id = request.session.get('participante_id')
+    try:
+        participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
+    except model_minigame.Participantes.DoesNotExist:
+        return redirect('game_comeco')
+    
+    # Check if fase2 is unlocked
+    try:
+        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=participante)
+        if not progresso.fase2_liberada:
+            messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
+            return redirect('menu_fases')
+    except model_minigame.ProgressoFases.DoesNotExist:
+        messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
+        return redirect('menu_fases')
+    
     produtos_db = list(models.Produtos.objects.all())
 
     # 🎯 sorteia 3 produtos reais
     sorteados = random.sample(produtos_db, 3)
 
+    def get_img_for_product(p):
+        # Tenta usar imagem cadastrada se existir no staticfiles
+        if p.imagem_produtos:
+            try:
+                finders.find(p.imagem_produtos)
+                return static(p.imagem_produtos)
+            except ValueError:
+                pass
+        # Fallback baseado na categoria
+        cat_id = p.categoria_produtos_id_categoria_produtos_id
+        if cat_id == 1:  # Acessórios
+            return static('jogo/icones/dragon_icon.png')
+        elif cat_id == 2:  # Camisas FC
+            return static('jogo/icones/tridente_icon.png')
+        elif cat_id == 3:  # Calçados
+            return static('jogo/icones/coroa_icon.png')
+        else:  # Outros (ex: Ingressos)
+            return static('jogo/icones/mouse_click.png')
+
     produtos = [
         {
             "id": p.id_produtos,
             "nome": p.nome_produtos,
-            "img": p.imagem_produtos
+            "img": get_img_for_product(p)
         }
         for p in produtos_db
     ]
@@ -221,7 +299,7 @@ def game_sorteio(request):
         {
             "id": p.id_produtos,
             "nome": p.nome_produtos,
-            "img": p.imagem_produtos
+            "img": get_img_for_product(p)
         }
         for p in sorteados
     ]
@@ -277,6 +355,11 @@ def game_quiz(request):
     
 
 
+
+
+
+
+
 @login_obrigatorio
 def salvar_pontuacao(request):
     
@@ -285,6 +368,7 @@ def salvar_pontuacao(request):
         pontuacao_total = data.get('pontuacao')
         respostas_data = data.get('respostas', [])
         tempo_ms = data.get('tempo_ms')
+        combo_maximo = data.get('combo_maximo', 0)
         print(data)
         print(tempo_ms)
         print(type(tempo_ms))
@@ -326,10 +410,76 @@ def salvar_pontuacao(request):
             model_minigame.Respostas.objects.using('minigame').update_or_create(
                 participante=participante,
                 questao_id=questao_id,
-                defaults={'alternativa_id': alternativa_id}
+                defaults={
+                'alternativa_id': alternativa_id,
+                'combo_max': combo_maximo
+            }
             )
         
+        # Liberar fase 2 após completar fase 1 (quiz)
+        progresso, created = model_minigame.ProgressoFases.objects.using('minigame').get_or_create(
+            participante=participante,
+            defaults={'fase2_liberada': True}
+        )
+        if not created:
+            progresso.fase2_liberada = True
+            progresso.save()
+        
+        
+        # =========================================
+        # SISTEMA DE TÍTULOS
+        # =========================================
+
+        titulo_nome = "Bagre da Série B"
+
+        if pontuacao_total >= 20:
+            titulo_nome = "Pelé do Quiz"
+
+        elif pontuacao_total >= 15:
+            titulo_nome = "Rei da Libertadores"
+
+        elif pontuacao_total >= 10:
+            titulo_nome = "Artilheiro"
+
+        elif pontuacao_total >= 5:
+            titulo_nome = "Craque da Série A"
+
+
+        # pega título no banco
+        titulo_obj = model_minigame.Titulos.objects.using('minigame').get(
+            nome_titulo=titulo_nome
+        )
+
+        # desativa títulos antigos
+        model_minigame.HistoricoTitulos.objects.using('minigame').filter(
+            participante=participante
+        ).update(ativo=0)
+
+        # cria ou atualiza histórico
+        historico, created = model_minigame.HistoricoTitulos.objects.using('minigame').get_or_create(
+            participante=participante,
+            titulo=titulo_obj,
+            defaults={'ativo': 1}
+        )
+
+        # se já existia → ativa novamente
+        if not created:
+            historico.ativo = 1
+            historico.save()
+        
         return JsonResponse({'status': 'ok'})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_obrigatorio
@@ -352,8 +502,11 @@ def salvar_tempo_roleta(request):
         hours = int(segundos // 3600)
         minutes = int((segundos % 3600) // 60)
         seconds = int(segundos % 60)
-        tempo_str = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
-        participante.tempo = tempo_str
+        participante.tempo = time(
+            hour=hours,
+            minute=minutes,
+            second=seconds
+        )
         participante.save()
         
         return JsonResponse({'status': 'ok'})

@@ -55,13 +55,15 @@ main {
 
 .cabecalho-lista {
   display: grid;
-  grid-template-columns: 2fr 110px 0px 100px;
+  grid-template-columns: 1fr 160px 120px;
   font-weight: 600;
   color: #444;
   padding: 0 10px;
   margin: 20px 0 15px;
   font-size: 18px;
   padding-bottom: 5px;
+  align-items: center;
+  gap: 12px;
 }
 
 /* ====== ITEM DO CARRINHO ====== */
@@ -223,9 +225,26 @@ main {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: 2.2rem ;
-  width: 50px;
+  margin: 2.2rem;
+  width: auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
 
+.formas img {
+  width: 58px;
+  height: auto;
+  opacity: 0.9;
+  transition: transform 0.5s ease;
+}
+
+.formas img:hover {
+  transform: scale(1.2);
+  border: 1px solid red;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  opacity: 1;
 }
 
 
@@ -460,11 +479,7 @@ html, body { overflow-x: hidden; }
 /* --------- cabeçalho do carrinho (arruma colunas) ---------
    você tinha: 2fr 110px 0px 100px (tem uma coluna 0px)
 */
-.cabecalho-lista{
-  grid-template-columns: 1fr 160px 120px; /* Produto | Quantidade | Preço */
-  align-items: center;
-  gap: 12px;
-}
+
 
 /* --------- item do carrinho (desktop): layout mais firme --------- */
 .item-carrinho{
@@ -483,17 +498,7 @@ html, body { overflow-x: hidden; }
 }
 
 /* --------- formas de pagamento (corrige o "width: 50px") --------- */
-.formas{
-  width: auto !important;
-  margin: 16px 0 !important;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-}
 
-.formas img{
-  width: 58px;
-  height: auto;
-}
 
 /* =============== BREAKPOINT: <= 1100px =============== */
 @media (max-width: 1100px){

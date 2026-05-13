@@ -111,6 +111,8 @@ else:
             "PORT": int(os.environ.get("DB_PORT_MINIGAME_LOCAL", os.environ.get("DB_PORT_MINIGAME", "3306"))),
         }
     }
+    
+DATABASE_ROUTERS = ['minigame.routers.MinigameRouter']
 
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')

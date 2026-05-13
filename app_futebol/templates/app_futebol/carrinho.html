@@ -19,33 +19,7 @@
         ⏱️ Tempo restante: <span id="timer">30</span>s
       </div>
 
-      <!-- Itens do carrinho dinâmicos -->
-      {% if itens %}
-        {% for item in itens %}
-        <div class="item-carrinho" data-id="{{ item.produto.id_produtos }}">
-          <img src= "{% static item.produto.imagem_produtos %}" alt="{{ item.produto.nome_produtos }}">
-          <div class="info-produto">
-            <h3>{{ item.produto.nome_produtos }}</h3>
-            <p>{{ item.produto.descricao_produtos }}</p>
-          </div>
-          <div class="quantidade">
-            <button type="button" class="btn-menos">-</button>
-            <span class="qtd">{{ item.quantidade }}</span>
-            <button type="button" class="btn-mais">+</button>
-            <span class="preco-item">R$<span class="preco-linha">{{ item.preco_linha|floatformat:2 }}</span></span>
-          </div>
-          <a href="{% url 'remover_carrinho' item.produto.id_produtos %}" class="lixeira">
-            <i class="fa-solid fa-trash"></i>
-          </a>
-        </div>
-        {% endfor %}
-      {% else %}
-        <div class="mensagem" style="color:#a50000; text-align:center; padding:40px;">
-          <h3>Seu carrinho está vazio!</h3>
-          <p><a href="{% url 'produtos' %}" style="color:#000; ">Ver produtos</a></p>
-        </div>
-      {% endif %}
-    </section>
+
 
       <!-- Seção do Carrinho -->
       <section class="carrinho">

@@ -14,7 +14,8 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
-    transform: scale(1.25);
+    transform: scale(2);
+
     padding: 30px;
     background: radial-gradient(circle at center, rgba(40, 0, 0, 0.95), rgba(0, 0, 0, 0.98));
     border-radius: 25px;
