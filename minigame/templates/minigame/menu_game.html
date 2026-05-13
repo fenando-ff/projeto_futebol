@@ -226,7 +226,10 @@
 
         </a>
 
-        <a href="{% url "game_sorteio" %}" class="fase-card locked" id="fase2" data-locked="true">
+        <a href="{% url 'mini_game_toturial' %}"
+           class="fase-card {% if not fase2_liberada %}locked{% endif %}"
+           id="fase2"
+           data-locked="{% if not fase2_liberada %}true{% else %}false{% endif %}">
 
             <div class="fase-inner">
 
@@ -240,6 +243,7 @@
 
             </div>
 
+            {% if not fase2_liberada %}
             <div class="lock-icon">
 
                 <svg viewBox="0 0 24 24" fill="none">
@@ -263,6 +267,7 @@
             <div class="lock-warning" id="lockWarning">
                 Finalize a Fase 01
             </div>
+            {% endif %}
 
         </a>
 

@@ -15,33 +15,6 @@ from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Max
 
-# Create your views here.
-# @login_obrigatorio                                NOME NÂO PODE SER REPETIDO
-# def game(request):
-#     if request.method == 'POST':
-#         nome = request.POST.get('nome')
-        
-#         # Verifica se é requisição AJAX
-#         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-        
-#         if model_minigame.Participantes.objects.using('minigame').filter(nome_participante=nome).exists():
-#             if is_ajax:
-#                 return JsonResponse({'error': 'Nome já cadastrado. Por favor, escolha outro nome.'}, status=400)
-#             mensagem = "Nome já cadastrado. Por favor, escolha outro nome."
-#             return render(request, 'minigame/game_inicio.html', {'mensagem': mensagem})
-        
-#         participante = model_minigame.Participantes.objects.using('minigame').create(nome_participante=nome)
-#         request.session['participante_id'] = participante.id_participante
-        
-#         if is_ajax:
-#             return JsonResponse({'success': True, 'redirect': reverse('menu_fases')})
-#         return redirect('menu_fases')
-        
-#     return render(request, 'minigame/game_inicio.html')
-
-
-
-# @login_obrigatorio
 def game(request):
 
     if request.method == 'POST':
