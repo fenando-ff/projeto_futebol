@@ -125,6 +125,20 @@ def logout_minigame(request):
     request.session.pop("quiz_inicio", None)
     return redirect("game_comeco")
 
+def formatar_tempo_user(tempo):
+    if not tempo:
+        return "00:00"
+
+    total_segundos = (
+        tempo.hour * 3600 +
+        tempo.minute * 60 +
+        tempo.second
+    )
+
+    minutos = total_segundos // 60
+    segundos = total_segundos % 60
+
+    return f"{minutos:02}:{segundos:02}"
 
 @login_obrigatorio
 def menu_fases(request):
@@ -172,30 +186,19 @@ def menu_fases(request):
         .all()\
         .order_by('-pontuacao', 'tempo')[:5]
 
+    jogador_mais_rapido = model_minigame.Participantes.objects.using('minigame').all().order_by('tempo').first()
     # 🔥 formata tempo para exibição
     ranking_formatado = []
 
     for jogador in jogadores:
 
-        tempo_formatado = "00:00"
-
-        if jogador.tempo:
-
-            total_segundos = (
-                jogador.tempo.hour * 3600 +
-                jogador.tempo.minute * 60 +
-                jogador.tempo.second
-            )
-
-            minutos = total_segundos // 60
-            segundos = total_segundos % 60
-
-            tempo_formatado = f"{minutos:02}:{segundos:02}"
-
+        tempo_formatado = formatar_tempo_user(jogador.tempo)
+    
         ranking_formatado.append({
             'nome': jogador.nome_participante,
             'pontuacao': jogador.pontuacao,
-            'tempo': tempo_formatado
+            'tempo': tempo_formatado,
+            'flash': jogador_mais_rapido,  # Destaca o usuário logado
         })
         
         
