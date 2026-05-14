@@ -23,12 +23,11 @@ body {
     overflow-x: clip;
 }
 
-/* TÍTULO - MAIOR E OPACO */
+/* TÍTULO - MAIOR */
 .menu-title {
     color: #fff;
     font-size: clamp(28px, 7vw, 48px);
     letter-spacing: clamp(8px, 2vw, 14px);
-    opacity: 0.7;
     text-align: center;
     font-weight: 600;
 }
@@ -95,7 +94,7 @@ body {
         inset 0 0 25px rgba(139, 0, 0, 0.25);
 }
 
-/* TEXTO INTERNO - MAIOR E OPACO */
+/* TEXTO INTERNO - MAIOR E SEM OPACIDADE */
 .fase-inner {
     position: relative;
     display: flex;
@@ -110,22 +109,29 @@ body {
 }
 
 .fase-label {
-    font-size: clamp(13px, 4vw, 20px);
-    letter-spacing: clamp(4px, 1.5vw, 7px);
-    color: rgba(170, 170, 170, 0.75);
-    font-weight: 500;
+    font-size: clamp(18px, 5vw, 26px);
+    letter-spacing: clamp(5px, 2vw, 9px);
+    color: #ffffff;
+    font-weight: 700;
+    opacity: 1;
 }
 
 .fase-num {
-    font-size: clamp(42px, 10vw, 72px);
-    color: rgba(255, 255, 255, 0.85);
-    font-weight: 700;
+    font-size: clamp(55px, 13vw, 90px);
+    color: #ffffff;
+    font-weight: 800;
+    opacity: 1;
 }
 
 /* BLOQUEADO */
 .fase-card.locked {
-    opacity: 0.4;
-    filter: grayscale(0.7);
+    opacity: 0.5;
+    filter: grayscale(0.6);
+}
+
+.fase-card.locked .fase-label,
+.fase-card.locked .fase-num {
+    opacity: 0.7;
 }
 
 /* ANIMAÇÃO SUAVE */
@@ -224,7 +230,7 @@ body.error-flash {
     transform: translateX(-50%) translateY(10px);
     font-size: 13px;
     letter-spacing: 3px;
-    color: rgba(170, 170, 170, 0.7);
+    color: rgba(170, 170, 170, 1);
     opacity: 0;
     transition: 0.3s ease;
     pointer-events: none;
@@ -235,7 +241,7 @@ body.error-flash {
 .lock-warning.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
-    color: rgba(255, 77, 77, 0.85);
+    color: rgba(255, 77, 77, 1);
     text-shadow: 0 0 12px rgba(255, 0, 0, 0.9);
     font-size: 14px;
 }
@@ -286,7 +292,7 @@ body.error-flash {
     100% { transform: translateY(0); }
 }
 
-/* RANKING TOP - MAIOR E CENTRALIZADO COM LETRAS OPACAS */
+/* RANKING TOP - CENTRALIZADO */
 .ranking-top {
     width: 90%;
     max-width: 550px;
@@ -300,7 +306,7 @@ body.error-flash {
 }
 
 .ranking-title {
-    color: rgba(135, 0, 0, 0.85);
+    color: rgba(135, 0, 0, 1);
     font-size: clamp(24px, 6vw, 34px);
     letter-spacing: 5px;
     margin-bottom: 20px;
@@ -309,14 +315,14 @@ body.error-flash {
 
 .ranking-warning {
     font-size: 16px;
-    color: rgba(255, 77, 77, 0.8);
+    color: rgba(255, 77, 77, 1);
     text-align: center;
     margin-bottom: 15px;
     font-weight: 500;
 }
 
 .ranking-side h3 {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 1);
     font-size: 16px;
     letter-spacing: 4px;
     text-align: center;
@@ -328,29 +334,58 @@ body.error-flash {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: rgba(238, 238, 238, 0.75);
+    color: rgba(238, 238, 238, 1);
     font-size: 16px;
     padding: 14px 18px;
     border-radius: 14px;
     background: rgba(255,255,255,0.06);
     transition: 0.2s;
-    font-weight: 500;
 }
 
 .rank-item:hover {
     background: rgba(139,0,0,0.35);
     transform: scale(1.03);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 1);
+}
+
+.rank-name {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.rank-position {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.rank-score {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.rank-time {
+    font-size: 18px;
+    margin-left: 10px;
 }
 
 .rank-item.ghost {
-    opacity: 0.4;
     font-style: italic;
+}
+
+.rank-left {
+    display: flex;
+    align-items: center;
+}
+
+.rank-right {
+    display: flex;
+    align-items: center;
 }
 
 .rank-item:first-child {
     background: linear-gradient(90deg, rgba(255,0,0,0.35), transparent);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 1);
     font-weight: bold;
     box-shadow: 0 0 20px rgba(255,0,0,0.55);
 }
@@ -362,20 +397,17 @@ body.error-flash {
 
 .rank-item:nth-child(1) {
     background: linear-gradient(90deg, rgb(134, 25, 0), transparent);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 1);
     font-weight: bold;
     box-shadow: 0 0 25px rgb(138, 0, 0);
-    font-size: 18px;
 }
 
 .rank-item:nth-child(2) {
     background: linear-gradient(90deg, rgb(124, 124, 124), transparent);
-    font-size: 17px;
 }
 
 .rank-item:nth-child(3) {
     background: linear-gradient(90deg, #2a2a2a, transparent);
-    font-size: 17px;
 }
 
 .ranking-list {
@@ -399,7 +431,7 @@ body.error-flash {
 }
 
 /* ============================================ */
-/* MODAL PERFIL - DESCIDO E COM LETRAS OPACAS   */
+/* MODAL PERFIL - DESCIDO   */
 /* ============================================ */
 .profile-modal {
     position: fixed;
@@ -442,14 +474,14 @@ body.error-flash {
 /* BOTÃO PERFIL - DESCIDO */
 .profile-btn {
     position: absolute;
-    top: 80px;
-    right: 25px;
+    top: 300px;
+    right: 90px;
     padding: 12px 24px;
-    font-size: 15px;
+    font-size: 25px;
     letter-spacing: 3px;
     background: rgba(139,0,0,0.3);
     border: 1.5px solid rgba(139,0,0,0.7);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
     cursor: pointer;
     transition: 0.3s;
     border-radius: 12px;
@@ -461,11 +493,10 @@ body.error-flash {
 .profile-btn:hover {
     transform: scale(1.05);
     box-shadow: 0 0 35px rgba(139,0,0,0.75);
-    color: rgba(255, 255, 255, 1);
 }
 
 .profile-title {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 1);
     font-size: 34px;
     letter-spacing: 8px;
     margin-bottom: 35px;
@@ -488,14 +519,14 @@ body.error-flash {
 }
 
 .label {
-    color: rgba(170, 170, 170, 0.7);
+    color: rgba(170, 170, 170, 1);
     font-size: 18px;
     letter-spacing: 3px;
     font-weight: 500;
 }
 
 .value {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 1);
     font-weight: 600;
     font-size: 20px;
 }
@@ -507,7 +538,7 @@ body.error-flash {
     padding: 16px;
     font-size: 18px;
     letter-spacing: 4px;
-    color: rgba(255, 77, 77, 0.8);
+    color: rgba(255, 77, 77, 1);
     text-decoration: none;
     border: 1.5px solid rgba(255,0,0,0.5);
     border-radius: 16px;
@@ -518,7 +549,6 @@ body.error-flash {
 .logout-btn:hover {
     background: rgba(255,0,0,0.25);
     transform: scale(1.03);
-    color: rgba(255, 77, 77, 1);
 }
 
 .close-profile-btn {
@@ -528,7 +558,7 @@ body.error-flash {
     font-size: 18px;
     letter-spacing: 5px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
     background: rgba(139, 0, 0, 0.25);
     border: 1.5px solid rgba(139, 0, 0, 0.7);
     border-radius: 16px;
@@ -541,11 +571,10 @@ body.error-flash {
     transform: scale(1.03);
     background: rgba(139, 0, 0, 0.45);
     box-shadow: 0 0 35px rgba(255, 0, 0, 0.6);
-    color: rgba(255, 255, 255, 1);
 }
 
 /* ========================================
-   CARROSSEL DASHBOARD - CENTRALIZADO
+   CARROSSEL DASHBOARD - CENTRALIZADO
 ======================================== */
 .dashboard-carousel {
     position: relative;
@@ -636,16 +665,15 @@ body.error-flash {
 
 .card-header {
     margin-bottom: 25px;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 28px;
     letter-spacing: 6px;
     font-weight: 600;
     text-align: center;
-    opacity: 0.9;
 }
 
 /* ========================================
-   SPEED KING - MAIOR E OPACO
+   SPEED KING
 ======================================== */
 .speed-content {
     display: flex;
@@ -657,27 +685,27 @@ body.error-flash {
 }
 
 .speed-player {
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
 }
 
 .speed-time {
     font-size: 52px;
     font-weight: bold;
-    color: rgba(77, 184, 255, 0.85);
+    color: rgba(77, 184, 255, 1);
     text-shadow: 0 0 20px rgba(77,184,255,0.6);
 }
 
 .speed-desc {
     text-align: center;
-    color: rgba(136, 136, 136, 0.7);
-    font-size: 14px;
+    color: rgba(136, 136, 136, 1);
+    font-size: 30px;
     line-height: 1.7;
 }
 
 /* ========================================
-   ATIVIDADE - MAIOR E OPACO
+   ATIVIDADE
 ======================================== */
 .activity-list {
     display: flex;
@@ -690,7 +718,7 @@ body.error-flash {
     padding: 16px;
     border-radius: 14px;
     background: rgba(255,255,255,0.05);
-    color: rgba(187, 187, 187, 0.7);
+    color: rgba(187, 187, 187, 1);
     font-size: 14px;
     transition: 0.25s ease;
 }
@@ -698,11 +726,11 @@ body.error-flash {
 .activity-item:hover {
     background: rgba(139,0,0,0.25);
     transform: translateX(6px);
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 1);
 }
 
 /* ========================================
-   PLAYER STATUS - MAIOR E OPACO
+   PLAYER STATUS
 ======================================== */
 .player-card {
     position: relative;
@@ -712,8 +740,8 @@ body.error-flash {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15px;
-    margin-bottom: 28px;
+    margin-top: 25px;
+    margin-bottom: 32px;
 }
 
 .player-avatar {
@@ -723,25 +751,25 @@ body.error-flash {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 36px;
+    font-size: 42px;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 1);
     background: linear-gradient(145deg, #2a0000, #660000);
     border: 2px solid rgba(255,0,0,0.45);
     box-shadow: 0 0 35px rgba(255,0,0,0.35);
 }
 
 .player-name {
-    margin-top: 18px;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 20px;
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 30px;
     font-weight: 600;
 }
 
 .player-id {
     margin-top: 6px;
-    color: rgba(136, 136, 136, 0.65);
-    font-size: 13px;
+    color: rgba(136, 136, 136, 1);
+    font-size: 25px;
     letter-spacing: 3px;
 }
 
@@ -767,544 +795,34 @@ body.error-flash {
 }
 
 .player-stat span {
-    color: rgba(153, 153, 153, 0.7);
-    font-size: 14px;
+    color: rgba(153, 153, 153, 1);
+    font-size: 20px;
     font-weight: 500;
 }
 
 .player-stat strong {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 15px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 25px;
     font-weight: 600;
 }
 
 /* ============================================ */
-/* TABLET (768px e acima) - AINDA MAIOR         */
+/* MEDIA QUERIES (ESTRUTURA MANTIDA) */
 /* ============================================ */
 @media (min-width: 768px) {
-    .menu-fases {
-        gap: 75px;
-        padding: 140px 30px 120px 30px;
-    }
-
-    .menu-title {
-        font-size: 48px;
-        letter-spacing: 14px;
-        opacity: 0.7;
-    }
-
-    .fases-container {
-        gap: 70px;
-    }
-
-    .fase-card {
-        width: 210px;
-        height: 210px;
-        border-radius: 28px;
-    }
-
-    .fase-num {
-        font-size: 64px;
-        color: rgba(255, 255, 255, 0.85);
-    }
-
-    .fase-label {
-        font-size: 18px;
-        letter-spacing: 7px;
-        color: rgba(170, 170, 170, 0.75);
-    }
-
-    .dashboard-carousel {
-        height: 460px;
-    }
-
-    .dashboard-card {
-        max-width: 580px;
-        min-height: 390px;
-        padding: 35px;
-        border-radius: 30px;
-    }
-
-    .dashboard-card[data-pos="left"] {
-        transform: translateX(-90%) scale(0.82) rotateY(14deg);
-    }
-
-    .dashboard-card[data-pos="right"] {
-        transform: translateX(90%) scale(0.82) rotateY(-14deg);
-    }
-
-    .card-header {
-        font-size: 18px;
-        letter-spacing: 7px;
-        margin-bottom: 30px;
-        color: rgba(255, 255, 255, 0.7);
-    }
-
-    /* PERFIL - TABLET */
-    .profile-btn {
-        top: 90px;
-        right: 40px;
-        padding: 14px 28px;
-        font-size: 16px;
-    }
-
-    .profile-box {
-        max-width: 560px;
-        padding: 50px 40px 45px 40px;
-        border-radius: 36px;
-    }
-
-    .profile-title {
-        font-size: 38px;
-        letter-spacing: 9px;
-        margin-bottom: 40px;
-        color: rgba(255, 255, 255, 0.85);
-    }
-
-    .profile-info {
-        gap: 25px;
-    }
-
-    .info-row {
-        padding: 22px 26px;
-        border-radius: 22px;
-    }
-
-    .label {
-        font-size: 20px;
-        letter-spacing: 4px;
-        color: rgba(170, 170, 170, 0.7);
-    }
-
-    .value {
-        font-size: 22px;
-        color: rgba(255, 255, 255, 0.85);
-    }
-
-    .logout-btn, .close-profile-btn {
-        padding: 18px;
-        font-size: 20px;
-        letter-spacing: 5px;
-        border-radius: 18px;
-    }
-
-    .player-avatar {
-        width: 100px;
-        height: 100px;
-        font-size: 42px;
-    }
-
-    .player-name {
-        font-size: 22px;
-    }
-
-    .player-id {
-        font-size: 14px;
-        letter-spacing: 4px;
-    }
-
-    .ranking-top {
-        max-width: 600px;
-        padding: 35px 30px;
-        border-radius: 28px;
-    }
-
-    .rank-item {
-        font-size: 18px;
-        padding: 16px 20px;
-    }
-
-    .rank-item:nth-child(1) {
-        font-size: 20px;
-    }
-
-    .lock-icon svg {
-        width: 110px;
-        height: 110px;
-    }
+    .menu-title { font-size: 48px; letter-spacing: 14px; }
+    .fase-num { color: rgba(255, 255, 255, 1); }
+    .fase-label { color: rgba(170, 170, 170, 1); }
+    .card-header { color: rgba(255, 255, 255, 1); }
+    .profile-title { color: rgba(255, 255, 255, 1); }
+    .label { color: rgba(170, 170, 170, 1); }
+    .value { color: rgba(255, 255, 255, 1); }
 }
 
-/* ============================================ */
-/* DESKTOP (1025px e acima)                     */
-/* ============================================ */
 @media (min-width: 1025px) {
-    .menu-fases {
-        gap: 50px;
-        padding: 100px 20px 100px 20px;
-    }
-
-    .menu-title {
-        font-size: 36px;
-        letter-spacing: 10px;
-        opacity: 0.7;
-    }
-
-    .fases-container {
-        gap: 50px;
-    }
-
-    .fase-card {
-        width: 170px;
-        height: 170px;
-        border-radius: 22px;
-    }
-
-    .fase-num {
-        font-size: 48px;
-    }
-
-    .fase-label {
-        font-size: 14px;
-        letter-spacing: 5px;
-    }
-
-    .dashboard-carousel {
-        height: 380px;
-    }
-
-    .dashboard-card {
-        max-width: 480px;
-        min-height: 310px;
-        padding: 25px;
-        border-radius: 24px;
-    }
-
-    .dashboard-card[data-pos="left"] {
-        transform: translateX(-80%) scale(0.84) rotateY(14deg);
-    }
-
-    .dashboard-card[data-pos="right"] {
-        transform: translateX(80%) scale(0.84) rotateY(-14deg);
-    }
-
-    .card-header {
-        font-size: 14px;
-        letter-spacing: 5px;
-        margin-bottom: 22px;
-    }
-
-    /* PERFIL - DESKTOP */
-    .profile-btn {
-        top: 70px;
-        right: 30px;
-        padding: 10px 22px;
-        font-size: 13px;
-    }
-
-    .profile-box {
-        max-width: 480px;
-        padding: 40px 35px 35px 35px;
-        border-radius: 30px;
-    }
-
-    .profile-title {
-        font-size: 32px;
-        letter-spacing: 7px;
-        margin-bottom: 30px;
-    }
-
-    .info-row {
-        padding: 18px 22px;
-    }
-
-    .label {
-        font-size: 17px;
-    }
-
-    .value {
-        font-size: 18px;
-    }
-
-    .logout-btn, .close-profile-btn {
-        padding: 14px;
-        font-size: 16px;
-    }
-
-    .player-avatar {
-        width: 80px;
-        height: 80px;
-        font-size: 32px;
-    }
-
-    .player-name {
-        font-size: 18px;
-    }
-
-    .ranking-top {
-        max-width: 480px;
-        padding: 28px 25px;
-        border-radius: 22px;
-    }
-
-    .lock-icon svg {
-        width: 90px;
-        height: 90px;
-    }
+    .menu-title { font-size: 36px; letter-spacing: 10px; }
 }
 
-/* ============================================ */
-/* CELULARES PEQUENOS (até 480px)               */
-/* ============================================ */
 @media (max-width: 480px) {
-    .menu-fases {
-        gap: 45px;
-        padding: 100px 15px 80px 15px;
-    }
-
-    .menu-title {
-        font-size: 26px;
-        letter-spacing: 6px;
-    }
-
-    .fases-container {
-        gap: 30px;
-    }
-
-    .fase-card {
-        width: 150px;
-        height: 150px;
-        border-radius: 20px;
-    }
-
-    .fase-num {
-        font-size: 42px;
-    }
-
-    .fase-label {
-        font-size: 12px;
-        letter-spacing: 4px;
-    }
-
-    .dashboard-carousel {
-        height: 340px;
-    }
-
-    .dashboard-card {
-        width: 88%;
-        max-width: 400px;
-        min-height: 280px;
-        padding: 22px;
-        border-radius: 22px;
-    }
-
-    .dashboard-card[data-pos="left"] {
-        transform: translateX(-80%) scale(0.82) rotateY(14deg);
-    }
-
-    .dashboard-card[data-pos="right"] {
-        transform: translateX(80%) scale(0.82) rotateY(-14deg);
-    }
-
-    .card-header {
-        font-size: 13px;
-        letter-spacing: 4px;
-        margin-bottom: 18px;
-    }
-
-    /* PERFIL - MOBILE PEQUENO */
-    .profile-btn {
-        top: 60px;
-        right: 16px;
-        padding: 8px 16px;
-        font-size: 11px;
-    }
-
-    .profile-box {
-        width: 90%;
-        max-width: 360px;
-        padding: 35px 22px 30px 22px;
-        border-radius: 28px;
-        margin-top: 40px;
-    }
-
-    .profile-title {
-        font-size: 26px;
-        letter-spacing: 5px;
-        margin-bottom: 25px;
-    }
-
-    .info-row {
-        padding: 14px 16px;
-        border-radius: 16px;
-    }
-
-    .label {
-        font-size: 14px;
-        letter-spacing: 2px;
-    }
-
-    .value {
-        font-size: 15px;
-    }
-
-    .logout-btn, .close-profile-btn {
-        padding: 12px;
-        font-size: 14px;
-        letter-spacing: 4px;
-        border-radius: 14px;
-    }
-
-    .player-avatar {
-        width: 70px;
-        height: 70px;
-        font-size: 28px;
-    }
-
-    .player-name {
-        font-size: 16px;
-    }
-
-    .ranking-top {
-        max-width: 360px;
-        padding: 22px 18px;
-        border-radius: 20px;
-    }
-
-    .ranking-warning {
-        font-size: 13px;
-    }
-
-    .lock-icon svg {
-        width: 75px;
-        height: 75px;
-    }
-}
-
-/* ============================================ */
-/* CELULAR ORIENTAÇÃO PAISAGEM                  */
-/* ============================================ */
-@media (max-width: 767px) and (orientation: landscape) {
-    .menu-fases {
-        gap: 30px;
-        padding: 70px 20px 50px 20px;
-    }
-
-    .menu-title {
-        font-size: 28px;
-        letter-spacing: 8px;
-    }
-
-    .dashboard-carousel {
-        height: 300px;
-    }
-
-    .dashboard-card {
-        width: 75%;
-        max-width: 420px;
-        min-height: 250px;
-        padding: 20px;
-        border-radius: 20px;
-    }
-
-    .dashboard-card[data-pos="left"] {
-        transform: translateX(-75%) scale(0.82) rotateY(12deg);
-    }
-
-    .dashboard-card[data-pos="right"] {
-        transform: translateX(75%) scale(0.82) rotateY(-12deg);
-    }
-
-    .fases-container {
-        gap: 30px;
-    }
-
-    .fase-card {
-        width: 130px;
-        height: 130px;
-        border-radius: 18px;
-    }
-
-    .fase-num {
-        font-size: 36px;
-    }
-
-    .fase-label {
-        font-size: 11px;
-        letter-spacing: 3px;
-    }
-
-    /* PERFIL - PAISAGEM */
-    .profile-btn {
-        top: 40px;
-        right: 18px;
-        padding: 7px 14px;
-        font-size: 10px;
-    }
-
-    .profile-box {
-        max-width: 400px;
-        padding: 30px 25px 25px 25px;
-        margin-top: 30px;
-    }
-
-    .profile-title {
-        font-size: 24px;
-        letter-spacing: 5px;
-        margin-bottom: 20px;
-    }
-
-    .info-row {
-        padding: 12px 14px;
-    }
-
-    .label {
-        font-size: 13px;
-    }
-
-    .value {
-        font-size: 14px;
-    }
-
-    .rank-item {
-        font-size: 13px;
-        padding: 8px 12px;
-    }
-
-    .lock-icon svg {
-        width: 70px;
-        height: 70px;
-    }
-}
-
-/* ============================================ */
-/* TABLET PEQUENO (768px - 900px)               */
-/* ============================================ */
-@media (min-width: 768px) and (max-width: 900px) {
-    .fase-card {
-        width: 180px;
-        height: 180px;
-    }
-    .fase-num {
-        font-size: 54px;
-    }
-    .ranking-top {
-        max-width: 540px;
-    }
-    .dashboard-card {
-        max-width: 520px;
-        min-height: 350px;
-    }
-}
-
-/* ============================================ */
-/* TELAS MUITO GRANDES (1200px+)                */
-/* ============================================ */
-@media (min-width: 1200px) {
-    .menu-fases {
-        gap: 65px;
-        padding: 130px 20px 110px 20px;
-    }
-    
-    .fase-card {
-        width: 200px;
-        height: 200px;
-    }
-    
-    .fase-num {
-        font-size: 58px;
-    }
-    
-    .ranking-top {
-        max-width: 580px;
-    }
+    .menu-title { font-size: 26px; letter-spacing: 6px; }
 }
