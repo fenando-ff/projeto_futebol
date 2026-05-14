@@ -131,9 +131,15 @@ def menu_fases(request):
 
     participante_id = request.session.get('participante_id')
 
-    usuario = model_minigame.Participantes.objects.using('minigame').get(
-        id_participante=participante_id
-    )
+    try:
+        usuario = model_minigame.Participantes.objects.using('minigame').get(
+            id_participante=participante_id
+        )
+    except model_minigame.Participantes.DoesNotExist:
+        # Se o participante não existe, limpa a sessão e redireciona
+        request.session.pop('participante_id', None)
+        messages.error(request, "Sua conta não foi encontrada. Faça login novamente.")
+        return redirect("game_comeco")
     
     # =================================
     # TÍTULO ATIVO
