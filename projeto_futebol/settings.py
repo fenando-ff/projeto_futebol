@@ -84,14 +84,23 @@ if IS_RENDER:
             },
         },
         "minigame": {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
+            "ENGINE": "django.db.backends.mysql",
             "NAME": os.environ.get("DB_NAME_MINIGAME"),
             "USER": os.environ.get("DB_USER_MINIGAME"),
             "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME"),
-            "HOST": os.environ.get("DB_HOST_MINIGAME", "localhost"),
-            "PORT": int(os.environ.get("DB_PORT_MINIGAME", "3306")),
+            "HOST": os.environ.get("DB_HOST_MINIGAME"),
+            "PORT": int(os.environ.get("DB_PORT_MINIGAME", "3306") or "3306"),
+            "OPTIONS": (
+                {
+                    "ssl": {
+                        "ca": os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA_MINIGAME"))
+                    }
+                }
+                if os.environ.get("DB_SSL_CA_MINIGAME")
+                else {}
+            ),
         }
-    }
+            }
 else:
     DATABASES = {
         "default": {
@@ -133,8 +142,26 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-print("RENDER =", os.environ.get("RENDER"))
-print("DB_HOST produção =", os.environ.get("DB_HOST"))
-print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
-print("Banco escolhido =", DATABASES["default"]["HOST"])
-print("Engine escolhida =", DATABASES["default"]["ENGINE"])
+print("\n========== DATABASE DEBUG ==========")
+
+print("RENDER ENV:", os.environ.get("RENDER"))
+print("DEBUG MODE:", DEBUG)
+
+print("\n--- DEFAULT DB ---")
+print("ENGINE:", DATABASES["default"]["ENGINE"])
+print("NAME:", DATABASES["default"]["NAME"])
+print("HOST:", DATABASES["default"]["HOST"])
+print("PORT:", DATABASES["default"]["PORT"])
+
+print("\n--- MINIGAME DB ---")
+print("ENGINE:", DATABASES["minigame"]["ENGINE"])
+print("NAME:", DATABASES["minigame"]["NAME"])
+print("HOST:", DATABASES["minigame"]["HOST"])
+print("PORT:", DATABASES["minigame"]["PORT"])
+
+print("\n====================================\n")
+
+
+db_env = "PRODUÇÃO" if os.environ.get("RENDER") == "True" else "LOCAL"
+
+print(f"\n🗄️ BANCO ESCOLHIDO: {db_env}\n")
