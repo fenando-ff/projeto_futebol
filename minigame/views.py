@@ -93,11 +93,11 @@ def game(request):
 #gera o nome do jogador com um sufixo aleatório para evitar repetições
 def gerar_nome_unico(nome):
     sufixos = [
-        "Capivara", "Dragao", "Fenix", "Lobo", "Tigre",
-        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Morcego",
-        "Mocurento","Flamenguista"
-        "Cachorro","Galo","Bode","Gamba","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa", "Zebra",
-        "Elefante","Girafa","Rinoceronte","Hipopotamo","Camelo","Coelho","Panda","Arara","Sapo"
+        'Flamengo', 'Palmeiras', 'São Paulo', 'Corinthians', 'Santos', 'Grêmio',
+        'Internacional', 'Atlético-MG', 'Cruzeiro', 'Vasco', 'Fluminense', 'Botafogo',
+        'Bahia', 'Fortaleza', 'Real Madrid', 'Barcelona', 'Manchester City', 'Liverpool',
+        'Bayern de Munique', 'Juventus', 'Milan', 'Inter de Milão', 'Paris Saint-Germain',
+        'Benfica', 'Porto', 'Ajax'
     ]
 
     nome_base = nome.capitalize()
