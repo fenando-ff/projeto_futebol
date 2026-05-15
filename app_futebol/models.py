@@ -19,6 +19,10 @@ class AccountsPerfil(models.Model):
         db_table = 'accounts_perfil'
 
 
+    def __str__(self):
+        return str(self.user_id)
+
+
 class Alternativas(models.Model):
     id_alternativa = models.AutoField(primary_key=True)
     opcao_resposta = models.CharField(max_length=500)
@@ -29,6 +33,10 @@ class Alternativas(models.Model):
     class Meta:
         managed = False
         db_table = 'alternativas'
+
+
+    def __str__(self):
+        return self.opcao_resposta
 
 
 class AuthGroup(models.Model):
@@ -50,6 +58,10 @@ class AuthGroupPermissions(models.Model):
         unique_together = (('group_id', 'permission_id'),)
 
 
+    def __str__(self):
+        return f"{self.group_id} - {self.permission_id}"
+
+
 class AuthPermission(models.Model):
     name = models.CharField(max_length=255)
     content_type_id = models.IntegerField()
@@ -59,6 +71,10 @@ class AuthPermission(models.Model):
         managed = False
         db_table = 'auth_permission'
         unique_together = (('content_type_id', 'codename'),)
+
+
+    def __str__(self):
+        return f"{self.name} ({self.codename})"
 
 
 class AuthUser(models.Model):
@@ -78,6 +94,10 @@ class AuthUser(models.Model):
         db_table = 'auth_user'
 
 
+    def __str__(self):
+        return self.username
+
+
 class AuthUserGroups(models.Model):
     id = models.BigAutoField(primary_key=True)
     user_id = models.IntegerField()
@@ -87,6 +107,10 @@ class AuthUserGroups(models.Model):
         managed = False
         db_table = 'auth_user_groups'
         unique_together = (('user_id', 'group_id'),)
+
+
+    def __str__(self):
+        return f"{self.user_id} - {self.group_id}"
 
 
 class AuthUserUserPermissions(models.Model):
@@ -100,6 +124,10 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user_id', 'permission_id'),)
 
 
+    def __str__(self):
+        return f"{self.user_id} - {self.permission_id}"
+
+
 class CategoriaCliente(models.Model):
     id_categoria_cliente = models.AutoField(db_column='id_CATEGORIA_CLIENTE', primary_key=True)  # Field name made lowercase.
     nome_categoria_clientes = models.CharField(db_column='nome_CATEGORIA_CLIENTES', max_length=45)  # Field name made lowercase.
@@ -111,6 +139,10 @@ class CategoriaCliente(models.Model):
         db_table = 'categoria_cliente'
 
 
+    def __str__(self):
+        return self.nome_categoria_clientes
+
+
 class CategoriaProdutos(models.Model):
     id_categoria_produtos = models.AutoField(db_column='id_CATEGORIA_PRODUTOS', primary_key=True)  # Field name made lowercase.
     nome_categoria_produtos = models.CharField(db_column='nome_CATEGORIA_PRODUTOS', max_length=45)  # Field name made lowercase.
@@ -118,6 +150,10 @@ class CategoriaProdutos(models.Model):
     class Meta:
         managed = False
         db_table = 'categoria_produtos'
+
+
+    def __str__(self):
+        return self.nome_categoria_produtos
 
 
 class Clientes(models.Model):
@@ -151,6 +187,10 @@ class Clientes(models.Model):
         db_table = 'clientes'
 
 
+    def __str__(self):
+        return f"{self.nome_clientes} ({self.cpf_clientes})"
+
+
 class Compra(models.Model):
     id_compra = models.AutoField(primary_key=True)
     produtos_id_produtos = models.ForeignKey('Produtos', models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
@@ -161,6 +201,10 @@ class Compra(models.Model):
     class Meta:
         managed = False
         db_table = 'compra'
+
+
+    def __str__(self):
+        return f"Compra {self.id_compra}"
 
 
 class DjangoAdminLog(models.Model):
@@ -177,6 +221,10 @@ class DjangoAdminLog(models.Model):
         db_table = 'django_admin_log'
 
 
+    def __str__(self):
+        return f"{self.object_repr}"
+
+
 class DjangoContentType(models.Model):
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
@@ -185,6 +233,10 @@ class DjangoContentType(models.Model):
         managed = False
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
+
+
+    def __str__(self):
+        return f"{self.app_label}.{self.model}"
 
 
 class DjangoMigrations(models.Model):
@@ -196,6 +248,10 @@ class DjangoMigrations(models.Model):
     class Meta:
         managed = False
         db_table = 'django_migrations'
+
+
+    def __str__(self):
+        return f"{self.app}: {self.name}"
 
 
 class DjangoSession(models.Model):
@@ -222,6 +278,10 @@ class EnderecoCliente(models.Model):
         db_table = 'endereco_cliente'
 
 
+    def __str__(self):
+        return f"Endereço: {self.rua_endereco_cliente}, {self.casa_endereco_cliente}"
+
+
 class EnderecoFuncionarios(models.Model):
     id_endereco_funcionarios = models.AutoField(db_column='id_ENDERECO_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
     cep_endereco_funcionarios = models.CharField(db_column='cep_ENDERECO_FUNCIONARIOS', max_length=8)  # Field name made lowercase.
@@ -234,6 +294,10 @@ class EnderecoFuncionarios(models.Model):
     class Meta:
         managed = False
         db_table = 'endereco_funcionarios'
+
+
+    def __str__(self):
+        return f"Endereço: {self.rua_endereco_funcionarios}, {self.casa_endereco_funcionarios}"
 
 
 class Funcionarios(models.Model):
@@ -251,6 +315,10 @@ class Funcionarios(models.Model):
         db_table = 'funcionarios'
 
 
+    def __str__(self):
+        return f"{self.nome_funcionarios} ({self.login_funcionarios})"
+
+
 class HistoricoTitulos(models.Model):
     id_historico = models.AutoField(primary_key=True)
     titulo = models.ForeignKey('Titulos', models.DO_NOTHING)
@@ -262,6 +330,10 @@ class HistoricoTitulos(models.Model):
         db_table = 'historico_titulos'
 
 
+    def __str__(self):
+        return f"Histórico: {self.cliente} - {self.titulo}"
+
+
 class ImagemProduto(models.Model):
     id_imagem_produto = models.AutoField(db_column='id_IMAGEM_PRODUTO', primary_key=True)  # Field name made lowercase.
     imagem_imagem = models.CharField(db_column='imagem_IMAGEM', max_length=255)  # Field name made lowercase.
@@ -271,6 +343,10 @@ class ImagemProduto(models.Model):
     class Meta:
         managed = False
         db_table = 'imagem_produto'
+
+
+    def __str__(self):
+        return f"Imagem {self.id_imagem_produto} - {self.imagem_imagem}"
 
 
 class Jogos(models.Model):
@@ -286,6 +362,10 @@ class Jogos(models.Model):
         db_table = 'jogos'
 
 
+    def __str__(self):
+        return f"{self.local_jogo} - {self.dia_jogo} {self.hora_jogo}"
+
+
 class Pedido(models.Model):
     id_pedido = models.AutoField(db_column='id_PEDIDO', primary_key=True)  # Field name made lowercase.
     data_pedido = models.DateTimeField(db_column='data_PEDIDO')  # Field name made lowercase.
@@ -296,6 +376,10 @@ class Pedido(models.Model):
     class Meta:
         managed = False
         db_table = 'pedido'
+
+
+    def __str__(self):
+        return f"Pedido {self.id_pedido} - {self.clientes_id_clientes}"
 
 
 class Produtos(models.Model):
@@ -313,6 +397,10 @@ class Produtos(models.Model):
         db_table = 'produtos'
 
 
+    def __str__(self):
+        return f"{self.nome_produtos} - R$ {self.valor_produtos}"
+
+
 class ProgressoFases(models.Model):
     cliente = models.OneToOneField(Clientes, models.DO_NOTHING, primary_key=True)
     fase2_liberada = models.IntegerField(blank=True, null=True)
@@ -320,6 +408,10 @@ class ProgressoFases(models.Model):
     class Meta:
         managed = False
         db_table = 'progresso_fases'
+
+
+    def __str__(self):
+        return f"Progresso: {self.cliente} - Fase2: {'Liberada' if self.fase2_liberada else 'Bloqueada'}"
 
 
 class Questoes(models.Model):
@@ -331,6 +423,10 @@ class Questoes(models.Model):
         db_table = 'questoes'
 
 
+    def __str__(self):
+        return self.pergunta[:80]
+
+
 class RecuperacaoSenha(models.Model):
     id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=6)
@@ -340,6 +436,10 @@ class RecuperacaoSenha(models.Model):
     class Meta:
         managed = False
         db_table = 'recuperacao_senha'
+
+
+    def __str__(self):
+        return f"Código: {self.codigo} - Cliente: {self.cliente_id}"
 
 
 class Respostas(models.Model):
@@ -354,6 +454,10 @@ class Respostas(models.Model):
         db_table = 'respostas'
 
 
+    def __str__(self):
+        return f"{self.cliente} - {self.questao} - {self.alternativa}"
+
+
 class SetorFuncionarios(models.Model):
     id_setor_funcionarios = models.AutoField(db_column='id_SETOR_FUNCIONARIOS', primary_key=True)  # Field name made lowercase.
     nome_setor_funcionarios = models.CharField(db_column='nome_SETOR_FUNCIONARIOS', max_length=45)  # Field name made lowercase.
@@ -362,6 +466,10 @@ class SetorFuncionarios(models.Model):
     class Meta:
         managed = False
         db_table = 'setor_funcionarios'
+
+
+    def __str__(self):
+        return self.nome_setor_funcionarios
 
 
 class Times(models.Model):
@@ -374,6 +482,10 @@ class Times(models.Model):
         db_table = 'times'
 
 
+    def __str__(self):
+        return self.nome_time
+
+
 class Titulos(models.Model):
     id_titulo = models.AutoField(primary_key=True)
     nome_titulo = models.CharField(max_length=45)
@@ -381,3 +493,6 @@ class Titulos(models.Model):
     class Meta:
         managed = False
         db_table = 'titulos'
+
+    def __str__(self):
+        return self.nome_titulo
