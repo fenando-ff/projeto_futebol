@@ -18,6 +18,10 @@ body {
   color: #111;
 }
 
+body.modo-jogo {
+  padding-top: 220px; /* compensa a box de missão fixa no topo */
+}
+
 /* Container principal que centraliza o conteúdo */
 .container {
   max-width: 1300px;
@@ -429,6 +433,162 @@ body {
 
 .btn-adicionar.added{
   animation:addCart 0.4s ease;
+}
+
+/* ===============================
+   BOX DE MISSÃO (modo jogo)
+   =============================== */
+#missao-box {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  border: 2px solid #00ff88;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 0 auto 30px;
+  max-width: 900px;
+}
+
+#missao-box h3 {
+  color: #00ff88;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  margin: 0 0 16px;
+  letter-spacing: 3px;
+  text-align: center;
+}
+
+#missao-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+#missao-list li {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+#missao-list li .missao-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#missao-list li .missao-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+}
+
+#missao-list li .missao-item span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#missao-list li.concluido {
+  border-color: #00ff88;
+  background: rgba(0, 255, 136, 0.08);
+}
+
+#missao-list li.concluido .missao-item span {
+  text-decoration: line-through;
+  color: #00ff88;
+}
+
+#missao-list li.erro {
+  border-color: #ff4444;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* ===============================
+   MISSÃO — MODO MOBILE
+   Apenas os itens, sem box
+   =============================== */
+@media (max-width: 768px) {
+  body.modo-jogo {
+    padding-top: 130px;
+  }
+
+  body.modo-jogo #missao-box {
+    display: flex !important;
+    position: static;
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 12px 8px;
+    margin: 0;
+    max-width: none;
+    z-index: auto;
+  }
+
+  body.modo-jogo #missao-box h3 {
+    display: none;
+  }
+
+  body.modo-jogo #missao-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    justify-content: flex-start;
+  }
+
+  body.modo-jogo #missao-list li {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    gap: 6px;
+  }
+
+  body.modo-jogo #missao-list li .missao-item {
+    gap: 6px;
+  }
+
+  body.modo-jogo #missao-list li .missao-item img {
+    width: 32px;
+    height: 32px;
+  }
+
+  body.modo-jogo #missao-list li .missao-item span {
+    font-size: 12px;
+  }
+
+  body.modo-jogo #missao-list li.concluido {
+    background: none;
+  }
+
+  body.modo-jogo #missao-list li.erro {
+    background: none;
+    animation: none;
+  }
 }
 
 /* =========================

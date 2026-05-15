@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .models import Perfil
 from django.contrib.auth.hashers import make_password, check_password # Isso aqui importa a ferramenta pra criar criptografia e ler criptografia
-from app_futebol.models import models
+from app_futebol import models
 import re
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError

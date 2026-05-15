@@ -537,16 +537,9 @@ if (modoJogo) {
           if (data.sucesso) {
             pararTimer();
             closeGamePaymentModal();
-            btnPagamentoGame.textContent = 'MISSÃO CONCLUÍDA ✅';
-
-            const tempoFinal = Math.round((Date.now() - gameStartTime) / 1000);
-            const rank = calcularRank(tempoFinal);
-
-            if (resTempo) resTempo.textContent = `${tempoFinal}s`;
-            if (resCombo) resCombo.textContent = combo;
-            if (resErros) resErros.textContent = erros;
-            if (rankDisplay) rankDisplay.textContent = rank;
-            if (resultadoOverlay) resultadoOverlay.style.display = 'flex';
+            
+            // Redireciona para o menu do minigame ao finalizar a missao
+            window.location.href = '/game/finalizar_missao/';
           } else {
             showGamePaymentError(data.mensagem || 'Erro ao finalizar a missão.');
             gamePaymentConfirm.disabled = false;
@@ -562,6 +555,12 @@ if (modoJogo) {
   }
 
   if (modoJogo && btnPagamentoGame) {
+    // No modo jogo, FINALIZAR MISSAO ira direto para o menu de fases (sem abrir modal)
+    btnPagamentoGame.addEventListener('click', () => {
+      window.location.href = '/game/finalizar_missao/';
+    });
+  } else if (btnPagamentoGame) {
+    // Modo normal — abre o popup de pagamento
     btnPagamentoGame.addEventListener('click', openGamePaymentModal);
   }
 

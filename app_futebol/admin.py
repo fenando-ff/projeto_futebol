@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import models
+from . import models
 
 
 # 2. Registros do banco padrão (default)
@@ -14,3 +14,7 @@ admin.site.register(models.Compra)
 admin.site.register(models.ImagemProduto)
 admin.site.register(models.Times)
 admin.site.register(models.Jogos)
+admin.site.register(models.Questoes)
+admin.site.register(models.Alternativas)
+admin.site.register(models.Titulos)
+admin.site.register(models.HistoricoTitulos)

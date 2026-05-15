@@ -103,6 +103,30 @@ INSERT INTO `participantes` VALUES (1,'João Silva','00:00:14',NULL,''),(2,'Mari
 UNLOCK TABLES;
 
 --
+-- Table structure for table `progresso_fases`
+--
+
+DROP TABLE IF EXISTS `progresso_fases`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `progresso_fases` (
+  `participante_id` int NOT NULL,
+  `fase2_liberada` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`participante_id`),
+  CONSTRAINT `fk_progresso_fases_participantes` FOREIGN KEY (`participante_id`) REFERENCES `participantes` (`id_participante`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `progresso_fases`
+--
+
+LOCK TABLES `progresso_fases` WRITE;
+/*!40000 ALTER TABLE `progresso_fases` DISABLE KEYS */;
+/*!40000 ALTER TABLE `progresso_fases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `questoes`
 --
 

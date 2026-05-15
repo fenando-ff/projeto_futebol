@@ -1,146 +1,54 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
 from django.templatetags.static import static
 from django.contrib.staticfiles import finders
-from urllib3 import request
-from minigame import models as model_minigame
-from app_futebol.models import models
+from app_futebol import models
 import random
 from .decorators import login_obrigatorio
 from django.http import JsonResponse
 import json
-from django.contrib.auth.hashers import make_password, check_password
 from datetime import time
 from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Max
 
-def game(request):
 
-    if request.method == 'POST':
+def formatar_tempo_user(tempo):
+    if not tempo:
+        return "00:00"
 
-        nome = request.POST.get('nome')
-        senha = request.POST.get('senha')
-        modo = request.POST.get('modo')
+    total_segundos = (
+        tempo.hour * 3600 +
+        tempo.minute * 60 +
+        tempo.second
+    )
 
-        if not nome or not senha:
-            return JsonResponse({'error': 'Dados inválidos'}, status=400)
+    minutos = total_segundos // 60
+    segundos = total_segundos % 60
 
-        # CADASTRO
-        if modo == "cadastro":
-
-            if model_minigame.Participantes.objects.using('minigame').filter(
-                nome_participante=nome
-            ).exists():
-
-                return JsonResponse({
-                    'error': 'Nome já existe'
-                }, status=400)
-
-            nome_final = gerar_nome_unico(nome)
-
-            participante = model_minigame.Participantes.objects.using('minigame').create(
-                nome_participante=nome_final,
-                senha=make_password(senha)
-            )
-
-            request.session['participante_id'] = participante.id_participante
-
-
-
-            return JsonResponse({
-                'redirect': reverse('menu_fases'),
-                'nome_gerado': nome_final
-            })
-
-        # LOGIN
-        else:
-
-            participante = model_minigame.Participantes.objects.using('minigame').filter(
-                nome_participante__startswith=nome
-            ).first()
-
-            if not participante:
-                return JsonResponse({
-                    'error': 'Usuário não encontrado'
-                }, status=404)
-
-            if not check_password(senha, participante.senha):
-
-                return JsonResponse({
-                    'error': 'Senha incorreta'
-                }, status=400)
-
-            request.session['participante_id'] = participante.id_participante
-
-            return JsonResponse({
-                'redirect': reverse('menu_fases'),
-                'nome_gerado': participante.nome_participante
-            })
-
-
-
-
-    return render(request, 'minigame/game_inicio.html')
-
-
-
-
-
-
-
-
-#gera o nome do jogador com um sufixo aleatório para evitar repetições
-def gerar_nome_unico(nome):
-    sufixos = [
-        "Capivara", "Dragao", "Fenix", "Lobo", "Tigre",
-        "Pantera", "Corvo", "Leao", "Falcon", "Serpente","Leão","Cobra","Gato","Morcego",
-        "Mocurento","Flamenguista"
-        "Cachorro","Galo","Bode","Gamba","Porco","Macaco","Tatu","Jacare","Canguru","Urso","Raposa", "Zebra",
-        "Elefante","Girafa","Rinoceronte","Hipopotamo","Camelo","Coelho","Panda","Arara","Sapo"
-    ]
-
-    nome_base = nome.capitalize()
-    sufixo = random.choice(sufixos)
-
-    return f"{nome_base}_{sufixo}"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# logout não exige login
-def logout_minigame(request):
-    """Logout apenas do minigame, mantendo sessão do app_futebol intacta"""
-    request.session.pop("participante_id", None)
-    request.session.pop("quiz_inicio", None)
-    return redirect("game_comeco")
+    return f"{minutos:02}:{segundos:02}"
 
 
 @login_obrigatorio
 def menu_fases(request):
 
-    participante_id = request.session.get('participante_id')
+    cliente_id = request.session.get('cliente_id')
 
-    usuario = model_minigame.Participantes.objects.using('minigame').get(
-        id_participante=participante_id
-    )
+    try:
+        usuario = models.Clientes.objects.get(
+            id_clientes=cliente_id
+        )
+    except models.Clientes.DoesNotExist:
+        # Se o participante não existe, limpa a sessão e redireciona
+        request.session.pop('cliente_id', None)
+        messages.error(request, "Sua conta não foi encontrada. Faça login novamente.")
+        return redirect("menu_fases")
     
     # =================================
     # TÍTULO ATIVO
     # =================================
 
-    titulo_ativo = model_minigame.HistoricoTitulos.objects.using('minigame').filter(
-        participante=usuario,
+    titulo_ativo = models.HistoricoTitulos.objects.filter(
+        cliente=usuario,
         ativo=1
     ).select_related('titulo').first()
 
@@ -153,8 +61,8 @@ def menu_fases(request):
     # MELHOR COMBO
     # =================================
 
-    melhor_combo = model_minigame.Respostas.objects.using('minigame').filter(
-        participante=usuario
+    melhor_combo = models.Respostas.objects.filter(
+        cliente=usuario
     ).aggregate(Max('combo_max'))
 
     usuario.combo_maximo = melhor_combo['combo_max__max'] or 0
@@ -162,43 +70,50 @@ def menu_fases(request):
     
     # Verifica se fase2 está liberada
     try:
-        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=usuario)
+        progresso = models.ProgressoFases.objects.get(cliente=usuario)
         fase2_liberada = progresso.fase2_liberada
-    except model_minigame.ProgressoFases.DoesNotExist:
+    except models.ProgressoFases.DoesNotExist:
         fase2_liberada = False
 
     # 🔥 ranking global
-    jogadores = model_minigame.Participantes.objects.using('minigame')\
-        .all()\
-        .order_by('-pontuacao', 'tempo')[:5]
+    jogadores = models.Clientes.objects.all()\
+    .filter(respostas__isnull=False)\
+    .exclude(tempo__isnull=True)\
+    .exclude(score_rank__isnull=True)\
+    .exclude(score_rank=0)\
+    .order_by('-score_rank')\
+    .distinct()[:5]
+
+    jogador_mais_rapido = models.Clientes.objects.all()\
+    .filter(respostas__isnull=False)\
+    .exclude(tempo__isnull=True)\
+    .exclude(score_rank__isnull=True)\
+    .exclude(score_rank=0)\
+    .order_by('tempo')\
+    .distinct()\
+    .first()
+
+    flash_tempo = "00:00"
+
+    if jogador_mais_rapido:
+        flash_tempo = formatar_tempo_user(jogador_mais_rapido.tempo)
 
     # 🔥 formata tempo para exibição
     ranking_formatado = []
+    
 
     for jogador in jogadores:
 
-        tempo_formatado = "00:00"
-
-        if jogador.tempo:
-
-            total_segundos = (
-                jogador.tempo.hour * 3600 +
-                jogador.tempo.minute * 60 +
-                jogador.tempo.second
-            )
-
-            minutos = total_segundos // 60
-            segundos = total_segundos % 60
-
-            tempo_formatado = f"{minutos:02}:{segundos:02}"
-
+        tempo_formatado = formatar_tempo_user(jogador.tempo)
+    
         ranking_formatado.append({
-            'nome': jogador.nome_participante,
-            'pontuacao': jogador.pontuacao,
-            'tempo': tempo_formatado
+            'nome': jogador.nome_clientes,
+            'pontuacao': jogador.score_rank,
+            'tempo': tempo_formatado,
+            'flash': jogador_mais_rapido,  # Destaca o usuário logado
         })
         
-        
+
     # =========================
     # TEMPO FORMATADO DO USUÁRIO
     # =========================
@@ -217,7 +132,8 @@ def menu_fases(request):
         segundos = total_segundos % 60
 
         tempo_usuario = f"{minutos:02}:{segundos:02}" 
-    
+
+    titulo_ganho = request.session.pop('titulo_ganho', None)
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,
@@ -227,6 +143,9 @@ def menu_fases(request):
         'titulo_ativo': usuario.titulo,
         'melhor_combo': usuario.combo_maximo,
         'tempo_usuario': tempo_usuario,
+        'flash': jogador_mais_rapido,
+        'flash_tempo': flash_tempo,
+        'titulo_ganho': titulo_ganho,
     })
 
 
@@ -237,28 +156,26 @@ def menu_fases(request):
 def game_toturial(request):
     return render(request, 'minigame/game_toturial.html')
 
-
 @login_obrigatorio
 def quiz_toturial(request):
     return render(request, 'minigame/quiz_toturial.html')
 
-
 @login_obrigatorio
 def game_sorteio(request):
 
-    participante_id = request.session.get('participante_id')
+    cliente_id = request.session.get('cliente_id')
     try:
-        participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
-    except model_minigame.Participantes.DoesNotExist:
-        return redirect('game_comeco')
+        cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+    except models.Clientes.DoesNotExist:
+        return redirect('menu_fases')
     
     # Check if fase2 is unlocked
     try:
-        progresso = model_minigame.ProgressoFases.objects.using('minigame').get(participante=participante)
+        progresso = models.ProgressoFases.objects.get(cliente=cliente)
         if not progresso.fase2_liberada:
             messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
             return redirect('menu_fases')
-    except model_minigame.ProgressoFases.DoesNotExist:
+    except models.ProgressoFases.DoesNotExist:
         messages.warning(request, "Complete a Fase 01 para desbloquear a Fase 02!")
         return redirect('menu_fases')
     
@@ -309,14 +226,13 @@ def game_sorteio(request):
         "sorteados": sorteados_formatados
     })
     
-    
 
 # views quiz        
 @login_obrigatorio
 def game_quiz(request):
 
     # 🔥 pega todas as questões
-    questoes_db = model_minigame.Questoes.objects.using('minigame').all()
+    questoes_db = models.Questoes.objects.all()
 
     perguntas = []
 
@@ -351,8 +267,7 @@ def game_quiz(request):
     return render(request, "minigame/game_quiz.html", {
         "perguntas": perguntas
     })
-    
-    
+
 
 
 
@@ -369,18 +284,21 @@ def salvar_pontuacao(request):
         respostas_data = data.get('respostas', [])
         tempo_ms = data.get('tempo_ms')
         combo_maximo = data.get('combo_maximo', 0)
+        total_questoes = len(respostas_data)
+        acertos = 0
+        acertos = 0
         print(data)
         print(tempo_ms)
         print(type(tempo_ms))
         
-        participante_id = request.session.get('participante_id')
-        if not participante_id:
+        cliente_id = request.session.get('cliente_id')
+        if not cliente_id:
             return JsonResponse({'error': 'Sessão inválida'}, status=401)
         
         try:
-            participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
-        except model_minigame.Participantes.DoesNotExist:
-            return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+            cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+        except models.Clientes.DoesNotExist:
+            return JsonResponse({'error': 'Cliente não encontrado'}, status=404)
         
         if tempo_ms is not None:
             segundos = tempo_ms / 1000
@@ -389,75 +307,121 @@ def salvar_pontuacao(request):
             minutes = int((segundos % 3600) // 60)
             seconds = int(segundos % 60)
 
-            participante.tempo = time(
+            cliente.tempo = time(
                 hour=hours,
                 minute=minutes,
                 second=seconds
             )
         
         # Salva pontuação total
-        participante.pontuacao = pontuacao_total
-        participante.save()
+        cliente.score_rank = pontuacao_total
+        cliente.save()
+
         
         # Salva respostas individuais
         for resp in respostas_data:
             questao_id = resp.get('questao_id')
             alternativa_id = resp.get('alternativa_id')
-            
+
             if not questao_id or not alternativa_id:
                 continue
             
-            model_minigame.Respostas.objects.using('minigame').update_or_create(
-                participante=participante,
+            cliente.save()
+
+            try:
+                alternativa = models.Alternativas.objects.get(
+                    id_alternativa=alternativa_id
+                )
+                if alternativa.resposta_correta:
+                    acertos += 1
+            except models.Alternativas.DoesNotExist:
+                continue
+            
+            models.Respostas.objects.update_or_create(
+                cliente=cliente,
                 questao_id=questao_id,
                 defaults={
                 'alternativa_id': alternativa_id,
                 'combo_max': combo_maximo
             }
             )
+
+
+
         
         # Liberar fase 2 após completar fase 1 (quiz)
-        progresso, created = model_minigame.ProgressoFases.objects.using('minigame').get_or_create(
-            participante=participante,
+        progresso, created = models.ProgressoFases.objects.get_or_create(
+            cliente=cliente,
             defaults={'fase2_liberada': True}
         )
         if not created:
             progresso.fase2_liberada = True
             progresso.save()
         
+        precisao = (acertos / total_questoes) * 100
+
+        tempo_segundos = tempo_ms / 1000
+
+
+                        # =================================
+        # SCORE INTELIGENTE
+        # =================================
+        tempo_segundos = int(tempo_ms / 1000)
+        precisao = int((acertos / total_questoes) * 100)
+        score_final = (
+            (acertos * 10)
+            + (combo_maximo * 5)
+            + precisao
+            - tempo_segundos
+        )
+        if score_final < 0:
+            score_final = 0
+        cliente.score_rank = score_final
+        cliente.save()
         
         # =========================================
         # SISTEMA DE TÍTULOS
         # =========================================
 
-        titulo_nome = "Bagre da Série B"
-
-        if pontuacao_total >= 20:
+        if score_final >= 180:
             titulo_nome = "Pelé do Quiz"
 
-        elif pontuacao_total >= 15:
+        elif score_final >= 140:
             titulo_nome = "Rei da Libertadores"
 
-        elif pontuacao_total >= 10:
+        elif score_final >= 100:
             titulo_nome = "Artilheiro"
 
-        elif pontuacao_total >= 5:
+        elif score_final >= 60:
             titulo_nome = "Craque da Série A"
+
+        else:
+            titulo_nome = "Bagre da Série B"
+
+
+        # 🔥 salva na sessão
+        request.session['titulo_ganho'] = titulo_nome
 
 
         # pega título no banco
-        titulo_obj = model_minigame.Titulos.objects.using('minigame').get(
-            nome_titulo=titulo_nome
-        )
+        try:
+            titulo_obj = models.Titulos.objects.get(
+                nome_titulo=titulo_nome
+            )
+        except models.Titulos.DoesNotExist:
+            titulo_obj = None
+
+        if not titulo_obj:
+            return JsonResponse({'status': 'ok', 'titulo': titulo_nome})
 
         # desativa títulos antigos
-        model_minigame.HistoricoTitulos.objects.using('minigame').filter(
-            participante=participante
+        models.HistoricoTitulos.objects.filter(
+            cliente=cliente
         ).update(ativo=0)
 
         # cria ou atualiza histórico
-        historico, created = model_minigame.HistoricoTitulos.objects.using('minigame').get_or_create(
-            participante=participante,
+        historico, created = models.HistoricoTitulos.objects.get_or_create(
+            cliente=cliente,
             titulo=titulo_obj,
             defaults={'ativo': 1}
         )
@@ -478,35 +442,43 @@ def salvar_pontuacao(request):
 
 
 
-
-
-
-
 @login_obrigatorio
 def salvar_tempo_roleta(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         tempo_ms = data.get('tempo_ms')
         
-        participante_id = request.session.get('participante_id')
-        if not participante_id:
+        cliente_id = request.session.get('cliente_id')
+        if not cliente_id:
             return JsonResponse({'error': 'Sessão inválida'}, status=401)
         
         try:
-            participante = model_minigame.Participantes.objects.using('minigame').get(id_participante=participante_id)
-        except model_minigame.Participantes.DoesNotExist:
-            return JsonResponse({'error': 'Participante não encontrado'}, status=404)
+            cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+        except models.Clientes.DoesNotExist:
+            return JsonResponse({'error': 'Cliente não encontrado'}, status=404)
         
         # Converte milissegundos para formato TimeField (HH:MM:SS)
         segundos = tempo_ms / 1000
         hours = int(segundos // 3600)
         minutes = int((segundos % 3600) // 60)
         seconds = int(segundos % 60)
-        participante.tempo = time(
+        cliente.tempo = time(
             hour=hours,
             minute=minutes,
             second=seconds
         )
-        participante.save()
+
         
         return JsonResponse({'status': 'ok'})
+
+
+@login_obrigatorio
+def finalizar_missao(request):
+    """
+    Chamada pela tela de carrinho (modo jogo) apos o usuario clicar em
+    'FINALIZAR MISSAO' e completar o pagamento rapido.
+    Limpa a sessao do minigame e redireciona para o menu de fases.
+    """
+    request.session.pop("quiz_inicio", None)
+    request.session.pop("titulo_ganho", None)
+    return redirect("menu_fases")

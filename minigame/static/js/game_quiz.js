@@ -315,25 +315,42 @@ function finalizarQuiz() {
     const precisao =
         Math.round((acertos / perguntas.length) * 100);
 
-    // 🏆 títulos
-    let titulo = "Bagre da Série B";
+    // =================================
+// SCORE INTELIGENTE
+// =================================
 
-    if (pontuacao >= 20) {
+const tempoSegundos = Math.floor(tempoFinal / 1000);
 
-        titulo = "Pelé do Quiz";
+const scoreFinal =
+    (acertos * 10)
+    + (comboMaximo * 5)
+    + precisao
+    - tempoSegundos;
 
-    } else if (pontuacao >= 15) {
+const scoreCorrigido = Math.max(scoreFinal, 0);
 
-        titulo = "Rei da Libertadores";
+// =================================
+// TÍTULOS
+// =================================
 
-    } else if (pontuacao >= 10) {
+let titulo = "Bagre da Série B";
 
-        titulo = "Artilheiro do Brasileirão";
+if (scoreCorrigido >= 180) {
 
-    } else if (pontuacao >= 5) {
+    titulo = "Pelé do Quiz";
 
-        titulo = "Craque da Série A";
-    }
+} else if (scoreCorrigido >= 140) {
+
+    titulo = "Rei da Libertadores";
+
+} else if (scoreCorrigido >= 100) {
+
+    titulo = "Artilheiro";
+
+} else if (scoreCorrigido >= 60) {
+
+    titulo = "Craque da Série A";
+}
 
 
 
@@ -371,8 +388,8 @@ function finalizarQuiz() {
             </div>
 
             <div class="resultado-item">
-                ⭐ Pontuação:
-                <span>${pontuacao}</span>
+                ⭐ Score:
+                <span>${scoreCorrigido}</span>
             </div>
 
         </div>
@@ -462,7 +479,10 @@ if (pontuacao >= 20) {
             pontuacao: pontuacao,
             respostas: respostas,
             tempo_ms: tempoFinal,
-            combo_maximo: comboMaximo
+            combo_maximo: comboMaximo,
+            acertos: acertos,
+            total_questoes: perguntas.length,
+            score: scoreCorrigido
         })
     })
     .then(res => res.json())
@@ -470,7 +490,7 @@ if (pontuacao >= 20) {
         console.log("Dados salvos!", data);
     })
     .catch(err => console.error("Erro:", err));
-
+    
     
     // tabela de títulos
 

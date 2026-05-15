@@ -66,17 +66,17 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'projeto_futebol.urls'
 WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
-IS_RENDER = os.environ.get("RENDER", "False") == "True"
+IS_RENDER = os.environ.get("RENDER")
 
 if IS_RENDER:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
+            "ENGINE": os.environ.get("DB_ENGINE"),
             "NAME": os.environ.get("DB_NAME"),
             "USER": os.environ.get("DB_USER"),
             "PASSWORD": os.environ.get("DB_PASSWORD"),
-            "HOST": os.environ.get("DB_HOST", "localhost"),
-            "PORT": int(os.environ.get("DB_PORT", "3306")),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": int(os.environ.get("DB_PORT")),
             "OPTIONS": {
                 "ssl": {
                     "ca": os.path.join(BASE_DIR, os.environ.get("DB_SSL_CA"))
@@ -104,25 +104,15 @@ if IS_RENDER:
 else:
     DATABASES = {
         "default": {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
-            "NAME": os.environ.get("DB_NAME_LOCAL", os.environ.get("DB_NAME", "projeto_futebol")),
-            "USER": os.environ.get("DB_USER_LOCAL", os.environ.get("DB_USER", "root")),
-            "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL", os.environ.get("DB_PASSWORD", "")),
-            "HOST": os.environ.get("DB_HOST_LOCAL", "localhost"),
-            "PORT": int(os.environ.get("DB_PORT_LOCAL", os.environ.get("DB_PORT", "3306"))),
+            "ENGINE": os.environ.get("DB_ENGINE"),
+            "NAME": os.environ.get("DB_NAME_LOCAL"),
+            "USER": os.environ.get("DB_USER_LOCAL"),
+            "PASSWORD": os.environ.get("DB_PASSWORD_LOCAL"),
+            "HOST": os.environ.get("DB_HOST_LOCAL",),
+            "PORT": int(os.environ.get("DB_PORT_LOCAL")),
         },
-        "minigame": {
-            "ENGINE": os.environ.get("DB_ENGINE", "django.db.backends.mysql"),
-            "NAME": os.environ.get("DB_NAME_MINIGAME_LOCAL", os.environ.get("DB_NAME_MINIGAME", "minigame")),
-            "USER": os.environ.get("DB_USER_MINIGAME_LOCAL", os.environ.get("DB_USER_MINIGAME", "root")),
-            "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME_LOCAL", os.environ.get("DB_PASSWORD_MINIGAME", "")),
-            "HOST": os.environ.get("DB_HOST_MINIGAME_LOCAL", "localhost"),
-            "PORT": int(os.environ.get("DB_PORT_MINIGAME_LOCAL", os.environ.get("DB_PORT_MINIGAME", "3306"))),
-        }
     }
     
-DATABASE_ROUTERS = ['minigame.routers.MinigameRouter']
-
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
