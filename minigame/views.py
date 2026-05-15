@@ -198,7 +198,7 @@ def menu_fases(request):
     .exclude(tempo__isnull=True)\
     .exclude(pontuacao__isnull=True)\
     .exclude(pontuacao=0)\
-    .order_by('-pontuacao', 'tempo')\
+    .order_by('tempo')\
     .distinct()\
     .first()
 
