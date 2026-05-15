@@ -384,13 +384,6 @@ CREATE TABLE `django_admin_log` (
 
 --
 -- Dumping data for table `django_admin_log`
---
-
-LOCK TABLES `django_admin_log` WRITE;
-/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (188,'2026-01-15 21:58:42.007721','5',' 15/01/2026 - Camisa Milan Home Listrada - Fernando',2,'[]',10,1),(189,'2026-03-12 00:22:20.651390','44','Cachecol',2,'[{\"changed\": {\"fields\": [\"Nome produtos\", \"Valor produtos\", \"Descricao produtos\", \"Quantidade estoque produtos\", \"Imagem produtos\"]}}]',15,1),(190,'2026-03-12 00:27:26.230009','45','Boneco',2,'[{\"changed\": {\"fields\": [\"Nome produtos\", \"Valor produtos\", \"Descricao produtos\", \"Quantidade estoque produtos\", \"Imagem produtos\"]}}]',15,1),(191,'2026-03-12 00:34:18.182216','46','Gorro',2,'[{\"changed\": {\"fields\": [\"Nome produtos\", \"Quantidade estoque produtos\", \"Imagem produtos\"]}}]',15,1),(192,'2026-03-12 05:41:31.398810','56','Caneca Drakos',1,'[{\"added\": {}}]',15,1),(193,'2026-03-12 05:44:02.281682','56','Caneca Drakos',2,'[{\"changed\": {\"fields\": [\"Imagem produtos\"]}}]',15,1),(194,'2026-03-12 05:44:48.756635','56','Caneca Drakos',2,'[{\"changed\": {\"fields\": [\"Imagem produtos\"]}}]',15,1);
-/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `django_content_type`
@@ -462,14 +455,6 @@ CREATE TABLE `django_session` (
 --
 -- Dumping data for table `django_session`
 --
-
-LOCK TABLES `django_session` WRITE;
-/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('efnib8h9z05ohb2nf9x31f9o2xppn7in','.eJxVkMFuwyAQRH_F4twgsME2OVWt1FsP7Q9ECywNjQ0W2Kco_15suap73H0zswN3coFlvl6WjOniLTkTTp6OOw3mhmEF9hvCV6Qmhjl5TVcJ3Wmm79Hi8LJr_wVcIV-LG3rZM8MkSlQdGFk3XBhnhJLSanSiBu4Uc5xJ3bumrnsORitZm5Yz1xldQs3gMcy41eR197cIccRy4g1TgGDjQZqjTviLE_oZ8oHiCH4oxO1GzjohuGqf0S50ApoxgKE6HSwzDuhiWPMUV73oOBeNOAjM5ApjsqPlwVS09YmpgqcBQix1jI9bf_F_tVfchsomuMVcnaopwQzHvsFiQhPJ-U7WkKakGJyKsW27XgnZF3FaoCw-F6iEXL2Q11kKVgYNPqViJ68xWfRp-6o4TgOO5cAKPhYo5ysuyOPxAyn7rUk:1wL1wv:LukmquGCWNe7bNcNfFL-maVKykPQeeJwXRpw38t2-2g','2026-05-21 16:51:45.286125'),('n4cap26nv72z3d67mduv18tfzqj5bqdn','.eJztl0uTozYQgP8KxSmpsrEEEq9TMlN5VXYOOzuVS3aLaoSwtQvIETA5TM1_T4vgWRvb2JlcNo-Dy6hftD61GunJFZWSTSczVbgp9aPFi6DRtXRT93tpGmgK7X7WtDo3cqc2UnXQ7mllDapCTTk6UhIxRpPwG1n03ha8VjYgvNzsuXSykqVubLyEJjGLKGUB2zMQ2xJ1hEdezGOPhf6SJKjeVtBoTEcoPeTPDkVjisPAKQx80q2zdLYGOtjPtymkkUK76ZNrgwQYRcgtOoZhFCeMx2hsekDBfQ8O49YXWjvmjOAgB2UMuru32hRSmQGVrreVrPEFVvG2B3y9Q5n7vHA3qu20UUJn1sggu_TXJ3crC1WMOWS7Aa5Ggcm-jF3KV4SufOKHDo1S5rsHBplqrZFVLwldUv4wGKUBDsOU2FzbDroe3-iCI6BWzUbblFQnmzENo4u-e2HBwoVrKWaj3Hr-oM0wRVXDWtb7GlWvV7vhCoRsW5wnPur8o-y0E6w63QvIOgNNuwUsoc7bNmubwG89NJ0qoMD14gv3ESptsr7BysIAuCQJ8Qgm3-ed7qAaBc8fdpYH0sUZmOE8zIBfATPgKYtfCzOIj2Heol8Lzp3CsnV-RKXzBsvDQAFnCYvBJdvYSKVa13AKIj0BkUwhkh2uSZ4nFn3M8waXToBzLzvzviekZJfr4M90d_9ZPkTIDEbQh7Kv6Nfe7zLfXjEVn0-mMghOTIUlx1N5h03JJi9ppcAptCOqPpfXTKQSUOBDiwEAfa_kTqfc6RnujJ7l_ovEzuKsdTW2l7_GfPTLHm2Uk0Ln78OfbsaEzG1GfmEzsms2I0v913e26Bj2HbRCd1eUwl5vy_Gzha28tht4dfPdzf1Ptz-_u3uz_JYGGaGZTyiL_ThY4ictWTIe0mUes3wZSx75UJZRwOm14IMp-OAk-IDPgWdz4MM0iC6Ct0Z4UjgGj_3cyHUv57l_uTtyCpLOVnAwBzJI_csgrVHqvxbkv6hL_2M-jCdq9yDPh40yhQM1nm2q83niD4-mjy-00cEAOjhDE3FKezCSV0OOp5DjU7UcB3O17B_VMvtcy37Kk_laZg-DUcrZf62Wp5j92d5LL2Cm12CmKfm_ZXyhLWNaDnxXJBn03SbrW2mGe6prV3pPloP4hNdQVBQfoVlrT2hcT5V71sQbta13pwtZ3Yy2BwE20G7s0Qdvx0QQLrlMIhDcDygTpWAJ50UuS-YDLRNSUsLzuAx8P6Yg8oT7IqSkjEQ-3GyNGQ5P6dPz8x9krU61:1w3kIA:ShiKKUSqg2iX5vxL4Pzn3wAKhmEkgb_jcDg3jnTaFTs','2026-04-04 00:34:14.108090'),('ostnrhx9wcj0pwimusbw91gg9hvjgt6l','.eJztVkuP40QQ_iuWT4tIPP10bJ8gKxCInQOzIy7syiq320mztju07eEwmv9OtSeZzWuSEAkEKw5R3PVy1VdfVfsxzGHol_nQaZebMsxCGk62ZQWoT7r1ivI3aBc2UrbtnSkibxKttV10a0tdz9e2OwGW0C3RGxKZEEWkljqdgZKMU6EqJVIpy0JXggGtUlJRIouk4owlFFSRSqZiSqqZKjCoqo1uez2mSdnss6C1jcZXfK9dC21pt0w7Wzi9UTtteui2tLoBU6OmWjtSMhOCpvE3uhyiFUSdbkFFhdty6XWtK9v6eClNEzGjVHCxZaBWFeqInEVYcCRiNiUpqlc1tBbTUcaO-fNd0TrF8RCUDj7ZLpgGdnDbxSC02mllw-wxHGMI1OkV-sUxpYQSgsZuABTcDRDE3hU6f-TMd7UA4zBgFt6CA4XNhHoJ3sg2q1o3-A6v_HkATCCgInyahEvT9dYZZXNv5BC97NfHcKVLU67TyDcH7EcJPbycQypvCL1hhMUB45lg4Y5Bbjpv5NVTQqdU3o9GGY-_JiQbS-l66IfOcydQ0Jh2aX1KptftOg1ny6F_gUPEk9DjmK_l3nNu2w8DIdq3wDSw0M221jSLm83xBpTuOqwVHwtscN4Y7M_WY_BGfBX9oYuVT-L3AdrelFBi1-QkfIDaunxokV8YADuTkohgAUPR2x6QYjSVKHn6uDHdFU9egTQ-DSmXF0DKZSaSqyGlh5C-Rb8Ogl-0K3WwsLU2I0nPoKtGr81_vvbLH3yUo8LgDT0ONz2Em8k9uNkLrHv1pIf1vMfJHzlCawNBaQNVD4W-pKJaQYkPHQYA9I1W7eKCZHFM97hBjifLj_B5Df7cQasguNO986lX4i83oBgj5A4j2F3Z34E7T14t5XacrR9QGbzDZeOghFeLWee59JEqs2guhZzvQz4KDqYxJaeGUZ4ZRnHJMIqMXb_fZocg3kKnbH8BW_e2Gy705_02_25-9-Pbn97fvpt-S3lOaM4IFQlL-BSvtnQqZEynRSKKaaLljEFVzbiklxKE7xOEH12D_OQWFKeAxwtjdhZ4b4RfDIfA45Xn9GLQp3H_9y6Ng_vkJIP5CSBpmrGzQI5GGbsWSH4EyJ0tcL80rgygAafr17cA_vB76eFll6GDA3QInq_pyvmPpYtXWLK_wpL_0gr7gm6NfS4n_BSX2QGXxWcuJ5lMT3NZ3I9GmRTXcvlLgZmd3L30DMz0EphpRq5eGf9P3T9LB_ksffoT9l5K2A:1vpys2:ZkHN5TrGUACfHRd3V2O-TGISHxt71V_Ide2L29hQ-jA','2026-02-25 01:18:22.919291'),('sdxgq4inal3k7gvjx0gyiyt45b3kjdet','.eJxVkM1uhDAMhF8F5dxFhA0_4bRSpd7bF6hMYtSoIYkMnFa8ex20q6XHmc9jj3wXCWh1xiUIK347K4ZavwnjHT61rLuXEeKMYhAfSAGCjeJFljgSPjGhW2E5UZzBeSbTIyirTimp2xvarUxQLhjAlCOdIit6nGLI-7TUveqkVFd1GjBpYlY1Xdk3fana-lJpxslDiFzHuHj0V_-tR8VDFJbgNy7FpUgEK5z7BouEJorhLvKSK28xmDjYtl2vVdPzMG3AxtcGhWpyFpasG1WxGMERcVy8R7Lo6HhVnJPHmQ9k8LkBny-kEnvOErnwk-_t-x-aO4Jd:1wNnBG:Sdd0hhm-lJ9wjZ5z0JqmQdLrwRlXF_CjOMQ-9KMVhUI','2026-05-29 07:41:58.996903'),('vz79jjymmanydv2t8h1nc7b5yb8uolw5','.eJztl0tv4zYQgP-KoNMWtRWSIvU6tV60aNHNodmgl-5CGFGUza4kupSUHoL89w4VO2vLz6aX7eMQRJyXhx-HQ_LRl7VWba9yXfoZZfHsRdCaRvmZ_72yLbSl8T9rOlNYtVVbpXvodrSqAV2jpto4UhJzTtPoG1UOwRqCTrUgg8LuuPSqVpVpXbyUpgmPKeUh3zGQ6wp1RMRBIpKAR2xOUlSva2gNpiO1GfMP90WbFMeBV1r4ZDpv7pnB7k5GtaWySho_e_THGBx1ao1-UUQpoYSgsR0ABXcDeJFzhc4NQ0ZxUIC2GDDzb8GChHYJ9QqckWnWtWrwN5zy5wEwAY9y_2nmr3TXG6ulyZ2RRXrZr4_-WpW63KSRbwe4HiX08DL2qbgh9IYRFnkszDjz9wxy3Tkjp54TOqfifjTKwuhrQrJxKl0P_YC_6IMnodHtyriUdK_aTRrWlEP_goNHM99xzDdy57kw7YeBEOWWQDewVM2uVjfLm-3wBqTqOpwrfha4wHmjcX12Pr03_KvgD1WsXRK_D9D2uoQSV03M_Aeojc2HFusLA-DKpCQgOIGh6E0PWGI0FSh5-rg13RfPTiCNziMNxRVIQ5Hx5LVIw-QQ6Vv068C7HZn8gErvHRaJhRJOMpajS75ykSq9bCBYt8spRnoEI5lgHAUjrkmeR5Z-k-fCQivBu1O9dZVQ8cuV8Jzu9n9ejBFyixHMvuwNPV4RR6bCxGQqTByfCk8Pp_Iem9NYxrTW4JXGk_VQqGsmUkso8aPDAIC-V3KnU-70BHdOT3L_RdlSeUtTKz02sb_GfOOXP7goR4Xe34c_3Y0pObcZxYXNyK_ZjDxjr-9v8SHsW-ik6a8ohUl3w4b-3N8W3y3ufnz70_vbd_NvaZgTmjNCecKScI5HWzrnIqLzIuHFPFEiZlBVcSjoteDDKfjwKPjwbBfk58DjgRFfBO-M8MZwCB6PPKuWgzrP_cvdkQfnydkKDs-ApGnGLoIcjTL2WpD_oi79jzkYj9TuXp73K21LDxqwqj6dJ_7hFfXhhTY6WEAH7_lmVFl3P70acjKFnByr5SQ8V8vsoJb551pOMpGer2V-Pxplgv_XanmKmZ3tvfQCZnoNZpqR_1vGF9oypuUgtkWSw9Cv8qFTdnyv-m6ld2QFyE_4HkVF-Ru-JE0gDa6nLgJnEmy0XXBrSlUvNrZ7AVbQrdzVB1_JRBKhhEpjkIKFlMtK8lSIslAVZ0CrlFSUiCKpQsYSCrJIBZMRJVUsi_GNa-14ecoen57-BBbkT9A:1vgYZr:czqfRHQ0mvnsvclihnWZOydi_DFQQqzPrb6PUrphO08','2026-01-30 01:24:39.334981');
-/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `endereco_cliente`
 --
 
@@ -493,12 +478,6 @@ CREATE TABLE `endereco_cliente` (
 --
 -- Dumping data for table `endereco_cliente`
 --
-
-LOCK TABLES `endereco_cliente` WRITE;
-/*!40000 ALTER TABLE `endereco_cliente` DISABLE KEYS */;
-INSERT INTO `endereco_cliente` VALUES (5,'78945612','Em frente ao campo de futebol','Telegrafo sem fio','casa azul de dois andar','Passagem Guajará',52),(6,'32165498','Ao lado da empresa Amasa','Pratinha','Casa laranja com portão preto','Rua nossa senhora das graças',53),(34,'66789458','Quadra 14','Cordeiro','540','Rua 45',127);
-/*!40000 ALTER TABLE `endereco_cliente` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `endereco_funcionarios`
@@ -525,12 +504,6 @@ CREATE TABLE `endereco_funcionarios` (
 --
 -- Dumping data for table `endereco_funcionarios`
 --
-
-LOCK TABLES `endereco_funcionarios` WRITE;
-/*!40000 ALTER TABLE `endereco_funcionarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `endereco_funcionarios` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `funcionarios`
 --
@@ -540,7 +513,7 @@ DROP TABLE IF EXISTS `funcionarios`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `funcionarios` (
   `id_FUNCIONARIOS` int NOT NULL AUTO_INCREMENT,
-  `senha_FUNCIONARIOS` varchar(45) NOT NULL,
+  `senha_FUNCIONARIOS` varchar(255) NOT NULL,
   `login_FUNCIONARIOS` varchar(45) NOT NULL,
   `telefone_FUNCIONARIOS` varchar(45) NOT NULL,
   `email_FUNCIONARIOS` varchar(45) NOT NULL,
@@ -556,11 +529,6 @@ CREATE TABLE `funcionarios` (
 --
 -- Dumping data for table `funcionarios`
 --
-
-LOCK TABLES `funcionarios` WRITE;
-/*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `historico_titulos`
@@ -585,13 +553,6 @@ CREATE TABLE `historico_titulos` (
 --
 -- Dumping data for table `historico_titulos`
 --
-
-LOCK TABLES `historico_titulos` WRITE;
-/*!40000 ALTER TABLE `historico_titulos` DISABLE KEYS */;
-INSERT INTO `historico_titulos` VALUES (1,3,127,1);
-/*!40000 ALTER TABLE `historico_titulos` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `imagem_produto`
 --
@@ -673,13 +634,6 @@ CREATE TABLE `pedido` (
 --
 -- Dumping data for table `pedido`
 --
-
-LOCK TABLES `pedido` WRITE;
-/*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `produtos`
 --
 
@@ -731,14 +685,6 @@ CREATE TABLE `progresso_fases` (
 --
 -- Dumping data for table `progresso_fases`
 --
-
-LOCK TABLES `progresso_fases` WRITE;
-/*!40000 ALTER TABLE `progresso_fases` DISABLE KEYS */;
-INSERT INTO `progresso_fases` VALUES (127,1);
-/*!40000 ALTER TABLE `progresso_fases` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `questoes`
 --
 
@@ -782,13 +728,6 @@ CREATE TABLE `recuperacao_senha` (
 --
 -- Dumping data for table `recuperacao_senha`
 --
-
-LOCK TABLES `recuperacao_senha` WRITE;
-/*!40000 ALTER TABLE `recuperacao_senha` DISABLE KEYS */;
-INSERT INTO `recuperacao_senha` VALUES (1,'191545','2025-12-01 19:51:37.369413',127);
-/*!40000 ALTER TABLE `recuperacao_senha` ENABLE KEYS */;
-UNLOCK TABLES;
-
 --
 -- Table structure for table `respostas`
 --
@@ -811,19 +750,10 @@ CREATE TABLE `respostas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
 -- Dumping data for table `respostas`
---
 
-LOCK TABLES `respostas` WRITE;
-/*!40000 ALTER TABLE `respostas` DISABLE KEYS */;
-INSERT INTO `respostas` VALUES (127,1,2,4),(127,2,7,4),(127,3,12,4),(127,4,15,4),(127,5,19,4),(127,6,22,4),(127,7,26,4),(127,8,31,4),(127,9,35,4),(127,10,37,4);
-/*!40000 ALTER TABLE `respostas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `setor_funcionarios`
---
+
 
 DROP TABLE IF EXISTS `setor_funcionarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
