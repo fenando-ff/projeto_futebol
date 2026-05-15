@@ -99,40 +99,7 @@ a{
 }
 
 
-.hero-carousel:hover {
-    .carousel-btn.left {
-    left: 16px;
-    opacity: 100%;
-    }
-
-    .carousel-btn.left:hover {
-    background-color: #000;
-    }
-    .carousel-btn.right:hover {
-    background: rgba(0, 0, 0, 0.75);
-    }
-
-    .carousel-btn.right {
-    right: 16px;
-    opacity: 100%;
-    }
-
-    .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.45);
-    color: #fff;
-    border: none;
-    font-size: 32px;
-    padding: 6px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.5s ease;
-    z-index: 15;
-    }
-
-}
+/* Barra de progresso */
 
 .carousel-track {
     width: 100%;
@@ -1065,8 +1032,8 @@ a{
 }
 
 /* TV / large desktop screens */
-@media (min-width: 1600px){
-  /* increase spacing and font sizes for very large displays */
+@media (min-width: 1600px) {
+    /* increase spacing and font sizes for very large displays */
   .hero {
     padding: 96px 12%;
     gap: 64px;

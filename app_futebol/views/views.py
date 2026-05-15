@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 import random
 from django.utils import timezone # timezone para pegar a data atual
 import logging
-from app_futebol.models import models
+from app_futebol import models
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4

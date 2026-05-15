@@ -83,14 +83,6 @@ if IS_RENDER:
                 }
             },
         },
-        "minigame": {
-            "ENGINE": os.environ.get("DB_ENGINE"),
-            "NAME": os.environ.get("DB_NAME_MINIGAME"),
-            "USER": os.environ.get("DB_USER_MINIGAME"),
-            "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME"),
-            "HOST": os.environ.get("DB_HOST_MINIGAME", "localhost"),
-            "PORT": int(os.environ.get("DB_PORT_MINIGAME", "3306")),
-        }
     }
 else:
     DATABASES = {
@@ -102,18 +94,8 @@ else:
             "HOST": os.environ.get("DB_HOST_LOCAL",),
             "PORT": int(os.environ.get("DB_PORT_LOCAL")),
         },
-        "minigame": {
-            "ENGINE": os.environ.get("DB_ENGINE"),
-            "NAME": os.environ.get("DB_NAME_MINIGAME_LOCAL"),
-            "USER": os.environ.get("DB_USER_MINIGAME_LOCAL"),
-            "PASSWORD": os.environ.get("DB_PASSWORD_MINIGAME_LOCAL"),
-            "HOST": os.environ.get("DB_HOST_MINIGAME_LOCAL"),
-            "PORT": int(os.environ.get("DB_PORT_MINIGAME_LOCAL")),
-        }
     }
     
-DATABASE_ROUTERS = ['minigame.routers.MinigameRouter']
-
 EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
