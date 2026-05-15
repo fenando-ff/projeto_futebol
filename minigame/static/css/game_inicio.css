@@ -1,11 +1,14 @@
 /* game_inicio.css - VERSÃO RESPONSIVA COMPLETA COM CENTRALIZAÇÃO FIXA */
 body {
     cursor: url("/static/jogo/icones/mouse_pointer.png"), auto;
+
     margin: 0;
+
     background: #000000;
+
     overflow-x: hidden;
-    overflow-y: auto;
-    min-height: 100vh;
+
+    min-height: 100dvh;
 }
 
 .switch-mode {
@@ -25,13 +28,25 @@ body {
 }
 
 .entry {
-    min-height: 100vh;
+    width: 100%;
+
+    min-height: 100dvh;
+
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
-    gap: clamp(25px, 5vh, 60px);
+
+    transform: translateY(-7vh);
+
+    text-align: center;
+
+    gap: 30px;
+
     padding: 20px;
+
+    box-sizing: border-box;
 }
 
 .coin-img {
@@ -53,7 +68,7 @@ body {
     cursor: pointer;
     opacity: 0.8;
     transition: 0.3s ease;
-    margin-top: -20px;
+    margin-top: 0;
     cursor: url("/static/jogo/icones/mouse_Click.png"), pointer;
     text-align: center;
 }
@@ -66,32 +81,50 @@ body {
 
 .coin-container {
     position: relative;
+
     width: 100%;
-    max-width: 900px;
+    max-width: 700px;
+
     display: flex;
+    align-items: center;
     justify-content: center;
+
+    margin: 0 auto;
 }
 
 .coin-img {
     width: 100%;
-    max-width: 900px;
+    max-width: 700px;
+
     display: block;
+
     position: relative;
     z-index: 1;
+
     pointer-events: none;
-    transition: transform 0.4s ease, filter 0.4s ease;
+
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
+
     animation: breathe 3s ease-in-out infinite;
 }
 
 .coin-video {
     position: absolute;
     inset: 0;
+
     width: 100%;
     height: 100%;
+
     object-fit: contain;
+
     opacity: 0;
+
     transition: opacity 0.4s ease;
+
     z-index: 2;
+
     pointer-events: none;
 }
 
@@ -286,306 +319,154 @@ body {
     text-align: center;
 }
 
-/* ===== RESPONSIVO CELULAR PRIORITÁRIO - iPHONE 14 PRO MAX ===== */
 
-/* CELULAR (até 767px) - CORREÇÃO TOTAL */
-@media (max-width: 767px) {
-    body {
-        cursor: default;
-        overflow-x: hidden;
-    }
-    
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   RESPONSIVIDADE MOBILE
+========================================= */
+
+@media (max-width: 900px) {
+
     .entry {
-        gap: 25px;
-        padding: 20px;
         min-height: 100vh;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    
-    .coin-container {
-        max-width: 300px;
-        margin: 0 auto;
+
         display: flex;
-        justify-content: center;
-    }
-    
-    .coin-img {
-        width: 280px;
-        max-width: 280px;
-        margin: 0 auto;
-    }
-    
-    .start-text {
-        font-size: 16px;
-        letter-spacing: 4px;
-        margin-top: -10px;
-        text-align: center;
-        display: block;
-        width: 100%;
-    }
-    
-    /* CORREÇÃO PRINCIPAL DA TELA DE CADASTRO - MOBILE */
-    .cadastro-screen {
-        padding: 20px;
+        flex-direction: column;
+
         align-items: center;
         justify-content: center;
-        display: flex;
-    }
-    
-    .cadastro-screen form {
-        width: 100%;
-        max-width: 380px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: center;
-    }
-    
-    .cadastro-box {
-        padding: 30px 25px;
-        gap: 18px;
-        max-width: 100%;
-        width: 100%;
-        margin: 0 auto;
-    }
-    
-    .cadastro-box h2 {
-        font-size: 28px;
-        letter-spacing: 2px;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .cadastro-sub {
-        font-size: 15px;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .cadastro-box input {
-        padding: 14px 16px;
-        font-size: 17px;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .cadastro-box button {
-        padding: 14px;
-        font-size: 18px;
-        width: 100%;
-    }
-    
-    .switch-mode {
-        font-size: 16px;
-        text-align: center;
-        color: #aaa;
-        width: 100%;
-    }
-}
 
-/* iPhone 14 Pro Max e dispositivos similares (430px) */
-@media (min-width: 390px) and (max-width: 767px) {
-    .cadastro-screen form {
-        max-width: 360px;
-    }
-    
-    .cadastro-box {
-        padding: 35px 30px;
-    }
-    
-    .coin-img {
-        width: 300px;
-    }
-}
+        text-align: center;
 
-/* Dispositivos muito pequenos (até 480px) */
-@media (max-width: 480px) {
+        gap: 20px;
+
+        padding:
+            env(safe-area-inset-top)
+            20px
+            env(safe-area-inset-bottom);
+
+        box-sizing: border-box;
+    }
+
     .coin-container {
-        max-width: 260px;
-    }
-    
-    .coin-img {
-        width: 240px;
-    }
-    
-    .start-text {
-        font-size: 17px;
-        letter-spacing: 3px;
-    }
-    
-    .cadastro-screen {
-        padding: 15px;
-    }
-    
-    .cadastro-screen form {
-        max-width: 340px;
-    }
-    
-    .cadastro-box {
-        padding: 25px 20px;
-        gap: 15px;
-    }
-    
-    .cadastro-box h2 {
-        font-size: 20px;
-    }
-    
-    .cadastro-box input {
-        padding: 14px 16px;
-        font-size: 18px;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .cadastro-box button {
-        padding: 14px;
-        font-size: 19px;
-        width: 100%;
-    }
-}
+        max-width: 95vw;
 
-/* ORIENTAÇÃO PAISAGEM EM CELULAR */
-@media (max-width: 767px) and (orientation: landscape) {
-    .entry {
-        gap: 15px;
-        padding: 15px;
-    }
-    
-    .coin-container {
-        max-width: 200px;
-    }
-    
-    .coin-img {
-        width: 180px;
-    }
-    
-    .start-text {
-        font-size: 14px;
-        margin-top: -5px;
-    }
-    
-    .cadastro-screen {
-        padding: 15px;
-    }
-    
-    .cadastro-screen form {
-        max-width: 400px;
-    }
-    
-    .cadastro-box {
-        padding: 20px 25px;
-        gap: 12px;
-    }
-    
-    .cadastro-box h2 {
-        font-size: 22px;
-        margin-bottom: 0;
-    }
-
-    .cadastro-sub {
-        font-size: 14px;
-        margin-top: -5px;
-    }
-
-    .cadastro-box input {
-        padding: 11px 14px;
-        font-size: 17px;
-        text-align: center;
-    }
-
-    .cadastro-box button {
-        padding: 11px;
-        font-size: 17px;
-    }
-}
-
-/* TABLET (768px - 1024px) */
-@media (min-width: 768px) and (max-width: 1024px) {
-    .entry {
-        gap: 40px;
+        display: flex;
+        align-items: center;
         justify-content: center;
+
+        margin: 0 auto;
     }
-    
+
     .coin-img {
+        width: 92vw;
         max-width: 650px;
     }
-    
+
+    .coin-video {
+        width: min(120vw, 700px);
+        max-width: none;
+    }
+
     .start-text {
-        font-size: 18px;
-        letter-spacing: 6px;
-    }
-    
-    .cadastro-screen form {
-        max-width: 450px;
-    }
-    
-    .cadastro-box {
-        padding: 45px 40px;
-    }
-    
-    .cadastro-box h2 {
-        font-size: 26px;
-    }
-    
-    .cadastro-sub {
-        font-size: 16px;
-    }
-    
-    .cadastro-box input {
-        padding: 16px 18px;
-        font-size: 18px;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         text-align: center;
+
+        font-size: 18px;
+        letter-spacing: 4px;
+
+        margin: 0 auto;
     }
-    
-    .cadastro-box button {
-        padding: 16px;
-        font-size: 19px;
-    }
-    
-    .switch-mode {
-        font-size: 16px;
+
+        .cadastro-box {
+        width: 95%;
     }
 }
 
-/* GARANTIA EXTRA DE CENTRALIZAÇÃO PARA MOBILE */
-@media (max-width: 767px) {
-    .cadastro-screen,
-    .cadastro-screen.active,
-    .cadastro-screen form,
-    .cadastro-box,
-    .entry,
-    .coin-container {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        left: 0 !important;
-        right: 0 !important;
+
+/* MOBILE MENOR */
+
+@media (max-width: 480px) {
+
+    .coin-img {
+        width: 125vw;
+        max-width: none;
     }
-    
-    .cadastro-screen {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+
+    .coin-video {
+        width: min(120vw, 700px);
+        max-width: none;
     }
-    
-    .cadastro-screen form {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
+
+    .start-text {
+        font-size: 17px;
+        letter-spacing: 4px;
     }
-    
+}
+
+
+/* =========================================
+   MOBILE PEQUENO
+========================================= */
+
+@media (max-width: 480px) {
+
+    .entry {
+        gap: 34px;
+    }
+
+
+    .start-text {
+        font-size: 17px;
+        letter-spacing: 4px;
+
+        max-width: 280px;
+    }
+
     .cadastro-box {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
+        padding: 34px 22px;
+
+        border-radius: 18px;
     }
-    
-    .cadastro-box input,
-    .cadastro-box button,
-    .cadastro-box h2,
+
+    .cadastro-box h2 {
+        font-size: 28px;
+    }
+
     .cadastro-sub {
-        width: 100% !important;
-        text-align: center !important;
+        font-size: 14px;
+    }
+
+    .cadastro-box input {
+        height: 56px;
+        font-size: 16px;
+    }
+
+    .cadastro-box button {
+        height: 58px;
+        font-size: 16px;
+    }
+
+    .switch-mode {
+        font-size: 14px;
+    }
+
+    #transitionText {
+        font-size: 22px;
+        letter-spacing: 4px;
     }
 }

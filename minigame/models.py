@@ -44,6 +44,7 @@ class Participantes(models.Model):
     tempo = models.TimeField(blank=True, null=True)
     pontuacao = models.IntegerField(blank=True, null=True)
     senha = models.CharField(max_length=255)
+    score_rank = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

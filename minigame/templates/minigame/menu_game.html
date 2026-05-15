@@ -2,7 +2,23 @@
 <link rel="stylesheet" href="{% static 'css/menu_fases.css' %}">
 
 <section class="menu-fases">
+            {% if titulo_ganho %}
 
+        <div class="popup-titulo">
+
+            <div class="popup-conteudo">
+
+                <span class="popup-icon">🏆</span>
+
+                <h2>NOVO TÍTULO DESBLOQUEADO</h2>
+
+                <p>{{ titulo_ganho }}</p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
     
 
     <button id="profileBtn" class="profile-btn">
@@ -72,7 +88,7 @@
     <div class="dashboard-card" data-pos="left">
 
         <div class="card-header">
-            ⚡ SPEED KING
+            👑 MELHOR PERFORMANCE
         </div>
 
         <div class="speed-content">
@@ -82,7 +98,7 @@
             </div>
 
             <div class="speed-time">
-                {{ flash.tempo }}
+                {{ flash_tempo }}
             </div>
 
             <div class="speed-desc">
@@ -102,13 +118,17 @@
 
         <div class="ranking-list">
 
+            <span class="rank-score">
+                {{ jogador.score }} rank
+            </span>
+
             {% for jogador in jogadores %}
             <div class="rank-item">
 
                 <div class="rank-left">
 
                     <span class="rank-position">
-                        #{{ forloop.counter }}
+                        {{ forloop.counter }}º
                     </span>
 
                     <span class="rank-name">
@@ -272,6 +292,22 @@
         </a>
 
     </div>
+
+    <script>
+        setTimeout(() => {
+
+            const popup = document.querySelector(".popup-titulo");
+
+            if (popup) {
+                popup.style.opacity = "0";
+
+                setTimeout(() => {
+                    popup.remove();
+                }, 400);
+            }
+
+        }, 3500);
+        </script>
 
     <script src="{% static 'js/game_menu.js' %}"></script>
 

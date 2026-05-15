@@ -15,8 +15,10 @@ from django.utils import timezone
 from django.contrib import messages
 from django.db.models import Max
 
-def game(request):
 
+
+def game(request):
+    
     if request.method == 'POST':
 
         nome = request.POST.get('nome')
@@ -79,8 +81,9 @@ def game(request):
             })
 
 
+          
 
-
+    
     return render(request, 'minigame/game_inicio.html')
 
 
@@ -183,12 +186,30 @@ def menu_fases(request):
 
     # 🔥 ranking global
     jogadores = model_minigame.Participantes.objects.using('minigame')\
-        .all()\
-        .order_by('-pontuacao', 'tempo')[:5]
+    .filter(respostas__isnull=False)\
+    .exclude(tempo__isnull=True)\
+    .exclude(pontuacao__isnull=True)\
+    .exclude(pontuacao=0)\
+    .order_by('-score_rank')\
+    .distinct()[:5]
 
-    jogador_mais_rapido = model_minigame.Participantes.objects.using('minigame').all().order_by('tempo').first()
+    jogador_mais_rapido = model_minigame.Participantes.objects.using('minigame')\
+    .filter(respostas__isnull=False)\
+    .exclude(tempo__isnull=True)\
+    .exclude(pontuacao__isnull=True)\
+    .exclude(pontuacao=0)\
+    .order_by('-pontuacao', 'tempo')\
+    .distinct()\
+    .first()
+
+    flash_tempo = "00:00"
+
+    if jogador_mais_rapido:
+        flash_tempo = formatar_tempo_user(jogador_mais_rapido.tempo)
+
     # 🔥 formata tempo para exibição
     ranking_formatado = []
+    
 
     for jogador in jogadores:
 
@@ -220,7 +241,7 @@ def menu_fases(request):
         segundos = total_segundos % 60
 
         tempo_usuario = f"{minutos:02}:{segundos:02}" 
-    
+        titulo_ganho = request.session.pop('titulo_ganho', None)
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,
@@ -230,6 +251,9 @@ def menu_fases(request):
         'titulo_ativo': usuario.titulo,
         'melhor_combo': usuario.combo_maximo,
         'tempo_usuario': tempo_usuario,
+        'flash': jogador_mais_rapido,
+        'flash_tempo': flash_tempo,
+        'titulo_ganho': titulo_ganho,
     })
 
 
@@ -372,6 +396,9 @@ def salvar_pontuacao(request):
         respostas_data = data.get('respostas', [])
         tempo_ms = data.get('tempo_ms')
         combo_maximo = data.get('combo_maximo', 0)
+        total_questoes = len(respostas_data)
+        acertos = 0
+        acertos = 0
         print(data)
         print(tempo_ms)
         print(type(tempo_ms))
@@ -401,11 +428,22 @@ def salvar_pontuacao(request):
         # Salva pontuação total
         participante.pontuacao = pontuacao_total
         participante.save()
+
         
         # Salva respostas individuais
         for resp in respostas_data:
             questao_id = resp.get('questao_id')
             alternativa_id = resp.get('alternativa_id')
+
+
+            participante.save()
+
+            alternativa = model_minigame.Alternativas.objects.using('minigame').get(
+                id_alternativa=alternativa_id
+            )
+
+            if alternativa.resposta_correta:
+                acertos += 1
             
             if not questao_id or not alternativa_id:
                 continue
@@ -418,6 +456,9 @@ def salvar_pontuacao(request):
                 'combo_max': combo_maximo
             }
             )
+
+
+
         
         # Liberar fase 2 após completar fase 1 (quiz)
         progresso, created = model_minigame.ProgressoFases.objects.using('minigame').get_or_create(
@@ -428,24 +469,52 @@ def salvar_pontuacao(request):
             progresso.fase2_liberada = True
             progresso.save()
         
+
+        precisao = (acertos / total_questoes) * 100
+
+        tempo_segundos = tempo_ms / 1000
+
+
+                        # =================================
+        # SCORE INTELIGENTE
+        # =================================
+        tempo_segundos = int(tempo_ms / 1000)
+        precisao = int((acertos / total_questoes) * 100)
+        score_final = (
+            (acertos * 10)
+            + (combo_maximo * 5)
+            + precisao
+            - tempo_segundos
+        )
+        if score_final < 0:
+            score_final = 0
+        participante.score_rank = score_final    
+
+        participante.score_rank = score_final
+        participante.save()
         
         # =========================================
         # SISTEMA DE TÍTULOS
         # =========================================
 
-        titulo_nome = "Bagre da Série B"
-
-        if pontuacao_total >= 20:
+        if score_final >= 180:
             titulo_nome = "Pelé do Quiz"
 
-        elif pontuacao_total >= 15:
+        elif score_final >= 140:
             titulo_nome = "Rei da Libertadores"
 
-        elif pontuacao_total >= 10:
+        elif score_final >= 100:
             titulo_nome = "Artilheiro"
 
-        elif pontuacao_total >= 5:
+        elif score_final >= 60:
             titulo_nome = "Craque da Série A"
+
+        else:
+            titulo_nome = "Bagre da Série B"
+
+
+        # 🔥 salva na sessão
+        request.session['titulo_ganho'] = titulo_nome
 
 
         # pega título no banco
@@ -510,6 +579,6 @@ def salvar_tempo_roleta(request):
             minute=minutes,
             second=seconds
         )
-        participante.save()
+
         
         return JsonResponse({'status': 'ok'})
