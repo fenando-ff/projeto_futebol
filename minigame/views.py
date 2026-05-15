@@ -132,7 +132,8 @@ def menu_fases(request):
         segundos = total_segundos % 60
 
         tempo_usuario = f"{minutos:02}:{segundos:02}" 
-        titulo_ganho = request.session.pop('titulo_ganho', None)
+
+    titulo_ganho = request.session.pop('titulo_ganho', None)
 
     return render(request, 'minigame/menu_game.html', {
         'jogadores': ranking_formatado,

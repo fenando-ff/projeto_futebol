@@ -66,7 +66,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'projeto_futebol.urls'
 WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
-IS_RENDER = os.environ.get("RENDER", "False") == "True"
+IS_RENDER = os.environ.get("RENDER")
 
 if IS_RENDER:
     DATABASES = {
