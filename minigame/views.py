@@ -259,7 +259,7 @@ def game_quiz(request):
         })
 
     # 🔀 embaralha perguntas
-    perguntas = random.sample(perguntas, len(perguntas))
+    perguntas = random.sample(perguntas, 10)
 
     # ⏱️ inicia tempo do quiz na sessão
     request.session['quiz_inicio'] = timezone.now().isoformat()
