@@ -1,0 +1,57 @@
+[
+  {
+    "id": 2,
+    "nome": "Sócio Drakos - Diamante",
+    "preco": 300.00,
+    "imagem": "img/icones/card_preto.png",
+    "beneficios": [
+      "Acesso livre aos jogos*",
+      "App oficial Drakos",
+      "Desconto de 20% em produtos oficiais",
+      "Plano adicional para dependentes",
+      "Carteirinha digital personalizada",
+      "Central de atendimento exclusiva",
+      "Ações especiais e vantagens do Clube Parceiro Drakos"
+    ]
+  },
+  {
+    "id": 3,
+    "nome": "Sócio Drakos - Ouro",
+    "preco": 200.00,
+    "imagem": "img/icones/card_red.png",
+    "beneficios": [
+      "Acesso livre aos jogos da temporada*",
+      "Uso do app oficial Drakos",
+      "Carteirinha digital personalizada",
+      "Plano adicional para dependentes",
+      "Desconto de 10% em produtos oficiais",
+      "Atendimento exclusivo",
+      "Vantagens no Clube Parceiro Drakos",
+      "Participação em ações especiais com o elenco"
+    ]
+  },
+  {
+    "id": 4,
+    "nome": "Sócio Drakos - Prata",
+    "preco": 100.00,
+    "imagem": "img/icones/card_branco.png",
+    "beneficios": [
+      "Acesso livre aos jogos da temporada*",
+      "Uso do app oficial Drakos",
+      "Carteirinha digital personalizada",
+      "Plano adicional para dependentes",
+      "Desconto de 5% em produtos oficiais",
+      "Atendimento exclusivo",
+      "Vantagens no Clube Parceiro Drakos"
+    ]
+  },
+  {
+    "id": 5,
+    "nome": "Não Sócio",
+    "preco": 0.00,
+    "imagem": "img/icones/card_nao_socio.png",
+    "beneficios": [
+      "Sem benefícios exclusivos"
+    ]
+  }
+]

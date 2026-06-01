@@ -13,7 +13,9 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 import qrcode
-import re 
+import re
+import json
+import os
 
 # -------------------------------
 # Helpers
@@ -779,7 +781,9 @@ def tela_rec_senha_3(request):
     return render(request, "app_futebol/rec_senha3.html")
 
 def tela_socio(request):
-    planos = models.CategoriaCliente.objects.all()
+    json_path = os.path.join(os.path.dirname(__file__), "socio_data.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        planos = json.load(f)
     return render(request, "app_futebol/socio.html",{"planos":planos})
 
 

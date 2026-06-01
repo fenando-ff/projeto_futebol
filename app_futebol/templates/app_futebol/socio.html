@@ -1,66 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socio_extras %}
 
 {% block css_extra %}
     <link rel="stylesheet" href="{% static 'css/socio.css' %}">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 {% endblock css_extra %}
 
-
-
-<!-- CONTEÚDO PRINCIPAL -->
-{% block conteudo_pagina %}    
+{% block conteudo_pagina %}
 <div class="socio-main">
-    <div class="socio-container">
-        <div class="text-area">
-          <h1>TORNA-SE SÓCIO-TORCEDOR</h1>
-      
-          <h2 id="tipo_socioText">Planos</h2>
-          <p id="beneficio-text">
-            Venha se tornar sócio e aproveite vantagens exclusivas:<br>
-            descontos em produtos, valores reduzidos de ingressos e benefícios especiais para membros.
-          </p>
-          <button class="btn-socio" id="btnSocio">SEJA SÓCIO</button>
-        </div>
+  <div class="socio-container">
 
-         <div class="carousel">
-          <button class="arrow" id="prev">←</button>
-
-            <div class="cards">
-              <img src="{% static "img/icones/card_branco.png" %}" alt="Card Branco" class="card active" data-index="0">
-              <img src="{% static "img/icones/card_preto.png" %}" alt="Card Preto" class="card" data-index="1">
-              <img src="{% static "img/icones/card_red.png" %}" alt="Card Vermelho" class="card" data-index="2">
-        </div>
-
-              <button class="arrow" id="next">→</button>
-        </div>
-
-  
-
-  <!-- POPUP -->
-<div class="popup" id="popup">
-  <div class="popup-content">
-
-    <button class="popup-close" id="closePopup">
-      <i class='bx bx-x'></i>
-    </button>
-
-    <h2>Escolha seu plano</h2>
+    <div class="text-area">
+      <h1>TORNA-SE SÓCIO-TORCEDOR</h1>
+      <h2 id="tipo_socioText">Planos</h2>
+      <p id="beneficio-text">
+        Venha se tornar sócio e aproveite vantagens exclusivas:<br>
+        descontos em produtos, valores reduzidos de ingressos e benefícios especiais para membros.
+      </p>
+    </div>
 
     <div class="planos">
 
       {% for plano in planos %}
-      <div class="plano-card">
+      <div class="plano-card" data-index="{{ forloop.counter0 }}">
 
-        <h3>{{ plano.nome_categoria_clientes }}</h3>
+        {% if plano.imagem %}
+        <img src="{% static plano.imagem %}" alt="{{ plano.nome }}" class="plano-img">
+        {% endif %}
 
-        <p class="plano-desc">
-          Benefícios exclusivos para torcedores do Drakos FC.
-        </p>
+        <h3>{{ plano.nome }}</h3>
 
-        <a href="{% url 'confirmar_socio' plano.id_categoria_cliente %}" 
-        class="btn-plano">
-          Escolher plano
+        <ul class="plano-desc">
+          {% for beneficio in plano.beneficios %}
+          <li><i class="bx bx-check"></i> {{ beneficio }}</li>
+          {% empty %}
+          <li>Sem benefícios listados.</li>
+          {% endfor %}
+        </ul>
+
+        <a href="{% url 'confirmar_socio' plano.id %}" class="btn-plano">
+          {% if plano.preco %}
+            R$ {{ plano.preco|floatformat:2 }}
+          {% else %}
+            Escolher plano
+          {% endif %}
         </a>
 
       </div>
@@ -70,11 +54,10 @@
 
   </div>
 </div>
+{% endblock conteudo_pagina %}
 
-
-{% endblock conteudo_pagina %}  
 {% block js_pagina %}
-    <script src="{% static "js/socios.js" %}"></script>
+    <script src="{% static 'js/socios.js' %}"></script>
 {% endblock js_pagina %}
 
 </body>

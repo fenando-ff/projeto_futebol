@@ -68,7 +68,7 @@ WSGI_APPLICATION = 'projeto_futebol.wsgi.application'
 
 IS_RENDER = os.environ.get("RENDER")
 
-if IS_RENDER:
+if IS_RENDER == "True":
     DATABASES = {
         "default": {
             "ENGINE": os.environ.get("DB_ENGINE"),
