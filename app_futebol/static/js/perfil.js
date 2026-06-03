@@ -3,6 +3,45 @@ document.addEventListener('DOMContentLoaded', function () {
 	// info pessoais / endereco já configurados em outro trecho
 
 	// Toggle 'Meus Dados' (colapsável)
+	const fotoInput = document.getElementById('foto');
+	const previewAvatar = document.getElementById('previewAvatar');
+	const avatarFilename = document.getElementById('avatarFilename');
+	const avatarError = document.getElementById('avatarError');
+
+	if (fotoInput && previewAvatar) {
+		const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+		fotoInput.addEventListener('change', function () {
+			avatarError.textContent = '';
+			const file = this.files[0];
+			if (!file) {
+				avatarFilename.textContent = 'Nenhuma imagem selecionada';
+				return;
+			}
+
+			if (!allowedTypes.includes(file.type)) {
+				avatarError.textContent = 'Formato inválido. Envie JPG, JPEG, PNG ou WEBP.';
+				this.value = '';
+				avatarFilename.textContent = 'Nenhuma imagem selecionada';
+				return;
+			}
+
+			if (file.size > 5 * 1024 * 1024) {
+				avatarError.textContent = 'A imagem deve ter no máximo 5MB.';
+				this.value = '';
+				avatarFilename.textContent = 'Nenhuma imagem selecionada';
+				return;
+			}
+
+			avatarFilename.textContent = file.name;
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				previewAvatar.src = e.target.result;
+			};
+			reader.readAsDataURL(file);
+		});
+	}
+
 	(function(){
 		var toggle = document.querySelector('.toggle-meus-dados');
 		if(!toggle) return;

@@ -166,6 +166,7 @@ class Clientes(models.Model):
     sobrenome_clientes = models.CharField(db_column='sobrenome_CLIENTES', max_length=45)  # Field name made lowercase.
     cpf_clientes = models.CharField(db_column='cpf_CLIENTES', max_length=14)  # Field name made lowercase.
     status_clientes = models.IntegerField(db_column='status_CLIENTES')  # Field name made lowercase.
+    url_foto_clientes = models.CharField(db_column='url_foto_CLIENTES', max_length=255, blank=True, null=True)  # Field name made lowercase.
     categoria_cliente_id_categoria_cliente = models.ForeignKey(CategoriaCliente, models.DO_NOTHING, db_column='CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE')  # Field name made lowercase.
     score_rank = models.IntegerField(blank=True, null=True)
     total_acertos = models.IntegerField(blank=True, null=True)

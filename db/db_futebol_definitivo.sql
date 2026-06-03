@@ -308,6 +308,7 @@ CREATE TABLE `clientes` (
   `sobrenome_CLIENTES` varchar(45) NOT NULL,
   `cpf_CLIENTES` varchar(14) NOT NULL,
   `status_CLIENTES` tinyint NOT NULL,
+  `url_foto_CLIENTES` varchar(255) NULL,
   `CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE` int NOT NULL,
   `score_rank` int DEFAULT '0',
   `total_acertos` int DEFAULT '0',

@@ -22,6 +22,21 @@
             </div>
             
             <div class="meus-dados-body" id="meus-dados-body" aria-hidden="false">
+
+                                <div class="perfil-avatar">
+                    {% if foto %}
+                        <img src="{{ foto }}" alt="Foto de perfil" class="avatar-img">
+                    {% else %}
+                        <img src="{% static 'img/avatar-padrao.png' %}"
+                            alt="Foto de perfil"
+                            class="avatar-img">
+                    {% endif %}
+
+                    <div class="avatar-info">
+                        <h2>{{ nome }} {{ sobrenome }}</h2>
+                        <p>{{ email }}</p>
+                    </div>
+            </div>
             <form method="post" class="form-perfil">
                 {% csrf_token %}
                 

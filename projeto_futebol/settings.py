@@ -33,7 +33,7 @@ cloudinary.config(
     api_secret = os.environ.get("Cloudinary_secret_key"),
 )
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 TEMPLATES = [
@@ -112,11 +112,13 @@ if os.path.exists(CA_CERT_PATH) and DB_ENGINE and 'mysql' in DB_ENGINE:
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")        #upload da img
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-print("RENDER =", os.environ.get("RENDER"))
-print("DB_HOST produção =", os.environ.get("DB_HOST"))
-print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
-print("Banco escolhido =", DATABASES["default"]["HOST"])
-print("Engine escolhida =", DATABASES["default"]["ENGINE"])
+# print("RENDER =", os.environ.get("RENDER"))
+# print("DB_HOST produção =", os.environ.get("DB_HOST"))
+# print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
+print("Host selecionado =", DATABASES["default"]["HOST"])
+# print("Engine escolhida =", DATABASES["default"]["ENGINE"])

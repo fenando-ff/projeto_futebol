@@ -1,12 +1,15 @@
 import os
+import random
+import uuid
+import logging
 from django.http import HttpResponse, JsonResponse, FileResponse
+from django.utils import timezone
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
-import random
-from django.utils import timezone # timezone para pegar a data atual
-import logging
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 from app_futebol import models
 import io
 from reportlab.pdfgen import canvas
@@ -29,6 +32,9 @@ def login_cliente(request, cliente):
     request.session["cliente_email"] = cliente.email_clientes
     request.session["cliente_telefone"] = cliente.telefone_clientes
     request.session["cliente_cpf"] = cliente.cpf_clientes
+    
+    
+    request.session["cliente_foto"] = cliente.url_foto_clientes
     # Armazena o id do plano e o nome para exibição
     try:
         plano_obj = cliente.categoria_cliente_id_categoria_cliente
@@ -67,6 +73,7 @@ def get_cliente_logado(request):
         "endereco": request.session.get("cliente_endereco"),
         "cpf": request.session.get("cliente_cpf"),
         "plano_cliente": request.session.get('plano_socio_nome'),
+        "foto": request.session.get("cliente_foto"),
     }
 
 
@@ -182,6 +189,28 @@ def tela_perfil(request):
         cliente.email_clientes = request.POST.get("email")
         cliente.telefone_clientes = request.POST.get("telefone")
         
+        foto = request.FILES.get("foto")
+        if foto:
+            allowed_ext = [".jpg", ".jpeg", ".png", ".webp"]
+            ext = os.path.splitext(foto.name)[1].lower()
+            if ext not in allowed_ext:
+                messages.error(request, "Apenas imagens JPG, JPEG, PNG ou WEBP são permitidas.")
+                foto = None
+            else:
+                if cliente.url_foto_clientes:
+                    foto_antiga_path = os.path.join(settings.MEDIA_ROOT, cliente.url_foto_clientes)
+                    if os.path.exists(foto_antiga_path):
+                        try:
+                            os.remove(foto_antiga_path)
+                        except OSError:
+                            pass
+
+                os.makedirs(os.path.join(settings.MEDIA_ROOT, "perfis"), exist_ok=True)
+                nome_unico = f"perfis/foto_{uuid.uuid4().hex}{ext}"
+                storage = FileSystemStorage(location=settings.MEDIA_ROOT)
+                caminho_salvo = storage.save(nome_unico, foto)
+                cliente.url_foto_clientes = caminho_salvo
+
         cliente.save() # Salva na tabela Clientes
 
         # --- Atualiza ou Cria o Endereço ---
@@ -204,6 +233,7 @@ def tela_perfil(request):
         request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
         request.session["cliente_email"] = cliente.email_clientes
         request.session["cliente_telefone"] = cliente.telefone_clientes
+        request.session["cliente_foto"] = cliente.url_foto_clientes
         
         # Atualiza o endereço na sessão
         request.session["cliente_endereco"] = {
