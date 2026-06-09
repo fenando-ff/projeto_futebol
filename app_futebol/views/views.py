@@ -224,6 +224,9 @@ def tela_perfil(request):
         endereco.bairro_endereco_cliente = request.POST.get("bairro")
         endereco.cep_endereco_cliente = request.POST.get("cep")
         endereco.complemento_endereco_cliente = request.POST.get("complemento")
+        print("CEP =", request.POST.get("cep"))
+        print("RUA =", request.POST.get("rua"))
+        print("BAIRRO =", request.POST.get("bairro"))
         
         endereco.save() # Salva na tabela EnderecoCliente
 
