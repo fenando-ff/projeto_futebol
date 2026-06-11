@@ -12,6 +12,7 @@
         <p>Gerencie suas informações e veja seus pedidos.</p>
     </div>
 
+<form method="post" enctype="multipart/form-data" class="form-perfil">
     <div class="layout-grid">
         <section class="perfil-dados" id="perfil-dados">
             <div class="card-titulo">
@@ -26,6 +27,52 @@
 
             {% comment %} BLOCO DE PERFIL {% endcomment %}
             <form method="post" enctype="multipart/form-data" class="form-perfil">
+                <div class="perfil-avatar">
+
+                        <p>{{ foto }}</p>
+                    <div class="avatar-preview">
+                        {% if foto %}
+                            <img src="{{ foto }}" alt="Foto de perfil" class="avatar-img">
+                        {% else %}
+                            <img src="{% static 'img/avatar-padrao.png' %}"
+                                alt="Foto de perfil"
+                                class="avatar-img">
+                        {% endif %}
+                    </div>
+
+
+
+
+                    <div class="avatar-info">
+                        <h2>{{ nome }} {{ sobrenome }}</h2>
+                        <p>{{ email }}</p>
+                    </div>
+
+
+
+                    <div class="avatar-actions">
+
+                        <label for="foto" class="btn-avatar-upload">
+                            Alterar foto
+                        </label>
+
+                        <input
+                            type="file"
+                            id="foto"
+                            name="foto"
+                            accept=".jpg,.jpeg,.png,.webp"
+                            hidden>
+
+                        <span id="avatarFilename" class="avatar-filename">
+                            Nenhuma imagem selecionada
+                        </span>
+
+                        <div id="avatarError" class="avatar-error"></div>
+
+                    </div>
+
+            </div>
+
                 {% csrf_token %}
 
                 <div class="profile-card">
@@ -127,7 +174,6 @@
                     <button type="submit" class="btn-salvar">Salvar Alterações</button>
                     <a href="{% url 'recuperar_senha3' %}" class="link-senha">Alterar Senha</a>
                 </div>
-            </form>
             </div>
         </section>
 
@@ -181,6 +227,7 @@
             </div>
         </section>
     </div>
+</form>
 </main>
 {% endblock conteudo_pagina %}
 
