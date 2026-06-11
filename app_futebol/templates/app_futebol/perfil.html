@@ -23,22 +23,32 @@
             
             <div class="meus-dados-body" id="meus-dados-body" aria-hidden="false">
 
-                                <div class="perfil-avatar">
-                    {% if foto %}
-                        <img src="{{ foto }}" alt="Foto de perfil" class="avatar-img">
-                    {% else %}
-                        <img src="{% static 'img/avatar-padrao.png' %}"
-                            alt="Foto de perfil"
-                            class="avatar-img">
-                    {% endif %}
 
-                    <div class="avatar-info">
-                        <h2>{{ nome }} {{ sobrenome }}</h2>
-                        <p>{{ email }}</p>
-                    </div>
-            </div>
-            <form method="post" class="form-perfil">
+            {% comment %} BLOCO DE PERFIL {% endcomment %}
+            <form method="post" enctype="multipart/form-data" class="form-perfil">
                 {% csrf_token %}
+
+                <div class="profile-card">
+                    <div class="perfil-avatar">
+                        <div class="avatar-preview">
+                            {% if foto %}
+                                <img id="previewAvatar" src="{{ MEDIA_URL }}{{ foto }}" alt="Foto de perfil" class="avatar-img">
+                            {% else %}
+                                <img id="previewAvatar" src="{% static 'img/default-avatar.png' %}" alt="Avatar padrão" class="avatar-img">
+                            {% endif %}
+                        </div>
+                        <div class="avatar-info">
+                            <h2>Foto de perfil</h2>
+                            <p>Selecione uma nova imagem e visualize antes de salvar.</p>
+                            <div class="avatar-actions">
+                                <label for="foto" class="btn-avatar-upload">Selecionar nova foto</label>
+                                <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png,.webp,image/*" hidden>
+                                <span class="avatar-filename" id="avatarFilename">Nenhuma imagem selecionada</span>
+                            </div>
+                            <p class="avatar-error" id="avatarError"></p>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="grupo-inputs">
                     <h3>Informações Pessoais</h3>
@@ -52,6 +62,9 @@
                             <input class="input-padrao" type="text" id="sobrenome" name="sobrenome" value="{{ sobrenome }}">
                         </div>
                     </div>
+
+
+
 
                     <div class="campo">
                         <label for="email">Email</label>
