@@ -15,6 +15,23 @@ class AccountsPerfil(models.Model):
     user_id = models.IntegerField(unique=True)
 
     class Meta:
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         managed = False
         db_table = 'accounts_perfil'
 
