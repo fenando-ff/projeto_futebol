@@ -26,7 +26,7 @@
 
 
             {% comment %} BLOCO DE PERFIL {% endcomment %}
-            <form method="post" enctype="multipart/form-data" class="form-perfil">
+            {% comment %} <form method="post" enctype="multipart/form-data" class="form-perfil">
                 <div class="perfil-avatar">
 
                         <p>{{ foto }}</p>
@@ -71,7 +71,7 @@
 
                     </div>
 
-            </div>
+            </div> {% endcomment %}
 
                 {% csrf_token %}
 
@@ -79,7 +79,7 @@
                     <div class="perfil-avatar">
                         <div class="avatar-preview">
                             {% if foto %}
-                                <img id="previewAvatar" src="{{ MEDIA_URL }}{{ foto }}" alt="Foto de perfil" class="avatar-img">
+                                <img id="previewAvatar" src="{{ foto }}" alt="Foto de perfil" class="avatar-img">
                             {% else %}
                                 <img id="previewAvatar" src="{% static 'img/default-avatar.png' %}" alt="Avatar padrão" class="avatar-img">
                             {% endif %}

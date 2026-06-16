@@ -9,7 +9,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
+import cloudinary
+import cloudinary.uploader
 from app_futebol import models
 import io
 from reportlab.pdfgen import canvas
@@ -18,7 +19,6 @@ from reportlab.lib.units import cm
 import qrcode
 import re
 import json
-import os
 
 # -------------------------------
 # Helpers
@@ -197,19 +197,18 @@ def tela_perfil(request):
                 messages.error(request, "Apenas imagens JPG, JPEG, PNG ou WEBP são permitidas.")
                 foto = None
             else:
-                if cliente.url_foto_clientes:
-                    foto_antiga_path = os.path.join(settings.MEDIA_ROOT, cliente.url_foto_clientes)
-                    if os.path.exists(foto_antiga_path):
-                        try:
-                            os.remove(foto_antiga_path)
-                        except OSError:
-                            pass
-
-                os.makedirs(os.path.join(settings.MEDIA_ROOT, "perfis"), exist_ok=True)
-                nome_unico = f"perfis/foto_{uuid.uuid4().hex}{ext}"
-                storage = FileSystemStorage(location=settings.MEDIA_ROOT)
-                caminho_salvo = storage.save(nome_unico, foto)
-                cliente.url_foto_clientes = caminho_salvo
+                try:
+                    resultado = cloudinary.uploader.upload(
+                        foto,
+                        folder="perfis",
+                        public_id=f"foto_{uuid.uuid4().hex}",
+                        overwrite=True,
+                    )
+                    cliente.url_foto_clientes = resultado.get("secure_url") or resultado.get("url")
+                except Exception as e:
+                    logging.exception("Erro ao enviar imagem para Cloudinary: %s", e)
+                    messages.error(request, "Falha ao enviar a imagem. Tente novamente mais tarde.")
+                    foto = None
 
         cliente.save() # Salva na tabela Clientes
 

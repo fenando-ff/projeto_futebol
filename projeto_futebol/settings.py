@@ -27,10 +27,12 @@ INSTALLED_APPS = [
     'minigame',
 ]
 
+
 cloudinary.config(
-    cloud_name = os.environ.get("Cloudinary_name"),
-    api_key = os.environ.get("Cloudinary_key"),
-    api_secret = os.environ.get("Cloudinary_secret_key"),
+    cloud_name=os.environ.get("Cloudinary_name"),
+    api_key=os.environ.get("Cloudinary_key"),
+    api_secret=os.environ.get("Cloudinary_secret_key"),
+    secure=True,
 )
 
 # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
