@@ -1,8 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `projeto_futebol_teste` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `projeto_futebol_teste`;
+CREATE DATABASE  IF NOT EXISTS `projeto_futebol_definitivo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `projeto_futebol_definitivo`;
 -- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: localhost    Database: projeto_futebol_teste
+-- Host: localhost    Database: projeto_futebol_definitivo
 -- ------------------------------------------------------
 -- Server version	8.0.42
 
