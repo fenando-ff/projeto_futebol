@@ -7,6 +7,18 @@ document.addEventListener('DOMContentLoaded', function () {
 	const previewAvatar = document.getElementById('previewAvatar');
 	const avatarFilename = document.getElementById('avatarFilename');
 	const avatarError = document.getElementById('avatarError');
+	const btnSalvarFoto = document.getElementById('btnSalvarFoto');
+
+
+
+	
+	if (btnSalvarFoto) {
+    btnSalvarFoto.addEventListener('click', function () {
+        document.querySelector('.form-perfil').submit();
+    });
+}
+
+	console.log(btnSalvarFoto);
 
 	if (fotoInput && previewAvatar) {
 		const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -39,6 +51,22 @@ document.addEventListener('DOMContentLoaded', function () {
 				previewAvatar.src = e.target.result;
 			};
 			reader.readAsDataURL(file);
+
+			if (btnSalvarFoto) {
+				btnSalvarFoto.style.display = 'inline-flex';
+			}
+
+
+			// if (btnSalvarFoto) {
+			// 		btnSalvarFoto.style.display = 'none';
+			// 	}
+
+
+				if (btnSalvarFoto) {
+				btnSalvarFoto.addEventListener('click', function () {
+					document.querySelector('.form-perfil').submit();
+				});
+			}
 		});
 	}
 
