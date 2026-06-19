@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import cloudinary
 
 load_dotenv()
 
@@ -22,20 +21,30 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_futebol',
     'accounts',
-    'cloudinary',
-    'cloudinary_storage',
     'minigame',
+    'storages',
 ]
 
 
-cloudinary.config(
-    cloud_name=os.environ.get("Cloudinary_name"),
-    api_key=os.environ.get("Cloudinary_key"),
-    api_secret=os.environ.get("Cloudinary_secret_key"),
-    secure=True,
-)
+R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID")
+R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")
+R2_SECRET_ACCESS_KEY = os.environ.get("R2_SECRET_ACCESS_KEY")
+R2_BUCKET_NAME = os.environ.get("R2_BUCKET_NAME")
+R2_REGION_NAME = os.environ.get("R2_REGION_NAME", "auto")
+R2_ENDPOINT_URL = f"https://{R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
 
-# DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_S3_REGION_NAME = R2_REGION_NAME
+AWS_S3_ENDPOINT_URL = R2_ENDPOINT_URL
+AWS_S3_ACCESS_KEY_ID = R2_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = R2_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = R2_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+AWS_S3_FILE_OVERWRITE = True
+AWS_S3_USE_SSL = True
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 
 TEMPLATES = [
@@ -122,5 +131,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # print("RENDER =", os.environ.get("RENDER"))
 # print("DB_HOST produção =", os.environ.get("DB_HOST"))
 # print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
-print("Host selecionado =", DATABASES["default"]["HOST"])
+print(f"Host selecionado = {DATABASES['default']['HOST']}.\nNome do banco = {DATABASES['default']['NAME']}.")
 # print("Engine escolhida =", DATABASES["default"]["ENGINE"])

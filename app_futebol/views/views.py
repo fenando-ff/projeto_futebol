@@ -9,8 +9,6 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
-import cloudinary
-import cloudinary.uploader
 from app_futebol import models
 import io
 from reportlab.pdfgen import canvas
@@ -19,6 +17,8 @@ from reportlab.lib.units import cm
 import qrcode
 import re
 import json
+import boto3
+from botocore.exceptions import ClientError
 
 # -------------------------------
 # Helpers
@@ -198,15 +198,31 @@ def tela_perfil(request):
                 foto = None
             else:
                 try:
-                    resultado = cloudinary.uploader.upload(
-                        foto,
-                        folder="perfis",
-                        public_id=f"foto_{uuid.uuid4().hex}",
-                        overwrite=True,
+                    s3_client = boto3.client(
+                        "s3",
+                        region_name=settings.AWS_S3_REGION_NAME,
+                        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+                        aws_access_key_id=settings.AWS_S3_ACCESS_KEY_ID,
+                        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
                     )
-                    cliente.url_foto_clientes = resultado.get("secure_url") or resultado.get("url")
-                except Exception as e:
-                    logging.exception("Erro ao enviar imagem para Cloudinary: %s", e)
+
+                    ext = os.path.splitext(foto.name)[1].lower()
+                    key = f"perfis/foto_{uuid.uuid4().hex}{ext}"
+
+                    s3_client.upload_fileobj(
+                        foto,
+                        settings.AWS_STORAGE_BUCKET_NAME,
+                        key,
+                        ExtraArgs={"ContentType": foto.content_type, "ACL": "public-read"},
+                    )
+
+                    base_url = os.environ.get("R2_PUBLIC_URL", "")
+                    if base_url:
+                        cliente.url_foto_clientes = f"{base_url.rstrip('/')}/{key}"
+                    else:
+                        cliente.url_foto_clientes = f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/{key}"
+                except ClientError as e:
+                    logging.exception("Erro ao enviar imagem para R2: %s", e)
                     messages.error(request, "Falha ao enviar a imagem. Tente novamente mais tarde.")
                     foto = None
 
