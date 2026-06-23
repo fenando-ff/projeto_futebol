@@ -646,7 +646,7 @@ CREATE TABLE `jogos` (
 
 LOCK TABLES `jogos` WRITE;
 /*!40000 ALTER TABLE `jogos` DISABLE KEYS */;
-INSERT INTO `jogos` VALUES (1,'2026-02-15','16:00:00','Estádio Drakos Arena','casa',1),(2,'2026-02-22','18:30:00','Maracanã','fora',2),(3,'2026-03-01','20:00:00','Estádio Drakos Arena','casa',3),(4,'2026-03-08','16:00:00','Morumbi','fora',4),(5,'2026-03-15','19:00:00','Estádio Drakos Arena','casa',6),(6,'2026-03-22','17:30:00','Arena do Grêmio','fora',6);
+INSERT INTO `jogos` VALUES (1,'2026-10-15','16:00:00','Estádio Drakos Arena','casa',1),(2,'2026-10-22','18:30:00','Maracanã','fora',2),(3,'2026-10-01','20:00:00','Estádio Drakos Arena','casa',3),(4,'2026-10-08','16:00:00','Morumbi','fora',4),(5,'2026-10-15','19:00:00','Estádio Drakos Arena','casa',6),(6,'2026-10-22','17:30:00','Arena do Grêmio','fora',6);
 /*!40000 ALTER TABLE `jogos` ENABLE KEYS */;
 UNLOCK TABLES;
 
