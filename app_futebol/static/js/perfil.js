@@ -107,6 +107,42 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	})();
 
+	(function(){
+		var toggle = document.querySelector('.toggle-meus-ingressos');
+		if(!toggle) return;
+		var perfilIngressos = document.getElementById('perfil-ingressos');
+		var body = document.getElementById('meus-ingressos-body');
+		if(toggle.getAttribute('aria-expanded') === 'true'){
+			perfilIngressos.classList.remove('collapsed');
+			body.setAttribute('aria-hidden','false');
+		} else {
+			perfilIngressos.classList.add('collapsed');
+			body.setAttribute('aria-hidden','true');
+		}
+
+		var doToggle = function(){
+			var expanded = toggle.getAttribute('aria-expanded') === 'true';
+			if(expanded){
+				toggle.setAttribute('aria-expanded','false');
+				perfilIngressos.classList.add('collapsed');
+				body.setAttribute('aria-hidden','true');
+			} else {
+				toggle.setAttribute('aria-expanded','true');
+				perfilIngressos.classList.remove('collapsed');
+				body.setAttribute('aria-hidden','false');
+			}
+		};
+
+		toggle.addEventListener('click', function(e){
+			e.preventDefault();
+			doToggle();
+		});
+
+		toggle.addEventListener('keydown', function(e){
+			if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doToggle(); }
+		});
+	})();
+
 	// Dropdown por pedido: todo o item-pedido é clicável
 	const pedidosList = document.querySelectorAll('.lista-pedidos .item-pedido');
 	if (pedidosList && pedidosList.length) {

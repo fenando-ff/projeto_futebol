@@ -165,6 +165,72 @@ def get_historico_cliente(request, cliente_obj=None):
         request.session['historico_compras'] = []
         return []
 
+def get_ingressos_cliente(request, cliente_obj=None):
+    """Retorna lista de ingressos comprados pelo cliente (categoria 10)."""
+    if cliente_obj is None:
+        cliente_id = request.session.get('cliente_id')
+        cliente_obj = models.Clientes.objects.filter(id_clientes=cliente_id).first()
+        if not cliente_obj:
+            return []
+
+    compras_qs = models.Compra.objects.filter(
+        pedido_id_pedido__clientes_id_clientes=cliente_obj,
+        produtos_id_produtos__categoria_produtos_id_categoria_produtos=10
+    ).select_related(
+        'produtos_id_produtos',
+        'produtos_id_produtos__jogos_id_jogos',
+        'produtos_id_produtos__jogos_id_jogos__times_id_times',
+        'pedido_id_pedido'
+    ).order_by('-pedido_id_pedido__data_pedido')
+
+    agrupados = {}
+    ordem = []
+
+    for c in compras_qs:
+        pedido = c.pedido_id_pedido
+        pid = pedido.id_pedido
+
+        if pid not in agrupados:
+            try:
+                data_local = timezone.localtime(pedido.data_pedido)
+            except Exception:
+                data_local = pedido.data_pedido
+            agrupados[pid] = {
+                'pedido': {
+                    'id_pedido': pid,
+                    'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
+                    'data_pedido_iso': data_local.isoformat(),
+                    'status': getattr(pedido, 'status_pedido', '')
+                },
+                'itens': [],
+                'valor_total': 0.0,
+            }
+            ordem.append(pid)
+
+        produto = c.produtos_id_produtos
+        jogo = produto.jogos_id_jogos
+
+        item = {
+            'quantidade': c.quantidade_pedido,
+            'valor_unitario': float(c.valor_compra),
+            'subtotal': float(c.valor_compra),
+            'produto': {
+                'nome_produtos': produto.nome_produtos,
+            },
+        }
+
+        if jogo:
+            item['adversario'] = jogo.times_id_times.nome_time
+            item['data_hora'] = jogo.dia_jogo.strftime('%d/%m/%Y %H:%M')
+            item['local'] = jogo.local_jogo
+            item['casa_fora'] = jogo.casa_fora
+
+        agrupados[pid]['itens'].append(item)
+        agrupados[pid]['valor_total'] += float(c.valor_compra)
+
+    return [agrupados[pid] for pid in ordem]
+
+
 # -------------------------------
 # Views
 # -------------------------------
@@ -270,8 +336,9 @@ def tela_perfil(request):
     # Busca o histórico via helper (o helper também salva na sessão)
     historico = get_historico_cliente(request, cliente)
 
-    # passa o histórico para o template junto com os dados do cliente
-    context = {**(dados_cliente or {}), 'historico': historico}
+    ingressos = get_ingressos_cliente(request, cliente)
+
+    context = {**(dados_cliente or {}), 'historico': historico, 'ingressos': ingressos}
     return render(request, "app_futebol/perfil.html", context)
 
 
