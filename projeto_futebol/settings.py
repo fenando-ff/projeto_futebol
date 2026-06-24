@@ -133,3 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
 print(f"Host selecionado = {DATABASES['default']['HOST']}.\nNome do banco = {DATABASES['default']['NAME']}.")
 # print("Engine escolhida =", DATABASES["default"]["ENGINE"])
+
+TIME_ZONE = 'America/Sao_Paulo'
+LANGUAGE_CODE = 'pt-br'

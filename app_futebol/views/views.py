@@ -933,7 +933,7 @@ def gerar_pdf_ingressos(request, pedido_id):
         # Salva QR Code temporariamente na RAM para o ReportLab ler
         qr_buffer = io.BytesIO()
         qr_img.save(qr_buffer, format="PNG")
-        qr_buffer.seek(0) # Retorna o ponteiro para o início do arquivo
+        qr_buffer.seek(0)
 
         # --- DESENHO DO INGRESSO NO PDF ---
         # Borda do ingresso
@@ -957,7 +957,7 @@ def gerar_pdf_ingressos(request, pedido_id):
             p.drawString(3 * cm, y_position + 5.2 * cm, data_hora)
             p.drawString(3 * cm, y_position + 4.5 * cm, local)
         else:
-            p.drawString(3 * cm, y_position + 6 * cm, produto.nome_produtos)
+            p.drawString(3 * cm, y_position + 6 * cm, f"Time 1 VS Time 2")
 
         # Dados do Cliente e Setor
         p.setFont("Helvetica-Bold", 12)
@@ -977,5 +977,27 @@ def gerar_pdf_ingressos(request, pedido_id):
     # 5. Finaliza e retorna o PDF
     p.save()
     buffer.seek(0)
-    
-    return FileResponse(buffer, as_attachment=True, filename=f'ingressos_pedido_{pedido_id}.pdf')
+
+    key = f"ingressos/pedido_{pedido_id}.pdf"
+    try:
+        s3_client = boto3.client(
+            "s3",
+            region_name=settings.AWS_S3_REGION_NAME,
+            endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+            aws_access_key_id=settings.AWS_S3_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        )
+
+        upload_buffer = io.BytesIO(buffer.getvalue())
+        s3_client.upload_fileobj(
+            upload_buffer,
+            settings.AWS_STORAGE_BUCKET_NAME,
+            key,
+            ExtraArgs={"ContentType": "application/pdf", "ACL": "public-read"},
+        )
+    except ClientError:
+        logging.exception("Erro ao enviar PDF para R2: %s")
+
+    buffer.seek(0)
+
+    return FileResponse(buffer, filename=f'ingressos_pedido_{pedido_id}.pdf')
