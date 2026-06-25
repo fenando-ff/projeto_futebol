@@ -27,8 +27,8 @@
     /* Layout em Grid (Esquerda e Direita) */
     .layout-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 40px;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 20px;
     }
 
     /* Cards (Contêineres das seções) */
@@ -51,6 +51,10 @@
         font-size: 1.2rem;
         font-weight: 500;
     }
+    /* cor do icone de dropdonw meus ingressos */
+    .icone-toggle-ingresso {
+        color: #fff;
+    }
 
     /* Estilo do botão Toggle (Meus Dados) */
     .card-titulo .toggle-meus-dados {
@@ -66,6 +70,22 @@
         padding: 0;
         font-size: 1.1rem;
         cursor: pointer;
+    }
+
+    /* Toggle Ingressos */
+    .card-titulo.toggle-ingressos {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .card-titulo.toggle-ingressos i {
+        transition: transform 220ms ease;
+    }
+
+    .perfil-ingressos.collapsed .card-titulo.toggle-ingressos i {
+        transform: rotate(-180deg);
     }
 
     /* Corpo colapsável para 'Meus Dados' */
@@ -84,6 +104,24 @@
         transition: transform 220ms ease;
     }
     .card-titulo .toggle-meus-dados i {
+        transition: transform 220ms ease;
+    }
+
+    /* Corpo colapsável para 'Meus Ingressos' */
+    .perfil-ingressos .meus-ingressos-body {
+        max-height: 3000px;
+        overflow: hidden;
+        transition: max-height 320ms ease, padding 220ms ease;
+    }
+    .perfil-ingressos.collapsed .meus-ingressos-body {
+        max-height: 0;
+        padding: 0 25px;
+    }
+    .perfil-ingressos.collapsed .card-titulo.toggle-ingressos i {
+        transform: rotate(-180deg);
+        transition: transform 220ms ease;
+    }
+    .card-titulo.toggle-ingressos i {
         transition: transform 220ms ease;
     }
 
