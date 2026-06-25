@@ -186,5 +186,39 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 		});
 	}
+
+	// Dropdown de Ingressos por pedido
+	const ingressosToggles = document.querySelectorAll('.btn-toggle-ingressos');
+	if (ingressosToggles && ingressosToggles.length) {
+		ingressosToggles.forEach(function(btn) {
+			var dropdown = btn.closest('.ingresso-dropdown');
+			if (!dropdown) return;
+
+			var lista = dropdown.querySelector('.ingressos-lista');
+			if (!lista) return;
+
+			btn.setAttribute('aria-expanded', 'false');
+			lista.setAttribute('aria-hidden', 'true');
+
+			var toggleIngressos = function() {
+				var aberto = dropdown.classList.toggle('aberto');
+				btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+				lista.setAttribute('aria-hidden', aberto ? 'false' : 'true');
+			};
+
+			btn.addEventListener('click', function(e) {
+				e.preventDefault();
+				e.stopPropagation();
+				toggleIngressos();
+			});
+
+			btn.addEventListener('keydown', function(e) {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					toggleIngressos();
+				}
+			});
+		});
+	}
 });
 
