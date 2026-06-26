@@ -128,8 +128,7 @@
                                 {% endif %}
                             </a>
                         </div>
-                    </div>
-                </div>
+                        </div>
 
                 <div class="grupo-inputs">
                     <h3>Endereço de Entrega</h3>
@@ -219,6 +218,31 @@
                 {% else %}
                     <p class="aviso-sem-historico"><em>Nenhuma compra encontrada.</em></p>
                 {% endif %}
+            </div>
+        </section>
+
+        <section class="perfil-ingressos" id="perfil-ingressos">
+            <div class="card-titulo toggle-ingressos" aria-expanded="true" tabindex="0" role="button">
+                <h2>Meus Ingressos</h2>
+                <i class="fa-solid fa-angle-up icone-toggle-ingresso" aria-hidden="true"></i>
+            </div>
+            
+            <div class="meus-ingressos-body" id="meus-ingressos-body" aria-hidden="false">
+                <div class="ingresso-container">
+                    {% if ingressos %}
+                        {% for ingresso in ingressos %}
+                            <div class="ingresso-item">
+                                <div class="ingresso-info">
+                                    <span class="ingresso-nome">{{ ingresso.nome_produtos }}</span>
+                                    <span class="ingresso-data">{{ ingresso.data_pedido }}</span>
+                                </div>
+                                <a href="{% url 'baixar_ingresso' ingresso.pedido_id %}?compra_id={{ ingresso.id_compra }}" target="_blank" class="btn-visualizar-ingresso">Visualizar</a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="aviso-sem-ingressos"><em>Nenhum ingresso comprado.</em></p>
+                    {% endif %}
+                </div>
             </div>
         </section>
     </div>

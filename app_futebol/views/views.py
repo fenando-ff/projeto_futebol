@@ -129,9 +129,10 @@ def get_historico_cliente(request, cliente_obj=None):
                         'id_pedido': pid,
                         'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
                         'data_pedido_iso': data_local.isoformat(),
-                        'status': getattr(pedido, 'status_pedido', '')
+                        'status': getattr(pedido, 'status', '')
                     },
                     'itens': [],
+                    'ingressos': [],
                     'valor_total': 0.0,
                 }
                 ordem.append(pid)
@@ -141,16 +142,25 @@ def get_historico_cliente(request, cliente_obj=None):
             valor_unitario = float(c.valor_compra)
             subtotal = valor_unitario
 
-            agrupados[pid]['itens'].append({
+            categoria_id = None
+            if produto.categoria_produtos_id_categoria_produtos:
+                categoria_id = produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos
+
+            item_dict = {
+                'id_compra': c.id_compra,
                 'produto': {
                     'id': produto.id_produtos,
                     'nome_produtos': produto.nome_produtos,
                     'imagem_produtos': produto.imagem_produtos,
+                    'categoria_id': categoria_id,
                 },
                 'quantidade': quantidade,
                 'valor_unitario': valor_unitario,
                 'subtotal': subtotal,
-            })
+            }
+            agrupados[pid]['itens'].append(item_dict)
+            if categoria_id == 10:
+                agrupados[pid]['ingressos'].append(item_dict)
             agrupados[pid]['valor_total'] += subtotal
 
         # Mantém a ordem dos pedidos (mais recentes primeiro)
@@ -336,8 +346,16 @@ def tela_perfil(request):
     # Busca o histórico via helper (o helper também salva na sessão)
     historico = get_historico_cliente(request, cliente)
 
-    ingressos = get_ingressos_cliente(request, cliente)
-
+    # passa o histórico para o template junto com os dados do cliente
+    ingressos = []
+    for h in historico:
+        for ingresso in h.get('ingressos', []):
+            ingressos.append({
+                'id_compra': ingresso.get('id_compra'),
+                'nome_produtos': ingresso.get('produto', {}).get('nome_produtos'),
+                'data_pedido': h.get('pedido', {}).get('data_pedido'),
+                'pedido_id': h.get('pedido', {}).get('id_pedido'),
+            })
     context = {**(dados_cliente or {}), 'historico': historico, 'ingressos': ingressos}
     return render(request, "app_futebol/perfil.html", context)
 
@@ -597,6 +615,15 @@ def finalizar_compra(request):
     produtos_db = models.Produtos.objects.filter(id_produtos__in=produto_ids)
     produtos_dict = {p.id_produtos: p for p in produtos_db}
     
+    status_pedido = "a caminho"
+    if produto_ids:
+        apenas_ingressos = all(
+            getattr(p.categoria_produtos_id_categoria_produtos, 'id_categoria_produtos', None) == 10
+            for p in produtos_db
+        )
+        if apenas_ingressos:
+            status_pedido = "entregue"
+    
     # Valida os produtos e estoque
     itens_compra = []
     valor_total = 0
@@ -641,7 +668,8 @@ def finalizar_compra(request):
         novo_pedido = models.Pedido(
             data_pedido=timezone.now(),
             clientes_id_clientes=cliente,
-            funcionarios_id_funcionarios=None
+            funcionarios_id_funcionarios=None,
+            status=status_pedido
         )
         novo_pedido.save()
         
@@ -973,6 +1001,13 @@ def gerar_pdf_ingressos(request, pedido_id):
         pedido_id_pedido=pedido,
         produtos_id_produtos__categoria_produtos_id_categoria_produtos=10
     ).select_related('produtos_id_produtos', 'produtos_id_produtos__jogos_id_jogos', 'produtos_id_produtos__jogos_id_jogos__times_id_times')
+
+    compra_id = request.GET.get('compra_id')
+    if compra_id:
+        try:
+            itens_compra = itens_compra.filter(id_compra=compra_id)
+        except (ValueError, TypeError):
+            pass
 
     if not itens_compra.exists():
         messages.error(request, "Este pedido não contém ingressos.")
