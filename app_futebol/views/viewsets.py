@@ -24,6 +24,7 @@ from ..models import (
 from ..serializers import (
     CategoriaClienteSerializer,
     CategoriaProdutosSerializer,
+    CarrinhoItemSerializer,
     ClientesSerializer,
     CompraSerializer,
     EnderecoClienteSerializer,

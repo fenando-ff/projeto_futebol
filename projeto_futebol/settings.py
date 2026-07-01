@@ -54,8 +54,13 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
+    "http://localhost:8081",
+    "http://localhost:19006",
+    "http://10.20.83.22:8000",
+    "http://192.168.61.90:8000",
     "https://projeto-futebol.onrender.com",
 ]
+CORS_ALLOW_CREDENTIALS = True
 
 R2_ACCOUNT_ID = os.environ.get("R2_ACCOUNT_ID")
 R2_ACCESS_KEY_ID = os.environ.get("R2_ACCESS_KEY_ID")

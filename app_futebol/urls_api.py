@@ -19,7 +19,7 @@ from .views.viewsets import (
     TitulosViewSet,
     MeuPerfilView
 )
-from .views.api import LoginAPIView, CheckoutAPIView
+from .views.api import LoginAPIView, CheckoutAPIView, CartAPIView
 
 router = DefaultRouter()
 router.register(r'categorias-produtos', CategoriaProdutosViewSet)
@@ -44,4 +44,5 @@ urlpatterns = router.urls + [
     path('login/', LoginAPIView.as_view(), name='api-login'),
     path('checkout/', CheckoutAPIView.as_view(), name='api-checkout'),
     path('meu-perfil/', MeuPerfilView.as_view({'get': 'list'}), name='meu-perfil'),
+    path('cart/', CartAPIView.as_view(), name='api-cart'),
 ]

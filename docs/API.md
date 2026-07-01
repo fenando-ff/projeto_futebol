@@ -51,9 +51,14 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",   # Expo Go
-    "http://localhost:19006",  # Web
+    "http://localhost:8000",
+    "http://localhost:8081",
+    "http://localhost:19006",
+    "http://10.20.83.22:8000",
+    "http://192.168.61.90:8000",
+    "https://projeto-futebol.onrender.com",
 ]
+CORS_ALLOW_CREDENTIALS = True
 ```
 
 ### 1.3 `urls.py` (raiz do projeto)
@@ -193,20 +198,45 @@ export async function fetchPlanos() {
 
 ---
 
-### 3.4 Autenticação e perfil
+### 3.4 Autenticação, perfil e carrinho
 
-A base atual usa `accounts.perfil` ligado ao `auth_user`. O frontend deve consumir endpoints para:
+```python
+# POST /api/login/
+class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
 
-- login com email/senha
-- cadastro com dados do perfil
-- logout / revogação de token
-- alteração de senha
-- consulta/alteração do próprio perfil
+# GET /api/meu-perfil/
+class MeuPerfilView(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
 
-Regra de negócio esperada:
+# GET/POST/PATCH/DELETE /api/cart/
+class CartAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+```
 
-- Cliente padrão nasce com `score_rank = 0`, `total_acertos = 0`, `precisao = 0`
-- `accounts_perfil` é único por usuário
+Exemplo frontend:
+
+```javascript
+export async function login(email, senha) {
+  const { data } = await api.post("/login/", { email, senha });
+  return data;
+}
+
+export async function fetchMeuPerfil() {
+  const { data } = await api.get("/meu-perfil/");
+  return data;
+}
+
+export async function fetchCarrinho() {
+  const { data } = await api.get("/cart/");
+  return data;
+}
+
+export async function addCarrinho(produto_id, quantidade = 1) {
+  const { data } = await api.post("/cart/", { produto_id, quantidade });
+  return data;
+}
+```
 
 ---
 
@@ -216,6 +246,7 @@ Regra de negócio esperada:
 # GET/POST /api/enderecos/
 class EnderecoClienteViewSet(viewsets.ModelViewSet):
     serializer_class = EnderecoClienteSerializer
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["cliente_id_cliente"]
 ```
@@ -231,23 +262,26 @@ export async function fetchMeusEnderecos() {
 
 ---
 
-### 3.6 Pedidos e compras
+### 3.6 Pedidos, compras e checkout
 
 ```python
 # GET /api/pedidos/
 class PedidoViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PedidoSerializer
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = ["status", "cliente_id_cliente"]
     ordering_fields = ["-data_pedido"]
-```
 
-```python
-# GET /api/compras/
-class CompraViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = CompraSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["pedido_id_pedido"]
+# GET /api/pedidos/{id}/ingressos/
+class PedidoViewSet(viewsets.ViewSet):
+    @action(detail=True, methods=["get"])
+    def ingressos(self, request, pk=None):
+        ...
+
+# POST /api/checkout/
+class CheckoutAPIView(APIView):
+    permission_classes = [AllowAny]
 ```
 
 Exemplo frontend:
@@ -256,6 +290,16 @@ Exemplo frontend:
 export async function fetchMeusPedidos() {
   const { data } = await api.get("/pedidos/");
   return data.results ?? data;
+}
+
+export async function fetchIngressosPedido(pedidoId) {
+  const { data } = await api.get(`/pedidos/${pedidoId}/ingressos/`);
+  return data;
+}
+
+export async function finalizarCompra(itens) {
+  const { data } = await api.post("/checkout/", { itens });
+  return data;
 }
 ```
 

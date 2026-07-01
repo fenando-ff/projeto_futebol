@@ -183,7 +183,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-05-07 16:49:14.215365',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-07-01 18:27:23.129021',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,7 +327,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (136,'pbkdf2_sha256$1000000$F0qqiG6hkFDLFyfemsxLUt$O2sey8fBA0t++iQBAzMvklIjSPksw3U9+lsyEX6i+ac=','Masculino','(61) 98498-9494','joao@gmail.com','João Vitor','Silva','24698198984',1,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_13edafbddf2a48ba95885439f7ce4014.png',5,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `clientes` VALUES (136,'pbkdf2_sha256$1000000$F0qqiG6hkFDLFyfemsxLUt$O2sey8fBA0t++iQBAzMvklIjSPksw3U9+lsyEX6i+ac=','Masculino','(61) 98498-9494','drakos@gmail.com','Drakos','Club','24698198984',1,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_4df9c96e4d2c4845ab54604467f0aef7.webp',3,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +349,7 @@ CREATE TABLE `compra` (
   KEY `fk_PRODUTOS_has_PEDIDO_PRODUTOS1_idx` (`PRODUTOS_id_PRODUTOS`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PEDIDO1` FOREIGN KEY (`PEDIDO_id_PEDIDO`) REFERENCES `pedido` (`id_PEDIDO`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PRODUTOS1` FOREIGN KEY (`PRODUTOS_id_PRODUTOS`) REFERENCES `produtos` (`id_PRODUTOS`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,6 +358,7 @@ CREATE TABLE `compra` (
 
 LOCK TABLES `compra` WRITE;
 /*!40000 ALTER TABLE `compra` DISABLE KEYS */;
+INSERT INTO `compra` VALUES (28,42,21,1,300),(29,49,21,1,100),(30,53,22,1,60),(31,53,23,1,60),(32,52,24,1,100),(33,53,25,2,120),(34,53,26,1,60);
 /*!40000 ALTER TABLE `compra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -381,7 +382,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_content_type_id_c4bce8eb` (`content_type_id`),
   KEY `django_admin_log_user_id_c564eba6` (`user_id`),
   CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=235 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -390,6 +391,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (195,'2026-06-26 18:34:58.912129','20','Pedido 20 - Drakos (24698198984)',3,'',14,1),(196,'2026-06-26 18:34:58.912162','19','Pedido 19 - Drakos (24698198984)',3,'',14,1),(197,'2026-06-26 18:34:58.912178','18','Pedido 18 - Drakos (24698198984)',3,'',14,1),(198,'2026-06-26 18:34:58.912191','17','Pedido 17 - Drakos (24698198984)',3,'',14,1),(199,'2026-06-26 18:34:58.912202','16','Pedido 16 - Drakos (24698198984)',3,'',14,1),(200,'2026-06-26 18:34:58.912213','15','Pedido 15 - Drakos (24698198984)',3,'',14,1),(201,'2026-06-26 18:34:58.912225','14','Pedido 14 - Drakos (24698198984)',3,'',14,1),(202,'2026-06-26 18:34:58.912236','13','Pedido 13 - Drakos (24698198984)',3,'',14,1),(203,'2026-06-26 18:34:58.912248','12','Pedido 12 - Drakos (24698198984)',3,'',14,1),(204,'2026-06-26 18:34:58.912259','11','Pedido 11 - Drakos (24698198984)',3,'',14,1),(205,'2026-06-26 18:34:58.912271','10','Pedido 10 - Drakos (24698198984)',3,'',14,1),(206,'2026-06-26 18:34:58.912282','9','Pedido 9 - Drakos (24698198984)',3,'',14,1),(207,'2026-06-26 18:34:58.912294','8','Pedido 8 - Drakos (24698198984)',3,'',14,1),(208,'2026-06-26 18:35:10.851750','27','Compra 27',3,'',10,1),(209,'2026-06-26 18:35:10.851796','26','Compra 26',3,'',10,1),(210,'2026-06-26 18:35:10.851831','25','Compra 25',3,'',10,1),(211,'2026-06-26 18:35:10.851861','24','Compra 24',3,'',10,1),(212,'2026-06-26 18:35:10.851876','23','Compra 23',3,'',10,1),(213,'2026-06-26 18:35:10.851893','22','Compra 22',3,'',10,1),(214,'2026-06-26 18:35:10.851910','21','Compra 21',3,'',10,1),(215,'2026-06-26 18:35:10.851927','20','Compra 20',3,'',10,1),(216,'2026-06-26 18:35:10.851944','19','Compra 19',3,'',10,1),(217,'2026-06-26 18:35:10.851958','18','Compra 18',3,'',10,1),(218,'2026-06-26 18:35:10.851973','17','Compra 17',3,'',10,1),(219,'2026-06-26 18:35:10.851987','16','Compra 16',3,'',10,1),(220,'2026-06-26 18:35:10.852002','15','Compra 15',3,'',10,1),(221,'2026-06-26 18:35:10.852022','14','Compra 14',3,'',10,1),(222,'2026-06-26 18:35:17.228315','20','Pedido 20 - Drakos (24698198984)',3,'',14,1),(223,'2026-06-26 18:35:17.228352','19','Pedido 19 - Drakos (24698198984)',3,'',14,1),(224,'2026-06-26 18:35:17.228368','18','Pedido 18 - Drakos (24698198984)',3,'',14,1),(225,'2026-06-26 18:35:17.228383','17','Pedido 17 - Drakos (24698198984)',3,'',14,1),(226,'2026-06-26 18:35:17.228394','16','Pedido 16 - Drakos (24698198984)',3,'',14,1),(227,'2026-06-26 18:35:17.228405','15','Pedido 15 - Drakos (24698198984)',3,'',14,1),(228,'2026-06-26 18:35:17.228416','14','Pedido 14 - Drakos (24698198984)',3,'',14,1),(229,'2026-06-26 18:35:17.228427','13','Pedido 13 - Drakos (24698198984)',3,'',14,1),(230,'2026-06-26 18:35:17.228438','12','Pedido 12 - Drakos (24698198984)',3,'',14,1),(231,'2026-06-26 18:35:17.228448','11','Pedido 11 - Drakos (24698198984)',3,'',14,1),(232,'2026-06-26 18:35:17.228460','10','Pedido 10 - Drakos (24698198984)',3,'',14,1),(233,'2026-06-26 18:35:17.228473','9','Pedido 9 - Drakos (24698198984)',3,'',14,1),(234,'2026-06-26 18:35:17.228486','8','Pedido 8 - Drakos (24698198984)',3,'',14,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,7 +469,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('ztep5mrr800w24kuizafe329y1cpg133','.eJxVkTFvwyAQhf9KxNRKiW0wtsFT566VurRVhOGcUGEOYTtLlP9eHLmpux3ve3cHjyvRzoKf4GgNaWlZ7x-CxwFIS17xcy4KKHH3bieM5M8wYhdhdb1Zd1EbBoOyLunfqPDltBwyjcPGMIGDHv3S-1TT550UXIqD5JJvTDr0iTNeS0GlSJYN63HCBM_TFMY2z8PcHQQTUrGGck05r5tOGFrphjPGQRYGWBZZZuCSB4i9HfNlwpGWYFTfGdMzxUWnZCVExUvZNxp4QXkW_CltDU55TC_WFu9JVf-lNQWvcHcXtkl4AxF0uuuVLJ1lkxgE0vrZuT2Js_ottRofdadsjPggOAQHQ5q3Src9OdsxfYfVeFxoVCNpP75uPyrLmD4:1wc5ab:UzBvTutrMGWWOtRIYLkcgQNA0VgmjSnmZ65RgWXlksQ','2026-07-07 18:11:13.146436');
+INSERT INTO `django_session` VALUES ('9x0k4l8g3zgqcp1ayt673se3u0hkxjv6','.eJzVV8mO2zgQ_RVBpwSwLW7W4lO222BymdxmAqFEUjYTSVQoKjk0-t-nJNvdaru9pJEA8cU0q4pV9R6fSPAuzKH3m7zvtMuNClchDWdTWwHyq24Gh_oCzdoupG28M8ViCFnsvN3ib6t09W4X-yTBBroNri5LtUyBU53KjFAulJIklorTkgmqSk4I01xIGZepLCmXYokeRimDhOuEl5hUVkY3Xo9tUh4_GhpbayzxwcFX200CO1s4vXO-r_pi4tI1mGoANa55sx6mCK2ehHhd6dI2w-JXMX0dZKnI0nkmMjEJkm2JfibiLKVZiiETX2m9RefG-7ZbRVHbF_OUpRmwhApJhYiTIlV0KRPBmNAZUZotHFso_T1qtStNFw0ZcqHKTGaxFopJkYolFEsRk2F5SUCXyeKHLlos21bQWMQsjR0p4k9NOx7GSbCFHcwD2zs7paVR2mmJbd-FY44EfbrFdR8HJmah6-FxIqGbzAowztmJ19ZtpWvM-2C8n4Ub03nrjLT54HfQhat_78JWK6N2VfP9hOEWK_DwYAgJjUgSMcLigC5XfCB7EpCbbgga3HOSzAn9NAatCJ8TviIEozsPvseSIXbl9LofWzJeN9s2sPi2K0QukD5nVe8fyFgiowOL-c4-5HnrvvWmgEaCgqACZYO3WMbUsNb1NM7U6-iT-SvfavQVf71om_VIoddr5AO2qibYzrceGm8UKNwuOgu_Q2Vd3jfGgzPYS0wWBIH0hbcequ38_jPWbNZOd529fSTbuKlxdkohywsKYdcohK2oeIlC-J_AKzvmlbIDYkfDeY3cHpYnKtlaT8pEXJAJvUYmFCl5iUzYMbXsGmrf_ebPj5JDaslFmdwelqcyIWdlws_LhKVXyISlL5QJ_RO-wF9y39wakp-4b9ihQlgckfjxIMnOKCSes3g8SLKVeNF9Q26M19MKuTUkP6EQekEh586QB4WkeCEfKwQCCbVpNvakRFh6RKx45nx-j2k6CGp8zyGxdvhtnfZwkt39NJLjyv0YiKjsqyofE-VFhc-_3Dtouhbw3eWf3QZ2eRf44WHO98f2FGp2DDU7hvoPNOq_nhBNKwMBSkjiO1BfA7RC2eGfDhMArn0WDP9Vt-yhxsQ-SIJz45YjRsHGCvFu4Djc3_8Pjg8eyw:1weznZ:p8oiz5zkutR3RZPsdBDzNr-nG4tBIRnkrl4U2-3csc0','2026-07-15 18:36:37.003509');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -498,7 +500,7 @@ CREATE TABLE `endereco_cliente` (
 
 LOCK TABLES `endereco_cliente` WRITE;
 /*!40000 ALTER TABLE `endereco_cliente` DISABLE KEYS */;
-INSERT INTO `endereco_cliente` VALUES (37,NULL,NULL,NULL,NULL,NULL,136);
+INSERT INTO `endereco_cliente` VALUES (37,'None','None','None','None','None',136);
 /*!40000 ALTER TABLE `endereco_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -668,7 +670,7 @@ CREATE TABLE `pedido` (
   KEY `fk_PEDIDO_FUNCIONARIOS1_idx` (`FUNCIONARIOS_id_FUNCIONARIOS`),
   CONSTRAINT `fk_PEDIDO_CLIENTES1` FOREIGN KEY (`CLIENTES_id_CLIENTES`) REFERENCES `clientes` (`id_CLIENTES`),
   CONSTRAINT `fk_PEDIDO_FUNCIONARIOS1` FOREIGN KEY (`FUNCIONARIOS_id_FUNCIONARIOS`) REFERENCES `funcionarios` (`id_FUNCIONARIOS`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -677,6 +679,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+INSERT INTO `pedido` VALUES (21,'2026-06-26 18:38:33','a caminho',136,NULL),(22,'2026-06-26 18:39:44','entregue',136,NULL),(23,'2026-07-01 18:28:53','entregue',136,NULL),(24,'2026-07-01 18:31:53','entregue',136,NULL),(25,'2026-07-01 18:32:14','entregue',136,NULL),(26,'2026-07-01 18:34:03','entregue',136,NULL);
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -710,7 +713,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (42,'Camisa manga longa preta',300,'Camisa chique de manga longa',7,2,'img/produtos/camisas/camisa 4/full_manga_black_transparent.png',NULL),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',1,1,'img/produtos/acessorios/objeto 3/touca_transparent.png',NULL),(45,'cachecol',248.99,'Carregue suas coisas com amor pelo seu time',2,1,'img/produtos/acessorios/objeto 1/cachecol_transparent (3).png',NULL),(47,'Mascote',350,'Divirta-se',23,1,'img/produtos/acessorios/objeto 2/boneco_transparent (3).png',NULL),(49,'Sandália do clube',99.99,'Conforto e paixão',12,3,'img/produtos/calcados/sandalia.png',NULL),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 15/12/2025',60,10,'img/TiK_Drakos(3).png',NULL),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 15/12/2025',146,10,'img/TiK_Drakos(3).png',NULL),(54,'Camarote Premium',175,'Drako x Palmeiras - 15/12/2025',10,10,'img/TiK_Drakos(3).png',NULL),(55,'Camarote',150,'Drako x Palmeiras - 15/12/2025',15,10,'img/TiK_Drakos(3).png',NULL),(57,'Olhadeira Drakos',45.9,'Olhadeira personalizada Drakos, material confortável e ajustável.',50,1,'img/produtos/acessorios/objeto 4/olhadeira_transparent.png',NULL),(58,'Caneca Drakos FC',35,'Caneca de cerâmica de alta qualidade com escudo do clube.',100,1,'img/produtos/acessorios/objeto 5/caneca(3)transparente.png',NULL),(59,'Chaveiro Metálico',15,'Chaveiro robusto com acabamento em aço escovado.',200,1,'img/produtos/acessorios/objeto 6/chaveiro_transparent.png',NULL),(60,'Capa de Telefone Premium',59.9,'Capa protetora anti-impacto compatível com diversos modelos.',80,1,'img/produtos/acessorios/objeto 7/capa_transparent.png',NULL),(61,'Camisa Branca e Vermelha',259.9,'Camisa esportiva com design listrado em branco e vermelho.',40,2,'img/produtos/camisas/camisa 6/white_red (1).jpg',NULL),(62,'Camisa Preto e Vermelho',289.9,'Edição especial com grafismos modernos em tons de preto e vermelho.',30,2,'img/produtos/camisas/camisa 7/preto_vermelho.png',NULL),(63,'Camisa Drakos Retrô 2006',320,'Reedição histórica do uniforme utilizado na temporada de 2006.',15,2,'img/produtos/camisas/camisa 8/milan_r2006(2).png',NULL),(64,'Camisa Away White 25/26',299.9,'Uniforme reserva para a temporada 2025/2026 na cor branca.',55,2,'img/produtos/camisas/camisa 9/white_25.26(1).png',NULL),(65,'Camisa Black Uniform',275,'Uniforme alternativo preto com tecnologia de alta performance.',25,2,'img/produtos/camisas/camisa 10/Black_transpa.png',NULL),(66,'Casaco Black Drakos',349.9,'Casaco esportivo oficial na cor preta, material térmico de alta qualidade.',20,2,'img/produtos/camisas/camisa 1/casaco_transparent.png',NULL),(67,'Camisa Classic White',279.9,'Camisa branca listrada retrô com patrocínio clássico Opel.',15,2,'img/produtos/camisas/camisa 2/Opel_transparent.png',NULL),(68,'Camisa Drakos White Red',259.9,'Camisa oficial branca com detalhes em vermelho, edição temporada.',40,2,'img/produtos/camisas/camisa 3/Camisa_branco_red.png',NULL),(69,'Camisa White Version 2.0',265,'Versão alternativa branca com tecido tecnológico para maior ventilação.',35,2,'img/produtos/camisas/camisa 5/white_version (2).jpg',NULL);
+INSERT INTO `produtos` VALUES (42,'Camisa manga longa preta',300,'Camisa chique de manga longa',6,2,'img/produtos/camisas/camisa 4/full_manga_black_transparent.png',NULL),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',1,1,'img/produtos/acessorios/objeto 3/touca_transparent.png',NULL),(45,'cachecol',248.99,'Carregue suas coisas com amor pelo seu time',1,1,'img/produtos/acessorios/objeto 1/cachecol_transparent (3).png',NULL),(47,'Mascote',350,'Divirta-se',22,1,'img/produtos/acessorios/objeto 2/boneco_transparent (3).png',NULL),(49,'Sandália do clube',99.99,'Conforto e paixão',11,3,'img/produtos/calcados/sandalia.png',NULL),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 01/10/2026',51,10,'img/TiK_Drakos(3).png',3),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 01/10/2026',139,10,'img/TiK_Drakos(3).png',3),(54,'Camarote Premium',175,'Drako x Palmeiras - 01/10/2026',8,10,'img/TiK_Drakos(3).png',3),(55,'Camarote',150,'Drako x Palmeiras - 01/10/2026',15,10,'img/TiK_Drakos(3).png',3),(57,'Olhadeira Drakos',45.9,'Olhadeira personalizada Drakos, material confortável e ajustável.',50,1,'img/produtos/acessorios/objeto 4/olhadeira_transparent.png',NULL),(58,'Caneca Drakos FC',35,'Caneca de cerâmica de alta qualidade com escudo do clube.',100,1,'img/produtos/acessorios/objeto 5/caneca(3)transparente.png',NULL),(59,'Chaveiro Metálico',15,'Chaveiro robusto com acabamento em aço escovado.',200,1,'img/produtos/acessorios/objeto 6/chaveiro_transparent.png',NULL),(60,'Capa de Telefone Premium',59.9,'Capa protetora anti-impacto compatível com diversos modelos.',80,1,'img/produtos/acessorios/objeto 7/capa_transparent.png',NULL),(61,'Camisa Branca e Vermelha',259.9,'Camisa esportiva com design listrado em branco e vermelho.',40,2,'img/produtos/camisas/camisa 6/white_red (1).jpg',NULL),(62,'Camisa Preto e Vermelho',289.9,'Edição especial com grafismos modernos em tons de preto e vermelho.',30,2,'img/produtos/camisas/camisa 7/preto_vermelho.png',NULL),(63,'Camisa Drakos Retrô 2006',320,'Reedição histórica do uniforme utilizado na temporada de 2006.',15,2,'img/produtos/camisas/camisa 8/milan_r2006(2).png',NULL),(64,'Camisa Away White 25/26',299.9,'Uniforme reserva para a temporada 2025/2026 na cor branca.',55,2,'img/produtos/camisas/camisa 9/white_25.26(1).png',NULL),(65,'Camisa Black Uniform',275,'Uniforme alternativo preto com tecnologia de alta performance.',25,2,'img/produtos/camisas/camisa 10/Black_transpa.png',NULL),(66,'Casaco Black Drakos',349.9,'Casaco esportivo oficial na cor preta, material térmico de alta qualidade.',20,2,'img/produtos/camisas/camisa 1/casaco_transparent.png',NULL),(67,'Camisa Classic White',279.9,'Camisa branca listrada retrô com patrocínio clássico Opel.',15,2,'img/produtos/camisas/camisa 2/Opel_transparent.png',NULL),(68,'Camisa Drakos White Red',259.9,'Camisa oficial branca com detalhes em vermelho, edição temporada.',40,2,'img/produtos/camisas/camisa 3/Camisa_branco_red.png',NULL),(69,'Camisa White Version 2.0',265,'Versão alternativa branca com tecido tecnológico para maior ventilação.',35,2,'img/produtos/camisas/camisa 5/white_version (2).jpg',NULL);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -902,4 +905,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-23 15:17:27
+-- Dump completed on 2026-07-01 17:54:18

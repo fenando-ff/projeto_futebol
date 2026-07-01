@@ -74,12 +74,29 @@ class PedidoSerializer(serializers.ModelSerializer):
 
 
 class CompraSerializer(serializers.ModelSerializer):
-    produtos = serializers.StringRelatedField()
-    pedido = serializers.StringRelatedField()
+    produtos = serializers.SerializerMethodField()
+    pedido = serializers.SerializerMethodField()
 
     class Meta:
         model = Compra
         fields = '__all__'
+
+    def get_produtos(self, obj):
+        produto = obj.produtos_id_produtos
+        return {
+            "id": produto.id_produtos,
+            "nome_produtos": produto.nome_produtos,
+            "imagem_produtos": produto.imagem_produtos,
+            "valor_produtos": float(produto.valor_produtos),
+        }
+
+    def get_pedido(self, obj):
+        pedido = obj.pedido_id_pedido
+        return {
+            "id_pedido": pedido.id_pedido,
+            "data_pedido": pedido.data_pedido.strftime("%d/%m/%Y %H:%M"),
+            "status": pedido.status,
+        }
 
 
 class JogosSerializer(serializers.ModelSerializer):
@@ -131,3 +148,50 @@ class HistoricoTitulosSerializer(serializers.ModelSerializer):
     class Meta:
         model = HistoricoTitulos
         fields = '__all__'
+
+
+class ProdutoCarrinhoSerializer(serializers.ModelSerializer):
+    categoria_nome = serializers.CharField(source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos", read_only=True)
+    imagem = serializers.CharField(source="imagem_produtos", read_only=True)
+
+    class Meta:
+        model = Produtos
+        fields = [
+            "id_produtos",
+            "nome_produtos",
+            "descricao_produtos",
+            "valor_produtos",
+            "quantidade_estoque_produtos",
+            "categoria_nome",
+            "imagem",
+        ]
+
+
+class CarrinhoItemSerializer(serializers.ModelSerializer):
+    produto = ProdutoCarrinhoSerializer(read_only=True)
+    subtotal = serializers.SerializerMethodField()
+    produto_id = serializers.IntegerField(write_only=True)
+    quantidade = serializers.IntegerField(min_value=1)
+
+    class Meta:
+        model = Compra
+        fields = [
+            "id_compra",
+            "produto",
+            "produto_id",
+            "quantidade",
+            "valor_compra",
+            "subtotal",
+        ]
+        read_only_fields = ["id_compra", "valor_compra", "subtotal"]
+
+    def get_subtotal(self, obj):
+        valor = float(obj.valor_compra or 0)
+        quantidade = int(obj.quantidade_pedido or 1)
+        return valor * quantidade
+
+
+class CarrinhoSerializer(serializers.Serializer):
+    items = CarrinhoItemSerializer(many=True, read_only=True)
+    quantidade_total = serializers.IntegerField(read_only=True)
+    valor_total = serializers.FloatField(read_only=True)
