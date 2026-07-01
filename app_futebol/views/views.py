@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
 from app_futebol import models
+from .decorators import cliente_login_required
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -245,6 +246,7 @@ def get_ingressos_cliente(request, cliente_obj=None):
 # Views
 # -------------------------------
 
+@cliente_login_required
 def tela_perfil(request):
     cliente_id = request.session.get("cliente_id")
     if not cliente_id:
@@ -390,6 +392,7 @@ def home(request):
     return render(request, "app_futebol/index.html", {**jogo, "produtos_acessorios": produtos_acessorios, **dados_cliente}) # ** serve para desempacotar os dicionários e passar os valores como argumentos separados
 
 
+@cliente_login_required
 def tela_carrinho(request):
     cliente = get_cliente_logado(request)
     if not cliente:
@@ -445,6 +448,7 @@ def tela_carrinho(request):
     })
 
 
+@cliente_login_required
 def adicionar_carrinho(request, produto_id):
     # Não permite adicionar sem cliente logado
     if not request.session.get("cliente_id"):
@@ -482,6 +486,7 @@ def adicionar_carrinho(request, produto_id):
     return redirect("produtos")
 
 
+@cliente_login_required
 def remover_carrinho(request, produto_id):
     carrinho = request.session.get("carrinho", {})
     produto_id_str = str(produto_id)
@@ -494,6 +499,7 @@ def remover_carrinho(request, produto_id):
     return redirect("carrinho")
 
 
+@cliente_login_required
 def atualizar_quantidade_carrinho(request, produto_id):
     # Simplificado: aceita apenas POST para atualizar quantidade
     if request.method != "POST":
@@ -569,6 +575,7 @@ def atualizar_quantidade_carrinho(request, produto_id):
     return redirect("carrinho")
 
 
+@cliente_login_required
 def finalizar_compra(request):
     """
     Função para registrar uma compra ao finalizar o carrinho.
@@ -805,7 +812,7 @@ def tela_rec_senha(request):
         codigo = str(random.randint(100000, 999999))
 
         models.RecuperacaoSenha.objects.create(
-            cliente=cliente,
+            cliente_id=cliente.id_clientes,
             codigo=codigo,
         )
 
@@ -954,6 +961,7 @@ def tela_historia(request):
     return render(request, "app_futebol/historia.html")
 
 
+@cliente_login_required
 def pagamento_socio(request, plano_id):
     try:
         plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
@@ -987,6 +995,7 @@ def pagamento_socio(request, plano_id):
 
 # ... suas outras importações (models, login_required, etc) ...
 
+@cliente_login_required
 def gerar_pdf_ingressos(request, pedido_id):
     # 1. Segurança: Verifica se o usuário está logado
     cliente_id = request.session.get("cliente_id")

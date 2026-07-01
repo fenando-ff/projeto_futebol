@@ -24,7 +24,23 @@ from .models import (
 class ClientesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Clientes
-        fields = '__all__'
+        fields = [
+            "id_clientes",
+            "nome_clientes",
+            "sobrenome_clientes",
+            "email_clientes",
+            "sexo_clientes",
+            "telefone_clientes",
+            "cpf_clientes",
+            "status_clientes",
+            "url_foto_clientes",
+            "categoria_cliente_id_categoria_cliente",
+            "score_rank",
+            "total_acertos",
+            "total_questoes",
+            "precisao",
+            "tempo",
+        ]
 
 
 class CategoriaProdutosSerializer(serializers.ModelSerializer):
@@ -99,10 +115,19 @@ class RecuperacaoSenhaSerializer(serializers.ModelSerializer):
 class ProgressoFasesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProgressoFases
-        fields = ['cliente', 'fase2_liberada']
+        fields = ["cliente", "fase2_liberada"]
 
 
-class TimesSerializer(serializers.ModelSerializer):
+class TitulosSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Times
+        model = Titulos
+        fields = '__all__'
+
+
+class HistoricoTitulosSerializer(serializers.ModelSerializer):
+    cliente = ClientesSerializer(read_only=True)
+    titulo = TitulosSerializer(read_only=True)
+
+    class Meta:
+        model = HistoricoTitulos
         fields = '__all__'

@@ -10,7 +10,9 @@ DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', '
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22", "192.168.61.90"]
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-fallback-key')
+SECRET_KEY = os.environ.get('SECRET_KEY')
+if not SECRET_KEY:
+    raise RuntimeError("Defina a variável de ambiente SECRET_KEY em produção.")
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -33,13 +35,21 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "app_futebol.auth.ClienteTokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/min",
+        "user": "300/min",
+    },
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -149,11 +159,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")        #upload da img
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# print("RENDER =", os.environ.get("RENDER"))
-# print("DB_HOST produção =", os.environ.get("DB_HOST"))
-# print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
-print(f"Host selecionado = {DATABASES['default']['HOST']}.\nNome do banco = {DATABASES['default']['NAME']}.")
-# print("Engine escolhida =", DATABASES["default"]["ENGINE"])
+
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'pt-br'

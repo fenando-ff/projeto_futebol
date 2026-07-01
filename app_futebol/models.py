@@ -443,6 +443,11 @@ class RecuperacaoSenha(models.Model):
         db_table = 'recuperacao_senha'
 
 
+    def expirado(self):
+        from django.utils import timezone
+        return (timezone.now() - self.criado_em).total_seconds() > 7200
+
+
     def __str__(self):
         return f"Código: {self.codigo} - Cliente: {self.cliente_id}"
 

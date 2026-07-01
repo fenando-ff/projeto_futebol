@@ -1,5 +1,10 @@
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, permissions, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import rest_framework as django_filters
+from django.shortcuts import get_object_or_404
+from django.db import transaction
 from ..models import (
     CategoriaCliente,
     CategoriaProdutos,
@@ -23,6 +28,7 @@ from ..serializers import (
     CompraSerializer,
     EnderecoClienteSerializer,
     FuncionariosSerializer,
+    HistoricoTitulosSerializer,
     JogosSerializer,
     PedidoSerializer,
     ProdutosSerializer,
@@ -30,12 +36,34 @@ from ..serializers import (
     QuestoesSerializer,
     RespostasSerializer,
     RecuperacaoSenhaSerializer,
-    TimesSerializer
+    TimesSerializer,
+    TitulosSerializer
 )
+
+
+class ProdutosFilter(django_filters.FilterSet):
+    categoria_produtos = django_filters.NumberFilter(
+        field_name="categoria_produtos_id_categoria_produtos"
+    )
+
+    class Meta:
+        model = Produtos
+        fields = ["categoria_produtos"]
+
+
+class PedidoFilter(django_filters.FilterSet):
+    cliente_id_cliente = django_filters.NumberFilter(
+        field_name="clientes_id_clientes"
+    )
+
+    class Meta:
+        model = Pedido
+        fields = ["cliente_id_cliente", "status"]
 
 class ClientesViewSet(viewsets.ModelViewSet):
     queryset = Clientes.objects.all()
     serializer_class = ClientesSerializer
+    permission_classes = [permissions.IsAdminUser]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ["categoria_cliente_id_categoria_cliente"]
     search_fields = ["nome_clientes", "email_clientes"]
@@ -48,88 +76,44 @@ class CategoriaProdutosViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ["nome_categoria_produtos"]
 
-
-class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Produtos.objects.all()
-    serializer_class = ProdutosSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ["categoria_produtos_id_categoria_produtos"]
-    search_fields = ["nome_produtos", "descricao_produtos"]
-    ordering_fields = ["valor_produtos", "nome_produtos"]
+    @action(detail=False, methods=["get"], url_path="public")
+    def public(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
-class CategoriaClienteViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CategoriaCliente.objects.all()
-    serializer_class = CategoriaClienteSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ["preco_categ"]
+class MeuPerfilView(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        cliente = getattr(request, "user", None)
+
+        if not isinstance(cliente, Clientes):
+            cliente_id = request.session.get("cliente_id")
+            if cliente_id:
+                try:
+                    cliente = Clientes.objects.get(pk=cliente_id)
+                except Clientes.DoesNotExist:
+                    cliente = None
+
+        if not isinstance(cliente, Clientes):
+            return Response({"detail": "Não autenticado."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = ClientesSerializer(cliente)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["get"], url_path="carrinho")
+    def carrinho(self, request):
+        return Response({"carrinho": request.session.get("carrinho", {})})
 
 
-class EnderecoClienteViewSet(viewsets.ModelViewSet):
-    queryset = EnderecoCliente.objects.all()
-    serializer_class = EnderecoClienteSerializer
+class TitulosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Titulos.objects.all()
+    serializer_class = TitulosSerializer
+
+
+class HistoricoTitulosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HistoricoTitulos.objects.select_related("cliente", "titulo").all()
+    serializer_class = HistoricoTitulosSerializer
+    permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["cliente_id_cliente"]
-
-
-class PedidoViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Pedido.objects.all()
-    serializer_class = PedidoSerializer
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
-    filterset_fields = ["status", "clientes_id_clientes"]
-    ordering_fields = ["-data_pedido"]
-
-
-class CompraViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Compra.objects.all()
-    serializer_class = CompraSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["pedido_id_pedido"]
-
-
-class JogosViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Jogos.objects.select_related("times_id_times").all()
-    serializer_class = JogosSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ["dia_jogo", "hora_jogo"]
-
-
-class FuncionariosViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Funcionarios.objects.select_related("setor_funcionarios_id_setor_funcionarios").all()
-    serializer_class = FuncionariosSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["setor_funcionarios_id_setor_funcionarios"]
-
-
-class QuestoesViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Questoes.objects.all()
-    serializer_class = QuestoesSerializer
-    filterset_fields = ["id_questao"]
-
-
-class RespostasViewSet(viewsets.ModelViewSet):
-    queryset = Respostas.objects.all()
-    serializer_class = RespostasSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["cliente_id", "questao_id"]
-
-
-class RecuperacaoSenhaViewSet(viewsets.ModelViewSet):
-    queryset = RecuperacaoSenha.objects.all()
-    serializer_class = RecuperacaoSenhaSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["cliente_id"]
-
-
-class ProgressoFasesViewSet(viewsets.ModelViewSet):
-    queryset = ProgressoFases.objects.all()
-    serializer_class = ProgressoFasesSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["cliente_id"]
-
-
-class TimesViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Times.objects.all()
-    serializer_class = TimesSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ["nome_times"]
+    filterset_fields = ["cliente", "titulo", "ativo"]

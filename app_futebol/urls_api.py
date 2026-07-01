@@ -1,4 +1,5 @@
 from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.viewsets import (
     CategoriaProdutosViewSet,
     CategoriaClienteViewSet,
@@ -6,6 +7,7 @@ from .views.viewsets import (
     CompraViewSet,
     EnderecoClienteViewSet,
     FuncionariosViewSet,
+    HistoricoTitulosViewSet,
     JogosViewSet,
     PedidoViewSet,
     ProgressoFasesViewSet,
@@ -13,12 +15,15 @@ from .views.viewsets import (
     QuestoesViewSet,
     RespostasViewSet,
     RecuperacaoSenhaViewSet,
-    TimesViewSet
-    
+    TimesViewSet,
+    TitulosViewSet,
+    MeuPerfilView
 )
+from .views.api import LoginAPIView, CheckoutAPIView
 
 router = DefaultRouter()
 router.register(r'categorias-produtos', CategoriaProdutosViewSet)
+router.register(r'public/categorias-produtos', CategoriaProdutosViewSet, basename='public-categorias-produtos')
 router.register(r'produtos', ProdutosViewSet)
 router.register(r'planos', CategoriaClienteViewSet)
 router.register(r'enderecos', EnderecoClienteViewSet)
@@ -32,5 +37,11 @@ router.register(r'recuperacao-senha', RecuperacaoSenhaViewSet)
 router.register(r'progresso-fases', ProgressoFasesViewSet)
 router.register(r'clientes', ClientesViewSet)
 router.register(r'times', TimesViewSet)
+router.register(r'titulos', TitulosViewSet)
+router.register(r'historico-titulos', HistoricoTitulosViewSet)
 
-urlpatterns = router.urls
+urlpatterns = router.urls + [
+    path('login/', LoginAPIView.as_view(), name='api-login'),
+    path('checkout/', CheckoutAPIView.as_view(), name='api-checkout'),
+    path('meu-perfil/', MeuPerfilView.as_view({'get': 'list'}), name='meu-perfil'),
+]
