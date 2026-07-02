@@ -150,6 +150,12 @@ class HistoricoTitulosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TimesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Times
+        fields = '__all__'
+
+
 class ProdutoCarrinhoSerializer(serializers.ModelSerializer):
     categoria_nome = serializers.CharField(source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos", read_only=True)
     imagem = serializers.CharField(source="imagem_produtos", read_only=True)

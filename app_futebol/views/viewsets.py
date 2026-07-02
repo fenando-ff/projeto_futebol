@@ -12,6 +12,7 @@ from ..models import (
     Compra,
     EnderecoCliente,
     Funcionarios,
+    HistoricoTitulos,
     Jogos,
     Pedido,
     Produtos,
@@ -20,6 +21,7 @@ from ..models import (
     Respostas,
     RecuperacaoSenha,
     Times,
+    Titulos,
 )
 from ..serializers import (
     CategoriaClienteSerializer,
@@ -118,3 +120,63 @@ class HistoricoTitulosViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["cliente", "titulo", "ativo"]
+
+
+class CategoriaClienteViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CategoriaCliente.objects.all()
+    serializer_class = CategoriaClienteSerializer
+
+
+class TimesViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Times.objects.all()
+    serializer_class = TimesSerializer
+
+
+class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Produtos.objects.all()
+    serializer_class = ProdutosSerializer
+
+
+class EnderecoClienteViewSet(viewsets.ModelViewSet):
+    queryset = EnderecoCliente.objects.all()
+    serializer_class = EnderecoClienteSerializer
+
+
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+
+class CompraViewSet(viewsets.ModelViewSet):
+    queryset = Compra.objects.all()
+    serializer_class = CompraSerializer
+
+
+class JogosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Jogos.objects.all()
+    serializer_class = JogosSerializer
+
+
+class FuncionariosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Funcionarios.objects.all()
+    serializer_class = FuncionariosSerializer
+
+
+class QuestoesViewSet(viewsets.ModelViewSet):
+    queryset = Questoes.objects.all()
+    serializer_class = QuestoesSerializer
+
+
+class RespostasViewSet(viewsets.ModelViewSet):
+    queryset = Respostas.objects.all()
+    serializer_class = RespostasSerializer
+
+
+class RecuperacaoSenhaViewSet(viewsets.ModelViewSet):
+    queryset = RecuperacaoSenha.objects.all()
+    serializer_class = RecuperacaoSenhaSerializer
+
+
+class ProgressoFasesViewSet(viewsets.ModelViewSet):
+    queryset = ProgressoFases.objects.all()
+    serializer_class = ProgressoFasesSerializer
