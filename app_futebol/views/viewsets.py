@@ -85,7 +85,6 @@ class CategoriaProdutosViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class MeuPerfilView(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request):
         cliente = getattr(request, "user", None)
