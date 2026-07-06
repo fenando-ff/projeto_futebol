@@ -4,34 +4,57 @@ from rest_framework import status, permissions
 from django.contrib.auth.hashers import check_password
 from django.db import transaction
 from django.utils import timezone
-from django.contrib.auth import login as django_login
-from django.shortcuts import get_object_or_404
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from ..models import Clientes, Pedido, Produtos, Compra
-from ..serializers import ClientesSerializer
-from ..auth import gerar_token, validar_token
+from ..serializers import LoginResponseSerializer, LoginSerializer
+from ..auth import ClienteTokenAuthentication, gerar_token, validar_token
 
 
 class LoginAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(
+        request_body=LoginSerializer,
+        responses={
+            200: LoginResponseSerializer(),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Credenciais inválidas."),
+        },
+        operation_summary="Login de cliente",
+        operation_description="Autentica o cliente e retorna o token HMAC consumido pelo React Native.",
+    )
     def post(self, request):
-        email = request.data.get("email", "").strip().lower()
-        senha = request.data.get("senha", "")
-        if not email or not senha:
-            return Response({"erro": "Email e senha são obrigatórios"}, status=status.HTTP_400_BAD_REQUEST)
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        senha = serializer.validated_data["senha"]
 
         try:
             cliente = Clientes.objects.get(email_clientes=email)
         except Clientes.DoesNotExist:
-            return Response({"erro": "Credenciais inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"detail": "Credenciais inválidas."}, status=status.HTTP_401_UNAUTHORIZED)
 
         if not check_password(senha, cliente.senha_clientes):
-            return Response({"erro": "Credenciais inválidas"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"detail": "Credenciais inválidas."}, status=status.HTTP_401_UNAUTHORIZED)
 
         token = gerar_token(cliente.id_clientes)
-        django_login(request, cliente)
-        serializer = ClientesSerializer(cliente)
-        return Response({"token": token, "cliente": serializer.data})
+        response_serializer = LoginResponseSerializer({"token": token, "cliente": cliente})
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response("Logout realizado."),
+        },
+        operation_summary="Logout de cliente",
+        operation_description="Logout stateless para o token HMAC. O cliente deve descartar o token localmente.",
+    )
+    def post(self, request):
+        return Response({"detail": "Logout realizado."}, status=status.HTTP_200_OK)
 
 
 class CartAPIView(APIView):
@@ -130,6 +153,7 @@ class CartAPIView(APIView):
 
 class CheckoutAPIView(APIView):
     permission_classes = [permissions.AllowAny]
+    authentication_classes = [ClienteTokenAuthentication]
 
     def post(self, request):
         token = request.headers.get("Authorization", "").replace("Token ", "")

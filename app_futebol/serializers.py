@@ -43,6 +43,39 @@ class ClientesSerializer(serializers.ModelSerializer):
         ]
 
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(
+        error_messages={
+            "required": "Email e senha são obrigatórios.",
+            "blank": "Email e senha são obrigatórios.",
+            "invalid": "Email inválido.",
+        }
+    )
+    senha = serializers.CharField(
+        write_only=True,
+        trim_whitespace=True,
+        error_messages={
+            "required": "Email e senha são obrigatórios.",
+            "blank": "Email e senha são obrigatórios.",
+        },
+    )
+
+    def validate_email(self, value):
+        return value.strip().lower()
+
+    def validate(self, attrs):
+        senha = attrs.get("senha", "").strip()
+        if not senha:
+            raise serializers.ValidationError({"senha": "Email e senha são obrigatórios."})
+        attrs["senha"] = senha
+        return attrs
+
+
+class LoginResponseSerializer(serializers.Serializer):
+    token = serializers.CharField()
+    cliente = ClientesSerializer(read_only=True)
+
+
 class CategoriaProdutosSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaProdutos
