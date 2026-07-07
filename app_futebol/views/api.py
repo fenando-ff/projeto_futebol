@@ -1,14 +1,204 @@
+import os
+import random
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.db import transaction
 from django.utils import timezone
+from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from ..models import Clientes, Pedido, Produtos, Compra
-from ..serializers import LoginResponseSerializer, LoginSerializer
+from ..models import Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
+from ..serializers import (
+    CadastroSerializer,
+    EsqueciSenhaSerializer,
+    LoginResponseSerializer,
+    LoginSerializer,
+    RedefinirSenhaSerializer,
+    ValidarCodigoSerializer,
+)
 from ..auth import ClienteTokenAuthentication, gerar_token, validar_token
+
+
+def _buscar_ultima_recuperacao(email):
+    cliente = Clientes.objects.filter(email_clientes=email).first()
+    if not cliente:
+        return None, None
+
+    recuperacao = (
+        RecuperacaoSenha.objects.filter(cliente_id=cliente.id_clientes)
+        .order_by("-criado_em")
+        .first()
+    )
+    return cliente, recuperacao
+
+
+class EsqueciSenhaAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        request_body=EsqueciSenhaSerializer,
+        responses={
+            201: openapi.Response("Código enviado."),
+            404: openapi.Response("Email não encontrado."),
+            500: openapi.Response("Erro ao enviar email."),
+        },
+        operation_summary="Solicitar recuperação de senha",
+        operation_description="Gera um código de recuperação, persiste o registro e envia o email com o código, como no fluxo atual.",
+    )
+    def post(self, request):
+        serializer = EsqueciSenhaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+
+        cliente = Clientes.objects.filter(email_clientes=email).first()
+        if not cliente:
+            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+
+        codigo = str(random.randint(100000, 999999))
+
+        RecuperacaoSenha.objects.create(
+            cliente_id=cliente.id_clientes,
+            codigo=codigo,
+            criado_em=timezone.now(),
+        )
+
+        try:
+         send_mail(
+                "Código de recuperação de senha",
+                f"Seu código: {codigo}",
+                os.environ.get("EMAIL_HOST_USER"),
+                [email],
+                fail_silently=False,
+            )
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            raise
+
+        return Response(
+            {"detail": "Código enviado com sucesso."},
+            status=status.HTTP_201_CREATED,
+        )
+
+
+class ValidarCodigoAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        request_body=ValidarCodigoSerializer,
+        responses={
+            200: openapi.Response("Código válido."),
+            400: openapi.Response("Código inválido ou expirado."),
+            404: openapi.Response("Email não encontrado."),
+        },
+        operation_summary="Validar código de recuperação",
+        operation_description="Confere se o código informado é o último gerado para o email e se ainda está dentro do prazo de expiração.",
+    )
+    def post(self, request):
+        serializer = ValidarCodigoSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+        codigo_digitado = serializer.validated_data["codigo"]
+
+        cliente, recuperacao = _buscar_ultima_recuperacao(email)
+        if not cliente:
+            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+
+        if not recuperacao:
+            return Response({"detail": "Código inválido!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if recuperacao.expirado():
+            return Response(
+                {"detail": "Código expirado! Solicite outro."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if recuperacao.codigo != codigo_digitado:
+            return Response({"detail": "Código incorreto!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"detail": "Código válido."}, status=status.HTTP_200_OK)
+
+
+class RedefinirSenhaAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        request_body=RedefinirSenhaSerializer,
+        responses={
+            200: openapi.Response("Senha alterada com sucesso."),
+            400: openapi.Response("Dados inválidos."),
+            404: openapi.Response("Email não encontrado."),
+        },
+        operation_summary="Redefinir senha",
+        operation_description="Valida o código mais recente do email, aplica a nova senha e remove os registros de recuperação utilizados.",
+    )
+    def post(self, request):
+        serializer = RedefinirSenhaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+        codigo_digitado = serializer.validated_data["codigo"]
+        nova_senha = serializer.validated_data["senha"]
+
+        cliente, recuperacao = _buscar_ultima_recuperacao(email)
+        if not cliente:
+            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+
+        if not recuperacao:
+            return Response({"detail": "Código inválido!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if recuperacao.expirado():
+            return Response(
+                {"detail": "Código expirado! Solicite outro."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if recuperacao.codigo != codigo_digitado:
+            return Response({"detail": "Código incorreto!"}, status=status.HTTP_400_BAD_REQUEST)
+
+        with transaction.atomic():
+            cliente.senha_clientes = make_password(nova_senha)
+            cliente.save(update_fields=["senha_clientes"])
+            RecuperacaoSenha.objects.filter(cliente_id=cliente.id_clientes).delete()
+
+        return Response(
+            {"detail": "Senha alterada com sucesso!"},
+            status=status.HTTP_200_OK,
+        )
+
+
+class CadastroAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        request_body=CadastroSerializer,
+        responses={
+            201: LoginResponseSerializer(),
+            400: openapi.Response("Dados inválidos."),
+            409: openapi.Response("Conflito de cadastro."),
+            500: openapi.Response("Erro ao cadastrar."),
+        },
+        operation_summary="Cadastro de cliente",
+        operation_description="Cria o cliente e, se informado, o endereço. Retorna token stateless no mesmo contrato do login.",
+    )
+    def post(self, request):
+        serializer = CadastroSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            cliente = serializer.save()
+        except ValueError as exc:
+            return Response({"detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as exc:
+            return Response({"detail": f"Erro ao cadastrar: {str(exc)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        token = gerar_token(cliente.id_clientes)
+        response_serializer = LoginResponseSerializer({"token": token, "cliente": cliente})
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
 
 
 class LoginAPIView(APIView):

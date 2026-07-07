@@ -168,3 +168,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'pt-br'
+print("http://127.0.0.1:8000/swagger/")

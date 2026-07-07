@@ -19,7 +19,16 @@ from .views.viewsets import (
     TitulosViewSet,
     MeuPerfilView
 )
-from .views.api import LoginAPIView, LogoutAPIView, CheckoutAPIView, CartAPIView
+from .views.api import (
+    CadastroAPIView,
+    CartAPIView,
+    EsqueciSenhaAPIView,
+    LoginAPIView,
+    LogoutAPIView,
+    RedefinirSenhaAPIView,
+    ValidarCodigoAPIView,
+    CheckoutAPIView,
+)
 
 router = DefaultRouter()
 router.register(r'categorias-produtos', CategoriaProdutosViewSet)
@@ -41,6 +50,10 @@ router.register(r'titulos', TitulosViewSet)
 router.register(r'historico-titulos', HistoricoTitulosViewSet)
 
 urlpatterns = router.urls + [
+    path('esqueci-senha/', EsqueciSenhaAPIView.as_view(), name='api-esqueci-senha'),
+    path('validar-codigo/', ValidarCodigoAPIView.as_view(), name='api-validar-codigo'),
+    path('redefinir-senha/', RedefinirSenhaAPIView.as_view(), name='api-redefinir-senha'),
+    path('cadastro/', CadastroAPIView.as_view(), name='api-cadastro'),
     path('login/', LoginAPIView.as_view(), name='api-login'),
     path('logout/', LogoutAPIView.as_view(), name='api-logout'),
     path('checkout/', CheckoutAPIView.as_view(), name='api-checkout'),
