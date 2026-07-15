@@ -27,12 +27,12 @@
     /* Layout em Grid (Esquerda e Direita) */
     .layout-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Duas colunas iguais, ou mude para 1.5fr 1fr se quiser */
-        gap: 40px;
+        grid-template-columns: 2fr 1fr 1fr;
+        gap: 20px;
     }
 
     /* Cards (Contêineres das seções) */
-    .perfil-dados, .perfil-historico {
+    .perfil-dados, .perfil-historico, .perfil-ingressos {
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -51,6 +51,10 @@
         font-size: 1.2rem;
         font-weight: 500;
     }
+    /* cor do icone de dropdonw meus ingressos */
+    .icone-toggle-ingresso {
+        color: #fff;
+    }
 
     /* Estilo do botão Toggle (Meus Dados) */
     .card-titulo .toggle-meus-dados {
@@ -66,6 +70,22 @@
         padding: 0;
         font-size: 1.1rem;
         cursor: pointer;
+    }
+
+    /* Toggle Ingressos */
+    .card-titulo.toggle-ingressos {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    .card-titulo.toggle-ingressos i {
+        transition: transform 220ms ease;
+    }
+
+    .perfil-ingressos.collapsed .card-titulo.toggle-ingressos i {
+        transform: rotate(-180deg);
     }
 
     /* Corpo colapsável para 'Meus Dados' */
@@ -84,6 +104,24 @@
         transition: transform 220ms ease;
     }
     .card-titulo .toggle-meus-dados i {
+        transition: transform 220ms ease;
+    }
+
+    /* Corpo colapsável para 'Meus Ingressos' */
+    .perfil-ingressos .meus-ingressos-body {
+        max-height: 3000px;
+        overflow: hidden;
+        transition: max-height 320ms ease, padding 220ms ease;
+    }
+    .perfil-ingressos.collapsed .meus-ingressos-body {
+        max-height: 0;
+        padding: 0 25px;
+    }
+    .perfil-ingressos.collapsed .card-titulo.toggle-ingressos i {
+        transform: rotate(-180deg);
+        transition: transform 220ms ease;
+    }
+    .card-titulo.toggle-ingressos i {
         transition: transform 220ms ease;
     }
 
@@ -363,6 +401,130 @@
         color: #001a4a;
     }
 
+    /* Dropdown de Ingressos */
+    .ingresso-dropdown {
+        width: 100%;
+        border-top: 1px solid #eee;
+        background: #fafafa;
+    }
+
+    .btn-toggle-ingressos {
+        width: 100%;
+        background-color: #7a0000;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background-color 0.3s;
+    }
+
+    .btn-toggle-ingressos:hover {
+        background-color: #d10700;
+    }
+
+    .btn-toggle-ingressos i {
+        transition: transform 220ms ease;
+    }
+
+    .ingresso-dropdown.aberto .btn-toggle-ingressos i {
+        transform: rotate(-180deg);
+    }
+
+    .ingressos-lista {
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        transition: max-height 320ms ease, padding 220ms ease;
+    }
+
+    .ingresso-dropdown.aberto .ingressos-lista {
+        max-height: 500px;
+        padding: 12px 20px;
+    }
+
+    .item-ingresso {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .item-ingresso:last-child {
+        border-bottom: none;
+    }
+
+    .nome-ingresso {
+        font-weight: 600;
+        color: #001a4a;
+        flex: 1 1 auto;
+    }
+
+    .btn-visualizar-ingresso {
+        font-size: 0.85rem;
+        background-color: #7a0000;
+        color: #fff;
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 4px;
+        transition: 0.3s;
+        white-space: nowrap;
+    }
+
+    .btn-visualizar-ingresso:hover {
+        background-color: #d10700;
+        color: #fff;
+    }
+
+    .perfil-ingressos .ingresso-container {
+        padding: 0;
+    }
+
+    .perfil-ingressos .ingresso-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 25px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .perfil-ingressos .ingresso-item:last-child {
+        border-bottom: none;
+    }
+
+    .perfil-ingressos .ingresso-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        flex: 1 1 auto;
+    }
+
+    .perfil-ingressos .ingresso-nome {
+        font-weight: 600;
+        color: #001a4a;
+    }
+
+    .perfil-ingressos .ingresso-data {
+        font-size: 0.85rem;
+        color: #666;
+    }
+
+    .perfil-ingressos .aviso-sem-ingressos {
+        padding: 25px;
+        color: #666;
+        font-style: italic;
+        text-align: center;
+    }
+
 
 
 
@@ -422,11 +584,10 @@
     }
 
     .avatar-actions {
-        display:flex;
-        align-items:center;
-        flex-wrap:wrap;
-        gap:12px;
-        margin-top:16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
     }
 
     .btn-avatar-upload {
@@ -460,6 +621,37 @@
         margin-top: 10px;
         color: #c0392b;
         font-size: 0.92rem;
+    }
+
+
+
+
+
+
+    .btn-salvar-foto {
+            display: none;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 12px;
+        padding: 10px 18px;
+
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,.15);
+
+        background: rgba(0,171,37,.15);
+        backdrop-filter: blur(12px);
+
+        color: #00AB25;
+        font-weight: 600;
+
+        cursor: pointer;
+        transition: .25s;
+    }
+
+    .btn-salvar-foto:hover {
+        background: rgba(0,171,37,.25);
+        transform: translateY(-2px);
     }
 
     @media (max-width: 900px) {

@@ -1216,7 +1216,7 @@ main {
     }
 
     .times-ingresso {
-        flex-direction: column;
+        flex-direction: row;
         gap: 8px;
         margin-right: 0;
     }
