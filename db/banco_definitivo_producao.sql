@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `projeto_futebol_teste` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `projeto_futebol_teste`;
--- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS "projeto_futebol_definitivo" /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `projeto_futebol_definitivo`;
+-- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
 --
--- Host: localhost    Database: projeto_futebol_teste
+-- Host: mysql-2c986886-futibou5t67.k.aivencloud.com    Database: projeto_futebol_definitivo
 -- ------------------------------------------------------
--- Server version	8.0.42
+-- Server version	8.0.45
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +16,19 @@ USE `projeto_futebol_teste`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '2fd967a3-0871-11f1-99aa-b2ddb1ff5500:1-31,
+32798cb9-ebf6-11f0-9f6b-4afd0fc79d7a:1-83,
+573bbb6d-0384-11f1-b61e-9258c47ebf30:1-89,
+65586d13-5eac-11f1-bfc6-3e3c25bf0fbe:1-423,
+dcaa4ec7-efee-11f0-a8ab-d61b86fcd61b:1-473,
+fb365816-11bd-11f1-bbb6-0a56e58875f3:1-2859';
 
 --
 -- Table structure for table `accounts_perfil`
@@ -308,7 +321,7 @@ CREATE TABLE `clientes` (
   `sobrenome_CLIENTES` varchar(45) NOT NULL,
   `cpf_CLIENTES` varchar(14) NOT NULL,
   `status_CLIENTES` tinyint NOT NULL,
-  `url_foto_CLIENTES` varchar(255) NULL,
+  `url_foto_CLIENTES` varchar(255) DEFAULT NULL,
   `CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE` int NOT NULL,
   `score_rank` int DEFAULT '0',
   `total_acertos` int DEFAULT '0',
@@ -318,7 +331,7 @@ CREATE TABLE `clientes` (
   PRIMARY KEY (`id_CLIENTES`),
   KEY `fk_CLIENTES_CATEGORIA_CLIENTE1_idx` (`CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE`),
   CONSTRAINT `fk_CLIENTES_CATEGORIA_CLIENTE1` FOREIGN KEY (`CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE`) REFERENCES `categoria_cliente` (`id_CATEGORIA_CLIENTE`)
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,6 +340,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
+INSERT INTO `clientes` VALUES (136,'pbkdf2_sha256$1000000$9Wn39EEDqVfyf5YG7BcAPB$qdshw5e5nab0o87rPd8syWPb72iT1GzaZ7s/ziG5lZI=','Masculino','(32) 32311-2313','djanjdn131@gmail.com','joao','Ferraira','63412313131',1,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_05d821b9eb1a438fbb58de4702798e50.webp',5,NULL,NULL,NULL,NULL,NULL),(137,'pbkdf2_sha256$1000000$evYJVlBXFbcm22DOOGi8x0$xrOj2UyZbHHrSfvOx+v1Qu0NdBNImWrqHbsMT1Tg3IY=','Masculino','(91) 98471-1434','fernandofreitassud2016@gmail.com','Fernando','Romão','00000000000',1,NULL,5,NULL,NULL,NULL,NULL,NULL),(138,'pbkdf2_sha256$1000000$bFqiqXuykE0iQwDcBEPNEb$EK7OF9SvOlwkBeJ0kVKZ73O2FEqORZqAqyk46Bbiv60=','Masculino','(76) 37267-3267','ndajwnj@gmail.com','Daniel','silva','48324243924',1,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_2235b34beaa547a0a1a8a2b5dd2b2947.webp',5,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,6 +399,12 @@ CREATE TABLE `django_admin_log` (
 
 --
 -- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `django_content_type`
@@ -456,6 +476,14 @@ CREATE TABLE `django_session` (
 --
 -- Dumping data for table `django_session`
 --
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('64301d2mnrk5bxx2sybxxt2uzo2makhs','.eJxVkMFuwyAQRH8l4tRKiR0vONg-9dC_qKpogXVChMHCTnKI8u8FK2rdCxLzZhl2Hkw7S36mozWsq3iz_RV8GIh17BO9Jcf-9CmoSC84WXfDFaMBrUu6N3i5-8vHKd8LHYaVZyZHffB5_E0e3jdcwkHueDpWJj32iYuGgwDBWxAr1oc5JHie53HqynK8ql0DTYsgK6ErIQ5SNaaqtRQAgtq9ISgiFIZu5Uixt1OZXzgC8FpxoQixFhL3WGGDoGpjQEErZHEnNabY0aEPaWttw1JS_V96NeExbBZh3YY3FEmnzz5YnuRtYjQmt-QCGiEhmeMVk2BwM4Q4U57GKStLHQptjHlZHVGHlGrsUncYRkdDCsksJTs0YZPeMDGckD237GynOUSrwzF7I06s-_p-_gBdNJ6d:1wc5G6:ktXO6Y2_c6XxBzaRsVyfCiZBOinoUxiCFOASCiv9W14','2026-07-07 17:50:02.819261'),('n10kjqhxolokd3h6xufj3jtmfx554jz1','.eJxVjzFPwzAQhf9KdBNIAdlNSNtMTGwMsAKqrs65tWT7onMyVf3v2FVEgyfffe89vbuA8Y7iRAc3QK-bbf23iBwIengjiRgHhjtJfBRa8CeH71kpatYCCuh8hnbxWiE3YUrzsFG6ez0V_Gw4rCwTebIcS-TDXj9W-1271U-6bdqVyIw2c3V_K2Z5Yujj7H0No8fIuaZxfLvr5f9qqR6Rq9ti3TwOJGRy0gWKs9llRmNWd53WSpU2MmOZiwtT-TYbnYcjOpFshHcUNBhP6M9YRBxGTyHHF_gx4yBY6RauNZxdmlic4UMRCSbov36uv5SUg8c:1wbi1v:Ug_PNTDu3RmfNMiEWDv_vQGMGj6063BnqF8_6dbY_uQ','2026-07-06 17:01:51.038056');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `endereco_cliente`
 --
 
@@ -464,21 +492,27 @@ DROP TABLE IF EXISTS `endereco_cliente`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `endereco_cliente` (
   `id_ENDERECO_CLIENTE` int NOT NULL AUTO_INCREMENT,
-  `cep_ENDERECO_CLIENTE` varchar(8) NOT NULL,
-  `complemento_ENDERECO_CLIENTE` varchar(45) NOT NULL,
-  `bairro_ENDERECO_CLIENTE` varchar(45) NOT NULL,
-  `casa_ENDERECO_CLIENTE` varchar(45) NOT NULL,
-  `rua_ENDERECO_CLIENTE` varchar(45) NOT NULL,
+  `cep_ENDERECO_CLIENTE` varchar(8) DEFAULT NULL,
+  `complemento_ENDERECO_CLIENTE` varchar(45) DEFAULT NULL,
+  `bairro_ENDERECO_CLIENTE` varchar(45) DEFAULT NULL,
+  `casa_ENDERECO_CLIENTE` varchar(45) DEFAULT NULL,
+  `rua_ENDERECO_CLIENTE` varchar(45) DEFAULT NULL,
   `cliente_id_cliente` int NOT NULL,
   PRIMARY KEY (`id_ENDERECO_CLIENTE`),
   UNIQUE KEY `cliente_id_cliente` (`cliente_id_cliente`),
   CONSTRAINT `fk_cliente_endereco` FOREIGN KEY (`cliente_id_cliente`) REFERENCES `clientes` (`id_CLIENTES`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `endereco_cliente`
 --
+
+LOCK TABLES `endereco_cliente` WRITE;
+/*!40000 ALTER TABLE `endereco_cliente` DISABLE KEYS */;
+INSERT INTO `endereco_cliente` VALUES (37,'','','','','',136),(38,'6611004','Quadra 14','Maracangalha','321','6',137),(39,'73428472','ao lado da droga','cracolandia','67','da morte',138);
+/*!40000 ALTER TABLE `endereco_cliente` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `endereco_funcionarios`
@@ -505,6 +539,12 @@ CREATE TABLE `endereco_funcionarios` (
 --
 -- Dumping data for table `endereco_funcionarios`
 --
+
+LOCK TABLES `endereco_funcionarios` WRITE;
+/*!40000 ALTER TABLE `endereco_funcionarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `endereco_funcionarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `funcionarios`
 --
@@ -531,6 +571,11 @@ CREATE TABLE `funcionarios` (
 -- Dumping data for table `funcionarios`
 --
 
+LOCK TABLES `funcionarios` WRITE;
+/*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `historico_titulos`
 --
@@ -554,6 +599,12 @@ CREATE TABLE `historico_titulos` (
 --
 -- Dumping data for table `historico_titulos`
 --
+
+LOCK TABLES `historico_titulos` WRITE;
+/*!40000 ALTER TABLE `historico_titulos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historico_titulos` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `imagem_produto`
 --
@@ -607,7 +658,7 @@ CREATE TABLE `jogos` (
 
 LOCK TABLES `jogos` WRITE;
 /*!40000 ALTER TABLE `jogos` DISABLE KEYS */;
-INSERT INTO `jogos` VALUES (1,'2026-02-15','16:00:00','Estádio Drakos Arena','casa',1),(2,'2026-02-22','18:30:00','Maracanã','fora',2),(3,'2026-03-01','20:00:00','Estádio Drakos Arena','casa',3),(4,'2026-03-08','16:00:00','Morumbi','fora',4),(5,'2026-03-15','19:00:00','Estádio Drakos Arena','casa',6),(6,'2026-03-22','17:30:00','Arena do Grêmio','fora',6);
+INSERT INTO `jogos` VALUES (1,'2026-10-15','16:00:00','Estádio Drakos Arena','casa',1),(2,'2026-10-22','18:30:00','Maracanã','fora',2),(3,'2026-10-01','20:00:00','Estádio Drakos Arena','casa',3),(4,'2026-10-08','16:00:00','Morumbi','fora',4),(5,'2026-10-15','19:00:00','Estádio Drakos Arena','casa',6),(6,'2026-10-22','17:30:00','Arena do Grêmio','fora',6);
 /*!40000 ALTER TABLE `jogos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -634,6 +685,13 @@ CREATE TABLE `pedido` (
 
 --
 -- Dumping data for table `pedido`
+--
+
+LOCK TABLES `pedido` WRITE;
+/*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `produtos`
 --
@@ -686,6 +744,13 @@ CREATE TABLE `progresso_fases` (
 --
 -- Dumping data for table `progresso_fases`
 --
+
+LOCK TABLES `progresso_fases` WRITE;
+/*!40000 ALTER TABLE `progresso_fases` DISABLE KEYS */;
+/*!40000 ALTER TABLE `progresso_fases` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `questoes`
 --
 
@@ -729,6 +794,12 @@ CREATE TABLE `recuperacao_senha` (
 --
 -- Dumping data for table `recuperacao_senha`
 --
+
+LOCK TABLES `recuperacao_senha` WRITE;
+/*!40000 ALTER TABLE `recuperacao_senha` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recuperacao_senha` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `respostas`
 --
@@ -751,10 +822,18 @@ CREATE TABLE `respostas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+--
 -- Dumping data for table `respostas`
+--
 
+LOCK TABLES `respostas` WRITE;
+/*!40000 ALTER TABLE `respostas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `respostas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `setor_funcionarios`
-
+--
 
 DROP TABLE IF EXISTS `setor_funcionarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -825,6 +904,7 @@ LOCK TABLES `titulos` WRITE;
 INSERT INTO `titulos` VALUES (1,'Pelé do Quiz'),(2,'Rei da Libertadores'),(3,'Artilheiro'),(4,'Craque da Série A'),(5,'Bragre da Série B');
 /*!40000 ALTER TABLE `titulos` ENABLE KEYS */;
 UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -835,4 +915,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-15  4:44:03
+-- Dump completed on 2026-06-23 15:14:29

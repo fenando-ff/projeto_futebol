@@ -9,8 +9,8 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from app_futebol import models
+from ..decorators import cliente_login_required
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -18,7 +18,8 @@ from reportlab.lib.units import cm
 import qrcode
 import re
 import json
-import os
+import boto3
+from botocore.exceptions import ClientError
 
 # -------------------------------
 # Helpers
@@ -129,9 +130,10 @@ def get_historico_cliente(request, cliente_obj=None):
                         'id_pedido': pid,
                         'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
                         'data_pedido_iso': data_local.isoformat(),
-                        'status': getattr(pedido, 'status_pedido', '')
+                        'status': getattr(pedido, 'status', '')
                     },
                     'itens': [],
+                    'ingressos': [],
                     'valor_total': 0.0,
                 }
                 ordem.append(pid)
@@ -141,16 +143,25 @@ def get_historico_cliente(request, cliente_obj=None):
             valor_unitario = float(c.valor_compra)
             subtotal = valor_unitario
 
-            agrupados[pid]['itens'].append({
+            categoria_id = None
+            if produto.categoria_produtos_id_categoria_produtos:
+                categoria_id = produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos
+
+            item_dict = {
+                'id_compra': c.id_compra,
                 'produto': {
                     'id': produto.id_produtos,
                     'nome_produtos': produto.nome_produtos,
                     'imagem_produtos': produto.imagem_produtos,
+                    'categoria_id': categoria_id,
                 },
                 'quantidade': quantidade,
                 'valor_unitario': valor_unitario,
                 'subtotal': subtotal,
-            })
+            }
+            agrupados[pid]['itens'].append(item_dict)
+            if categoria_id == 10:
+                agrupados[pid]['ingressos'].append(item_dict)
             agrupados[pid]['valor_total'] += subtotal
 
         # Mantém a ordem dos pedidos (mais recentes primeiro)
@@ -165,10 +176,77 @@ def get_historico_cliente(request, cliente_obj=None):
         request.session['historico_compras'] = []
         return []
 
+def get_ingressos_cliente(request, cliente_obj=None):
+    """Retorna lista de ingressos comprados pelo cliente (categoria 10)."""
+    if cliente_obj is None:
+        cliente_id = request.session.get('cliente_id')
+        cliente_obj = models.Clientes.objects.filter(id_clientes=cliente_id).first()
+        if not cliente_obj:
+            return []
+
+    compras_qs = models.Compra.objects.filter(
+        pedido_id_pedido__clientes_id_clientes=cliente_obj,
+        produtos_id_produtos__categoria_produtos_id_categoria_produtos=10
+    ).select_related(
+        'produtos_id_produtos',
+        'produtos_id_produtos__jogos_id_jogos',
+        'produtos_id_produtos__jogos_id_jogos__times_id_times',
+        'pedido_id_pedido'
+    ).order_by('-pedido_id_pedido__data_pedido')
+
+    agrupados = {}
+    ordem = []
+
+    for c in compras_qs:
+        pedido = c.pedido_id_pedido
+        pid = pedido.id_pedido
+
+        if pid not in agrupados:
+            try:
+                data_local = timezone.localtime(pedido.data_pedido)
+            except Exception:
+                data_local = pedido.data_pedido
+            agrupados[pid] = {
+                'pedido': {
+                    'id_pedido': pid,
+                    'data_pedido': data_local.strftime('%d/%m/%Y %H:%M'),
+                    'data_pedido_iso': data_local.isoformat(),
+                    'status': getattr(pedido, 'status_pedido', '')
+                },
+                'itens': [],
+                'valor_total': 0.0,
+            }
+            ordem.append(pid)
+
+        produto = c.produtos_id_produtos
+        jogo = produto.jogos_id_jogos
+
+        item = {
+            'quantidade': c.quantidade_pedido,
+            'valor_unitario': float(c.valor_compra),
+            'subtotal': float(c.valor_compra),
+            'produto': {
+                'nome_produtos': produto.nome_produtos,
+            },
+        }
+
+        if jogo:
+            item['adversario'] = jogo.times_id_times.nome_time
+            item['data_hora'] = jogo.dia_jogo.strftime('%d/%m/%Y %H:%M')
+            item['local'] = jogo.local_jogo
+            item['casa_fora'] = jogo.casa_fora
+
+        agrupados[pid]['itens'].append(item)
+        agrupados[pid]['valor_total'] += float(c.valor_compra)
+
+    return [agrupados[pid] for pid in ordem]
+
+
 # -------------------------------
 # Views
 # -------------------------------
 
+@cliente_login_required
 def tela_perfil(request):
     cliente_id = request.session.get("cliente_id")
     if not cliente_id:
@@ -197,19 +275,34 @@ def tela_perfil(request):
                 messages.error(request, "Apenas imagens JPG, JPEG, PNG ou WEBP são permitidas.")
                 foto = None
             else:
-                if cliente.url_foto_clientes:
-                    foto_antiga_path = os.path.join(settings.MEDIA_ROOT, cliente.url_foto_clientes)
-                    if os.path.exists(foto_antiga_path):
-                        try:
-                            os.remove(foto_antiga_path)
-                        except OSError:
-                            pass
+                try:
+                    s3_client = boto3.client(
+                        "s3",
+                        region_name=settings.AWS_S3_REGION_NAME,
+                        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+                        aws_access_key_id=settings.AWS_S3_ACCESS_KEY_ID,
+                        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                    )
 
-                os.makedirs(os.path.join(settings.MEDIA_ROOT, "perfis"), exist_ok=True)
-                nome_unico = f"perfis/foto_{uuid.uuid4().hex}{ext}"
-                storage = FileSystemStorage(location=settings.MEDIA_ROOT)
-                caminho_salvo = storage.save(nome_unico, foto)
-                cliente.url_foto_clientes = caminho_salvo
+                    ext = os.path.splitext(foto.name)[1].lower()
+                    key = f"perfis/foto_{uuid.uuid4().hex}{ext}"
+
+                    s3_client.upload_fileobj(
+                        foto,
+                        settings.AWS_STORAGE_BUCKET_NAME,
+                        key,
+                        ExtraArgs={"ContentType": foto.content_type, "ACL": "public-read"},
+                    )
+
+                    base_url = os.environ.get("R2_PUBLIC_URL", "")
+                    if base_url:
+                        cliente.url_foto_clientes = f"{base_url.rstrip('/')}/{key}"
+                    else:
+                        cliente.url_foto_clientes = f"{settings.AWS_S3_ENDPOINT_URL}/{settings.AWS_STORAGE_BUCKET_NAME}/{key}"
+                except ClientError as e:
+                    logging.exception("Erro ao enviar imagem para R2: %s", e)
+                    messages.error(request, "Falha ao enviar a imagem. Tente novamente mais tarde.")
+                    foto = None
 
         cliente.save() # Salva na tabela Clientes
 
@@ -259,7 +352,16 @@ def tela_perfil(request):
     historico = get_historico_cliente(request, cliente)
 
     # passa o histórico para o template junto com os dados do cliente
-    context = {**(dados_cliente or {}), 'historico': historico}
+    ingressos = []
+    for h in historico:
+        for ingresso in h.get('ingressos', []):
+            ingressos.append({
+                'id_compra': ingresso.get('id_compra'),
+                'nome_produtos': ingresso.get('produto', {}).get('nome_produtos'),
+                'data_pedido': h.get('pedido', {}).get('data_pedido'),
+                'pedido_id': h.get('pedido', {}).get('id_pedido'),
+            })
+    context = {**(dados_cliente or {}), 'historico': historico, 'ingressos': ingressos}
     return render(request, "app_futebol/perfil.html", context)
 
 
@@ -293,6 +395,7 @@ def home(request):
     return render(request, "app_futebol/index.html", {**jogo, "produtos_acessorios": produtos_acessorios, **dados_cliente}) # ** serve para desempacotar os dicionários e passar os valores como argumentos separados
 
 
+@cliente_login_required
 def tela_carrinho(request):
     cliente = get_cliente_logado(request)
     if not cliente:
@@ -348,6 +451,7 @@ def tela_carrinho(request):
     })
 
 
+@cliente_login_required
 def adicionar_carrinho(request, produto_id):
     # Não permite adicionar sem cliente logado
     if not request.session.get("cliente_id"):
@@ -385,6 +489,7 @@ def adicionar_carrinho(request, produto_id):
     return redirect("produtos")
 
 
+@cliente_login_required
 def remover_carrinho(request, produto_id):
     carrinho = request.session.get("carrinho", {})
     produto_id_str = str(produto_id)
@@ -397,6 +502,7 @@ def remover_carrinho(request, produto_id):
     return redirect("carrinho")
 
 
+@cliente_login_required
 def atualizar_quantidade_carrinho(request, produto_id):
     # Simplificado: aceita apenas POST para atualizar quantidade
     if request.method != "POST":
@@ -472,6 +578,7 @@ def atualizar_quantidade_carrinho(request, produto_id):
     return redirect("carrinho")
 
 
+@cliente_login_required
 def finalizar_compra(request):
     """
     Função para registrar uma compra ao finalizar o carrinho.
@@ -518,6 +625,15 @@ def finalizar_compra(request):
     produtos_db = models.Produtos.objects.filter(id_produtos__in=produto_ids)
     produtos_dict = {p.id_produtos: p for p in produtos_db}
     
+    status_pedido = "a caminho"
+    if produto_ids:
+        apenas_ingressos = all(
+            getattr(p.categoria_produtos_id_categoria_produtos, 'id_categoria_produtos', None) == 10
+            for p in produtos_db
+        )
+        if apenas_ingressos:
+            status_pedido = "entregue"
+    
     # Valida os produtos e estoque
     itens_compra = []
     valor_total = 0
@@ -562,7 +678,8 @@ def finalizar_compra(request):
         novo_pedido = models.Pedido(
             data_pedido=timezone.now(),
             clientes_id_clientes=cliente,
-            funcionarios_id_funcionarios=None
+            funcionarios_id_funcionarios=None,
+            status=status_pedido
         )
         novo_pedido.save()
         
@@ -698,7 +815,7 @@ def tela_rec_senha(request):
         codigo = str(random.randint(100000, 999999))
 
         models.RecuperacaoSenha.objects.create(
-            cliente=cliente,
+            cliente_id=cliente.id_clientes,
             codigo=codigo,
         )
 
@@ -847,6 +964,7 @@ def tela_historia(request):
     return render(request, "app_futebol/historia.html")
 
 
+@cliente_login_required
 def pagamento_socio(request, plano_id):
     try:
         plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
@@ -880,6 +998,7 @@ def pagamento_socio(request, plano_id):
 
 # ... suas outras importações (models, login_required, etc) ...
 
+@cliente_login_required
 def gerar_pdf_ingressos(request, pedido_id):
     # 1. Segurança: Verifica se o usuário está logado
     cliente_id = request.session.get("cliente_id")
@@ -894,6 +1013,13 @@ def gerar_pdf_ingressos(request, pedido_id):
         pedido_id_pedido=pedido,
         produtos_id_produtos__categoria_produtos_id_categoria_produtos=10
     ).select_related('produtos_id_produtos', 'produtos_id_produtos__jogos_id_jogos', 'produtos_id_produtos__jogos_id_jogos__times_id_times')
+
+    compra_id = request.GET.get('compra_id')
+    if compra_id:
+        try:
+            itens_compra = itens_compra.filter(id_compra=compra_id)
+        except (ValueError, TypeError):
+            pass
 
     if not itens_compra.exists():
         messages.error(request, "Este pedido não contém ingressos.")
@@ -921,7 +1047,7 @@ def gerar_pdf_ingressos(request, pedido_id):
         # Salva QR Code temporariamente na RAM para o ReportLab ler
         qr_buffer = io.BytesIO()
         qr_img.save(qr_buffer, format="PNG")
-        qr_buffer.seek(0) # Retorna o ponteiro para o início do arquivo
+        qr_buffer.seek(0)
 
         # --- DESENHO DO INGRESSO NO PDF ---
         # Borda do ingresso
@@ -945,7 +1071,7 @@ def gerar_pdf_ingressos(request, pedido_id):
             p.drawString(3 * cm, y_position + 5.2 * cm, data_hora)
             p.drawString(3 * cm, y_position + 4.5 * cm, local)
         else:
-            p.drawString(3 * cm, y_position + 6 * cm, produto.nome_produtos)
+            p.drawString(3 * cm, y_position + 6 * cm, f"Time 1 VS Time 2")
 
         # Dados do Cliente e Setor
         p.setFont("Helvetica-Bold", 12)
@@ -965,5 +1091,27 @@ def gerar_pdf_ingressos(request, pedido_id):
     # 5. Finaliza e retorna o PDF
     p.save()
     buffer.seek(0)
-    
-    return FileResponse(buffer, as_attachment=True, filename=f'ingressos_pedido_{pedido_id}.pdf')
+
+    key = f"ingressos/pedido_{pedido_id}.pdf"
+    try:
+        s3_client = boto3.client(
+            "s3",
+            region_name=settings.AWS_S3_REGION_NAME,
+            endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+            aws_access_key_id=settings.AWS_S3_ACCESS_KEY_ID,
+            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        )
+
+        upload_buffer = io.BytesIO(buffer.getvalue())
+        s3_client.upload_fileobj(
+            upload_buffer,
+            settings.AWS_STORAGE_BUCKET_NAME,
+            key,
+            ExtraArgs={"ContentType": "application/pdf", "ACL": "public-read"},
+        )
+    except ClientError:
+        logging.exception("Erro ao enviar PDF para R2: %s")
+
+    buffer.seek(0)
+
+    return FileResponse(buffer, filename=f'ingressos_pedido_{pedido_id}.pdf')

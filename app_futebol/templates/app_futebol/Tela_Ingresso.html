@@ -31,10 +31,11 @@
           <div class="time">
             {% if jogo_destaque.times_id_times.url_brasao %}
               <img src="{% static jogo_destaque.times_id_times.url_brasao %}" alt="Adversário">
+              <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
             {% else %}
               <img src="{% static 'img/icones/palmeiras.png' %}" alt="Adversário">
+              <span>Palmeiras</span>
             {% endif %}
-            <span>Grêmio</span>
           </div>
         </div>
 

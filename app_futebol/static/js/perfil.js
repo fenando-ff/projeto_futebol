@@ -1,12 +1,17 @@
 // Toggle e dropdowns do perfil
-document.addEventListener('DOMContentLoaded', function () {
-	// info pessoais / endereco já configurados em outro trecho
-
+function initPerfil() {
 	// Toggle 'Meus Dados' (colapsável)
 	const fotoInput = document.getElementById('foto');
 	const previewAvatar = document.getElementById('previewAvatar');
 	const avatarFilename = document.getElementById('avatarFilename');
 	const avatarError = document.getElementById('avatarError');
+	const btnSalvarFoto = document.getElementById('btnSalvarFoto');
+
+	if (btnSalvarFoto) {
+		btnSalvarFoto.addEventListener('click', function () {
+			document.querySelector('.form-perfil').submit();
+		});
+	}
 
 	if (fotoInput && previewAvatar) {
 		const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -39,6 +44,16 @@ document.addEventListener('DOMContentLoaded', function () {
 				previewAvatar.src = e.target.result;
 			};
 			reader.readAsDataURL(file);
+
+			if (btnSalvarFoto) {
+				btnSalvarFoto.style.display = 'inline-flex';
+			}
+
+			if (btnSalvarFoto) {
+				btnSalvarFoto.addEventListener('click', function () {
+					document.querySelector('.form-perfil').submit();
+				});
+			}
 		});
 	}
 
@@ -47,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function () {
 		if(!toggle) return;
 		var perfilDados = document.getElementById('perfil-dados');
 		var body = document.getElementById('meus-dados-body');
-		// initialize
 		if(toggle.getAttribute('aria-expanded') === 'true'){
 			perfilDados.classList.remove('collapsed');
 			body.setAttribute('aria-hidden','false');
@@ -79,6 +93,44 @@ document.addEventListener('DOMContentLoaded', function () {
 		});
 	})();
 
+	// Dropdown de Ingressos (seção Meus Ingressos)
+	var toggleIngressosEl = document.querySelector('#perfil-ingressos .toggle-ingressos');
+	if (toggleIngressosEl) {
+		var perfilIngressos = document.getElementById('perfil-ingressos');
+		var body = document.getElementById('meus-ingressos-body');
+		if(!perfilIngressos || !body) return;
+
+		if(toggleIngressosEl.getAttribute('aria-expanded') === 'true'){
+			perfilIngressos.classList.remove('collapsed');
+			body.setAttribute('aria-hidden','false');
+		} else {
+			perfilIngressos.classList.add('collapsed');
+			body.setAttribute('aria-hidden','true');
+		}
+
+		var doToggle = function(){
+			var expanded = toggleIngressosEl.getAttribute('aria-expanded') === 'true';
+			if(expanded){
+				toggleIngressosEl.setAttribute('aria-expanded','false');
+				perfilIngressos.classList.add('collapsed');
+				body.setAttribute('aria-hidden','true');
+			} else {
+				toggleIngressosEl.setAttribute('aria-expanded','true');
+				perfilIngressos.classList.remove('collapsed');
+				body.setAttribute('aria-hidden','false');
+			}
+		};
+
+		toggleIngressosEl.addEventListener('click', function(e){
+			e.preventDefault();
+			doToggle();
+		});
+
+		toggleIngressosEl.addEventListener('keydown', function(e){
+			if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doToggle(); }
+		});
+	}
+
 	// Dropdown por pedido: todo o item-pedido é clicável
 	const pedidosList = document.querySelectorAll('.lista-pedidos .item-pedido');
 	if (pedidosList && pedidosList.length) {
@@ -87,11 +139,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			const detalhes = p.querySelector('.detalhes-pedido');
 			if (!detalhes) return;
 
-			// inicializa atributos ARIA
 			if (btn) btn.setAttribute('aria-expanded', 'false');
 			detalhes.setAttribute('aria-hidden', 'true');
 
-			// toggle helper
 			const toggle = () => {
 				const aberto = p.classList.toggle('aberto');
 				if (btn) {
@@ -101,9 +151,7 @@ document.addEventListener('DOMContentLoaded', function () {
 				detalhes.setAttribute('aria-hidden', aberto ? 'false' : 'true');
 			};
 
-			// clique no botão (previne propagação)
 			if (btn) {
-				// texto inicial
 				btn.textContent = 'Ver Detalhes';
 				btn.addEventListener('click', function (e) {
 					e.stopPropagation();
@@ -111,7 +159,6 @@ document.addEventListener('DOMContentLoaded', function () {
 					toggle();
 				});
 
-				// Convert server-provided ISO datetimes to device-local format
 				(function convertPedidoTimes(){
 					try{
 						var els = document.querySelectorAll('.pedido-data[data-datetime]');
@@ -121,7 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
 							if(!iso) return;
 							var dt = new Date(iso);
 							if(isNaN(dt)) return;
-							// Use user's locale and show date + time
 							var fmt = new Intl.DateTimeFormat(navigator.language || undefined, {
 								year: 'numeric', month: 'short', day: 'numeric',
 								hour: '2-digit', minute: '2-digit'
@@ -140,14 +186,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				});
 			}
 
-			// clique no container: ignora cliques dentro dos detalhes ou em links/botões
 			p.addEventListener('click', function (e) {
 				if (e.target.closest('.detalhes-pedido')) return;
 				if (e.target.closest('a') || e.target.closest('button')) return;
 				toggle();
 			});
 
-			// teclado no container
 			p.setAttribute('tabindex', '0');
 			p.setAttribute('role', 'button');
 			p.addEventListener('keydown', function (e) {
@@ -158,5 +202,10 @@ document.addEventListener('DOMContentLoaded', function () {
 			});
 		});
 	}
-});
+}
 
+if (document.readyState === 'loading') {
+	document.addEventListener('DOMContentLoaded', initPerfil);
+} else {
+	initPerfil();
+}

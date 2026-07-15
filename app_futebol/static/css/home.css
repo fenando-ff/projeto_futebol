@@ -712,7 +712,7 @@ a{
     }
     
     .jogo-card {
-        flex-direction: column;
+        flex-direction: row;
         gap: 12px;
         padding: 16px;
     }
