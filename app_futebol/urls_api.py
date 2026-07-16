@@ -57,6 +57,6 @@ urlpatterns = router.urls + [
     path('login/', LoginAPIView.as_view(), name='api-login'),
     path('logout/', LogoutAPIView.as_view(), name='api-logout'),
     path('checkout/', CheckoutAPIView.as_view(), name='api-checkout'),
-    path('meu-perfil/', MeuPerfilView.as_view({'get': 'list'}), name='meu-perfil'),
+    path('meu-perfil/', MeuPerfilView.as_view({'get': 'list', 'put': 'update'}), name='meu-perfil'),
     path('cart/', CartAPIView.as_view(), name='api-cart'),
 ]

@@ -206,6 +206,7 @@ class LoginAPIView(APIView):
     permission_classes = [AllowAny]
 
 # GET /api/meu-perfil/
+# PUT /api/meu-perfil/
 class MeuPerfilView(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
@@ -224,6 +225,11 @@ export async function login(email, senha) {
 
 export async function fetchMeuPerfil() {
   const { data } = await api.get("/meu-perfil/");
+  return data;
+}
+
+export async function atualizarMeuPerfil(payload) {
+  const { data } = await api.put("/meu-perfil/", payload);
   return data;
 }
 
