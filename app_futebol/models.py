@@ -177,6 +177,8 @@ class Clientes(models.Model):
     total_questoes = models.IntegerField(blank=True, null=True)
     precisao = models.FloatField(blank=True, null=True)
     tempo = models.TimeField(blank=True, null=True)
+    criado_em = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    atualizado_em = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     # aliases de compatibilidade (equivalente a Participantes)
     @property
