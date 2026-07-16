@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG dinâmico: False no Render, True local
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22", "192.168.61.90", "172.20.10.2","10.44.236.22"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22", "192.168.61.90", "172.20.10.2","10.44.236.22", "192.168.1.8"]
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
@@ -164,7 +164,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")        #upload da img
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# print("RENDER =", os.environ.get("RENDER"))
+# print("DB_HOST produção =", os.environ.get("DB_HOST"))
+# print("DB_HOST local =", os.environ.get("DB_HOST_LOCAL"))
+print("Host selecionado =", DATABASES["default"]["HOST"])
+# print("Engine escolhida =", DATABASES["default"]["ENGINE"])
 
+# para iniciar o servidor do Api mobile do iphone
+# python manage.py runserver 0.0.0.0:8000
+# python manage.py runserver 0.0.0.0:8000
 
 TIME_ZONE = 'America/Sao_Paulo'
 LANGUAGE_CODE = 'pt-br'

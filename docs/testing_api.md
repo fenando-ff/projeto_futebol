@@ -126,6 +126,15 @@ Alguns endpoints exigem usuário autenticado. Como ainda não temos token JWT ca
 4. Clique em **Send**
 5. Verifique se retorna `200 OK` com os dados do cliente logado
 
+### 3.2.1 Atualizar perfil do cliente
+
+1. Crie uma nova requisição `PUT`
+2. URL: `{{base_url}}/api/meu-perfil/`
+3. No corpo, envie apenas os campos que deseja alterar em JSON
+4. Na aba **Authorization**, use o mesmo token do cliente autenticado
+5. Clique em **Send**
+6. Verifique se retorna `200 OK` com os dados atualizados
+
 ---
 
 ### 3.3 Adicionar produto ao carrinho

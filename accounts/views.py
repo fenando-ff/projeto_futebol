@@ -8,6 +8,7 @@ from app_futebol import models
 import re
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 # -------------------- codigo pra estudar e aplicar ----------------------
 def cadastro(request):
@@ -93,6 +94,7 @@ def cadastro(request):
                         status_clientes=1,
                         categoria_cliente_id_categoria_cliente=categoria,
                         senha_clientes=make_password(senha),
+                        criado_em=timezone.now(),
                     )
 
                     # =========================

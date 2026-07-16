@@ -126,6 +126,36 @@ class MeuPerfilView(viewsets.ViewSet):
         serializer = ClientesSerializer(cliente)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        request_body=ClientesSerializer,
+        responses={
+            200: ClientesSerializer(),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Atualiza o perfil do cliente autenticado",
+        operation_description="Atualiza os dados do cliente autenticado a partir do token HMAC enviado no header Authorization.",
+    )
+    def update(self, request):
+        cliente = getattr(request, "user", None)
+
+        if not isinstance(cliente, Clientes):
+            return Response({"detail": "Não autenticado."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = ClientesSerializer(cliente, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
     @action(detail=False, methods=["get"], url_path="carrinho")
     def carrinho(self, request):
         return Response({"carrinho": request.session.get("carrinho", {})})
