@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
 from app_futebol import models
-from .decorators import cliente_login_required
+from ..decorators import cliente_login_required
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -317,6 +317,9 @@ def tela_perfil(request):
         endereco.bairro_endereco_cliente = request.POST.get("bairro")
         endereco.cep_endereco_cliente = request.POST.get("cep")
         endereco.complemento_endereco_cliente = request.POST.get("complemento")
+        print("CEP =", request.POST.get("cep"))
+        print("RUA =", request.POST.get("rua"))
+        print("BAIRRO =", request.POST.get("bairro"))
         
         endereco.save() # Salva na tabela EnderecoCliente
 

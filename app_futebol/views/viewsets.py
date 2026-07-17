@@ -1,6 +1,8 @@
-from rest_framework import viewsets, filters, permissions, status
+from rest_framework import viewsets, filters, permissions, status, exceptions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as django_filters
 from django.shortcuts import get_object_or_404
@@ -12,6 +14,7 @@ from ..models import (
     Compra,
     EnderecoCliente,
     Funcionarios,
+    HistoricoTitulos,
     Jogos,
     Pedido,
     Produtos,
@@ -20,6 +23,7 @@ from ..models import (
     Respostas,
     RecuperacaoSenha,
     Times,
+    Titulos,
 )
 from ..serializers import (
     CategoriaClienteSerializer,
@@ -38,8 +42,9 @@ from ..serializers import (
     RespostasSerializer,
     RecuperacaoSenhaSerializer,
     TimesSerializer,
-    TitulosSerializer
+    TitulosSerializer,
 )
+from ..auth import ClienteTokenAuthentication
 
 
 class ProdutosFilter(django_filters.FilterSet):
@@ -60,6 +65,15 @@ class PedidoFilter(django_filters.FilterSet):
     class Meta:
         model = Pedido
         fields = ["cliente_id_cliente", "status"]
+
+
+class ClienteTokenAuthenticationSilenciosa(ClienteTokenAuthentication):
+    def authenticate(self, request):
+        try:
+            return super().authenticate(request)
+        except exceptions.AuthenticationFailed:
+            return None
+
 
 class ClientesViewSet(viewsets.ModelViewSet):
     queryset = Clientes.objects.all()
@@ -83,23 +97,63 @@ class CategoriaProdutosViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class MeuPerfilView(viewsets.ViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthenticationSilenciosa]
+    permission_classes = [permissions.AllowAny]
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        responses={
+            200: ClientesSerializer(),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Perfil do cliente autenticado",
+        operation_description="Retorna o cliente autenticado a partir do token HMAC enviado no header Authorization.",
+    )
     def list(self, request):
         cliente = getattr(request, "user", None)
-
-        if not isinstance(cliente, Clientes):
-            cliente_id = request.session.get("cliente_id")
-            if cliente_id:
-                try:
-                    cliente = Clientes.objects.get(pk=cliente_id)
-                except Clientes.DoesNotExist:
-                    cliente = None
 
         if not isinstance(cliente, Clientes):
             return Response({"detail": "Não autenticado."}, status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = ClientesSerializer(cliente)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        request_body=ClientesSerializer,
+        responses={
+            200: ClientesSerializer(),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Atualiza o perfil do cliente autenticado",
+        operation_description="Atualiza os dados do cliente autenticado a partir do token HMAC enviado no header Authorization.",
+    )
+    def update(self, request):
+        cliente = getattr(request, "user", None)
+
+        if not isinstance(cliente, Clientes):
+            return Response({"detail": "Não autenticado."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = ClientesSerializer(cliente, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)
 
     @action(detail=False, methods=["get"], url_path="carrinho")
@@ -118,3 +172,63 @@ class HistoricoTitulosViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["cliente", "titulo", "ativo"]
+
+
+class CategoriaClienteViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CategoriaCliente.objects.all()
+    serializer_class = CategoriaClienteSerializer
+
+
+class TimesViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Times.objects.all()
+    serializer_class = TimesSerializer
+
+
+class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Produtos.objects.all()
+    serializer_class = ProdutosSerializer
+
+
+class EnderecoClienteViewSet(viewsets.ModelViewSet):
+    queryset = EnderecoCliente.objects.all()
+    serializer_class = EnderecoClienteSerializer
+
+
+class PedidoViewSet(viewsets.ModelViewSet):
+    queryset = Pedido.objects.all()
+    serializer_class = PedidoSerializer
+
+
+class CompraViewSet(viewsets.ModelViewSet):
+    queryset = Compra.objects.all()
+    serializer_class = CompraSerializer
+
+
+class JogosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Jogos.objects.all()
+    serializer_class = JogosSerializer
+
+
+class FuncionariosViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Funcionarios.objects.all()
+    serializer_class = FuncionariosSerializer
+
+
+class QuestoesViewSet(viewsets.ModelViewSet):
+    queryset = Questoes.objects.all()
+    serializer_class = QuestoesSerializer
+
+
+class RespostasViewSet(viewsets.ModelViewSet):
+    queryset = Respostas.objects.all()
+    serializer_class = RespostasSerializer
+
+
+class RecuperacaoSenhaViewSet(viewsets.ModelViewSet):
+    queryset = RecuperacaoSenha.objects.all()
+    serializer_class = RecuperacaoSenhaSerializer
+
+
+class ProgressoFasesViewSet(viewsets.ModelViewSet):
+    queryset = ProgressoFases.objects.all()
+    serializer_class = ProgressoFasesSerializer

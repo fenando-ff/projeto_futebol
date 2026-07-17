@@ -177,6 +177,8 @@ class Clientes(models.Model):
     total_questoes = models.IntegerField(blank=True, null=True)
     precisao = models.FloatField(blank=True, null=True)
     tempo = models.TimeField(blank=True, null=True)
+    criado_em = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    atualizado_em = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     # aliases de compatibilidade (equivalente a Participantes)
     @property
@@ -186,6 +188,23 @@ class Clientes(models.Model):
     @property
     def id_participante(self):
         return self.id_clientes
+    
+    
+    @property
+    def is_authenticated(self):
+        return True
+    
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    @property
+    def is_active(self):
+        return self.status_clientes == 1
 
     class Meta:
         managed = False

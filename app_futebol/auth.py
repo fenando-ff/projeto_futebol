@@ -5,7 +5,7 @@ import time
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
 from rest_framework import exceptions
-from ..models import Clientes
+from .models import Clientes
 
 TOKEN_TTL = 60 * 60 * 24 * 7
 
