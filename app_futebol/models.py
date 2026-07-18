@@ -454,7 +454,7 @@ class Questoes(models.Model):
 class RecuperacaoSenha(models.Model):
     id = models.BigAutoField(primary_key=True)
     codigo = models.CharField(max_length=6)
-    criado_em = models.DateTimeField()
+    criado_em = models.DateTimeField(auto_now_add=True)
     cliente_id = models.IntegerField()
 
     class Meta:
