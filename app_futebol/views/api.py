@@ -35,6 +35,85 @@ def _buscar_ultima_recuperacao(email):
     return cliente, recuperacao
 
 
+def _payload_copy(data):
+    if hasattr(data, "copy"):
+        return data.copy()
+    return dict(data or {})
+
+
+def _first_value(data, *keys, default=None):
+    for key in keys:
+        value = data.get(key)
+        if value not in (None, ""):
+            return value
+    return default
+
+
+def _normalize_recovery_payload(data):
+    payload = _payload_copy(data)
+    return {
+        "email": _first_value(payload, "email", "email_cliente", "emailCliente", "mail"),
+        "codigo": _first_value(
+            payload,
+            "codigo",
+            "code",
+            "otp",
+            "verification_code",
+            "verificationCode",
+        ),
+        "senha": _first_value(
+            payload,
+            "senha",
+            "password",
+            "nova_senha",
+            "novaSenha",
+            "new_password",
+            "newPassword",
+        ),
+        "confirmar_senha": _first_value(
+            payload,
+            "confirmar_senha",
+            "confirmarSenha",
+            "confirm_password",
+            "confirmPassword",
+            "senha_confirmacao",
+            "senhaConfirmacao",
+        ),
+    }
+
+
+def _validation_message(errors, fallback):
+    if isinstance(errors, dict):
+        for value in errors.values():
+            message = _validation_message(value, None)
+            if message:
+                return message
+        return fallback
+
+    if isinstance(errors, list):
+        for value in errors:
+            message = _validation_message(value, None)
+            if message:
+                return message
+        return fallback
+
+    if isinstance(errors, str):
+        message = errors.strip()
+        return message or fallback
+
+    return fallback
+
+
+def _response(message, *, status_code=status.HTTP_200_OK, success=True, **extra):
+    payload = {
+        "success": success,
+        "message": message,
+        "detail": message,
+    }
+    payload.update(extra)
+    return Response(payload, status=status_code)
+
+
 class EsqueciSenhaAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -49,38 +128,62 @@ class EsqueciSenhaAPIView(APIView):
         operation_description="Gera um código de recuperação, persiste o registro e envia o email com o código, como no fluxo atual.",
     )
     def post(self, request):
-        serializer = EsqueciSenhaSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        print("[RECOVERY][esqueci-senha] start", request.path, request.get_host(), list(request.data.keys()))
+        serializer = EsqueciSenhaSerializer(data=_normalize_recovery_payload(request.data))
+        if not serializer.is_valid():
+            print("[RECOVERY][esqueci-senha] validation_error", serializer.errors)
+            return _response(
+                _validation_message(serializer.errors, "Dados inválidos."),
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+                errors=serializer.errors,
+            )
+
         email = serializer.validated_data["email"]
+        print("[RECOVERY][esqueci-senha] email", email)
 
         cliente = Clientes.objects.filter(email_clientes=email).first()
         if not cliente:
-            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+            print("[RECOVERY][esqueci-senha] client_not_found", email)
+            return _response(
+                "Email não encontrado!",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
 
         codigo = str(random.randint(100000, 999999))
+        print("[RECOVERY][esqueci-senha] code_generated", email, codigo)
 
         RecuperacaoSenha.objects.create(
             cliente_id=cliente.id_clientes,
             codigo=codigo,
             criado_em=timezone.now(),
         )
+        print("[RECOVERY][esqueci-senha] recovery_saved", email)
 
         try:
-         send_mail(
+            print("[RECOVERY][esqueci-senha] send_mail_start", email)
+            send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
                 os.environ.get("EMAIL_HOST_USER"),
                 [email],
                 fail_silently=False,
             )
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            raise
+            print("[RECOVERY][esqueci-senha] send_mail_ok", email)
+        except Exception:
+            print("[RECOVERY][esqueci-senha] send_mail_failed", email)
+            return _response(
+                "Erro ao enviar email.",
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                success=False,
+            )
 
-        return Response(
-            {"detail": "Código enviado com sucesso."},
-            status=status.HTTP_201_CREATED,
+        print("[RECOVERY][esqueci-senha] response_ok", email)
+        return _response(
+            "Código enviado com sucesso.",
+            status_code=status.HTTP_201_CREATED,
+            email=email,
         )
 
 
@@ -98,29 +201,56 @@ class ValidarCodigoAPIView(APIView):
         operation_description="Confere se o código informado é o último gerado para o email e se ainda está dentro do prazo de expiração.",
     )
     def post(self, request):
-        serializer = ValidarCodigoSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        print("[RECOVERY][validar-codigo] start", request.path, request.get_host(), list(request.data.keys()))
+        serializer = ValidarCodigoSerializer(data=_normalize_recovery_payload(request.data))
+        if not serializer.is_valid():
+            print("[RECOVERY][validar-codigo] validation_error", serializer.errors)
+            return _response(
+                _validation_message(serializer.errors, "Dados inválidos."),
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+                errors=serializer.errors,
+            )
 
         email = serializer.validated_data["email"]
         codigo_digitado = serializer.validated_data["codigo"]
+        print("[RECOVERY][validar-codigo] payload", email, codigo_digitado)
 
         cliente, recuperacao = _buscar_ultima_recuperacao(email)
         if not cliente:
-            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+            print("[RECOVERY][validar-codigo] client_not_found", email)
+            return _response(
+                "Email não encontrado!",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
 
         if not recuperacao:
-            return Response({"detail": "Código inválido!"}, status=status.HTTP_400_BAD_REQUEST)
+            print("[RECOVERY][validar-codigo] no_code_found", email)
+            return _response(
+                "Código inválido!",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+            )
 
         if recuperacao.expirado():
-            return Response(
-                {"detail": "Código expirado! Solicite outro."},
-                status=status.HTTP_400_BAD_REQUEST,
+            print("[RECOVERY][validar-codigo] expired", email, recuperacao.codigo)
+            return _response(
+                "Código expirado! Solicite outro.",
+                status_code=status.HTTP_410_GONE,
+                success=False,
             )
 
         if recuperacao.codigo != codigo_digitado:
-            return Response({"detail": "Código incorreto!"}, status=status.HTTP_400_BAD_REQUEST)
+            print("[RECOVERY][validar-codigo] mismatch", email, codigo_digitado, recuperacao.codigo)
+            return _response(
+                "Código incorreto!",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+            )
 
-        return Response({"detail": "Código válido."}, status=status.HTTP_200_OK)
+        print("[RECOVERY][validar-codigo] response_ok", email)
+        return _response("Código válido.")
 
 
 class RedefinirSenhaAPIView(APIView):
@@ -137,37 +267,66 @@ class RedefinirSenhaAPIView(APIView):
         operation_description="Valida o código mais recente do email, aplica a nova senha e remove os registros de recuperação utilizados.",
     )
     def post(self, request):
-        serializer = RedefinirSenhaSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        print("[RECOVERY][redefinir-senha] start", request.path, request.get_host(), list(request.data.keys()))
+        serializer = RedefinirSenhaSerializer(data=_normalize_recovery_payload(request.data))
+        if not serializer.is_valid():
+            print("[RECOVERY][redefinir-senha] validation_error", serializer.errors)
+            return _response(
+                _validation_message(serializer.errors, "Dados inválidos."),
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+                errors=serializer.errors,
+            )
 
         email = serializer.validated_data["email"]
         codigo_digitado = serializer.validated_data["codigo"]
         nova_senha = serializer.validated_data["senha"]
+        print("[RECOVERY][redefinir-senha] payload", email, codigo_digitado)
 
         cliente, recuperacao = _buscar_ultima_recuperacao(email)
         if not cliente:
-            return Response({"detail": "Email não encontrado!"}, status=status.HTTP_404_NOT_FOUND)
+            print("[RECOVERY][redefinir-senha] client_not_found", email)
+            return _response(
+                "Email não encontrado!",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
 
         if not recuperacao:
-            return Response({"detail": "Código inválido!"}, status=status.HTTP_400_BAD_REQUEST)
+            print("[RECOVERY][redefinir-senha] no_code_found", email)
+            return _response(
+                "Código inválido!",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+            )
 
         if recuperacao.expirado():
-            return Response(
-                {"detail": "Código expirado! Solicite outro."},
-                status=status.HTTP_400_BAD_REQUEST,
+            print("[RECOVERY][redefinir-senha] expired", email, recuperacao.codigo)
+            return _response(
+                "Código expirado! Solicite outro.",
+                status_code=status.HTTP_410_GONE,
+                success=False,
             )
 
         if recuperacao.codigo != codigo_digitado:
-            return Response({"detail": "Código incorreto!"}, status=status.HTTP_400_BAD_REQUEST)
+            print("[RECOVERY][redefinir-senha] mismatch", email, codigo_digitado, recuperacao.codigo)
+            return _response(
+                "Código incorreto!",
+                status_code=status.HTTP_400_BAD_REQUEST,
+                success=False,
+            )
 
+        print("[RECOVERY][redefinir-senha] updating_password", email)
         with transaction.atomic():
             cliente.senha_clientes = make_password(nova_senha)
             cliente.save(update_fields=["senha_clientes"])
             RecuperacaoSenha.objects.filter(cliente_id=cliente.id_clientes).delete()
+        print("[RECOVERY][redefinir-senha] password_updated", email)
 
-        return Response(
-            {"detail": "Senha alterada com sucesso!"},
-            status=status.HTTP_200_OK,
+        print("[RECOVERY][redefinir-senha] response_ok", email)
+        return _response(
+            "Senha alterada com sucesso!",
+            email=email,
         )
 
 

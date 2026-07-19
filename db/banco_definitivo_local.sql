@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `projeto_futebol_definitivo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `projeto_futebol_definitivo`;
--- MySQL dump 10.13  Distrib 8.0.46, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
 -- Host: localhost    Database: projeto_futebol_definitivo
 -- ------------------------------------------------------
--- Server version	8.0.31
+-- Server version	8.0.42
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -183,7 +183,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-07-01 18:27:23.129021',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1000000$XrzSwf46GU0btn8fCV9HPl$TKXsFu21ZgFecgLNZfUjP8Cfdgv3v54FP86x58oRzlw=','2026-07-03 18:32:59.210451',1,'fernando','','','',1,1,'2025-09-11 19:21:04.582791');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,25 +300,27 @@ DROP TABLE IF EXISTS `clientes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
   `id_CLIENTES` int NOT NULL AUTO_INCREMENT,
-  `senha_CLIENTES` varchar(255) NOT NULL,
-  `sexo_CLIENTES` varchar(20) NOT NULL,
-  `telefone_CLIENTES` varchar(15) NOT NULL,
-  `email_CLIENTES` varchar(50) NOT NULL,
   `nome_CLIENTES` varchar(45) NOT NULL,
   `sobrenome_CLIENTES` varchar(45) NOT NULL,
-  `cpf_CLIENTES` varchar(14) NOT NULL,
+  `email_CLIENTES` varchar(50) NOT NULL,
+  `telefone_CLIENTES` varchar(15) NOT NULL,
+  `sexo_CLIENTES` varchar(20) NOT NULL,
   `status_CLIENTES` tinyint NOT NULL,
-  `url_foto_CLIENTES` varchar(255) DEFAULT NULL,
+  `cpf_CLIENTES` varchar(14) NOT NULL,
+  `senha_CLIENTES` varchar(255) NOT NULL,
   `CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE` int NOT NULL,
+  `url_foto_CLIENTES` varchar(255) DEFAULT NULL,
   `score_rank` int DEFAULT '0',
   `total_acertos` int DEFAULT '0',
   `total_questoes` int DEFAULT '0',
   `precisao` float DEFAULT '0',
   `tempo` time DEFAULT '00:00:00',
+  `criado_em` datetime DEFAULT NULL,
+  `atualizado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id_CLIENTES`),
   KEY `fk_CLIENTES_CATEGORIA_CLIENTE1_idx` (`CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE`),
-  CONSTRAINT `fk_CLIENTES_CATEGORIA_CLIENTE1` FOREIGN KEY (`CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE`) REFERENCES `categoria_cliente` (`id_CATEGORIA_CLIENTE`)
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_CLIENTES_CATEGORIA_CLIENTE1` FOREIGN KEY (`CATEGORIA_CLIENTE_id_CATEGORIA_CLIENTE`) REFERENCES `categoria_cliente` (`id_CATEGORIA_CLIENTE`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +329,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (136,'pbkdf2_sha256$1000000$F0qqiG6hkFDLFyfemsxLUt$O2sey8fBA0t++iQBAzMvklIjSPksw3U9+lsyEX6i+ac=','Masculino','(61) 98498-9494','drakos@gmail.com','Drakos','Club','24698198984',1,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_4df9c96e4d2c4845ab54604467f0aef7.webp',3,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `clientes` VALUES (136,'Fernando','Freitas','fernandofreitassud2016@gmail.com','(61) 98498-9494','Masculino',1,'24698198984','pbkdf2_sha256$1000000$P6AsN579Zzb8prrtXPFU7J$8LYl3oAcb+7h1UaJJV7bZbL7K5aPTb/Hn005Hwk42UI=',2,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_4df9c96e4d2c4845ab54604467f0aef7.webp',NULL,NULL,NULL,NULL,NULL,'2025-07-19 15:20:19','2026-07-18 01:11:27'),(137,'pedro','daniel','deucerto12@gmail.com','(52) 31231-3123','Masculino',1,'39248193819','pbkdf2_sha256$1000000$OfIuQr6Qiig1aCD53BmA5u$oymwgMBqw0aU8K9UI8LJiGyHeyuXvcoTbVGX1vhyYF8=',5,'https://pub-8289a2714c14467b8d15c74224e90de2.r2.dev/perfis/foto_4316a6bfce4a4586bbb60ed9a428f8f8.webp',NULL,NULL,NULL,NULL,NULL,'2026-04-14 15:20:19',NULL),(138,'Danicreu','Daniela','cadastro123@gmail.com','(32) 13123-1232','Masculino',1,'324.242.423-42','pbkdf2_sha256$1000000$uiirjYrgfKOUJKvPPHs4gl$zQ69p3zHKxM5qZp6YIcIylCfH/KJLZDQKWT5tegd9pA=',4,NULL,NULL,NULL,NULL,NULL,NULL,'2026-05-18 15:20:19','2026-07-14 16:19:09'),(140,'pedro','daniel','pedro123@gmail.com','(94) 94811-6919','Masculino',1,'546.454.515-16','pbkdf2_sha256$1000000$naltgqaNFsrpTRi14Ab8yZ$EvazU+i+oxFbGkzG3hIU9YY3p+pTC/iZCGZKg/pyi10=',3,NULL,NULL,NULL,NULL,NULL,NULL,'2026-06-20 15:20:19','2026-07-14 16:19:03'),(141,'Rafael','Santos','rafaelchris639@gmail.com','(91) 94578-5623','Masculino',1,'456.456.456-56','$argon2id$v=19$m=65536,t=3,p=4$8JgnvC8QO0CdYagUiMCDuQ$mKWQXOi6Y05dxjCunhOI4xBXTEwW2+UXmyhAcbMgLaE',2,NULL,0,0,0,0,'00:00:00','2026-07-14 15:20:19','2026-07-17 23:45:28'),(142,'João','Soares','joaosoares@gmail.com','(91) 93245-7898','Masculino',1,'45678914785','pbkdf2_sha256$1000000$SOongQ1rnfJNZfO8ujQDGm$mXMfEHM5fwj+gXwmh8mDxwLzlUoctG74xFn7KIfdX94=',5,NULL,NULL,NULL,NULL,NULL,NULL,'2026-07-18 04:42:11','2026-07-18 04:42:11');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +351,7 @@ CREATE TABLE `compra` (
   KEY `fk_PRODUTOS_has_PEDIDO_PRODUTOS1_idx` (`PRODUTOS_id_PRODUTOS`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PEDIDO1` FOREIGN KEY (`PEDIDO_id_PEDIDO`) REFERENCES `pedido` (`id_PEDIDO`),
   CONSTRAINT `fk_PRODUTOS_has_PEDIDO_PRODUTOS1` FOREIGN KEY (`PRODUTOS_id_PRODUTOS`) REFERENCES `produtos` (`id_PRODUTOS`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -358,7 +360,7 @@ CREATE TABLE `compra` (
 
 LOCK TABLES `compra` WRITE;
 /*!40000 ALTER TABLE `compra` DISABLE KEYS */;
-INSERT INTO `compra` VALUES (28,42,21,1,300),(29,49,21,1,100),(30,53,22,1,60),(31,53,23,1,60),(32,52,24,1,100),(33,53,25,2,120),(34,53,26,1,60);
+INSERT INTO `compra` VALUES (28,42,21,1,300),(29,49,21,1,100),(30,53,22,1,60),(31,53,23,1,60),(32,52,24,1,100),(33,53,25,2,120),(34,53,26,1,60),(35,61,27,1,260),(36,62,27,3,870),(37,62,28,1,290);
 /*!40000 ALTER TABLE `compra` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -469,7 +471,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('9x0k4l8g3zgqcp1ayt673se3u0hkxjv6','.eJzVV8mO2zgQ_RVBpwSwLW7W4lO222BymdxmAqFEUjYTSVQoKjk0-t-nJNvdaru9pJEA8cU0q4pV9R6fSPAuzKH3m7zvtMuNClchDWdTWwHyq24Gh_oCzdoupG28M8ViCFnsvN3ib6t09W4X-yTBBroNri5LtUyBU53KjFAulJIklorTkgmqSk4I01xIGZepLCmXYokeRimDhOuEl5hUVkY3Xo9tUh4_GhpbayzxwcFX200CO1s4vXO-r_pi4tI1mGoANa55sx6mCK2ehHhd6dI2w-JXMX0dZKnI0nkmMjEJkm2JfibiLKVZiiETX2m9RefG-7ZbRVHbF_OUpRmwhApJhYiTIlV0KRPBmNAZUZotHFso_T1qtStNFw0ZcqHKTGaxFopJkYolFEsRk2F5SUCXyeKHLlos21bQWMQsjR0p4k9NOx7GSbCFHcwD2zs7paVR2mmJbd-FY44EfbrFdR8HJmah6-FxIqGbzAowztmJ19ZtpWvM-2C8n4Ub03nrjLT54HfQhat_78JWK6N2VfP9hOEWK_DwYAgJjUgSMcLigC5XfCB7EpCbbgga3HOSzAn9NAatCJ8TviIEozsPvseSIXbl9LofWzJeN9s2sPi2K0QukD5nVe8fyFgiowOL-c4-5HnrvvWmgEaCgqACZYO3WMbUsNb1NM7U6-iT-SvfavQVf71om_VIoddr5AO2qibYzrceGm8UKNwuOgu_Q2Vd3jfGgzPYS0wWBIH0hbcequ38_jPWbNZOd529fSTbuKlxdkohywsKYdcohK2oeIlC-J_AKzvmlbIDYkfDeY3cHpYnKtlaT8pEXJAJvUYmFCl5iUzYMbXsGmrf_ebPj5JDaslFmdwelqcyIWdlws_LhKVXyISlL5QJ_RO-wF9y39wakp-4b9ihQlgckfjxIMnOKCSes3g8SLKVeNF9Q26M19MKuTUkP6EQekEh586QB4WkeCEfKwQCCbVpNvakRFh6RKx45nx-j2k6CGp8zyGxdvhtnfZwkt39NJLjyv0YiKjsqyofE-VFhc-_3Dtouhbw3eWf3QZ2eRf44WHO98f2FGp2DDU7hvoPNOq_nhBNKwMBSkjiO1BfA7RC2eGfDhMArn0WDP9Vt-yhxsQ-SIJz45YjRsHGCvFu4Djc3_8Pjg8eyw:1weznZ:p8oiz5zkutR3RZPsdBDzNr-nG4tBIRnkrl4U2-3csc0','2026-07-15 18:36:37.003509');
+INSERT INTO `django_session` VALUES ('bdln73i8xtnracvkgme69uci7uodgd3k','.eJxVkMFuwyAQRH_F4tRKiW3IxgafeuqxvxBhWFpUGxDY7SHKvxenaUKPO29mQHMmarLoFjxZTQZ66HZ3wfkZyUBeMTrptCcPkvwY8Q9HtItMBcVZ2ikTcwuaX0daNWtp9_K-4Vr5uYgsOKHxbut76uhzJTgIvhcgoDCpYDJn0AlOBc-Wghm_-Aw_liWkoWnCOu4540KynoKiAF0_ck2PqgfGAEWrkdWR1Rq_moDR2NRsDSfQRijRIWimgMNRjkfo2i1uWommr79xDPnZMEnn8wzK-utuh__SbZrrUekoP32q9pVfYzkiOo0RVf72mVw7-sww5NzbtsSOxFU-DiVTcY3SxugL6ucw4Zx77-Ll8gMST5k3:1whCFh:suyhNaYiqXHkd5VHAIg5BsEJVmGOzA8pFh0EOi76RNM','2026-07-21 20:18:45.936087'),('si7k3p7ck8km2ygto2g23jza2710cz6r','.eJxVkE1ugzAQha8SsWqlBLAx2JNV1XbbXiHyzzihAYwMtIsod69No8ZZznxv3sybS3aQy3w6LBP6Q2uyfUaybdpTUp9xiMB8yeHocu2G2bcqj5L8Rqf8wxnsXm_aB4OTnE7RVnEKolKccMTKUC5MTSrONQdjOWEAWjUApVWal0rVAZCqkSVUCJzYOpjqrsVhxvXMwO6NwfUYVrx7eXZTIpyc8niDb92iEoS9bLsYap15OcYyROsTyYwdWjfE4aeGPG9AMBA7YMASkR5t4JQ1IAiIIEmYdbML8DTP47QvinFRO0EFSBriasJYw5UwpNacUcoQSoM09zQ3-F2M6G07FdHhwIwFDQ0yQzUTrJaqZk0Zx20p0fL8B9UY1o6dHFzIrFu3vqh6bN3-sBabv9ib3cYt3qVvGQx61OHsS7Z68MBwDHOf8RPbzC_yXmg5JZWSrfcuoa4fO-yD73_zev0FAzLHxA:1wfik4:dOjQJAL5pdgVg3RcYcRL4W3zp1b4UcRPy0Q_zUY2ie4','2026-07-17 18:36:00.818459'),('v22ws2ad979vje8iv10xqvt99bv284t5','.eJzNUj1v2zAU_CsCpwSQLZKyPswpSLdOBVp0SQPhhaJlBhKpUlQ6GP7vfVRkR0kQJM3USeDd6fHuHQ9EtloZrypdE8E2PD4DxnaKCPLV_hopVaklT9Rg75ya-e8WnBoWpOpAt0jcW7DDRF41AVpL2y1kXrVqZ00YcbFll9E25ZtsVZTbciGS_Q75TZYjzjZFmS24nfWWCDO2bUz6FoxFW1LbKUj2HJqtGrDRBCzdmlo5Jc-TJDinzR7PB5JzXMkxJns9eOu0tBVG6B0MRNwcSK9qXU86XVenAy9jUoOHM0BYmdAi4ZTnEWViExIsBJUegijQK1qsWPljEgmermgqKEX14MGPeCWBSEI3eUNP2ivz6ANvf7RFRFpgbmfr0c--iMix0RC_mvEw6AuOGSD65pS3kYp-Ktepdh-2ojtoVLfU6q5JTsdETj-evlGBDI6oHuYB6940YbXgVYP7gqkKjmZ_j2C8rqHGFlhMHqC1rhqN9uB0WNqWrikGHe-89dDOwPEW_ZgG388QnNzcnn58JorfKqJ4pwj-kSK4yPJPFZG9LoK9WcS1AyPhqQn45yby5M8ejVRO1dEFu1zf958rIn9ZRD7veJkt__8fWfo6W1m8yDYB7z0yxtJJdfwLgt608g:1wkwyk:gjEfpqIrElkm3a59DkTaLi-1QkDTntIjoqvaz8kjX3s','2026-08-01 04:48:46.159204');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -491,7 +493,7 @@ CREATE TABLE `endereco_cliente` (
   PRIMARY KEY (`id_ENDERECO_CLIENTE`),
   UNIQUE KEY `cliente_id_cliente` (`cliente_id_cliente`),
   CONSTRAINT `fk_cliente_endereco` FOREIGN KEY (`cliente_id_cliente`) REFERENCES `clientes` (`id_CLIENTES`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -500,7 +502,7 @@ CREATE TABLE `endereco_cliente` (
 
 LOCK TABLES `endereco_cliente` WRITE;
 /*!40000 ALTER TABLE `endereco_cliente` DISABLE KEYS */;
-INSERT INTO `endereco_cliente` VALUES (37,'None','None','None','None','None',136);
+INSERT INTO `endereco_cliente` VALUES (37,'None','None','None','None','None',136),(38,NULL,NULL,NULL,NULL,NULL,137);
 /*!40000 ALTER TABLE `endereco_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -544,17 +546,19 @@ DROP TABLE IF EXISTS `funcionarios`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `funcionarios` (
   `id_FUNCIONARIOS` int NOT NULL AUTO_INCREMENT,
-  `senha_FUNCIONARIOS` varchar(255) NOT NULL,
-  `login_FUNCIONARIOS` varchar(45) NOT NULL,
+  `nome_FUNCIONARIOS` varchar(45) NOT NULL,
   `telefone_FUNCIONARIOS` varchar(45) NOT NULL,
   `email_FUNCIONARIOS` varchar(45) NOT NULL,
   `sexo_FUNCIONARIOS` varchar(20) NOT NULL,
-  `nome_FUNCIONARIOS` varchar(45) NOT NULL,
+  `login_FUNCIONARIOS` varchar(45) NOT NULL,
+  `senha_FUNCIONARIOS` varchar(255) NOT NULL,
   `SETOR_FUNCIONARIOS_id_SETOR_FUNCIONARIOS` int NOT NULL,
+  `criado_em` datetime DEFAULT NULL,
+  `atualizado_em` datetime DEFAULT NULL,
   PRIMARY KEY (`id_FUNCIONARIOS`),
   KEY `fk_FUNCIONARIOS_SETOR_FUNCIONARIOS1_idx` (`SETOR_FUNCIONARIOS_id_SETOR_FUNCIONARIOS`),
   CONSTRAINT `fk_FUNCIONARIOS_SETOR_FUNCIONARIOS1` FOREIGN KEY (`SETOR_FUNCIONARIOS_id_SETOR_FUNCIONARIOS`) REFERENCES `setor_funcionarios` (`id_SETOR_FUNCIONARIOS`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -563,6 +567,7 @@ CREATE TABLE `funcionarios` (
 
 LOCK TABLES `funcionarios` WRITE;
 /*!40000 ALTER TABLE `funcionarios` DISABLE KEYS */;
+INSERT INTO `funcionarios` VALUES (40,'Nayane','91980374085','cnayane462@gmail.com','feminino','Nayne','123456',2,NULL,NULL),(41,'Fernando','91555555555','fernando@gmail.com','masculino','Fernando','123456',3,NULL,NULL),(42,'Lucas','918787878787','lucas123@gmail.com','masculino','Lucas','123456',1,NULL,NULL),(43,'Felipe','9178451223','felipe@gmail.com','masculino','Felipe_vendas','$argon2id$v=19$m=65536,t=3,p=4$I+HzlwvVXgNmiyLN/wmGrw$aZHC4F9yEPeI3NaIl/L9Ett+E6X7J9wcXbe9qY6uCKc',3,NULL,NULL);
 /*!40000 ALTER TABLE `funcionarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,7 +675,7 @@ CREATE TABLE `pedido` (
   KEY `fk_PEDIDO_FUNCIONARIOS1_idx` (`FUNCIONARIOS_id_FUNCIONARIOS`),
   CONSTRAINT `fk_PEDIDO_CLIENTES1` FOREIGN KEY (`CLIENTES_id_CLIENTES`) REFERENCES `clientes` (`id_CLIENTES`),
   CONSTRAINT `fk_PEDIDO_FUNCIONARIOS1` FOREIGN KEY (`FUNCIONARIOS_id_FUNCIONARIOS`) REFERENCES `funcionarios` (`id_FUNCIONARIOS`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -679,7 +684,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-INSERT INTO `pedido` VALUES (21,'2026-06-26 18:38:33','a caminho',136,NULL),(22,'2026-06-26 18:39:44','entregue',136,NULL),(23,'2026-07-01 18:28:53','entregue',136,NULL),(24,'2026-07-01 18:31:53','entregue',136,NULL),(25,'2026-07-01 18:32:14','entregue',136,NULL),(26,'2026-07-01 18:34:03','entregue',136,NULL);
+INSERT INTO `pedido` VALUES (21,'2026-06-26 18:38:33','a caminho',136,NULL),(22,'2026-06-26 18:39:44','entregue',136,NULL),(23,'2026-07-01 18:28:53','entregue',136,NULL),(24,'2026-07-01 18:31:53','entregue',136,NULL),(25,'2026-07-01 18:32:14','entregue',136,NULL),(26,'2026-07-01 18:34:03','entregue',136,NULL),(27,'2026-07-18 04:42:56','a caminho',142,NULL),(28,'2026-07-18 04:45:23','a caminho',142,NULL);
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -693,7 +698,7 @@ DROP TABLE IF EXISTS `produtos`;
 CREATE TABLE `produtos` (
   `id_PRODUTOS` int NOT NULL AUTO_INCREMENT,
   `nome_PRODUTOS` varchar(45) NOT NULL,
-  `valor_PRODUTOS` float NOT NULL,
+  `valor_PRODUTOS` decimal(10,0) NOT NULL,
   `descricao_PRODUTOS` longtext NOT NULL,
   `quantidade_estoque_PRODUTOS` int NOT NULL,
   `CATEGORIA_PRODUTOS_id_CATEGORIA_PRODUTOS` int NOT NULL,
@@ -713,7 +718,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (42,'Camisa manga longa preta',300,'Camisa chique de manga longa',6,2,'img/produtos/camisas/camisa 4/full_manga_black_transparent.png',NULL),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',1,1,'img/produtos/acessorios/objeto 3/touca_transparent.png',NULL),(45,'cachecol',248.99,'Carregue suas coisas com amor pelo seu time',1,1,'img/produtos/acessorios/objeto 1/cachecol_transparent (3).png',NULL),(47,'Mascote',350,'Divirta-se',22,1,'img/produtos/acessorios/objeto 2/boneco_transparent (3).png',NULL),(49,'Sandália do clube',99.99,'Conforto e paixão',11,3,'img/produtos/calcados/sandalia.png',NULL),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 01/10/2026',51,10,'img/TiK_Drakos(3).png',3),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 01/10/2026',139,10,'img/TiK_Drakos(3).png',3),(54,'Camarote Premium',175,'Drako x Palmeiras - 01/10/2026',8,10,'img/TiK_Drakos(3).png',3),(55,'Camarote',150,'Drako x Palmeiras - 01/10/2026',15,10,'img/TiK_Drakos(3).png',3),(57,'Olhadeira Drakos',45.9,'Olhadeira personalizada Drakos, material confortável e ajustável.',50,1,'img/produtos/acessorios/objeto 4/olhadeira_transparent.png',NULL),(58,'Caneca Drakos FC',35,'Caneca de cerâmica de alta qualidade com escudo do clube.',100,1,'img/produtos/acessorios/objeto 5/caneca(3)transparente.png',NULL),(59,'Chaveiro Metálico',15,'Chaveiro robusto com acabamento em aço escovado.',200,1,'img/produtos/acessorios/objeto 6/chaveiro_transparent.png',NULL),(60,'Capa de Telefone Premium',59.9,'Capa protetora anti-impacto compatível com diversos modelos.',80,1,'img/produtos/acessorios/objeto 7/capa_transparent.png',NULL),(61,'Camisa Branca e Vermelha',259.9,'Camisa esportiva com design listrado em branco e vermelho.',40,2,'img/produtos/camisas/camisa 6/white_red (1).jpg',NULL),(62,'Camisa Preto e Vermelho',289.9,'Edição especial com grafismos modernos em tons de preto e vermelho.',30,2,'img/produtos/camisas/camisa 7/preto_vermelho.png',NULL),(63,'Camisa Drakos Retrô 2006',320,'Reedição histórica do uniforme utilizado na temporada de 2006.',15,2,'img/produtos/camisas/camisa 8/milan_r2006(2).png',NULL),(64,'Camisa Away White 25/26',299.9,'Uniforme reserva para a temporada 2025/2026 na cor branca.',55,2,'img/produtos/camisas/camisa 9/white_25.26(1).png',NULL),(65,'Camisa Black Uniform',275,'Uniforme alternativo preto com tecnologia de alta performance.',25,2,'img/produtos/camisas/camisa 10/Black_transpa.png',NULL),(66,'Casaco Black Drakos',349.9,'Casaco esportivo oficial na cor preta, material térmico de alta qualidade.',20,2,'img/produtos/camisas/camisa 1/casaco_transparent.png',NULL),(67,'Camisa Classic White',279.9,'Camisa branca listrada retrô com patrocínio clássico Opel.',15,2,'img/produtos/camisas/camisa 2/Opel_transparent.png',NULL),(68,'Camisa Drakos White Red',259.9,'Camisa oficial branca com detalhes em vermelho, edição temporada.',40,2,'img/produtos/camisas/camisa 3/Camisa_branco_red.png',NULL),(69,'Camisa White Version 2.0',265,'Versão alternativa branca com tecido tecnológico para maior ventilação.',35,2,'img/produtos/camisas/camisa 5/white_version (2).jpg',NULL);
+INSERT INTO `produtos` VALUES (42,'Camisa manga longa preta',300,'Camisa chique de manga longa',6,2,'img/produtos/camisas/camisa 4/full_manga_black_transparent.png',NULL),(44,'Gorro',100,'Gorro para esquentar o crânio do frio com o calor do seu time',1,1,'img/produtos/acessorios/objeto 3/touca_transparent.png',NULL),(45,'cachecol',249,'Carregue suas coisas com amor pelo seu time',1,1,'img/produtos/acessorios/objeto 1/cachecol_transparent (3).png',NULL),(47,'Mascote',350,'Divirta-se',22,1,'img/produtos/acessorios/objeto 2/boneco_transparent (3).png',NULL),(49,'Sandália do clube',100,'Conforto e paixão',11,3,'img/produtos/calcados/sandalia.png',NULL),(52,'Arquibancada lado B',100,'Drako X Palmeiras - 01/10/2026',51,10,'img/TiK_Drakos(3).png',3),(53,'Arquibancada lado A',60,'Drako X Palmeiras - 01/10/2026',139,10,'img/TiK_Drakos(3).png',3),(54,'Camarote Premium',175,'Drako x Palmeiras - 01/10/2026',8,10,'img/TiK_Drakos(3).png',3),(55,'Camarote',150,'Drako x Palmeiras - 01/10/2026',15,10,'img/TiK_Drakos(3).png',3),(57,'Olhadeira Drakos',46,'Olhadeira personalizada Drakos, material confortável e ajustável.',50,1,'img/produtos/acessorios/objeto 4/olhadeira_transparent.png',NULL),(58,'Caneca Drakos FC',35,'Caneca de cerâmica de alta qualidade com escudo do clube.',100,1,'img/produtos/acessorios/objeto 5/caneca(3)transparente.png',NULL),(59,'Chaveiro Metálico',15,'Chaveiro robusto com acabamento em aço escovado.',200,1,'img/produtos/acessorios/objeto 6/chaveiro_transparent.png',NULL),(60,'Capa de Telefone Premium',60,'Capa protetora anti-impacto compatível com diversos modelos.',80,1,'img/produtos/acessorios/objeto 7/capa_transparent.png',NULL),(61,'Camisa Branca e Vermelha',260,'Camisa esportiva com design listrado em branco e vermelho.',39,2,'img/produtos/camisas/camisa 6/white_red (1).jpg',NULL),(62,'Camisa Preto e Vermelho',290,'Edição especial com grafismos modernos em tons de preto e vermelho.',26,2,'img/produtos/camisas/camisa 7/preto_vermelho.png',NULL),(63,'Camisa Drakos Retrô 2006',320,'Reedição histórica do uniforme utilizado na temporada de 2006.',15,2,'img/produtos/camisas/camisa 8/milan_r2006(2).png',NULL),(64,'Camisa Away White 25/26',300,'Uniforme reserva para a temporada 2025/2026 na cor branca.',55,2,'img/produtos/camisas/camisa 9/white_25.26(1).png',NULL),(65,'Camisa Black Uniform',275,'Uniforme alternativo preto com tecnologia de alta performance.',25,2,'img/produtos/camisas/camisa 10/Black_transpa.png',NULL),(66,'Casaco Black Drakos',350,'Casaco esportivo oficial na cor preta, material térmico de alta qualidade.',20,2,'img/produtos/camisas/camisa 1/casaco_transparent.png',NULL),(67,'Camisa Classic White',280,'Camisa branca listrada retrô com patrocínio clássico Opel.',15,2,'img/produtos/camisas/camisa 2/Opel_transparent.png',NULL),(68,'Camisa Drakos White Red',260,'Camisa oficial branca com detalhes em vermelho, edição temporada.',40,2,'img/produtos/camisas/camisa 3/Camisa_branco_red.png',NULL),(69,'Camisa White Version 2.0',265,'Versão alternativa branca com tecido tecnológico para maior ventilação.',35,2,'img/produtos/camisas/camisa 5/white_version (2).jpg',NULL);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -779,7 +784,7 @@ CREATE TABLE `recuperacao_senha` (
   `cliente_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `recuperacao_senha_cliente_id_892afddd` (`cliente_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -788,6 +793,7 @@ CREATE TABLE `recuperacao_senha` (
 
 LOCK TABLES `recuperacao_senha` WRITE;
 /*!40000 ALTER TABLE `recuperacao_senha` DISABLE KEYS */;
+INSERT INTO `recuperacao_senha` VALUES (38,'490732','2026-07-07 19:52:19.847251',137),(39,'469999','2026-07-07 20:15:22.568228',137),(42,'754102','2026-07-18 03:06:29.240897',136),(43,'291695','2026-07-18 03:07:36.352319',136),(44,'294155','2026-07-18 03:10:58.215473',136);
 /*!40000 ALTER TABLE `recuperacao_senha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -905,4 +911,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2 
+-- Dump completed on 2026-07-18  3:10:41

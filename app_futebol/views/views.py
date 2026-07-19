@@ -814,10 +814,12 @@ def tela_rec_senha(request):
 
         codigo = str(random.randint(100000, 999999))
 
-        models.RecuperacaoSenha.objects.create(
+        recuperacao = models.RecuperacaoSenha.objects.create(
             cliente_id=cliente.id_clientes,
             codigo=codigo,
         )
+
+        request.session["recuperacao_id"] = recuperacao.id
 
         try:
             send_mail(
@@ -844,14 +846,21 @@ def tela_rec_senha_2(request):
     if request.method == "POST":
         codigo_digitado = request.POST.get("codigo")
         email = request.session.get("recuperacao_email")
+        recuperacao_id = request.session.get("recuperacao_id")
 
-        if not email:
+        if not email or not recuperacao_id:
             return redirect("recuperar_senha")
 
         try:
             cliente = models.Clientes.objects.get(email_clientes=email)
-            recuperacao = models.RecuperacaoSenha.objects.filter(cliente=cliente).latest("criado_em")
-        except:
+            recuperacao = models.RecuperacaoSenha.objects.get(
+                id=recuperacao_id, cliente_id=cliente.id_clientes
+            )
+        except models.Clientes.DoesNotExist:
+            return render(request, "app_futebol/rec_senha_2.html", {
+                "erro": "Código inválido!"
+            })
+        except models.RecuperacaoSenha.DoesNotExist:
             return render(request, "app_futebol/rec_senha_2.html", {
                 "erro": "Código inválido!"
             })
