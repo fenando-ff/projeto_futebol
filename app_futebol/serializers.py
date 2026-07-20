@@ -344,6 +344,33 @@ class ProdutosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ProdutoAPISerializer(serializers.ModelSerializer):
+    preco_produtos = serializers.FloatField(source="valor_produtos", read_only=True)
+    estoque_produtos = serializers.IntegerField(source="quantidade_estoque_produtos", read_only=True)
+    categoria_produtos = serializers.CharField(
+        source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos",
+        read_only=True,
+    )
+    url_imagem_produtos = serializers.CharField(source="imagem_produtos", read_only=True)
+    status_produtos = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Produtos
+        fields = [
+            "id_produtos",
+            "nome_produtos",
+            "descricao_produtos",
+            "preco_produtos",
+            "estoque_produtos",
+            "categoria_produtos",
+            "url_imagem_produtos",
+            "status_produtos",
+        ]
+
+    def get_status_produtos(self, obj):
+        return 1 if int(obj.quantidade_estoque_produtos or 0) > 0 else 0
+
+
 class CategoriaClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaCliente

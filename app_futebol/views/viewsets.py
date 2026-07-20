@@ -35,6 +35,7 @@ from ..serializers import (
     FuncionariosSerializer,
     HistoricoTitulosSerializer,
     JogosSerializer,
+    ProdutoAPISerializer,
     PedidoSerializer,
     ProdutosSerializer,
     ProgressoFasesSerializer,
@@ -185,8 +186,16 @@ class TimesViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Produtos.objects.all()
-    serializer_class = ProdutosSerializer
+    queryset = Produtos.objects.select_related("categoria_produtos_id_categoria_produtos").all()
+    serializer_class = ProdutoAPISerializer
+    permission_classes = [permissions.AllowAny]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_class = ProdutosFilter
+    search_fields = ["nome_produtos", "descricao_produtos"]
+    ordering_fields = ["valor_produtos", "nome_produtos", "id_produtos"]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(quantidade_estoque_produtos__gt=0).order_by("id_produtos")
 
 
 class EnderecoClienteViewSet(viewsets.ModelViewSet):
