@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "projeto-futebol.onrender.com", ".onrender.com", "10.20.83.22", "192.168.61.90", "172.20.10.2","10.44.236.2", "192.168.1.8",
-                 "192.168.1.6", "172.20.10.3"]
+                 "192.168.1.6", "172.20.10.3", "10.183.35.22"]
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
@@ -58,6 +58,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8081",
     "http://localhost:19006",
     "http://10.20.83.22:8000",
+    "http://10.183.35.22:8000",
     "http://192.168.61.90:8000",
     "https://projeto-futebol.onrender.com",
 ]
