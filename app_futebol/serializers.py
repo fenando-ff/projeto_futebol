@@ -24,6 +24,7 @@ from .models import (
     Times,
     Titulos,
 )
+from .views.helpers import build_public_image_url
 
 class ClientesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -351,7 +352,7 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos",
         read_only=True,
     )
-    url_imagem_produtos = serializers.CharField(source="imagem_produtos", read_only=True)
+    url_imagem_produtos = serializers.SerializerMethodField()
     status_produtos = serializers.SerializerMethodField()
 
     class Meta:
@@ -366,6 +367,9 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
             "url_imagem_produtos",
             "status_produtos",
         ]
+
+    def get_url_imagem_produtos(self, obj):
+        return build_public_image_url(getattr(obj, "imagem_produtos", None))
 
     def get_status_produtos(self, obj):
         return 1 if int(obj.quantidade_estoque_produtos or 0) > 0 else 0
