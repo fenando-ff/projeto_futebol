@@ -1,5 +1,6 @@
 import os
 import random
+from decimal import Decimal
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,13 +14,14 @@ from drf_yasg.utils import swagger_auto_schema
 from ..models import Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
 from ..serializers import (
     CadastroSerializer,
+    CheckoutSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
     RedefinirSenhaSerializer,
     ValidarCodigoSerializer,
 )
-from ..auth import ClienteTokenAuthentication, gerar_token, validar_token
+from ..auth import ClienteTokenAuthentication, gerar_token
 
 
 def _buscar_ultima_recuperacao(email):
@@ -112,6 +114,49 @@ def _response(message, *, status_code=status.HTTP_200_OK, success=True, **extra)
     }
     payload.update(extra)
     return Response(payload, status=status_code)
+
+
+def _normalize_checkout_payload(data):
+    payload = _payload_copy(data)
+    raw_items = _first_value(payload, "itens", "items", "cartItems", default=[])
+    if raw_items in (None, ""):
+        raw_items = []
+
+    normalized_items = []
+    for item in raw_items:
+        item_data = _payload_copy(item)
+        normalized_items.append({
+            "produto_id": _first_value(
+                item_data,
+                "produto_id",
+                "produtoId",
+                "product_id",
+                "productId",
+                "id",
+            ),
+            "quantidade": _first_value(
+                item_data,
+                "quantidade",
+                "quantity",
+                "qtd",
+                "amount",
+                default=1,
+            ),
+            "tamanho": _first_value(
+                item_data,
+                "tamanho",
+                "size",
+                "tam",
+            ),
+        })
+
+    return {"itens": normalized_items}
+
+
+def _categoria_nome_normalizada(produto):
+    categoria = getattr(produto, "categoria_produtos_id_categoria_produtos", None)
+    nome = getattr(categoria, "nome_categoria_produtos", "") or ""
+    return nome.strip().lower()
 
 
 class EsqueciSenhaAPIView(APIView):
@@ -501,63 +546,136 @@ class CartAPIView(APIView):
 
 
 class CheckoutAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [ClienteTokenAuthentication]
 
     def post(self, request):
-        token = request.headers.get("Authorization", "").replace("Token ", "")
-        client_id = validar_token(token)
-        if client_id is None:
-            return Response({"erro": "Token inválido ou expirado"}, status=status.HTTP_401_UNAUTHORIZED)
+        if not isinstance(request.user, Clientes):
+            return Response(
+                {"erro": "Usuário não autenticado."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-        try:
-            cliente = Clientes.objects.get(pk=client_id)
-        except Clientes.DoesNotExist:
-            return Response({"erro": "Usuário não encontrado"}, status=status.HTTP_401_UNAUTHORIZED)
+        payload = _normalize_checkout_payload(request.data)
+        serializer = CheckoutSerializer(data=payload)
+        serializer.is_valid(raise_exception=True)
 
-        itens = request.data.get("itens", [])
-        if not itens:
-            return Response({"erro": "Carrinho vazio"}, status=status.HTTP_400_BAD_REQUEST)
+        itens_input = serializer.validated_data["itens"]
+        itens_agregados = {}
+        for item in itens_input:
+            produto_id = int(item["produto_id"])
+            tamanho = item.get("tamanho")
+            chave = (produto_id, tamanho or "")
+            agregado = itens_agregados.setdefault(
+                chave,
+                {
+                    "produto_id": produto_id,
+                    "quantidade": 0,
+                    "tamanho": tamanho,
+                },
+            )
+            agregado["quantidade"] += int(item["quantidade"])
 
-        valor_total = 0
-        compras = []
+        itens_checkout = list(itens_agregados.values())
+        produto_ids = sorted({item["produto_id"] for item in itens_checkout})
+        cliente = request.user
 
         with transaction.atomic():
+            produtos_qs = (
+                Produtos.objects.select_for_update()
+                .select_related("categoria_produtos_id_categoria_produtos")
+                .filter(id_produtos__in=produto_ids)
+            )
+            produtos_lock = {produto.id_produtos: produto for produto in produtos_qs}
+
+            if len(produtos_lock) != len(produto_ids):
+                faltantes = [pid for pid in produto_ids if pid not in produtos_lock]
+                return Response(
+                    {"erro": f"Produto(s) não encontrado(s): {faltantes}"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            compras = []
+            valor_total = Decimal("0")
+            all_ingressos = True
+
+            for item in itens_checkout:
+                produto = produtos_lock[item["produto_id"]]
+                quantidade = int(item["quantidade"])
+                if quantidade <= 0:
+                    return Response(
+                        {"erro": "Quantidade inválida."},
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                categoria_nome = _categoria_nome_normalizada(produto)
+                if categoria_nome != "ingressos":
+                    all_ingressos = False
+
+                tamanho = item.get("tamanho")
+                if categoria_nome == "camisas fc":
+                    if not tamanho:
+                        return Response(
+                            {"erro": f'Tamanho é obrigatório para "{produto.nome_produtos}".'},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+                    if tamanho not in {"P", "M", "G", "GG"}:
+                        return Response(
+                            {"erro": "Tamanho inválido. Use P, M, G ou GG."},
+                            status=status.HTTP_400_BAD_REQUEST,
+                        )
+                else:
+                    tamanho = None
+
+                estoque_disponivel = int(produto.quantidade_estoque_produtos or 0)
+                if quantidade > estoque_disponivel:
+                    return Response(
+                        {
+                            "erro": (
+                                f"Estoque insuficiente para {produto.nome_produtos}. "
+                                f"Disponível: {estoque_disponivel}"
+                            )
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+
+                valor_unitario = Decimal(str(produto.valor_produtos))
+                valor_item = valor_unitario * quantidade
+                valor_total += valor_item
+
+                produto.quantidade_estoque_produtos = estoque_disponivel - quantidade
+                compras.append(
+                    Compra(
+                        produtos_id_produtos=produto,
+                        pedido_id_pedido=None,
+                        quantidade_pedido=quantidade,
+                        tamanho=tamanho,
+                        valor_compra=valor_item,
+                    )
+                )
+
+            status_pedido = "entregue" if all_ingressos and itens_checkout else "a caminho"
+
             pedido = Pedido.objects.create(
                 data_pedido=timezone.now(),
                 clientes_id_clientes=cliente,
                 funcionarios_id_funcionarios=None,
-                status="a caminho",
+                status=status_pedido,
             )
 
-            for item in itens:
-                try:
-                    produto = Produtos.objects.get(pk=item["produto_id"])
-                except Produtos.DoesNotExist:
-                    return Response({"erro": f"Produto {item.get('produto_id')} não encontrado"}, status=status.HTTP_404_NOT_FOUND)
-
-                quantidade = int(item.get("quantidade", 1))
-                if quantidade <= 0:
-                    return Response({"erro": "Quantidade inválida"}, status=status.HTTP_400_BAD_REQUEST)
-                if quantidade > produto.quantidade_estoque_produtos:
-                    return Response({"erro": f"Estoque insuficiente para {produto.nome_produtos}. Disponível: {produto.quantidade_estoque_produtos}"}, status=status.HTTP_400_BAD_REQUEST)
-
-                valor_item = float(produto.valor_produtos) * quantidade
-                valor_total += valor_item
-                compras.append(Compra(
-                    produtos_id_produtos=produto,
-                    pedido_id_pedido=pedido,
-                    quantidade_pedido=quantidade,
-                    valor_compra=valor_item,
-                ))
-                produto.quantidade_estoque_produtos -= quantidade
+            for compra in compras:
+                compra.pedido_id_pedido = pedido
 
             Compra.objects.bulk_create(compras)
-            Produtos.objects.bulk_update([c.produtos_id_produtos for c in compras], ["quantidade_estoque_produtos"])
+            Produtos.objects.bulk_update(
+                list(produtos_lock.values()),
+                ["quantidade_estoque_produtos"],
+            )
 
-        return Response({
-            "sucesso": True,
-            "pedido_id": pedido.id_pedido,
-            "valor_total": float(valor_total),
-            "mensagem": "Compra finalizada com sucesso!"
-        }, status=status.HTTP_201_CREATED)
+        return _response(
+            "Compra finalizada com sucesso.",
+            status_code=status.HTTP_201_CREATED,
+            pedido_id=pedido.id_pedido,
+            total=float(valor_total),
+            status=pedido.status,
+        )

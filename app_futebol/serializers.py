@@ -521,3 +521,27 @@ class CarrinhoSerializer(serializers.Serializer):
     items = CarrinhoItemSerializer(many=True, read_only=True)
     quantidade_total = serializers.IntegerField(read_only=True)
     valor_total = serializers.FloatField(read_only=True)
+
+
+class CheckoutItemSerializer(serializers.Serializer):
+    produto_id = serializers.IntegerField(min_value=1)
+    quantidade = serializers.IntegerField(min_value=1)
+    tamanho = serializers.CharField(required=False, allow_blank=True, allow_null=True, max_length=2)
+
+    def validate_tamanho(self, value):
+        if value in (None, ""):
+            return None
+
+        tamanho = str(value).strip().upper()
+        if tamanho not in {"P", "M", "G", "GG"}:
+            raise serializers.ValidationError("Tamanho inválido. Use P, M, G ou GG.")
+        return tamanho
+
+
+class CheckoutSerializer(serializers.Serializer):
+    itens = CheckoutItemSerializer(many=True)
+
+    def validate_itens(self, value):
+        if not value:
+            raise serializers.ValidationError("Carrinho vazio.")
+        return value

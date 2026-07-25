@@ -220,6 +220,7 @@ class Compra(models.Model):
     produtos_id_produtos = models.ForeignKey('Produtos', models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
     pedido_id_pedido = models.ForeignKey('Pedido', models.DO_NOTHING, db_column='PEDIDO_id_PEDIDO')  # Field name made lowercase.
     quantidade_pedido = models.IntegerField(db_column='quantidade_PEDIDO')  # Field name made lowercase.
+    tamanho = models.CharField(max_length=2, blank=True, null=True)
     valor_compra = models.DecimalField(max_digits=10, decimal_places=0)
 
     class Meta:
