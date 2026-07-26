@@ -353,6 +353,7 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         read_only=True,
     )
     url_imagem_produtos = serializers.SerializerMethodField()
+    imagens = serializers.SerializerMethodField()
     status_produtos = serializers.SerializerMethodField()
 
     class Meta:
@@ -365,11 +366,30 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
             "estoque_produtos",
             "categoria_produtos",
             "url_imagem_produtos",
+            "imagens",
             "status_produtos",
         ]
 
     def get_url_imagem_produtos(self, obj):
         return build_public_image_url(getattr(obj, "imagem_produtos", None))
+
+    def get_imagens(self, obj):
+        imagens_qs = getattr(obj, "imagens", None)
+        if imagens_qs is not None and hasattr(imagens_qs, "all"):
+            imagens = imagens_qs.all()
+        else:
+            imagens = ImagemProduto.objects.filter(
+                produtos_id_produtos=getattr(obj, "id_produtos", None)
+            ).order_by("ordem_imagem", "id_imagem_produto")
+
+        return [
+            {
+                "id_imagem_produto": imagem.id_imagem_produto,
+                "imagem": build_public_image_url(getattr(imagem, "imagem_imagem", None)),
+                "ordem": getattr(imagem, "ordem_imagem", None),
+            }
+            for imagem in imagens
+        ]
 
     def get_status_produtos(self, obj):
         return 1 if int(obj.quantidade_estoque_produtos or 0) > 0 else 0
