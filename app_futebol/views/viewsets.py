@@ -31,6 +31,7 @@ from ..serializers import (
     CarrinhoItemSerializer,
     ClientesSerializer,
     CompraSerializer,
+    CompraHistoricoSerializer,
     EnderecoClienteSerializer,
     FuncionariosSerializer,
     HistoricoTitulosSerializer,
@@ -203,14 +204,49 @@ class EnderecoClienteViewSet(viewsets.ModelViewSet):
     serializer_class = EnderecoClienteSerializer
 
 
-class PedidoViewSet(viewsets.ModelViewSet):
-    queryset = Pedido.objects.all()
+class PedidoViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Pedido.objects.select_related("clientes_id_clientes", "funcionarios_id_funcionarios").all()
     serializer_class = PedidoSerializer
+    authentication_classes = [ClienteTokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_class = PedidoFilter
+    ordering_fields = ["data_pedido", "id_pedido"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        cliente = getattr(self.request, "user", None)
+
+        if isinstance(cliente, Clientes):
+            return queryset.filter(clientes_id_clientes=cliente).order_by("-data_pedido", "-id_pedido")
+
+        return queryset.none()
 
 
-class CompraViewSet(viewsets.ModelViewSet):
-    queryset = Compra.objects.all()
-    serializer_class = CompraSerializer
+class CompraViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Compra.objects.select_related(
+        "produtos_id_produtos",
+        "produtos_id_produtos__categoria_produtos_id_categoria_produtos",
+        "pedido_id_pedido",
+        "pedido_id_pedido__clientes_id_clientes",
+    ).all()
+    serializer_class = CompraHistoricoSerializer
+    authentication_classes = [ClienteTokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    filterset_fields = ["pedido_id_pedido", "produtos_id_produtos", "tamanho"]
+    ordering_fields = ["pedido_id_pedido__data_pedido", "id_compra"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        cliente = getattr(self.request, "user", None)
+
+        if isinstance(cliente, Clientes):
+            return queryset.filter(
+                pedido_id_pedido__clientes_id_clientes=cliente
+            ).order_by("-pedido_id_pedido__data_pedido", "-id_compra")
+
+        return queryset.none()
 
 
 class JogosViewSet(viewsets.ReadOnlyModelViewSet):

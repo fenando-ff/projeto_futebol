@@ -11,10 +11,12 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from ..models import Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
+from ..models import CategoriaCliente, Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
 from ..serializers import (
     CadastroSerializer,
+    AssinarPlanoSerializer,
     CheckoutSerializer,
+    CategoriaClienteSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
@@ -157,6 +159,25 @@ def _categoria_nome_normalizada(produto):
     categoria = getattr(produto, "categoria_produtos_id_categoria_produtos", None)
     nome = getattr(categoria, "nome_categoria_produtos", "") or ""
     return nome.strip().lower()
+
+
+def _categoria_nao_socio(categoria):
+    if not categoria:
+        return True
+
+    nome = getattr(categoria, "nome_categoria_clientes", "") or ""
+    nome_normalizado = nome.strip().lower()
+    categoria_id = getattr(categoria, "id_categoria_cliente", None)
+
+    return categoria_id == 5 or nome_normalizado == "nao socio"
+
+
+def _serializar_assinatura(cliente):
+    categoria = getattr(cliente, "categoria_cliente_id_categoria_cliente", None)
+    if _categoria_nao_socio(categoria):
+        return None
+
+    return CategoriaClienteSerializer(categoria).data
 
 
 class EsqueciSenhaAPIView(APIView):
@@ -678,4 +699,96 @@ class CheckoutAPIView(APIView):
             pedido_id=pedido.id_pedido,
             total=float(valor_total),
             status=pedido.status,
+        )
+
+
+class MinhaAssinaturaAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        responses={
+            200: openapi.Response("Assinatura atual do cliente."),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Consultar assinatura atual",
+        operation_description="Retorna o plano atual do cliente autenticado ou null caso ele não seja sócio.",
+    )
+    def get(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        return _response(
+            "Assinatura carregada com sucesso.",
+            assinatura=_serializar_assinatura(request.user),
+        )
+
+
+class AssinarPlanoAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        request_body=AssinarPlanoSerializer,
+        responses={
+            200: openapi.Response("Plano assinado com sucesso."),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+            404: openapi.Response("Plano não encontrado."),
+        },
+        operation_summary="Assinar plano",
+        operation_description="Atualiza a categoria do cliente autenticado para o plano informado em plano_id.",
+    )
+    def post(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        serializer = AssinarPlanoSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        plano_id = serializer.validated_data["plano_id"]
+
+        try:
+            plano = CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
+        except CategoriaCliente.DoesNotExist:
+            return _response(
+                "Plano não encontrado.",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
+
+        with transaction.atomic():
+            cliente = Clientes.objects.select_for_update().get(pk=request.user.pk)
+            cliente.categoria_cliente_id_categoria_cliente = plano
+            cliente.save(update_fields=["categoria_cliente_id_categoria_cliente"])
+
+        return _response(
+            "Plano assinado com sucesso.",
+            assinatura=CategoriaClienteSerializer(plano).data,
         )

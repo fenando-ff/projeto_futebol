@@ -22,9 +22,11 @@ from .views.viewsets import (
 from .views.api import (
     CadastroAPIView,
     CartAPIView,
+    AssinarPlanoAPIView,
     EsqueciSenhaAPIView,
     LoginAPIView,
     LogoutAPIView,
+    MinhaAssinaturaAPIView,
     RedefinirSenhaAPIView,
     ValidarCodigoAPIView,
     CheckoutAPIView,
@@ -57,6 +59,8 @@ urlpatterns = router.urls + [
     path('login/', LoginAPIView.as_view(), name='api-login'),
     path('logout/', LogoutAPIView.as_view(), name='api-logout'),
     path('checkout/', CheckoutAPIView.as_view(), name='api-checkout'),
+    path('minha-assinatura/', MinhaAssinaturaAPIView.as_view(), name='api-minha-assinatura'),
+    path('assinar-plano/', AssinarPlanoAPIView.as_view(), name='api-assinar-plano'),
     path('meu-perfil/', MeuPerfilView.as_view({'get': 'list', 'put': 'update'}), name='meu-perfil'),
     path('cart/', CartAPIView.as_view(), name='api-cart'),
 ]

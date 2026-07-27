@@ -2,6 +2,7 @@ import re
 
 from django.contrib.auth.hashers import make_password
 from django.db import transaction
+from django.utils import timezone
 from rest_framework import serializers
 from .models import (
     Alternativas,
@@ -401,6 +402,16 @@ class CategoriaClienteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AssinarPlanoSerializer(serializers.Serializer):
+    plano_id = serializers.IntegerField(
+        min_value=1,
+        error_messages={
+            "required": "plano_id é obrigatório.",
+            "invalid": "plano_id inválido.",
+        },
+    )
+
+
 class EnderecoClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnderecoCliente
@@ -437,6 +448,52 @@ class CompraSerializer(serializers.ModelSerializer):
             "data_pedido": pedido.data_pedido.strftime("%d/%m/%Y %H:%M"),
             "status": pedido.status,
         }
+
+
+class CompraHistoricoSerializer(serializers.ModelSerializer):
+    id_pedido = serializers.IntegerField(source="pedido_id_pedido.id_pedido", read_only=True)
+    data_pedido = serializers.SerializerMethodField()
+    status_pedido = serializers.CharField(source="pedido_id_pedido.status", read_only=True)
+    produto_id = serializers.IntegerField(source="produtos_id_produtos.id_produtos", read_only=True)
+    produto_nome = serializers.CharField(source="produtos_id_produtos.nome_produtos", read_only=True)
+    produto_imagem = serializers.SerializerMethodField()
+    valor = serializers.SerializerMethodField()
+    quantidade = serializers.IntegerField(source="quantidade_pedido", read_only=True)
+
+    class Meta:
+        model = Compra
+        fields = [
+            "id_compra",
+            "id_pedido",
+            "data_pedido",
+            "status_pedido",
+            "produto_id",
+            "produto_nome",
+            "produto_imagem",
+            "tamanho",
+            "quantidade",
+            "valor",
+        ]
+
+    def get_data_pedido(self, obj):
+        pedido = getattr(obj, "pedido_id_pedido", None)
+        if not pedido or not getattr(pedido, "data_pedido", None):
+            return None
+
+        try:
+            return timezone.localtime(pedido.data_pedido).isoformat()
+        except Exception:
+            return pedido.data_pedido.isoformat()
+
+    def get_produto_imagem(self, obj):
+        produto = getattr(obj, "produtos_id_produtos", None)
+        if not produto:
+            return None
+
+        return build_public_image_url(getattr(produto, "imagem_produtos", None))
+
+    def get_valor(self, obj):
+        return float(obj.valor_compra or 0)
 
 
 class JogosSerializer(serializers.ModelSerializer):
