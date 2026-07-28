@@ -774,9 +774,13 @@ def tela_loja_detalhe(request, produto_id):
         return redirect('produtos') 
     
     cliente = get_cliente_logado(request) # Pega as info do cliente logado
+    imagens_produto = models.ImagemProduto.objects.filter(
+        produtos_id_produtos=produto_id
+    ).order_by('ordem_imagem', 'id_imagem_produto')
     
     context = {
         "produto": produto,
+        "imagens_produto": imagens_produto,
         **(cliente or {}) # Inclui as informações do cliente logado
     }
     
