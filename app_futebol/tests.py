@@ -63,6 +63,33 @@ class ProdutoAPISerializerImageUrlTests(SimpleTestCase):
         self.assertEqual(data["imagens"][0]["imagem"], "https://cdn.example.com/img/produtos/camisas/thumb-1.webp")
         self.assertEqual(data["imagens"][1]["imagem"], "https://cdn.example.com/img/produtos/camisas/thumb-2.webp")
 
+    @override_settings(R2_PUBLIC_URL="https://cdn.example.com")
+    def test_serializer_falls_back_to_gallery_image_when_main_image_is_missing(self):
+        categoria = CategoriaProdutos(nome_categoria_produtos="Camisas")
+        produto = Produtos(
+            id_produtos=2,
+            nome_produtos="Camisa sem imagem principal",
+            valor_produtos=79.90,
+            descricao_produtos="Descrição do produto",
+            quantidade_estoque_produtos=5,
+            categoria_produtos_id_categoria_produtos=categoria,
+            imagem_produtos=None,
+        )
+        produto.imagens = SimpleNamespace(
+            all=lambda: [
+                SimpleNamespace(
+                    id_imagem_produto=20,
+                    imagem_imagem="img/produtos/camisas/thumb-1.webp",
+                    ordem_imagem=1,
+                )
+            ]
+        )
+
+        data = ProdutoAPISerializer(produto).data
+
+        self.assertEqual(data["url_imagem_produtos"], "https://cdn.example.com/img/produtos/camisas/thumb-1.webp")
+        self.assertEqual(data["imagem_principal"], "https://cdn.example.com/img/produtos/camisas/thumb-1.webp")
+
 
 class CompraHistoricoSerializerTests(SimpleTestCase):
     @override_settings(R2_PUBLIC_URL="https://cdn.example.com")

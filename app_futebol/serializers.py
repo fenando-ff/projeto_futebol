@@ -354,6 +354,7 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         read_only=True,
     )
     url_imagem_produtos = serializers.SerializerMethodField()
+    imagem_principal = serializers.SerializerMethodField()
     imagens = serializers.SerializerMethodField()
     status_produtos = serializers.SerializerMethodField()
 
@@ -367,21 +368,37 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
             "estoque_produtos",
             "categoria_produtos",
             "url_imagem_produtos",
+            "imagem_principal",
             "imagens",
             "status_produtos",
         ]
 
-    def get_url_imagem_produtos(self, obj):
-        return build_public_image_url(getattr(obj, "imagem_produtos", None))
-
-    def get_imagens(self, obj):
+    def _get_imagens_queryset(self, obj):
         imagens_qs = getattr(obj, "imagens", None)
         if imagens_qs is not None and hasattr(imagens_qs, "all"):
-            imagens = imagens_qs.all()
-        else:
-            imagens = ImagemProduto.objects.filter(
-                produtos_id_produtos=getattr(obj, "id_produtos", None)
-            ).order_by("ordem_imagem", "id_imagem_produto")
+            return imagens_qs.all()
+
+        return ImagemProduto.objects.filter(
+            produtos_id_produtos=getattr(obj, "id_produtos", None)
+        ).order_by("ordem_imagem", "id_imagem_produto")
+
+    def get_url_imagem_produtos(self, obj):
+        return self.get_imagem_principal(obj)
+
+    def get_imagem_principal(self, obj):
+        imagem_principal = build_public_image_url(getattr(obj, "imagem_produtos", None))
+        if imagem_principal:
+            return imagem_principal
+
+        imagens = list(self._get_imagens_queryset(obj))
+        if imagens:
+            primeira_imagem = imagens[0]
+            return build_public_image_url(getattr(primeira_imagem, "imagem_imagem", None))
+
+        return None
+
+    def get_imagens(self, obj):
+        imagens = list(self._get_imagens_queryset(obj))
 
         return [
             {
