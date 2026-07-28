@@ -122,7 +122,11 @@
             <div class="product-card {% if forloop.first %}um{% elif forloop.counter == 2 %}dois{% else %}tres{% endif %}">
                 <div class="product-image {% if forloop.first %}um{% elif forloop.counter == 2 %}dois{% else %}tres{% endif %}">
                     {% if produto.imagem_produtos %}
-                        <img src="{% static produto.imagem_produtos %}">
+                        {% if produto.imagem_produtos|slice:":4" == "http" %}
+                            <img src="{{ produto.imagem_produtos }}">
+                        {% else %}
+                            <img src="{% static produto.imagem_produtos %}">
+                        {% endif %}
                     {% else %}
                         <img src="{% static 'img/camisa_home_figma.png' %}">
                     {% endif %}

@@ -91,7 +91,11 @@
           <div class="produto-img">
 
               {% if produto.imagem_produtos %}
-                <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+                {% if produto.imagem_produtos|slice:":4" == "http" %}
+                  <img src="{{ produto.imagem_produtos }}" alt="{{ produto.nome_produtos }}">
+                {% else %}
+                  <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+                {% endif %}
               {% else %}
                 <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
               {% endif %}
