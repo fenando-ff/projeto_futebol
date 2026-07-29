@@ -28,6 +28,8 @@ from .models import (
 from .views.helpers import build_public_image_url
 
 class ClientesSerializer(serializers.ModelSerializer):
+    categoria_clientes = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Clientes
         fields = [
@@ -46,7 +48,15 @@ class ClientesSerializer(serializers.ModelSerializer):
             "total_questoes",
             "precisao",
             "tempo",
+            "categoria_clientes",
         ]
+
+    def get_categoria_clientes(self, obj):
+        categoria = getattr(obj, "categoria_cliente_id_categoria_cliente", None)
+        if not categoria:
+            return None
+
+        return getattr(categoria, "nome_categoria_clientes", None)
 
 
 class LoginSerializer(serializers.Serializer):
@@ -417,6 +427,58 @@ class CategoriaClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaCliente
         fields = '__all__'
+
+
+class CategoriaClienteAssinaturaSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source="id_categoria_cliente", read_only=True)
+    plano_id = serializers.IntegerField(source="id_categoria_cliente", read_only=True)
+    title = serializers.CharField(source="nome_categoria_clientes", read_only=True)
+    nome_plano = serializers.CharField(source="nome_categoria_clientes", read_only=True)
+    descricao = serializers.CharField(source="descricao_categ_cli", read_only=True)
+    price = serializers.FloatField(source="preco_categ", read_only=True)
+    valor = serializers.FloatField(source="preco_categ", read_only=True)
+    tier = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
+    is_socio = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CategoriaCliente
+        fields = [
+            "id",
+            "plano_id",
+            "title",
+            "nome_plano",
+            "descricao",
+            "price",
+            "valor",
+            "tier",
+            "status",
+            "is_socio",
+            "id_categoria_cliente",
+            "nome_categoria_clientes",
+            "descricao_categ_cli",
+            "preco_categ",
+        ]
+
+    def get_tier(self, obj):
+        nome = (getattr(obj, "nome_categoria_clientes", "") or "").strip().lower()
+        categoria_id = getattr(obj, "id_categoria_cliente", None)
+
+        if categoria_id == 2 or "diamante" in nome:
+            return "diamante"
+        if categoria_id == 3 or "ouro" in nome:
+            return "ouro"
+        if categoria_id == 4 or "prata" in nome:
+            return "prata"
+        return "nao-socio"
+
+    def get_status(self, obj):
+        return "ativa" if self.get_is_socio(obj) else "nao_socio"
+
+    def get_is_socio(self, obj):
+        nome = (getattr(obj, "nome_categoria_clientes", "") or "").strip().lower()
+        categoria_id = getattr(obj, "id_categoria_cliente", None)
+        return not (categoria_id == 5 or nome == "nao socio")
 
 
 class AssinarPlanoSerializer(serializers.Serializer):
