@@ -1,11 +1,14 @@
 from datetime import datetime
 from types import SimpleNamespace
+from unittest.mock import patch
 
-from django.test import SimpleTestCase, override_settings
+from django.contrib.sessions.backends.db import SessionStore
+from django.test import RequestFactory, SimpleTestCase, override_settings
 from django.utils import timezone
 
 from .models import CategoriaProdutos, Produtos
 from .serializers import CompraHistoricoSerializer, ProdutoAPISerializer
+from .views.views import adicionar_carrinho
 
 
 class ProdutoAPISerializerImageUrlTests(SimpleTestCase):
@@ -89,6 +92,51 @@ class ProdutoAPISerializerImageUrlTests(SimpleTestCase):
 
         self.assertEqual(data["url_imagem_produtos"], "https://cdn.example.com/img/produtos/camisas/thumb-1.webp")
         self.assertEqual(data["imagem_principal"], "https://cdn.example.com/img/produtos/camisas/thumb-1.webp")
+
+
+class CarrinhoTamanhoTests(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_adicionar_carrinho_exige_tamanho_para_categoria_2(self):
+        request = self.factory.post(
+            "/adicionar/1/",
+            {"tamanho": ""},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        request.session = SessionStore()
+        request.session["cliente_id"] = 1
+        produto = SimpleNamespace(
+            id_produtos=1,
+            nome_produtos="Camisa teste",
+            categoria_produtos_id_categoria_produtos=SimpleNamespace(id_categoria_produtos=2),
+        )
+
+        with patch("app_futebol.views.views.models.Produtos.objects.get", return_value=produto):
+            response = adicionar_carrinho(request, 1)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(request.session.get("tamanhos_carrinho"), {})
+
+    def test_adicionar_carrinho_registra_tamanho_para_categoria_2(self):
+        request = self.factory.post(
+            "/adicionar/1/",
+            {"tamanho": "M"},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        request.session = SessionStore()
+        request.session["cliente_id"] = 1
+        produto = SimpleNamespace(
+            id_produtos=1,
+            nome_produtos="Camisa teste",
+            categoria_produtos_id_categoria_produtos=SimpleNamespace(id_categoria_produtos=2),
+        )
+
+        with patch("app_futebol.views.views.models.Produtos.objects.get", return_value=produto):
+            response = adicionar_carrinho(request, 1)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(request.session.get("tamanhos_carrinho"), {"1": "M"})
 
 
 class CompraHistoricoSerializerTests(SimpleTestCase):

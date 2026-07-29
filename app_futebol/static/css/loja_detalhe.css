@@ -157,6 +157,13 @@ body {
   transform: scale(1.05);
 }
 
+.botoes-tamanho button.ativa {
+  background: #e72a2a;
+  border-color: #e72a2a;
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(231, 42, 42, 0.15);
+}
+
 /* ---------- BOTÕES DE AÇÃO ---------- */
 .acoes {
   display: flex;

@@ -365,6 +365,15 @@ def tela_perfil(request):
     return render(request, "app_futebol/perfil.html", context)
 
 
+def _categoria_produto_id(produto):
+    categoria = getattr(produto, "categoria_produtos_id_categoria_produtos", None)
+    return getattr(categoria, "id_categoria_produtos", None)
+
+
+def _produto_requer_tamanho(produto):
+    return _categoria_produto_id(produto) == 2
+
+
 def home(request):
     cliente = get_cliente_logado(request)
 
@@ -402,6 +411,7 @@ def tela_carrinho(request):
         return redirect("login")
     
     carrinho = request.session.get("carrinho", {})
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
     
     # Busca todos os produtos de uma vez (otimização)
     if carrinho:
@@ -422,7 +432,8 @@ def tela_carrinho(request):
                 "produto": produto,
                 "quantidade": quantidade,
                 "subtotal": subtotal,
-                "preco_linha": subtotal
+                "preco_linha": subtotal,
+                "tamanho": tamanhos_carrinho.get(produto_id),
             })
 
     # Calcula desconto baseado no plano da sessão
@@ -472,17 +483,38 @@ def adicionar_carrinho(request, produto_id):
         messages.error(request, "Produto não encontrado!")
         return redirect("produtos")
 
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
+    tamanho = (request.POST.get("tamanho") or "").strip().upper()
+    if _produto_requer_tamanho(produto):
+        tamanho_valido = tamanho in {"P", "M", "G", "GG"}
+        if not tamanho_valido:
+            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    "success": False,
+                    "message": "Selecione um tamanho válido para adicionar este produto ao carrinho."
+                }, status=400)
+            messages.error(request, "Selecione um tamanho válido para adicionar este produto ao carrinho.")
+            return redirect("carrinho")
+
     carrinho = request.session.get("carrinho", {})
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
     pid = str(produto_id)
     carrinho[pid] = carrinho.get(pid, 0) + 1
+    if _produto_requer_tamanho(produto):
+        tamanhos_carrinho[pid] = tamanho
+    else:
+        tamanhos_carrinho.pop(pid, None)
     request.session["carrinho"] = carrinho
+    request.session["tamanhos_carrinho"] = tamanhos_carrinho
+    request.session.modified = True
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
         return JsonResponse({
             "success": True,
             "message": f"{produto.nome_produtos} adicionado ao carrinho!",
             "produto_nome": produto.nome_produtos,
-            "quantidade": carrinho[pid]
+            "quantidade": carrinho[pid],
+            "tamanho": tamanho if _produto_requer_tamanho(produto) else None,
         })
 
     messages.success(request, f"{produto.nome_produtos} adicionado ao carrinho!")
@@ -492,11 +524,15 @@ def adicionar_carrinho(request, produto_id):
 @cliente_login_required
 def remover_carrinho(request, produto_id):
     carrinho = request.session.get("carrinho", {})
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
     produto_id_str = str(produto_id)
     
     if produto_id_str in carrinho:
         del carrinho[produto_id_str]
+        tamanhos_carrinho.pop(produto_id_str, None)
         request.session["carrinho"] = carrinho
+        request.session["tamanhos_carrinho"] = tamanhos_carrinho
+        request.session.modified = True
         messages.success(request, "Produto removido do carrinho!")
     
     return redirect("carrinho")
@@ -514,16 +550,20 @@ def atualizar_quantidade_carrinho(request, produto_id):
         quantidade = 1
 
     carrinho = request.session.get("carrinho", {})
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
     pid = str(produto_id)
 
     if quantidade <= 0:
         # remove do carrinho
         if pid in carrinho:
             del carrinho[pid]
+            tamanhos_carrinho.pop(pid, None)
     else:
         carrinho[pid] = quantidade
 
     request.session["carrinho"] = carrinho
+    request.session["tamanhos_carrinho"] = tamanhos_carrinho
+    request.session.modified = True
 
     # Busca todos os produtos de uma vez (otimização)
     if carrinho:
@@ -609,6 +649,7 @@ def finalizar_compra(request):
     
     # Obtém o carrinho da sessão
     carrinho = request.session.get("carrinho", {})
+    tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
     
     # Verifica se o carrinho está vazio
     if not carrinho:
@@ -643,6 +684,28 @@ def finalizar_compra(request):
         if not produto:
             continue
         
+        tamanho = tamanhos_carrinho.get(str(produto.id_produtos))
+        if _produto_requer_tamanho(produto):
+            if not tamanho:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        "sucesso": False,
+                        "mensagem": f"Selecione um tamanho para {produto.nome_produtos}."
+                    }, status=400)
+                messages.error(request, f"Selecione um tamanho para {produto.nome_produtos}.")
+                return redirect("carrinho")
+            tamanho = tamanho.upper()
+            if tamanho not in {"P", "M", "G", "GG"}:
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return JsonResponse({
+                        "sucesso": False,
+                        "mensagem": "Tamanho inválido. Use P, M, G ou GG."
+                    }, status=400)
+                messages.error(request, "Tamanho inválido. Use P, M, G ou GG.")
+                return redirect("carrinho")
+        else:
+            tamanho = None
+
         # Verifica se há estoque suficiente
         if produto.quantidade_estoque_produtos < quantidade:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -660,7 +723,8 @@ def finalizar_compra(request):
             "produto": produto,
             "quantidade": quantidade,
             "valor_unitario": produto.valor_produtos,
-            "valor_total": valor_item
+            "valor_total": valor_item,
+            "tamanho": tamanho,
         })
     
     # Verifica novamente se há itens válidos
@@ -691,13 +755,15 @@ def finalizar_compra(request):
             produto = item["produto"]
             quantidade_comprada = item["quantidade"]
             valor_item = item["valor_total"]
+            tamanho = item["tamanho"]  
             
             # Prepara o registro de compra
             compras_para_criar.append(models.Compra(
                 produtos_id_produtos=produto,
                 pedido_id_pedido=novo_pedido,
                 quantidade_pedido=quantidade_comprada,
-                valor_compra=valor_item
+                valor_compra=valor_item,
+                tamanho=tamanho
             ))
             
             # Atualiza o estoque do produto

@@ -40,50 +40,88 @@ miniaturas.forEach((thumb) => {
 // ======================================================
 const btnComprar = document.querySelector(".comprar");
 // CORRIGIDO: Seleciona o botão de carrinho pela classe correta
-const btnCarrinho = document.querySelector(".btn-adicionar"); 
+const btnCarrinho = document.querySelector(".btn-adicionar");
+const formCarrinho = document.querySelector(".form-adicionar-carrinho");
+const inputTamanho = document.getElementById("tamanhoSelecionado");
 
-btnComprar.addEventListener("click", () => {
-    // Para 'Comprar agora', você deve idealmente fazer uma requisição AJAX também
-    const produtoNome = document.querySelector(".titulo").textContent;
-    alert(`✅ Compra do produto "${produtoNome}" confirmada! (Ainda não implementada)`);
-});
+if (btnComprar) {
+  btnComprar.addEventListener("click", () => {
+      // Para 'Comprar agora', você deve idealmente fazer uma requisição AJAX também
+      const produtoNome = document.querySelector(".titulo").textContent;
+      alert(`✅ Compra do produto "${produtoNome}" confirmada! (Ainda não implementada)`);
+  });
+}
 
 // ======================================================
 // ADICIONAR AO CARRINHO (AGORA COM AJAX)
 // ======================================================
-btnCarrinho.addEventListener("click", async (event) => {
-    event.preventDefault(); // Impede qualquer ação padrão do botão
-    
-    // Pega o ID e o Nome do produto do HTML
-    const produtoId = btnCarrinho.getAttribute("data-id");
-    const produtoNome = document.querySelector(".titulo").textContent;
-    
-    try {
-        const url = `/adicionar/${produtoId}/`;
-        
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                // Envia o token CSRF para a segurança do Django
-                'X-CSRFToken': getCookie('csrftoken') 
-            }
+const tamanhoSelecionado = () => {
+    const botaoAtivo = document.querySelector('.tamanho-btn.ativa');
+    return botaoAtivo ? botaoAtivo.getAttribute('data-tamanho') : '';
+};
+
+const botoesTamanho = document.querySelectorAll('.tamanho-btn');
+botoesTamanho.forEach((botao) => {
+    botao.addEventListener('click', () => {
+        botoesTamanho.forEach((item) => {
+            item.classList.remove('ativa');
+            item.removeAttribute('aria-pressed');
         });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Sucesso! O produto foi salvo no servidor (sessão/BD)
-            mostrarMensagemCarrinho(`✓ Produto "${produtoNome}" adicionado ao carrinho!`, "sucesso");
-        } else {
-            // Mensagem de erro retornada pela view do Django
-            mostrarMensagemCarrinho('Erro ao adicionar produto: ' + (data.message || 'Erro desconhecido.'), "erro");
+        botao.classList.add('ativa');
+        botao.setAttribute('aria-pressed', 'true');
+        if (inputTamanho) {
+            inputTamanho.value = botao.getAttribute('data-tamanho');
         }
-    } catch (error) {
-        console.error('Erro na requisição AJAX:', error);
-        mostrarMensagemCarrinho('Erro de conexão ao adicionar ao carrinho.', "erro");
-    }
+        mostrarMensagemCarrinho(`Tamanho ${botao.getAttribute('data-tamanho')} selecionado.`, "sucesso");
+    });
 });
+
+if (btnCarrinho && formCarrinho) {
+  btnCarrinho.addEventListener("click", async (event) => {
+      event.preventDefault(); // Impede qualquer ação padrão do botão
+      
+      // Pega o ID e o Nome do produto do HTML
+      const produtoId = btnCarrinho.getAttribute("data-id");
+      const produtoNome = document.querySelector(".titulo").textContent;
+      const tamanho = inputTamanho ? inputTamanho.value : tamanhoSelecionado();
+      
+      if (inputTamanho && !tamanho) {
+          mostrarMensagemCarrinho('Selecione um tamanho antes de adicionar ao carrinho.', "erro");
+          return;
+      }
+      
+      try {
+          const url = formCarrinho.getAttribute('action');
+          const formData = new FormData(formCarrinho);
+          if (tamanho) {
+              formData.set('tamanho', tamanho);
+          }
+          
+          const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                  'X-Requested-With': 'XMLHttpRequest',
+                  // Envia o token CSRF para a segurança do Django
+                  'X-CSRFToken': getCookie('csrftoken') 
+              },
+              body: formData
+          });
+          
+          const data = await response.json();
+          
+          if (data.success) {
+              // Sucesso! O produto foi salvo no servidor (sessão/BD)
+              mostrarMensagemCarrinho(`✓ Produto "${produtoNome}" adicionado ao carrinho!`, "sucesso");
+          } else {
+              // Mensagem de erro retornada pela view do Django
+              mostrarMensagemCarrinho('Erro ao adicionar produto: ' + (data.message || 'Erro desconhecido.'), "erro");
+          }
+      } catch (error) {
+          console.error('Erro na requisição AJAX:', error);
+          mostrarMensagemCarrinho('Erro de conexão ao adicionar ao carrinho.', "erro");
+      }
+  });
+}
 
 // ======================================================
 // FUNÇÃO PARA MOSTRAR MENSAGEM ABAIXO DO BOTÃO
