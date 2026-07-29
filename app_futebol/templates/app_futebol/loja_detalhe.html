@@ -101,6 +101,15 @@
       <p class="preco">R${{ produto.valor_produtos|floatformat:2 }}</p>
       <p class="descricao">{{ produto.descricao_produtos }}</p>
 
+      <div class="tamanhos">    
+        <h3>Selecionar tamanho</h3>
+        <div class="botoes-tamanho">
+          <button>P</button>
+          <button>M</button>
+          <button>L</button>
+          <button>GG</button>
+        </div>
+      </div>
 
       <div class="acoes">
         {% comment %} <button class="btn comprar">Comprar agora</button> {% endcomment %}
