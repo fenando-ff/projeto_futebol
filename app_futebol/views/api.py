@@ -17,6 +17,7 @@ from ..serializers import (
     AssinarPlanoSerializer,
     CheckoutSerializer,
     CategoriaClienteSerializer,
+    CategoriaClienteAssinaturaSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
@@ -177,7 +178,7 @@ def _serializar_assinatura(cliente):
     if _categoria_nao_socio(categoria):
         return None
 
-    return CategoriaClienteSerializer(categoria).data
+    return CategoriaClienteAssinaturaSerializer(categoria).data
 
 
 class EsqueciSenhaAPIView(APIView):
@@ -734,6 +735,7 @@ class MinhaAssinaturaAPIView(APIView):
         return _response(
             "Assinatura carregada com sucesso.",
             assinatura=_serializar_assinatura(request.user),
+            plano=_serializar_assinatura(request.user),
         )
 
 
@@ -790,5 +792,6 @@ class AssinarPlanoAPIView(APIView):
 
         return _response(
             "Plano assinado com sucesso.",
-            assinatura=CategoriaClienteSerializer(plano).data,
+            assinatura=CategoriaClienteAssinaturaSerializer(plano).data,
+            plano=CategoriaClienteAssinaturaSerializer(plano).data,
         )
