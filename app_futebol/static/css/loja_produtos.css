@@ -289,7 +289,6 @@ body.modo-jogo {
   background-color: transparent;
   border: transparent;
   border-radius: 5px;
-  padding: 10px;
   cursor: pointer;
   font-size: 40px;
   flex-shrink: 0;

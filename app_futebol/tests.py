@@ -118,6 +118,45 @@ class CarrinhoTamanhoTests(SimpleTestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(request.session.get("tamanhos_carrinho"), {})
 
+    def test_adicionar_carrinho_redireciona_para_produto_se_tamanho_faltar(self):
+        request = self.factory.post(
+            "/adicionar/1/",
+            {"tamanho": ""},
+        )
+        request.session = SessionStore()
+        request.session["cliente_id"] = 1
+        produto = SimpleNamespace(
+            id_produtos=1,
+            nome_produtos="Camisa teste",
+            categoria_produtos_id_categoria_produtos=SimpleNamespace(id_categoria_produtos=2),
+        )
+
+        with patch("app_futebol.views.views.models.Produtos.objects.get", return_value=produto):
+            with patch("django.contrib.messages.error"):
+                response = adicionar_carrinho(request, 1)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, "/loja_detalhe/1/")
+
+    def test_categoria_2_requer_tamanho_na_listagem(self):
+        request = self.factory.post(
+            "/adicionar/5/",
+            {},
+            HTTP_X_REQUESTED_WITH="XMLHttpRequest",
+        )
+        request.session = SessionStore()
+        request.session["cliente_id"] = 1
+        produto = SimpleNamespace(
+            id_produtos=5,
+            nome_produtos="Camisa da lista",
+            categoria_produtos_id_categoria_produtos=SimpleNamespace(id_categoria_produtos=2),
+        )
+
+        with patch("app_futebol.views.views.models.Produtos.objects.get", return_value=produto):
+            response = adicionar_carrinho(request, 5)
+
+        self.assertEqual(response.status_code, 400)
+
     def test_adicionar_carrinho_registra_tamanho_para_categoria_2(self):
         request = self.factory.post(
             "/adicionar/1/",

@@ -176,9 +176,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   botoesAdicionar.forEach(btn => {
     const produtoId = btn.dataset.id;
+    const categoriaId = btn.dataset.categoria;
 
     btn.addEventListener("click", async (e) => {
       e.preventDefault();
+
+      if (categoriaId === "2") {
+        window.location.href = `/loja_detalhe/${produtoId}/`;
+        return;
+      }
 
       try {
         const response = await fetch(`/adicionar/${produtoId}/`, {

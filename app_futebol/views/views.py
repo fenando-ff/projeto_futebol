@@ -494,7 +494,7 @@ def adicionar_carrinho(request, produto_id):
                     "message": "Selecione um tamanho válido para adicionar este produto ao carrinho."
                 }, status=400)
             messages.error(request, "Selecione um tamanho válido para adicionar este produto ao carrinho.")
-            return redirect("carrinho")
+            return redirect("loja_detalhe", produto_id=produto_id)
 
     carrinho = request.session.get("carrinho", {})
     tamanhos_carrinho = request.session.setdefault("tamanhos_carrinho", {})
@@ -518,7 +518,7 @@ def adicionar_carrinho(request, produto_id):
         })
 
     messages.success(request, f"{produto.nome_produtos} adicionado ao carrinho!")
-    return redirect("produtos")
+    return redirect("loja_detalhe", produto_id=produto_id)
 
 
 @cliente_login_required
