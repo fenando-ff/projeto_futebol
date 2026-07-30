@@ -7,8 +7,10 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG dinâmico: False no Render, True local
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
-IP_LOCAL = os.environ.get('IP_LOCAL')
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.20.10.4", "192.168.1.10", "10.186.246.2","projeto-futebol.onrender.com", ".onrender.com", IP_LOCAL]
+
+# Hosts permitidos pelo Django para acessar a aplicação.
+# Isso evita que o servidor aceite requisições de domínios não autorizados.
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.20.10.4", "192.168.1.10", "10.186.246.2", "projeto-futebol.onrender.com",]
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
@@ -52,6 +54,8 @@ REST_FRAMEWORK = {
     },
 }
 
+# Origens permitidas pelo CORS para que o frontend/mobile possa consumir a API.
+# O CORS impede que um site ou app de outra origem acesse a API sem autorização explícita.
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:8081",
