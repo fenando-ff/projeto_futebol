@@ -52,6 +52,8 @@ REST_FRAMEWORK = {
     },
 }
 
+# Origens permitidas pelo CORS para que o frontend/mobile possa consumir a API.
+# O CORS impede que um site ou app de outra origem acesse a API sem autorização explícita.
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://localhost:8081",
