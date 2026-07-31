@@ -94,8 +94,9 @@ function initPerfil() {
 	})();
 
 	// Dropdown de Ingressos (seção Meus Ingressos)
-	var toggleIngressosEl = document.querySelector('#perfil-ingressos .toggle-ingressos');
-	if (toggleIngressosEl) {
+	(function(){
+		var toggleIngressosEl = document.querySelector('#perfil-ingressos .toggle-ingressos');
+		if (!toggleIngressosEl) return;
 		var perfilIngressos = document.getElementById('perfil-ingressos');
 		var body = document.getElementById('meus-ingressos-body');
 		if(!perfilIngressos || !body) return;
@@ -123,13 +124,54 @@ function initPerfil() {
 
 		toggleIngressosEl.addEventListener('click', function(e){
 			e.preventDefault();
+			e.stopPropagation();
 			doToggle();
 		});
 
 		toggleIngressosEl.addEventListener('keydown', function(e){
-			if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); doToggle(); }
+			if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); doToggle(); }
 		});
-	}
+	})();
+
+	// Dropdown de Histórico de Compras
+	(function(){
+		var toggleHistoricoEl = document.querySelector('#perfil-historico .toggle-historico');
+		if (!toggleHistoricoEl) return;
+		var perfilHistorico = document.getElementById('perfil-historico');
+		var body = document.getElementById('historico-body');
+		if(!perfilHistorico || !body) return;
+
+		if(toggleHistoricoEl.getAttribute('aria-expanded') === 'true'){
+			perfilHistorico.classList.remove('collapsed');
+			body.setAttribute('aria-hidden','false');
+		} else {
+			perfilHistorico.classList.add('collapsed');
+			body.setAttribute('aria-hidden','true');
+		}
+
+		var doToggle = function(){
+			var expanded = toggleHistoricoEl.getAttribute('aria-expanded') === 'true';
+			if(expanded){
+				toggleHistoricoEl.setAttribute('aria-expanded','false');
+				perfilHistorico.classList.add('collapsed');
+				body.setAttribute('aria-hidden','true');
+			} else {
+				toggleHistoricoEl.setAttribute('aria-expanded','true');
+				perfilHistorico.classList.remove('collapsed');
+				body.setAttribute('aria-hidden','false');
+			}
+		};
+
+		toggleHistoricoEl.addEventListener('click', function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			doToggle();
+		});
+
+		toggleHistoricoEl.addEventListener('keydown', function(e){
+			if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); doToggle(); }
+		});
+	})();
 
 	// Dropdown por pedido: todo o item-pedido é clicável
 	const pedidosList = document.querySelectorAll('.lista-pedidos .item-pedido');

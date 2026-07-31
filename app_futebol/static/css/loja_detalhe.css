@@ -125,6 +125,11 @@ body {
   color: #e72a2a;
 }
 
+.tamanhos {
+  display: flex;
+  flex-direction: column;
+}
+
 .tamanhos h3 {
   font-size: 1rem;
   color: #444;
@@ -137,6 +142,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  padding-bottom: 10px;
 }
 
 .botoes-tamanho button {
@@ -166,8 +172,8 @@ body {
 .acoes {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 15px;
+  gap: 10px;
+  width: 100%;
 }
 
 .btn {
@@ -377,13 +383,13 @@ body {
 .voltar {
   font-size: 1.2rem;
   left: 35px;
-
 }
 
-  .marca{
-  font-size: 1.1rem;
-  right: 15px;
-  }
+.marca {
+font-size: 1.1rem;
+right: 15px;
+
+}
 
   .titulo{
     font-size: 1.5rem;
@@ -392,6 +398,11 @@ body {
   .preco{
       font-size: 1.7rem;
 }
+
+.botoes-tamanho {
+width: 125%;
+}
+
   .footer {
     padding: 60px 5%;
 }

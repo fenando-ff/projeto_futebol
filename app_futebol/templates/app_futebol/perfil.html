@@ -171,11 +171,15 @@
             </div>
         </section>
 
-        <section class="perfil-historico">
+        <section class="perfil-historico" id="perfil-historico">
             <div class="card-titulo">
-                <h2>Histórico de Compras</h2>
+                <button type="button" class="toggle-historico" aria-expanded="true" aria-controls="historico-body">
+                    <span>Histórico de Compras</span>
+                    <i class="fa-solid fa-angle-up" aria-hidden="true"></i>
+                </button>
             </div>
-            <div class="lista-pedidos">
+            <div class="historico-body" id="historico-body" aria-hidden="false">
+                <div class="lista-pedidos">
                 {% if historico %}
                     {% for h in historico %}
                         <div class="item-pedido" data-pedido="{{ h.pedido.id_pedido }}">
@@ -217,8 +221,9 @@
                     {% endfor %}
                 {% else %}
                     <p class="aviso-sem-historico"><em>Nenhuma compra encontrada.</em></p>
-                {% endif %}
+                    {% endif %}
             </div>
+                </div>
         </section>
 
         <section class="perfil-ingressos" id="perfil-ingressos">
