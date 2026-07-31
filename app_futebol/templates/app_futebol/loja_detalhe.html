@@ -101,24 +101,21 @@
       <p class="preco">R${{ produto.valor_produtos|floatformat:2 }}</p>
       <p class="descricao">{{ produto.descricao_produtos }}</p>
 
-      {% if produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos == 2 %}
-      <div class="tamanhos">
-        <h3>Selecionar tamanho</h3>
-        <div class="botoes-tamanho" role="group" aria-label="Selecionar tamanho">
-          <button type="button" class="tamanho-btn" data-tamanho="P">P</button>
-          <button type="button" class="tamanho-btn" data-tamanho="M">M</button>
-          <button type="button" class="tamanho-btn" data-tamanho="G">G</button>
-          <button type="button" class="tamanho-btn" data-tamanho="GG">GG</button>
-        </div>
-      </div>
-      {% endif %}
-
       <div class="acoes">
-        {% comment %} <button class="btn comprar">Comprar agora</button> {% endcomment %}
         <form class="form-adicionar-carrinho" method="post" action="{% url 'adicionar_carrinho' produto.id_produtos %}">
           {% csrf_token %}
+
           {% if produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos == 2 %}
-            <input type="hidden" name="tamanho" id="tamanhoSelecionado" value="">
+            <div class="tamanhos">
+              <h3>Selecionar tamanho</h3>
+              <div class="botoes-tamanho" role="group" aria-label="Selecionar tamanho">
+                <button type="button" value="P" data-tamanho="P" class="tamanho-btn" aria-pressed="false">P</button>
+                <button type="button" value="M" data-tamanho="M" class="tamanho-btn" aria-pressed="false">M</button>
+                <button type="button" value="G" data-tamanho="G" class="tamanho-btn" aria-pressed="false">G</button>
+                <button type="button" value="GG" data-tamanho="GG" class="tamanho-btn" aria-pressed="false">GG</button>
+              </div>
+              <input type="hidden" name="tamanho" id="tamanhoSelecionado" value="">
+            </div>
           {% endif %}
           <button type="submit" class="btn-adicionar" id="btnAdicionarCarrinho" data-id="{{ produto.id_produtos }}" data-nome="{{ produto.nome_produtos }}">
             <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho

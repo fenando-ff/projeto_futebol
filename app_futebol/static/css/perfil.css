@@ -1,7 +1,7 @@
     @import url('botoes_cores_fontes/cores.css');
 
     .main-perfil {
-        width: 75%;
+        width: 90%;
         margin: 0 auto;
         min-height: 80vh;
     }
@@ -27,7 +27,7 @@
     /* Layout em Grid (Esquerda e Direita) */
     .layout-grid {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-columns: 1.3fr 1fr 1fr;
         gap: 20px;
     }
 
@@ -128,6 +128,7 @@
     /* Estilos do Formulário (Lado Esquerdo) */
     .form-perfil {
         padding: 25px;
+        width: 100%;
     }
 
     .grupo-inputs {
@@ -350,7 +351,7 @@
 
     .item-pedido.aberto .detalhes-pedido {
         max-height: 800px; /* suficiente para expandir conteúdo */
-        padding: 12px 20px;
+        padding: 12px 4px;
     }
 
     .itens-pedido {
@@ -682,7 +683,7 @@
         
         .linha-input {
             flex-direction: column;
-            gap: 0;
+            gap: 10px;
         }
 
         .item-pedido {
@@ -694,6 +695,10 @@
         .btn-ver-detalhes {
             width: 100%;
             text-align: center;
+        }
+
+        .detalhes-pedido {
+            padding: 0px;
         }
     }
 

@@ -127,7 +127,8 @@ function mostrarMensagemCarrinho(texto, tipo = "sucesso") {
     if (!msg) {
         msg = document.createElement("div");
         msg.classList.add("mensagem-carrinho");
-        btnCarrinho.parentNode.appendChild(msg);
+        const target = btnCarrinho && btnCarrinho.parentNode ? btnCarrinho.parentNode : document.body;
+        target.appendChild(msg);
     }
 
     msg.textContent = texto;
