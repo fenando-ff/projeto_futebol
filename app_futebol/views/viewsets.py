@@ -27,6 +27,7 @@ from ..models import (
 )
 from ..serializers import (
     CategoriaClienteSerializer,
+    CategoriaClientePlanoSerializer,
     CategoriaProdutosSerializer,
     CarrinhoItemSerializer,
     ClientesSerializer,
@@ -177,8 +178,8 @@ class HistoricoTitulosViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class CategoriaClienteViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CategoriaCliente.objects.all()
-    serializer_class = CategoriaClienteSerializer
+    queryset = CategoriaCliente.objects.all().order_by("id_categoria_cliente")
+    serializer_class = CategoriaClientePlanoSerializer
 
 
 class TimesViewSet(viewsets.ReadOnlyModelViewSet):

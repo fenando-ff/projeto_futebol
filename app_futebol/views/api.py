@@ -25,6 +25,7 @@ from ..serializers import (
     ValidarCodigoSerializer,
 )
 from ..auth import ClienteTokenAuthentication, gerar_token
+from .socio_catalog import build_pricing_snapshot, build_socio_api_plan, get_socio_desconto_percent
 
 
 def _buscar_ultima_recuperacao(email):
@@ -179,6 +180,69 @@ def _serializar_assinatura(cliente):
         return None
 
     return CategoriaClienteAssinaturaSerializer(categoria).data
+
+
+def _get_desconto_assinatura(cliente):
+    categoria = getattr(cliente, "categoria_cliente_id_categoria_cliente", None)
+    if _categoria_nao_socio(categoria):
+        return 0
+
+    return get_socio_desconto_percent(categoria)
+
+
+def _build_purchase_preview(cliente, itens_checkout, produtos_lock):
+    categoria = getattr(cliente, "categoria_cliente_id_categoria_cliente", None)
+    beneficios_plano = _serializar_assinatura(cliente)
+
+    itens_resumo = []
+    subtotal_original = 0.0
+    economia_total = 0.0
+    total_final = 0.0
+
+    for item in itens_checkout:
+        produto = produtos_lock[item["produto_id"]]
+        quantidade = int(item["quantidade"])
+        pricing = build_pricing_snapshot(produto.valor_produtos, categoria, quantidade)
+
+        subtotal_original += pricing["preco_original_total"]
+        economia_total += pricing["economia_total"]
+        total_final += pricing["preco_final_total"]
+
+        itens_resumo.append(
+            {
+                "produto_id": produto.id_produtos,
+                "nome_produtos": produto.nome_produtos,
+                "imagem_produtos": produto.imagem_produtos,
+                "quantidade": quantidade,
+                "tamanho": item.get("tamanho"),
+                "categoria_nome": getattr(
+                    getattr(produto, "categoria_produtos_id_categoria_produtos", None),
+                    "nome_categoria_produtos",
+                    None,
+                ),
+                "preco_original_unitario": pricing["preco_original_unitario"],
+                "preco_final_unitario": pricing["preco_final_unitario"],
+                "economia_unitaria": pricing["economia_unitaria"],
+                "preco_original_total": pricing["preco_original_total"],
+                "preco_final_total": pricing["preco_final_total"],
+                "economia_total": pricing["economia_total"],
+                "desconto_percent": pricing["desconto_percent"],
+            }
+        )
+
+    desconto_total = round(subtotal_original - total_final, 2)
+    desconto_percent = _get_desconto_assinatura(cliente)
+
+    return {
+        "itens": itens_resumo,
+        "subtotal_original": round(subtotal_original, 2),
+        "economia_total": round(economia_total, 2),
+        "total_final": round(total_final, 2),
+        "desconto_total": round(desconto_total, 2),
+        "desconto_percent": desconto_percent,
+        "plano_atual": beneficios_plano,
+        "beneficios_plano": (beneficios_plano or {}).get("beneficios", []),
+    }
 
 
 class EsqueciSenhaAPIView(APIView):
@@ -501,70 +565,74 @@ class CartAPIView(APIView):
                 "imagem_produtos": produto.imagem_produtos,
                 "categoria_nome": getattr(produto.categoria_produtos_id_categoria_produtos, "nome_categoria_produtos", None),
             })
+
+        desconto_percent = _get_desconto_assinatura(request.user) if isinstance(request.user, Clientes) else 0
+        desconto_valor = round(valor_total * (desconto_percent / 100), 2) if desconto_percent else 0.0
+        total_com_desconto = round(valor_total - desconto_valor, 2)
+
         return Response({
             "itens": itens,
             "quantidade_total": quantidade_total,
             "valor_total": valor_total,
+            "desconto_percent": desconto_percent,
+            "desconto": desconto_valor,
+            "total_com_desconto": total_com_desconto,
+            "plano_atual": _serializar_assinatura(request.user) if isinstance(request.user, Clientes) else None,
         })
+
+
+class CheckoutPreviewAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
 
     def post(self, request):
-        produto_id = request.data.get("produto_id")
-        quantidade = int(request.data.get("quantidade", 1))
-        if not produto_id:
-            return Response({"erro": "produto_id é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
-        try:
-            produto = Produtos.objects.get(pk=produto_id)
-        except Produtos.DoesNotExist:
-            return Response({"erro": "Produto não encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        if quantidade <= 0:
-            return Response({"erro": "Quantidade inválida"}, status=status.HTTP_400_BAD_REQUEST)
-        carrinho = request.session.get("carrinho", {})
-        carrinho[str(produto_id)] = quantidade
-        request.session["carrinho"] = carrinho
-        request.session.modified = True
-        valor_unitario = float(produto.valor_produtos)
-        return Response({
-            "sucesso": True,
-            "produto_id": produto.id_produtos,
-            "nome_produtos": produto.nome_produtos,
-            "quantidade": quantidade,
-            "valor_unitario": valor_unitario,
-            "subtotal": valor_unitario * quantidade,
-        }, status=status.HTTP_201_CREATED)
+        if not isinstance(request.user, Clientes):
+            return Response(
+                {"erro": "Usuário não autenticado."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
 
-    def delete(self, request):
-        produto_id = request.data.get("produto_id")
-        if not produto_id:
-            return Response({"erro": "produto_id é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
-        carrinho = request.session.get("carrinho", {})
-        carrinho.pop(str(produto_id), None)
-        request.session["carrinho"] = carrinho
-        request.session.modified = True
-        return Response({"sucesso": True, "carrinho": carrinho})
+        payload = _normalize_checkout_payload(request.data)
+        serializer = CheckoutSerializer(data=payload)
+        serializer.is_valid(raise_exception=True)
 
-    def patch(self, request):
-        produto_id = request.data.get("produto_id")
-        quantidade = int(request.data.get("quantidade", 1))
-        if not produto_id:
-            return Response({"erro": "produto_id é obrigatório"}, status=status.HTTP_400_BAD_REQUEST)
-        if quantidade <= 0:
-            return Response({"erro": "Quantidade inválida"}, status=status.HTTP_400_BAD_REQUEST)
-        carrinho = request.session.get("carrinho", {})
-        carrinho[str(produto_id)] = quantidade
-        request.session["carrinho"] = carrinho
-        request.session.modified = True
-        try:
-            produto = Produtos.objects.get(pk=produto_id)
-        except Produtos.DoesNotExist:
-            return Response({"erro": "Produto não encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        valor_unitario = float(produto.valor_produtos)
-        return Response({
-            "sucesso": True,
-            "produto_id": produto.id_produtos,
-            "quantidade": quantidade,
-            "valor_unitario": valor_unitario,
-            "subtotal": valor_unitario * quantidade,
-        })
+        itens_input = serializer.validated_data["itens"]
+        itens_agregados = {}
+        for item in itens_input:
+            produto_id = int(item["produto_id"])
+            tamanho = item.get("tamanho")
+            chave = (produto_id, tamanho or "")
+            agregado = itens_agregados.setdefault(
+                chave,
+                {
+                    "produto_id": produto_id,
+                    "quantidade": 0,
+                    "tamanho": tamanho,
+                },
+            )
+            agregado["quantidade"] += int(item["quantidade"])
+
+        itens_checkout = list(itens_agregados.values())
+        produto_ids = sorted({item["produto_id"] for item in itens_checkout})
+
+        produtos_qs = (
+            Produtos.objects.select_related("categoria_produtos_id_categoria_produtos")
+            .filter(id_produtos__in=produto_ids)
+        )
+        produtos_lock = {produto.id_produtos: produto for produto in produtos_qs}
+
+        if len(produtos_lock) != len(produto_ids):
+            faltantes = [pid for pid in produto_ids if pid not in produtos_lock]
+            return Response(
+                {"erro": f"Produto(s) não encontrado(s): {faltantes}"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        resumo = _build_purchase_preview(request.user, itens_checkout, produtos_lock)
+        return _response(
+            "Resumo da compra carregado com sucesso.",
+            **resumo,
+        )
 
 
 class CheckoutAPIView(APIView):
@@ -618,7 +686,6 @@ class CheckoutAPIView(APIView):
                 )
 
             compras = []
-            valor_total = Decimal("0")
             all_ingressos = True
 
             for item in itens_checkout:
@@ -661,10 +728,6 @@ class CheckoutAPIView(APIView):
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 
-                valor_unitario = Decimal(str(produto.valor_produtos))
-                valor_item = valor_unitario * quantidade
-                valor_total += valor_item
-
                 produto.quantidade_estoque_produtos = estoque_disponivel - quantidade
                 compras.append(
                     Compra(
@@ -672,7 +735,7 @@ class CheckoutAPIView(APIView):
                         pedido_id_pedido=None,
                         quantidade_pedido=quantidade,
                         tamanho=tamanho,
-                        valor_compra=valor_item,
+                        valor_compra=Decimal(str(produto.valor_produtos)) * quantidade,
                     )
                 )
 
@@ -694,11 +757,19 @@ class CheckoutAPIView(APIView):
                 ["quantidade_estoque_produtos"],
             )
 
+            resumo = _build_purchase_preview(cliente, itens_checkout, produtos_lock)
+
         return _response(
             "Compra finalizada com sucesso.",
             status_code=status.HTTP_201_CREATED,
             pedido_id=pedido.id_pedido,
-            total=float(valor_total),
+            total=resumo["total_final"],
+            total_bruto=resumo["subtotal_original"],
+            desconto_percent=resumo["desconto_percent"],
+            desconto=resumo["desconto_total"],
+            plano_atual=_serializar_assinatura(cliente),
+            beneficios_plano=resumo["beneficios_plano"],
+            itens=resumo["itens"],
             status=pedido.status,
         )
 
@@ -736,6 +807,7 @@ class MinhaAssinaturaAPIView(APIView):
             "Assinatura carregada com sucesso.",
             assinatura=_serializar_assinatura(request.user),
             plano=_serializar_assinatura(request.user),
+            plano_atual=_serializar_assinatura(request.user),
         )
 
 
@@ -794,4 +866,5 @@ class AssinarPlanoAPIView(APIView):
             "Plano assinado com sucesso.",
             assinatura=CategoriaClienteAssinaturaSerializer(plano).data,
             plano=CategoriaClienteAssinaturaSerializer(plano).data,
+            plano_atual=CategoriaClienteAssinaturaSerializer(plano).data,
         )

@@ -26,6 +26,12 @@ from .models import (
     Titulos,
 )
 from .views.helpers import build_public_image_url
+from .views.socio_catalog import (
+    build_pricing_snapshot,
+    build_socio_api_plan,
+    get_socio_desconto_percent,
+    get_socio_tier,
+)
 
 class ClientesSerializer(serializers.ModelSerializer):
     categoria_clientes = serializers.SerializerMethodField(read_only=True)
@@ -363,6 +369,12 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos",
         read_only=True,
     )
+    preco_original = serializers.SerializerMethodField()
+    preco_final = serializers.SerializerMethodField()
+    economia = serializers.SerializerMethodField()
+    desconto_percent = serializers.SerializerMethodField()
+    beneficios_plano = serializers.SerializerMethodField()
+    plano_atual = serializers.SerializerMethodField()
     url_imagem_produtos = serializers.SerializerMethodField()
     imagem_principal = serializers.SerializerMethodField()
     imagens = serializers.SerializerMethodField()
@@ -375,6 +387,12 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
             "nome_produtos",
             "descricao_produtos",
             "preco_produtos",
+            "preco_original",
+            "preco_final",
+            "economia",
+            "desconto_percent",
+            "beneficios_plano",
+            "plano_atual",
             "estoque_produtos",
             "categoria_produtos",
             "url_imagem_produtos",
@@ -391,6 +409,48 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         return ImagemProduto.objects.filter(
             produtos_id_produtos=getattr(obj, "id_produtos", None)
         ).order_by("ordem_imagem", "id_imagem_produto")
+
+    def _get_cliente_categoria(self):
+        request = self.context.get("request")
+        cliente = getattr(request, "user", None) if request else None
+        if isinstance(cliente, Clientes):
+            return getattr(cliente, "categoria_cliente_id_categoria_cliente", None)
+        return None
+
+    def _get_pricing(self, obj):
+        return build_pricing_snapshot(
+            getattr(obj, "valor_produtos", 0),
+            self._get_cliente_categoria(),
+            1,
+        )
+
+    def get_preco_original(self, obj):
+        return self._get_pricing(obj)["preco_original_unitario"]
+
+    def get_preco_final(self, obj):
+        return self._get_pricing(obj)["preco_final_unitario"]
+
+    def get_economia(self, obj):
+        return self._get_pricing(obj)["economia_unitaria"]
+
+    def get_desconto_percent(self, obj):
+        return self._get_pricing(obj)["desconto_percent"]
+
+    def get_beneficios_plano(self, obj):
+        cliente_categoria = self._get_cliente_categoria()
+        if not cliente_categoria:
+            return []
+
+        from .views.socio_catalog import build_socio_api_plan
+
+        return build_socio_api_plan(cliente_categoria).get("beneficios", [])
+
+    def get_plano_atual(self, obj):
+        cliente_categoria = self._get_cliente_categoria()
+        if not cliente_categoria:
+            return None
+
+        return build_socio_api_plan(cliente_categoria)
 
     def get_url_imagem_produtos(self, obj):
         return self.get_imagem_principal(obj)
@@ -429,56 +489,17 @@ class CategoriaClienteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CategoriaClienteAssinaturaSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(source="id_categoria_cliente", read_only=True)
-    plano_id = serializers.IntegerField(source="id_categoria_cliente", read_only=True)
-    title = serializers.CharField(source="nome_categoria_clientes", read_only=True)
-    nome_plano = serializers.CharField(source="nome_categoria_clientes", read_only=True)
-    descricao = serializers.CharField(source="descricao_categ_cli", read_only=True)
-    price = serializers.FloatField(source="preco_categ", read_only=True)
-    valor = serializers.FloatField(source="preco_categ", read_only=True)
-    tier = serializers.SerializerMethodField()
-    status = serializers.SerializerMethodField()
-    is_socio = serializers.SerializerMethodField()
-
+class CategoriaClientePlanoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoriaCliente
-        fields = [
-            "id",
-            "plano_id",
-            "title",
-            "nome_plano",
-            "descricao",
-            "price",
-            "valor",
-            "tier",
-            "status",
-            "is_socio",
-            "id_categoria_cliente",
-            "nome_categoria_clientes",
-            "descricao_categ_cli",
-            "preco_categ",
-        ]
+        fields = "__all__"
 
-    def get_tier(self, obj):
-        nome = (getattr(obj, "nome_categoria_clientes", "") or "").strip().lower()
-        categoria_id = getattr(obj, "id_categoria_cliente", None)
+    def to_representation(self, instance):
+        return build_socio_api_plan(instance)
 
-        if categoria_id == 2 or "diamante" in nome:
-            return "diamante"
-        if categoria_id == 3 or "ouro" in nome:
-            return "ouro"
-        if categoria_id == 4 or "prata" in nome:
-            return "prata"
-        return "nao-socio"
 
-    def get_status(self, obj):
-        return "ativa" if self.get_is_socio(obj) else "nao_socio"
-
-    def get_is_socio(self, obj):
-        nome = (getattr(obj, "nome_categoria_clientes", "") or "").strip().lower()
-        categoria_id = getattr(obj, "id_categoria_cliente", None)
-        return not (categoria_id == 5 or nome == "nao socio")
+class CategoriaClienteAssinaturaSerializer(CategoriaClientePlanoSerializer):
+    pass
 
 
 class AssinarPlanoSerializer(serializers.Serializer):

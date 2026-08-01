@@ -20,6 +20,7 @@ import re
 import json
 import boto3
 from botocore.exceptions import ClientError
+from .socio_catalog import build_socio_web_plan, get_socio_planos_queryset
 
 # -------------------------------
 # Helpers
@@ -1010,9 +1011,7 @@ def tela_rec_senha_3(request):
     return render(request, "app_futebol/rec_senha3.html")
 
 def tela_socio(request):
-    json_path = os.path.join(os.path.dirname(__file__), "socio_data.json")
-    with open(json_path, "r", encoding="utf-8") as f:
-        planos = json.load(f)
+    planos = [build_socio_web_plan(plano) for plano in get_socio_planos_queryset()]
     return render(request, "app_futebol/socio.html",{"planos":planos})
 
 
