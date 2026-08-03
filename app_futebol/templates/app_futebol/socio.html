@@ -19,10 +19,22 @@
         descontos em produtos, valores reduzidos de ingressos e benefícios especiais para membros.
       </p>
     </div>
+    
+    <div class="meu-plano">
+      {% if plano_socio_id != 5 %}
+        <h2 class="meu-plano-title">Meu Plano</h2>
+        <p class="meu-plano-status">Você é sócio do plano: <strong class="plano-nome">{{ plano_socio_nome }}</strong></p>
+        <a href="{% url 'cancelar_socio' %}" class="btn-cancelar">Cancelar Sócio</a>
+      {% else %}
+        <h2>Você ainda não é sócio.</h2>
+        <p>Escolha um dos planos abaixo para se tornar sócio-torcedor do Drakos FC.</p>
+      {% endif %}
+    </div>
 
     <div class="planos">
 
       {% for plano in planos %}
+      {% if 'não socio' not in plano.nome|lower and 'nao socio' not in plano.nome|lower %}
       <div class="plano-card" data-index="{{ forloop.counter0 }}">
 
         {% if plano.imagem %}
@@ -48,6 +60,7 @@
         </a>
 
       </div>
+      {% endif %}
       {% endfor %}
 
     </div>

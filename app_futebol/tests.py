@@ -4,11 +4,12 @@ from unittest.mock import patch
 
 from django.contrib.sessions.backends.db import SessionStore
 from django.test import RequestFactory, SimpleTestCase, override_settings
+from django.urls import reverse
 from django.utils import timezone
 
 from .models import CategoriaProdutos, Produtos
 from .serializers import CompraHistoricoSerializer, ProdutoAPISerializer
-from .views.views import adicionar_carrinho
+from .views.views import adicionar_carrinho, cancelar_socio
 
 
 class ProdutoAPISerializerImageUrlTests(SimpleTestCase):
@@ -176,6 +177,45 @@ class CarrinhoTamanhoTests(SimpleTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(request.session.get("tamanhos_carrinho"), {"1": "M"})
+
+
+class CancelarSocioTests(SimpleTestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_cancelar_socio_define_categoria_nao_socio(self):
+        request = self.factory.get(reverse("cancelar_socio"))
+        request.session = SessionStore()
+        request.session["cliente_id"] = 1
+
+        class FakeCliente(SimpleNamespace):
+            def save(self):
+                self.saved = True
+
+        cliente = FakeCliente(
+            id_clientes=1,
+            categoria_cliente_id_categoria_cliente=SimpleNamespace(id_categoria_cliente=2, nome_categoria_clientes="Platinum"),
+        )
+        categoria_nao_socio = SimpleNamespace(id_categoria_cliente=5, nome_categoria_clientes="nao socio")
+
+        class FakeQuerySet:
+            def __init__(self, result):
+                self.result = result
+
+            def first(self):
+                return self.result
+
+        with patch("app_futebol.views.views.models.Clientes.objects.get", return_value=cliente):
+            with patch("app_futebol.views.views.models.CategoriaCliente.objects.filter", return_value=FakeQuerySet(categoria_nao_socio)):
+                with patch("app_futebol.views.views.messages.success"):
+                    response = cancelar_socio(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, reverse("socio"))
+        self.assertEqual(request.session["plano_socio_id"], 5)
+        self.assertEqual(request.session["plano_socio_nome"], "nao socio")
+        self.assertEqual(cliente.categoria_cliente_id_categoria_cliente.id_categoria_cliente, 5)
+        self.assertTrue(cliente.saved)
 
 
 class CompraHistoricoSerializerTests(SimpleTestCase):

@@ -75,6 +75,8 @@ def get_cliente_logado(request):
         "endereco": request.session.get("cliente_endereco"),
         "cpf": request.session.get("cliente_cpf"),
         "plano_cliente": request.session.get('plano_socio_nome'),
+        "plano_socio_id": request.session.get("plano_socio_id"),
+        "plano_socio_nome": request.session.get("plano_socio_nome"),
         "foto": request.session.get("cliente_foto"),
     }
 
@@ -1012,7 +1014,30 @@ def tela_rec_senha_3(request):
 
 def tela_socio(request):
     planos = [build_socio_web_plan(plano) for plano in get_socio_planos_queryset()]
-    return render(request, "app_futebol/socio.html",{"planos":planos})
+    cliente = get_cliente_logado(request)
+    plano_socio_id = request.session.get("plano_socio_id")
+    plano_socio_nome = request.session.get("plano_socio_nome")
+
+    if cliente:
+        # Adiciona informações do plano atual do cliente
+        if cliente.get("plano_socio_id"):
+            plano_atual = models.CategoriaCliente.objects.filter(
+                id_categoria_cliente=cliente["plano_socio_id"]
+            ).first()
+            if plano_atual:
+                for plano in planos:
+                    if plano["id"] == plano_atual.id_categoria_cliente:
+                        plano["atual"] = True
+                    else:
+                        plano["atual"] = False
+
+    context = {
+        "planos": planos,
+        "plano_socio_id": plano_socio_id,
+        "plano_socio_nome": plano_socio_nome,
+    }
+
+    return render(request, "app_futebol/socio.html", context)
 
 
 def tela_ingressos(request):
@@ -1040,6 +1065,33 @@ def tela_ingressos(request):
 
 def tela_historia(request):
     return render(request, "app_futebol/historia.html")
+
+
+@cliente_login_required
+def cancelar_socio(request):
+    cliente_id = request.session.get("cliente_id")
+    if not cliente_id:
+        return redirect("login")
+
+    try:
+        cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+        categoria_nao_socio = models.CategoriaCliente.objects.filter(id_categoria_cliente=5).first()
+
+        if not categoria_nao_socio:
+            messages.error(request, "Categoria de não sócio não encontrada.")
+            return redirect("socio")
+
+        cliente.categoria_cliente_id_categoria_cliente = categoria_nao_socio
+        cliente.save()
+
+        request.session["plano_socio_id"] = categoria_nao_socio.id_categoria_cliente
+        request.session["plano_socio_nome"] = categoria_nao_socio.nome_categoria_clientes
+
+        messages.success(request, "Seu plano foi cancelado com sucesso.")
+    except models.Clientes.DoesNotExist:
+        messages.error(request, "Cliente não encontrado.")
+
+    return redirect("socio")
 
 
 @cliente_login_required

@@ -10,6 +10,43 @@ body {
   background: #f7f7f7;
 }
 
+.meu-plano {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.meu-plano-status {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1b1b1b;
+  margin-bottom: 8px;
+}
+
+.plano-nome{
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #7a0000;
+}
+
+.btn-cancelar {
+  padding: 10px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: #f03e3e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .3s ease;
+  text-decoration: none;
+}
+
+.btn-cancelar:hover {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,.3);
+}
+
 .socio-main {
   padding: 60px 20px 80px;
 }
