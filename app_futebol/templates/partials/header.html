@@ -63,11 +63,11 @@
         {% endif %}
           
 
-          <li class="opcao-nav">
+          {% comment %} <li class="opcao-nav">
             <a href="{% url 'menu_fases' %}">
               <i class="bx bx-joystick"></i> Game
             </a>
-          </li>
+          </li> {% endcomment %}
           
           
         <li class="opcao-nav">
@@ -103,12 +103,12 @@
 
 
 <!-- Link App Mobile download -->
-  <div class="app-mobile">
+  {% comment %} <div class="app-mobile">
     <div class="app-mobile-text">
       <h3>Baixe o App Drakos FC</h3>
       <p>Fique por dentro de tudo que acontece no Drakos FC</p>
       <a href="{% url 'app_mobile' %}" class="btn-primary">Baixar App</a>
-  </div>
+  </div> {% endcomment %}
 </header>
 
 <!-- Overlay do drawer (somente mobile) -->
