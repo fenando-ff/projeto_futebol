@@ -7,6 +7,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as django_filters
 from django.shortcuts import get_object_or_404
 from django.db import transaction
+
+from .helpers import upload_image_to_r2
 from ..models import (
     CategoriaCliente,
     CategoriaProdutos,
@@ -158,6 +160,66 @@ class MeuPerfilView(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=["foto"],
+            properties={
+                "foto": openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_BINARY),
+            },
+        ),
+        responses={
+            200: openapi.Response(
+                "URL pública da foto.",
+                openapi.Schema(
+                    type=openapi.TYPE_OBJECT,
+                    properties={"url_foto_clientes": openapi.Schema(type=openapi.TYPE_STRING)},
+                ),
+            ),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Upload de foto de perfil",
+        operation_description="Recebe uma imagem, faz upload para o R2 e retorna a URL pública. Reutiliza a mesma integração Cloudflare do web.",
+    )
+    @action(detail=False, methods=["post"], url_path="upload-foto")
+    def upload_foto(self, request):
+        cliente = getattr(request, "user", None)
+
+        if not isinstance(cliente, Clientes):
+            return Response({"detail": "Não autenticado."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        foto = request.FILES.get("foto")
+        if not foto:
+            return Response(
+                {"detail": "Nenhuma imagem enviada."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            public_url = upload_image_to_r2(foto, folder="perfis")
+        except ValueError as exc:
+            return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            import logging
+
+            logging.exception("Erro ao enviar imagem para R2")
+            return Response(
+                {"detail": "Falha ao enviar a imagem. Tente novamente mais tarde."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        return Response({"url_foto_clientes": public_url})
 
     @action(detail=False, methods=["get"], url_path="carrinho")
     def carrinho(self, request):

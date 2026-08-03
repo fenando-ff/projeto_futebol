@@ -64,5 +64,6 @@ urlpatterns = router.urls + [
     path('minha-assinatura/', MinhaAssinaturaAPIView.as_view(), name='api-minha-assinatura'),
     path('assinar-plano/', AssinarPlanoAPIView.as_view(), name='api-assinar-plano'),
     path('meu-perfil/', MeuPerfilView.as_view({'get': 'list', 'put': 'update'}), name='meu-perfil'),
+    path('meu-perfil/upload-foto/', MeuPerfilView.as_view({'post': 'upload_foto'}), name='meu-perfil-upload-foto'),
     path('cart/', CartAPIView.as_view(), name='api-cart'),
 ]
