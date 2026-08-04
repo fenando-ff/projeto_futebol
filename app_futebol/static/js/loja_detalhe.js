@@ -142,6 +142,26 @@ function mostrarMensagemCarrinho(texto, tipo = "sucesso") {
 }
 
 // ======================================================
+// SUGESTÕES DE PRODUTOS RELACIONADOS
+// ======================================================
+const sugestoesWrapper = document.querySelector('.sugestoes');
+const produtosRelacionados = document.querySelector('.produtos-relacionados');
+
+if (sugestoesWrapper && produtosRelacionados) {
+  const cards = produtosRelacionados.querySelectorAll('.produto-relacionado-card');
+  if (!cards.length) {
+    sugestoesWrapper.style.display = 'none';
+  }
+
+  produtosRelacionados.addEventListener('wheel', (event) => {
+    if (window.innerWidth <= 1024) {
+      event.preventDefault();
+      produtosRelacionados.scrollLeft += event.deltaY;
+    }
+  });
+}
+
+// ======================================================
 // ESTILOS E ANIMAÇÕES (adicionados via JS)
 // ======================================================
 // ... (Seus estilos permanecem os mesmos) ...

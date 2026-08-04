@@ -93,7 +93,7 @@
           </div>
       </section>
 
-        <!-- DETALHes -->
+        <!-- DETALHES -->
     <section class="detalhes">
       <h2 class="titulo">{{ produto.nome_produtos }}</h2>
 
@@ -121,6 +121,26 @@
             <i class="fa-solid fa-cart-plus"></i> Adicionar ao Carrinho
           </button>
         </form>
+      </div>
+    </section>
+
+    <section class="sugestoes">
+      <h3 class="sugestoes-title">Produtos relacionados</h3>
+      <div class="produtos-relacionados">
+        {% for produto_relacionado in produtos_relacionados %}
+          <div class="produto-relacionado-card">
+            {% if produto_relacionado.imagem_produtos|slice:":4" == "http" %}
+              <img class="produto-imagem" src="{{ produto_relacionado.imagem_produtos }}" alt="{{ produto_relacionado.nome_produtos }}">
+            {% else %}
+              <img class="produto-imagem" src="{% static produto_relacionado.imagem_produtos %}" alt="{{ produto_relacionado.nome_produtos }}">
+            {% endif %}
+            <h4>{{ produto_relacionado.nome_produtos }}</h4>
+            <p>R${{ produto_relacionado.valor_produtos|floatformat:2 }}</p>
+            <a href="{% url 'loja_detalhe' produto_relacionado.id_produtos %}" class="btn-detalhes">Ver Detalhes</a>
+          </div>
+        {% empty %}
+          <p>Nenhum produto relacionado encontrado.</p>
+        {% endfor %}
       </div>
     </section>
   </div>

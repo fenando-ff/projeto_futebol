@@ -213,21 +213,91 @@ body {
   transform: translateY(-2px);
 }
 
+.sugestoes {
+  width: 100%;
+  margin-top: 40px;
+}
 
+.sugestoes h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #272727;
+}
 
-/* ===== CARROSSEL ESTILO LED ESTÁDIO ===== */
+.produtos-relacionados {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  grid-auto-rows: minmax(280px, auto);
+  gap: 18px;
+  overflow-x: hidden;
+  padding-bottom: 4px;
+}
 
-.led-stadium{
-  width:100%;
+.produto-relacionado-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 18px;
+  gap: 14px;
+  min-height: 320px;
+}
+
+.produto-relacionado-card img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.produto-relacionado-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #222;
+}
+
+.produto-relacionado-card p {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e72a2a;
+}
+
+.btn-detalhes {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.btn-detalhes:hover {
+  background: #e72a2a;
+  transform: translateY(-2px);
+}
+
+.produto-relacionado-card p + .btn-detalhes {
+  margin-top: 10px;
+}
+
+.nenhum-sugestao {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 10px;
   overflow:hidden;
-
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-
   border-top: 1px solid rgba(255,255,255,0.15);
   border-bottom: 1px solid rgba(255,255,255,0.15);
-
   padding:10px 0;
   position:relative;
 }

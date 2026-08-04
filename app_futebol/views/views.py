@@ -837,19 +837,44 @@ def logout_view(request):
 
 
 def tela_loja_detalhe(request, produto_id):    
-    try:
-        produto = models.Produtos.objects.get(id_produtos=produto_id)
-    except models.Produtos.DoesNotExist:
+    produto = models.Produtos.objects.select_related(
+        'categoria_produtos_id_categoria_produtos'
+    ).filter(id_produtos=produto_id).first()
+
+    if not produto:
         return redirect('produtos') 
     
     cliente = get_cliente_logado(request) # Pega as info do cliente logado
     imagens_produto = models.ImagemProduto.objects.filter(
         produtos_id_produtos=produto_id
     ).order_by('ordem_imagem', 'id_imagem_produto')
-    
+
+    categoria = getattr(produto, 'categoria_produtos_id_categoria_produtos', None)
+    produtos_relacionados = []
+
+    if categoria is not None:
+        produtos_relacionados = list(
+            models.Produtos.objects.select_related(
+                'categoria_produtos_id_categoria_produtos'
+            )
+            .filter(categoria_produtos_id_categoria_produtos=categoria)
+            .exclude(id_produtos=produto_id)
+            .order_by('-id_produtos')[:6]
+        )
+
+    if not produtos_relacionados:
+        produtos_relacionados = list(
+            models.Produtos.objects.select_related(
+                'categoria_produtos_id_categoria_produtos'
+            )
+            .exclude(id_produtos=produto_id)
+            .order_by('-id_produtos')[:6]
+        )
+
     context = {
         "produto": produto,
         "imagens_produto": imagens_produto,
+        "produtos_relacionados": produtos_relacionados,
         **(cliente or {}) # Inclui as informações do cliente logado
     }
     
