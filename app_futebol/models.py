@@ -363,7 +363,7 @@ class ImagemProduto(models.Model):
     id_imagem_produto = models.AutoField(db_column='id_IMAGEM_PRODUTO', primary_key=True)  # Field name made lowercase.
     imagem_imagem = models.CharField(db_column='imagem_IMAGEM', max_length=255)  # Field name made lowercase.
     ordem_imagem = models.IntegerField(db_column='ordem_IMAGEM')  # Field name made lowercase.
-    produtos_id_produtos = models.IntegerField(db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
+    produtos_id_produtos = models.ForeignKey('Produtos', models.DO_NOTHING, db_column='PRODUTOS_id_PRODUTOS')  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -371,7 +371,7 @@ class ImagemProduto(models.Model):
 
 
     def __str__(self):
-        return f"Imagem {self.id_imagem_produto} - {self.imagem_imagem}"
+        return f"Imagem {self.ordem_imagem} - {self.produtos_id_produtos.nome_produtos}"
 
 
 class Jogos(models.Model):
