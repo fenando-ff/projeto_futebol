@@ -20,17 +20,18 @@ from .views.viewsets import (
     MeuPerfilView
 )
 from .views.api import (
+    AssinarPlanoAPIView,
     CadastroAPIView,
     CartAPIView,
-    AssinarPlanoAPIView,
+    CheckoutAPIView,
+    CheckoutPreviewAPIView,
     EsqueciSenhaAPIView,
     LoginAPIView,
     LogoutAPIView,
     MinhaAssinaturaAPIView,
+    MinhasComprasAPIView,
     RedefinirSenhaAPIView,
     ValidarCodigoAPIView,
-    CheckoutAPIView,
-    CheckoutPreviewAPIView,
 )
 
 router = DefaultRouter()
@@ -66,4 +67,5 @@ urlpatterns = router.urls + [
     path('meu-perfil/', MeuPerfilView.as_view({'get': 'list', 'put': 'update'}), name='meu-perfil'),
     path('meu-perfil/upload-foto/', MeuPerfilView.as_view({'post': 'upload_foto'}), name='meu-perfil-upload-foto'),
     path('cart/', CartAPIView.as_view(), name='api-cart'),
+    path('minhas-compras/', MinhasComprasAPIView.as_view(), name='api-minhas-compras'),
 ]

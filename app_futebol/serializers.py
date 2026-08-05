@@ -632,6 +632,30 @@ class ProgressoFasesSerializer(serializers.ModelSerializer):
         fields = ["cliente", "fase2_liberada"]
 
 
+class MinhaCompraItemSerializer(serializers.Serializer):
+    id_compra = serializers.IntegerField()
+    produto_id = serializers.IntegerField()
+    produto_nome = serializers.CharField()
+    produto_imagem = serializers.CharField(allow_null=True)
+    quantidade = serializers.IntegerField()
+    valor = serializers.FloatField()
+    tamanho = serializers.CharField(allow_null=True, required=False)
+    subtotal = serializers.FloatField()
+
+
+class MinhaCompraSerializer(serializers.Serializer):
+    id_pedido = serializers.IntegerField()
+    data_pedido = serializers.CharField()
+    status = serializers.CharField()
+    valor_total = serializers.FloatField()
+    quantidade_total = serializers.IntegerField()
+    itens = MinhaCompraItemSerializer(many=True)
+
+
+class MinhasComprasSerializer(serializers.Serializer):
+    pedidos = MinhaCompraSerializer(many=True)
+
+
 class TitulosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Titulos
