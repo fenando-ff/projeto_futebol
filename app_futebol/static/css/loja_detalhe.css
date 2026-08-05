@@ -12,7 +12,7 @@ body {
   color: #222;
   display: flex;
   flex-direction: column;
-
+  overflow-x: hidden;
 }
 
 /* ---------- HEADER ---------- */
@@ -52,8 +52,10 @@ body {
   justify-content: center;
   align-items: flex-start;
   gap: 60px;
-  padding: 60px 0px 60px 0px;
+  padding: 60px 20px;
   flex-wrap: wrap;
+  width: min(100%, 1260px);
+  margin: 0 auto;
 }
 
 /* ---------- GALERIA ---------- */
@@ -230,6 +232,7 @@ body {
   grid-auto-rows: minmax(280px, auto);
   gap: 18px;
   overflow-x: hidden;
+  width: 100%;
   padding-bottom: 4px;
 }
 
@@ -248,7 +251,9 @@ body {
 .produto-relacionado-card img {
   width: 100%;
   height: 170px;
+  display: block;
   object-fit: cover;
+  object-position: center;
   border-radius: 12px;
 }
 
@@ -303,6 +308,12 @@ body {
 }
 
 /* leve brilho lateral */
+.led-stadium {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
 .led-stadium::before,
 .led-stadium::after{
   content:"";
@@ -327,6 +338,7 @@ body {
   display:flex;
   align-items:center;
   gap:120px;
+  min-width:100%;
   width:max-content;
   animation:ledScroll 30s linear infinite;
 }
@@ -444,7 +456,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding:15px 100px;
+  padding:15px 20px;
   background: #ad0000;
   color: #fff;
 }
@@ -452,7 +464,7 @@ body {
 
 .voltar {
   font-size: 1.2rem;
-  left: 35px;
+  left: 20px;
 }
 
 .marca {
@@ -470,14 +482,37 @@ right: 15px;
 }
 
 .botoes-tamanho {
-width: 125%;
+width: 100%;
 }
 
-  .footer {
-    padding: 60px 5%;
 }
+/* Empilha cards relacionados em mobile */
+@media (max-width: 600px) {
+  .produtos-relacionados {
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: auto;
+    gap: 12px;
+  }
+
+  .produto-relacionado-card {
+    min-height: auto;
+    padding: 14px;
+  }
 }
 
+/* ===== AJUSTES DESKTOP: imagens dos cards sugeridos ===== */
+@media (min-width: 769px) {
+  .produto-relacionado-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px;
+  }
 
-
-
+  .produtos-relacionados {
+    grid-auto-rows: minmax(320px, auto);
+    align-items: start;
+  }
+}
