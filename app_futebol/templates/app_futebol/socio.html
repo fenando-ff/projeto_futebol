@@ -21,13 +21,17 @@
     </div>
     
     <div class="meu-plano">
-      {% if plano_socio_id != 5 %}
-        <h2 class="meu-plano-title">Meu Plano</h2>
-        <p class="meu-plano-status">Você é sócio do plano: <strong class="plano-nome">{{ plano_socio_nome }}</strong></p>
-        <a href="{% url 'cancelar_socio' %}" class="btn-cancelar">Cancelar Sócio</a>
+      {% if request.session.cliente_id %}
+        {% if plano_socio_id != 5 %}
+          <h2 class="meu-plano-title">Meu Plano</h2>
+          <p class="meu-plano-status">Você é sócio do plano: <strong class="plano-nome">{{ plano_socio_nome }}</strong></p>
+          <a href="{% url 'cancelar_socio' %}" class="btn-cancelar">Cancelar Sócio</a>
+        {% else %}
+          <h2>Você ainda não é sócio.</h2>
+          <p>Escolha um dos planos abaixo para se tornar sócio-torcedor do Drakos FC.</p>
+        {% endif %}
       {% else %}
-        <h2>Você ainda não é sócio.</h2>
-        <p>Escolha um dos planos abaixo para se tornar sócio-torcedor do Drakos FC.</p>
+        <a href="{% url 'login' %}" class="btn-cancelar">Login</a>
       {% endif %}
     </div>
 
