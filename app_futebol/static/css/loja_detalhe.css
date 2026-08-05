@@ -499,3 +499,20 @@ width: 100%;
     padding: 14px;
   }
 }
+
+/* ===== AJUSTES DESKTOP: imagens dos cards sugeridos ===== */
+@media (min-width: 769px) {
+  .produto-relacionado-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px;
+  }
+
+  .produtos-relacionados {
+    grid-auto-rows: minmax(320px, auto);
+    align-items: start;
+  }
+}
