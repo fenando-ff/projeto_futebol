@@ -13,18 +13,21 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from ..models import CategoriaCliente, Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
 from ..serializers import (
-    CadastroSerializer,
     AssinarPlanoSerializer,
+    CadastroSerializer,
     CheckoutSerializer,
-    CategoriaClienteSerializer,
     CategoriaClienteAssinaturaSerializer,
+    CategoriaClienteSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
+    MinhasComprasSerializer,
     RedefinirSenhaSerializer,
     ValidarCodigoSerializer,
 )
 from ..auth import ClienteTokenAuthentication, gerar_token
+from ..views.views import get_historico_cliente
+from .helpers import build_public_image_url
 from .socio_catalog import build_pricing_snapshot, build_socio_api_plan, get_socio_desconto_percent
 
 
@@ -868,3 +871,62 @@ class AssinarPlanoAPIView(APIView):
             plano=CategoriaClienteAssinaturaSerializer(plano).data,
             plano_atual=CategoriaClienteAssinaturaSerializer(plano).data,
         )
+
+
+class MinhasComprasAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        responses={
+            200: MinhasComprasSerializer(),
+            401: openapi.Response("Não autenticado."),
+        },
+        operation_summary="Histórico de compras do cliente",
+        operation_description="Retorna os pedidos do cliente autenticado, agrupados por pedido, com itens, valores e status.",
+    )
+    def get(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        historico = get_historico_cliente(request, request.user)
+        pedidos = []
+        for item in historico:
+            pedido = item.get("pedido", {})
+            itens = item.get("itens", [])
+            pedidos.append({
+                "id_pedido": pedido.get("id_pedido"),
+                "data_pedido": pedido.get("data_pedido"),
+                "status": pedido.get("status", ""),
+                "valor_total": round(float(item.get("valor_total", 0)), 2),
+                "quantidade_total": sum(int(it.get("quantidade", 1)) for it in itens),
+                "itens": [
+                    {
+                        "id_compra": it.get("id_compra"),
+                        "produto_id": it.get("produto", {}).get("id"),
+                        "produto_nome": it.get("produto", {}).get("nome_produtos"),
+                        "produto_imagem": build_public_image_url(it.get("produto", {}).get("imagem_produtos")),
+                        "quantidade": int(it.get("quantidade", 1)),
+                        "valor": round(float(it.get("valor_unitario", 0)), 2),
+                        "tamanho": it.get("tamanho"),
+                        "subtotal": round(float(it.get("subtotal", 0)), 2),
+                    }
+                    for it in itens
+                ],
+            })
+
+        serializer = MinhasComprasSerializer({"pedidos": pedidos})
+        return Response(serializer.data, status=status.HTTP_200_OK)
