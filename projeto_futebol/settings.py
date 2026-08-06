@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG dinâmico: False no Render, True local
 DEBUG = os.environ.get('RENDER', 'False') == 'True' or os.environ.get('DEBUG', 'True') == 'True'
 IP_LOCAL = os.environ.get('IP_LOCAL')
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.20.10.3", "10.100.179.2", "172.24.57.22", "172.24.57.2","172.20.10.4","projeto-futebol.onrender.com", ".onrender.com", IP_LOCAL]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "172.20.10.3", "10.100.179.2", "192.168.1.7", "172.24.57.2","172.20.10.4","projeto-futebol.onrender.com", ".onrender.com", IP_LOCAL]
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 if not SECRET_KEY:
