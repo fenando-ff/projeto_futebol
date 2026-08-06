@@ -364,11 +364,13 @@ class ProdutosSerializer(serializers.ModelSerializer):
 
 class ProdutoAPISerializer(serializers.ModelSerializer):
     preco_produtos = serializers.FloatField(source="valor_produtos", read_only=True)
+    preco = serializers.FloatField(source="valor_produtos", read_only=True)
     estoque_produtos = serializers.IntegerField(source="quantidade_estoque_produtos", read_only=True)
     categoria_produtos = serializers.CharField(
         source="categoria_produtos_id_categoria_produtos.nome_categoria_produtos",
         read_only=True,
     )
+    setor = serializers.CharField(source="nome_produtos", read_only=True)
     preco_original = serializers.SerializerMethodField()
     preco_final = serializers.SerializerMethodField()
     economia = serializers.SerializerMethodField()
@@ -385,7 +387,9 @@ class ProdutoAPISerializer(serializers.ModelSerializer):
         fields = [
             "id_produtos",
             "nome_produtos",
+            "setor",
             "descricao_produtos",
+            "preco",
             "preco_produtos",
             "preco_original",
             "preco_final",
@@ -596,10 +600,32 @@ class CompraHistoricoSerializer(serializers.ModelSerializer):
         return float(obj.valor_compra or 0)
 
 
+class TimesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Times
+        fields = '__all__'
+
+
 class JogosSerializer(serializers.ModelSerializer):
+    times = TimesSerializer(source='times_id_times', read_only=True)
+    ingressos = serializers.SerializerMethodField()
+
     class Meta:
         model = Jogos
-        fields = '__all__'
+        fields = [
+            'id_jogos',
+            'dia_jogo',
+            'hora_jogo',
+            'local_jogo',
+            'casa_fora',
+            'times_id_times',
+            'times',
+            'ingressos',
+        ]
+
+    def get_ingressos(self, obj):
+        ingressos_qs = obj.produtos_set.filter(categoria_produtos_id_categoria_produtos=10)
+        return ProdutoAPISerializer(ingressos_qs, many=True, context=self.context).data
 
 
 class FuncionariosSerializer(serializers.ModelSerializer):

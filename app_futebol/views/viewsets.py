@@ -313,8 +313,9 @@ class CompraViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class JogosViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Jogos.objects.all()
+    queryset = Jogos.objects.select_related('times_id_times').all().order_by('dia_jogo')
     serializer_class = JogosSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class FuncionariosViewSet(viewsets.ReadOnlyModelViewSet):
