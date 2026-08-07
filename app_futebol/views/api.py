@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import transaction
+from django.db.models import Prefetch
 from django.utils import timezone
 from django.core.mail import send_mail
 from drf_yasg import openapi
@@ -16,11 +17,13 @@ from ..serializers import (
     AssinarPlanoSerializer,
     CadastroSerializer,
     CheckoutSerializer,
+    IngressoCheckoutSerializer,
     CategoriaClienteAssinaturaSerializer,
     CategoriaClienteSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
+    JogosSerializer,
     MinhasComprasSerializer,
     RedefinirSenhaSerializer,
     ValidarCodigoSerializer,
@@ -160,6 +163,37 @@ def _normalize_checkout_payload(data):
     return {"itens": normalized_items}
 
 
+def _normalize_ingresso_checkout_payload(data):
+    payload = _payload_copy(data)
+    raw_items = _first_value(payload, "itens", "items", "cartItems", default=[])
+    if raw_items in (None, ""):
+        raw_items = []
+
+    normalized_items = []
+    for item in raw_items:
+        item_data = _payload_copy(item)
+        normalized_items.append({
+            "produto_id": _first_value(
+                item_data,
+                "produto_id",
+                "produtoId",
+                "product_id",
+                "productId",
+                "id",
+            ),
+            "quantidade": _first_value(
+                item_data,
+                "quantidade",
+                "quantity",
+                "qtd",
+                "amount",
+                default=1,
+            ),
+        })
+
+    return {"itens": normalized_items}
+
+
 def _categoria_nome_normalizada(produto):
     categoria = getattr(produto, "categoria_produtos_id_categoria_produtos", None)
     nome = getattr(categoria, "nome_categoria_produtos", "") or ""
@@ -175,6 +209,93 @@ def _categoria_nao_socio(categoria):
     categoria_id = getattr(categoria, "id_categoria_cliente", None)
 
     return categoria_id == 5 or nome_normalizado == "nao socio"
+
+
+INGRESSO_CATEGORIA_ID = 10
+
+
+def _produto_e_ingresso(produto):
+    categoria = getattr(produto, "categoria_produtos_id_categoria_produtos", None)
+    categoria_id = getattr(categoria, "id_categoria_produtos", None)
+    return categoria_id == INGRESSO_CATEGORIA_ID
+
+
+def _serializar_jogo_ingresso(produto):
+    jogo = getattr(produto, "jogos_id_jogos", None)
+    if not jogo:
+        return None
+
+    time = getattr(jogo, "times_id_times", None)
+    return {
+        "id_jogos": getattr(jogo, "id_jogos", None),
+        "dia_jogo": getattr(jogo, "dia_jogo", None).isoformat() if getattr(jogo, "dia_jogo", None) else None,
+        "hora_jogo": getattr(jogo, "hora_jogo", None).strftime("%H:%M") if getattr(jogo, "hora_jogo", None) else None,
+        "local_jogo": getattr(jogo, "local_jogo", None),
+        "casa_fora": getattr(jogo, "casa_fora", None),
+        "adversario": getattr(time, "nome_time", None),
+        "time": {
+            "id_times": getattr(time, "id_times", None),
+            "nome_time": getattr(time, "nome_time", None),
+            "url_brasao": getattr(time, "url_brasao", None),
+        } if time else None,
+    }
+
+
+def _build_ingresso_preview(cliente, itens_checkout, produtos_lock):
+    categoria = getattr(cliente, "categoria_cliente_id_categoria_cliente", None)
+    itens_resumo = []
+    subtotal_original = 0.0
+    economia_total = 0.0
+    total_final = 0.0
+    quantidade_total = 0
+
+    for item in itens_checkout:
+        produto = produtos_lock[item["produto_id"]]
+        quantidade = int(item["quantidade"])
+        pricing = build_pricing_snapshot(produto.valor_produtos, categoria, quantidade)
+        jogo = _serializar_jogo_ingresso(produto)
+
+        quantidade_total += quantidade
+        subtotal_original += pricing["preco_original_total"]
+        economia_total += pricing["economia_total"]
+        total_final += pricing["preco_final_total"]
+
+        itens_resumo.append(
+            {
+                "produto_id": produto.id_produtos,
+                "nome_produtos": produto.nome_produtos,
+                "imagem_produtos": produto.imagem_produtos,
+                "quantidade": quantidade,
+                "categoria_nome": getattr(
+                    getattr(produto, "categoria_produtos_id_categoria_produtos", None),
+                    "nome_categoria_produtos",
+                    None,
+                ),
+                "jogo": jogo,
+                "preco_original_unitario": pricing["preco_original_unitario"],
+                "preco_final_unitario": pricing["preco_final_unitario"],
+                "economia_unitaria": pricing["economia_unitaria"],
+                "preco_original_total": pricing["preco_original_total"],
+                "preco_final_total": pricing["preco_final_total"],
+                "economia_total": pricing["economia_total"],
+                "desconto_percent": pricing["desconto_percent"],
+            }
+        )
+
+    desconto_total = round(subtotal_original - total_final, 2)
+    desconto_percent = _get_desconto_assinatura(cliente)
+
+    return {
+        "itens": itens_resumo,
+        "subtotal_original": round(subtotal_original, 2),
+        "economia_total": round(economia_total, 2),
+        "total_final": round(total_final, 2),
+        "desconto_total": round(desconto_total, 2),
+        "desconto_percent": desconto_percent,
+        "quantidade_total": quantidade_total,
+        "plano_atual": _serializar_assinatura(cliente),
+        "beneficios_plano": (_serializar_assinatura(cliente) or {}).get("beneficios", []),
+    }
 
 
 def _serializar_assinatura(cliente):
@@ -540,6 +661,265 @@ class LogoutAPIView(APIView):
         return Response({"detail": "Logout realizado."}, status=status.HTTP_200_OK)
 
 
+class IngressosAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response("Jogos e ingressos carregados."),
+        },
+        operation_summary="Listar ingressos disponíveis",
+        operation_description="Retorna os jogos futuros com os ingressos vinculados e em estoque, pronto para o app mobile montar a tela de venda.",
+    )
+    def get(self, request):
+        ingressos_qs = Produtos.objects.select_related(
+            "categoria_produtos_id_categoria_produtos",
+            "jogos_id_jogos",
+            "jogos_id_jogos__times_id_times",
+        ).filter(
+            categoria_produtos_id_categoria_produtos=INGRESSO_CATEGORIA_ID,
+            quantidade_estoque_produtos__gt=0,
+        ).order_by("id_produtos")
+
+        jogos_qs = (
+            Jogos.objects.filter(dia_jogo__gte=timezone.now().date())
+            .select_related("times_id_times")
+            .prefetch_related(
+                Prefetch(
+                    "produtos_set",
+                    queryset=ingressos_qs,
+                    to_attr="ingressos_disponiveis",
+                )
+            )
+            .order_by("dia_jogo", "hora_jogo")
+        )
+
+        serializer = JogosSerializer(jogos_qs, many=True, context={"request": request})
+        return _response(
+            "Ingressos carregados com sucesso.",
+            jogos=serializer.data,
+            total_jogos=len(serializer.data),
+        )
+
+
+class IngressosCheckoutPreviewAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        request_body=IngressoCheckoutSerializer,
+        responses={
+            200: openapi.Response("Resumo da compra carregado."),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+            404: openapi.Response("Ingresso não encontrado."),
+        },
+        operation_summary="Preview da compra de ingressos",
+        operation_description="Calcula o resumo da compra da tela de ingressos antes da confirmação, aplicando o desconto do plano do cliente quando houver.",
+    )
+    def post(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Usuário não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        payload = _normalize_ingresso_checkout_payload(request.data)
+        serializer = IngressoCheckoutSerializer(data=payload)
+        serializer.is_valid(raise_exception=True)
+
+        itens_input = serializer.validated_data["itens"]
+        itens_agregados = {}
+        for item in itens_input:
+            produto_id = int(item["produto_id"])
+            agregado = itens_agregados.setdefault(
+                produto_id,
+                {
+                    "produto_id": produto_id,
+                    "quantidade": 0,
+                },
+            )
+            agregado["quantidade"] += int(item["quantidade"])
+
+        itens_checkout = list(itens_agregados.values())
+        produto_ids = sorted({item["produto_id"] for item in itens_checkout})
+
+        produtos_qs = (
+            Produtos.objects.select_related(
+                "categoria_produtos_id_categoria_produtos",
+                "jogos_id_jogos",
+                "jogos_id_jogos__times_id_times",
+            )
+            .filter(id_produtos__in=produto_ids)
+        )
+        produtos_lock = {produto.id_produtos: produto for produto in produtos_qs}
+
+        if len(produtos_lock) != len(produto_ids):
+            faltantes = [pid for pid in produto_ids if pid not in produtos_lock]
+            return _response(
+                f"Ingresso(s) não encontrado(s): {faltantes}",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
+
+        for produto in produtos_lock.values():
+            if not _produto_e_ingresso(produto):
+                return _response(
+                    f'Produto "{produto.nome_produtos}" não é um ingresso.',
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    success=False,
+                )
+
+        resumo = _build_ingresso_preview(request.user, itens_checkout, produtos_lock)
+        return _response(
+            "Resumo da compra carregado com sucesso.",
+            **resumo,
+        )
+
+
+class IngressosCheckoutAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        request_body=IngressoCheckoutSerializer,
+        responses={
+            201: openapi.Response("Compra finalizada com sucesso."),
+            400: openapi.Response("Dados inválidos."),
+            401: openapi.Response("Não autenticado."),
+            404: openapi.Response("Ingresso não encontrado."),
+        },
+        operation_summary="Finalizar compra de ingressos",
+        operation_description="Cria o pedido e os itens da compra a partir da tela de ingressos do app mobile.",
+    )
+    def post(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Usuário não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        payload = _normalize_ingresso_checkout_payload(request.data)
+        serializer = IngressoCheckoutSerializer(data=payload)
+        serializer.is_valid(raise_exception=True)
+
+        itens_input = serializer.validated_data["itens"]
+        itens_agregados = {}
+        for item in itens_input:
+            produto_id = int(item["produto_id"])
+            agregado = itens_agregados.setdefault(
+                produto_id,
+                {
+                    "produto_id": produto_id,
+                    "quantidade": 0,
+                },
+            )
+            agregado["quantidade"] += int(item["quantidade"])
+
+        itens_checkout = list(itens_agregados.values())
+        produto_ids = sorted({item["produto_id"] for item in itens_checkout})
+        cliente = request.user
+
+        with transaction.atomic():
+            produtos_qs = (
+                Produtos.objects.select_for_update()
+                .select_related(
+                    "categoria_produtos_id_categoria_produtos",
+                    "jogos_id_jogos",
+                    "jogos_id_jogos__times_id_times",
+                )
+                .filter(id_produtos__in=produto_ids)
+            )
+            produtos_lock = {produto.id_produtos: produto for produto in produtos_qs}
+
+            if len(produtos_lock) != len(produto_ids):
+                faltantes = [pid for pid in produto_ids if pid not in produtos_lock]
+                return _response(
+                    f"Ingresso(s) não encontrado(s): {faltantes}",
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    success=False,
+                )
+
+            compras = []
+
+            for item in itens_checkout:
+                produto = produtos_lock[item["produto_id"]]
+                quantidade = int(item["quantidade"])
+
+                if quantidade <= 0:
+                    return _response(
+                        "Quantidade inválida.",
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        success=False,
+                    )
+
+                if not _produto_e_ingresso(produto):
+                    return _response(
+                        f'Produto "{produto.nome_produtos}" não é um ingresso.',
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        success=False,
+                    )
+
+                estoque_disponivel = int(produto.quantidade_estoque_produtos or 0)
+                if quantidade > estoque_disponivel:
+                    return _response(
+                        {
+                            "erro": (
+                                f"Estoque insuficiente para {produto.nome_produtos}. "
+                                f"Disponível: {estoque_disponivel}"
+                            )
+                        },
+                        status_code=status.HTTP_400_BAD_REQUEST,
+                        success=False,
+                    )
+
+                produto.quantidade_estoque_produtos = estoque_disponivel - quantidade
+                compras.append(
+                    Compra(
+                        produtos_id_produtos=produto,
+                        pedido_id_pedido=None,
+                        quantidade_pedido=quantidade,
+                        tamanho=None,
+                        valor_compra=Decimal(str(produto.valor_produtos)) * quantidade,
+                    )
+                )
+
+            pedido = Pedido.objects.create(
+                data_pedido=timezone.now(),
+                clientes_id_clientes=cliente,
+                funcionarios_id_funcionarios=None,
+                status="entregue",
+            )
+
+            for compra in compras:
+                compra.pedido_id_pedido = pedido
+
+            Compra.objects.bulk_create(compras)
+            Produtos.objects.bulk_update(
+                list(produtos_lock.values()),
+                ["quantidade_estoque_produtos"],
+            )
+
+            resumo = _build_ingresso_preview(cliente, itens_checkout, produtos_lock)
+
+        return _response(
+            "Compra de ingressos finalizada com sucesso.",
+            status_code=status.HTTP_201_CREATED,
+            pedido_id=pedido.id_pedido,
+            total=resumo["total_final"],
+            total_bruto=resumo["subtotal_original"],
+            desconto_percent=resumo["desconto_percent"],
+            desconto=resumo["desconto_total"],
+            plano_atual=resumo["plano_atual"],
+            beneficios_plano=resumo["beneficios_plano"],
+            itens=resumo["itens"],
+            quantidade_total=resumo["quantidade_total"],
+            status=pedido.status,
+        )
+
+
 class CartAPIView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -811,6 +1191,62 @@ class MinhaAssinaturaAPIView(APIView):
             assinatura=_serializar_assinatura(request.user),
             plano=_serializar_assinatura(request.user),
             plano_atual=_serializar_assinatura(request.user),
+        )
+
+
+class CancelarAssinaturaAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [ClienteTokenAuthentication]
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                "Authorization",
+                openapi.IN_HEADER,
+                description="Token no formato `Token <token>`.",
+                type=openapi.TYPE_STRING,
+                required=False,
+            )
+        ],
+        responses={
+            200: openapi.Response("Assinatura cancelada com sucesso."),
+            401: openapi.Response("Não autenticado."),
+            404: openapi.Response("Categoria não sócio não encontrada."),
+        },
+        operation_summary="Cancelar assinatura atual",
+        operation_description="Atualiza a categoria do cliente autenticado para a categoria de não sócio e retorna a assinatura atualizada como null.",
+    )
+    def post(self, request):
+        if not isinstance(request.user, Clientes):
+            return _response(
+                "Não autenticado.",
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                success=False,
+            )
+
+        categoria_nao_socio = CategoriaCliente.objects.filter(id_categoria_cliente=5).first()
+        if not categoria_nao_socio:
+            categoria_nao_socio = CategoriaCliente.objects.filter(
+                nome_categoria_clientes__iexact="nao socio"
+            ).first()
+
+        if not categoria_nao_socio:
+            return _response(
+                "Categoria não sócio não encontrada.",
+                status_code=status.HTTP_404_NOT_FOUND,
+                success=False,
+            )
+
+        with transaction.atomic():
+            cliente = Clientes.objects.select_for_update().get(pk=request.user.pk)
+            cliente.categoria_cliente_id_categoria_cliente = categoria_nao_socio
+            cliente.save(update_fields=["categoria_cliente_id_categoria_cliente"])
+
+        return _response(
+            "Assinatura cancelada com sucesso.",
+            assinatura=None,
+            plano=None,
+            plano_atual=None,
         )
 
 

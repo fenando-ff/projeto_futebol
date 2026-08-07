@@ -624,8 +624,26 @@ class JogosSerializer(serializers.ModelSerializer):
         ]
 
     def get_ingressos(self, obj):
+        ingressos_cache = getattr(obj, "ingressos_disponiveis", None)
+        if ingressos_cache is not None:
+            return ProdutoAPISerializer(ingressos_cache, many=True, context=self.context).data
+
         ingressos_qs = obj.produtos_set.filter(categoria_produtos_id_categoria_produtos=10)
         return ProdutoAPISerializer(ingressos_qs, many=True, context=self.context).data
+
+
+class IngressoCheckoutItemSerializer(serializers.Serializer):
+    produto_id = serializers.IntegerField(min_value=1)
+    quantidade = serializers.IntegerField(min_value=1)
+
+
+class IngressoCheckoutSerializer(serializers.Serializer):
+    itens = IngressoCheckoutItemSerializer(many=True)
+
+    def validate_itens(self, value):
+        if not value:
+            raise serializers.ValidationError("Carrinho vazio.")
+        return value
 
 
 class FuncionariosSerializer(serializers.ModelSerializer):
