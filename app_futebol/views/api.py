@@ -12,7 +12,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from ..models import CategoriaCliente, Clientes, Compra, Pedido, Produtos, RecuperacaoSenha
+from ..models import CategoriaCliente, Clientes, Compra, Jogos, Pedido, Produtos, RecuperacaoSenha, Times
 from ..serializers import (
     AssinarPlanoSerializer,
     CadastroSerializer,
