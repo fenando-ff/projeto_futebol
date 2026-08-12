@@ -158,7 +158,7 @@ EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
-RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "onboarding@resend.dev")
+RESEND_FROM_EMAIL = os.environ.get("RESEND_FROM_EMAIL", "")
 EMAIL_REQUEST_TIMEOUT_SECONDS = float(os.getenv("EMAIL_REQUEST_TIMEOUT_SECONDS", "10"))
 DEFAULT_FROM_EMAIL = os.environ.get(
     "DEFAULT_FROM_EMAIL",
