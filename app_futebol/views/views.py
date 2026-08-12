@@ -923,7 +923,7 @@ def tela_rec_senha(request):
             send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
-                os.environ.get("EMAIL_HOST_USER"),
+                settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )

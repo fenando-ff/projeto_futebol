@@ -2,6 +2,7 @@ import os
 import random
 from decimal import Decimal
 
+from django.conf import settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -421,7 +422,7 @@ class EsqueciSenhaAPIView(APIView):
             send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
-                os.environ.get("EMAIL_HOST_USER"),
+                settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
