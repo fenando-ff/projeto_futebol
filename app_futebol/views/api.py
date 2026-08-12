@@ -388,6 +388,7 @@ class EsqueciSenhaAPIView(APIView):
         serializer = EsqueciSenhaSerializer(data=_normalize_recovery_payload(request.data))
         if not serializer.is_valid():
             print("[RECOVERY][esqueci-senha] validation_error", serializer.errors)
+            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_400_BAD_REQUEST)
             return _response(
                 _validation_message(serializer.errors, "Dados inválidos."),
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -396,11 +397,12 @@ class EsqueciSenhaAPIView(APIView):
             )
 
         email = serializer.validated_data["email"]
-        print("[RECOVERY][esqueci-senha] email", email)
+        print("[RECOVERY][esqueci-senha] recipient", email)
 
         cliente = Clientes.objects.filter(email_clientes=email).first()
         if not cliente:
             print("[RECOVERY][esqueci-senha] client_not_found", email)
+            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_404_NOT_FOUND)
             return _response(
                 "Email não encontrado!",
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -408,7 +410,7 @@ class EsqueciSenhaAPIView(APIView):
             )
 
         codigo = str(random.randint(100000, 999999))
-        print("[RECOVERY][esqueci-senha] code_generated", email, codigo)
+        print("[RECOVERY][esqueci-senha] code_generated", email, "length=6")
 
         RecuperacaoSenha.objects.create(
             cliente_id=cliente.id_clientes,
@@ -419,16 +421,17 @@ class EsqueciSenhaAPIView(APIView):
 
         try:
             print("[RECOVERY][esqueci-senha] send_mail_start", email)
-            send_mail(
+            sent_count = send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
-            print("[RECOVERY][esqueci-senha] send_mail_ok", email)
-        except Exception:
-            print("[RECOVERY][esqueci-senha] send_mail_failed", email)
+            print("[RECOVERY][esqueci-senha] send_mail_return", email, sent_count)
+        except Exception as exc:
+            print("[RECOVERY][esqueci-senha] send_mail_exception", email, exc.__class__.__name__, str(exc))
+            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_500_INTERNAL_SERVER_ERROR)
             return _response(
                 "Erro ao enviar email.",
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -436,6 +439,7 @@ class EsqueciSenhaAPIView(APIView):
             )
 
         print("[RECOVERY][esqueci-senha] response_ok", email)
+        print("[RECOVERY][esqueci-senha] final_status", status.HTTP_201_CREATED)
         return _response(
             "Código enviado com sucesso.",
             status_code=status.HTTP_201_CREATED,
