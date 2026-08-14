@@ -83,7 +83,7 @@
 
             <div class="time">
                 {% if jogo_destaque.times_id_times.url_brasao %}
-                  <img class="fa-bounce" src="{% static jogo_destaque.times_id_times.url_brasao %}">
+                  <img class="fa-bounce" src="{{ jogo_destaque.times_id_times.url_brasao }}">
                 {% endif %}
                 <span>{{ jogo_destaque.times_id_times.nome_time }}</span>
             </div>
