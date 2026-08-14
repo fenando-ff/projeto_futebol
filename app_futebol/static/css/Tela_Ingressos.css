@@ -1158,6 +1158,11 @@ main {
         margin-bottom: 5px;
     }
 
+    .jogo-times .escudo:first-child {
+        position: relative;
+        left: -20px;
+    }
+
     .jogo-times .escudo:last-child {
         width: 60px;
         height: 60px;
@@ -1379,6 +1384,11 @@ main {
 
     .jogo-times .escudo:last-child {
         width: 56px;
+
+    .jogo-times .escudo:first-child {
+        position: relative;
+        left: -20px;
+    }
         height: 56px;
     }
 
@@ -1520,12 +1530,17 @@ main {
 
     .times-ingresso .time:first-child img {
         transform: scale(1.2);
-        height: 30px;
+        width: 32px;
+        height: 32px;
+        position: relative;
+        left: -20px;
     }
 
     .jogo-times .escudo:first-child {
         width: 22px;
         height: 22px;
+        position: relative;
+        left: -20px;
     }
 
     .jogo-times .escudo:last-child {
