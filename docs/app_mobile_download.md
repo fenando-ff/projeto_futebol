@@ -230,6 +230,15 @@ Adicionar nova seção **após** a seção `<!-- ======================== PRODUT
 - [ ] Verificar se o download do APK funciona corretamente
 - [ ] Validar em diferentes tamanhos de tela (375px, 768px, 1024px, 1440px)
 
+- [x] Colocar `.apk` em `app_futebol/static/download/drako-app.apk`
+- [x] Colocar QR Code em `app_futebol/static/img/app/qrcode-app.png`
+- [x] Adicionar HTML da seção em `index.html` (após produtos, antes de `</main>`)
+- [x] Adicionar CSS em `home.css`
+- [ ] Testar em desktop (QR visível, botão oculto)
+- [ ] Testar em mobile (botão visível, QR oculto)
+- [ ] Verificar se o download do APK funciona corretamente
+- [ ] Validar em diferentes tamanhos de tela (375px, 768px, 1024px, 1440px)
+
 ## Ordem de Implementação
 
 1. Criar pastas `static/download/` e `static/img/app/`

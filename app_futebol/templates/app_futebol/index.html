@@ -10,42 +10,70 @@
 {% block conteudo_pagina %}
 
 <main class="home-container">
-
+    
     <!-- ======================== HERO =============================== -->
+    
     <section class="hero">
         <div class="hero-text">
             {% if nome %}
-                <h2 style="color: #f0f0f0;">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
-            {% else %}
+            <h2 style="color: #f0f0f0;">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+                {% else %}
                 <h2 style="color: #f0f0f0;">Bem-vindo!</h2>
-            {% endif %}
-            <h1>DRAKO FUTEBOL CLUBE</h1>
-            <p>A força do dragão dentro e fora de campo.</p>
-            <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
-        </div>
-
-        <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
-        <div class="hero-carousel">
+                {% endif %}
+                <h1>DRAKO FUTEBOL CLUBE</h1>
+                <p>A força do dragão dentro e fora de campo.</p>
+                <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
+            </div>
             
-            <!-- Imagens -->
-            <div class="carousel-track">
-                <img src="{% static 'img/banners/IMG_8928.webp' %}" class="carousel-img active">
-                <img src="{% static 'img/banners/IMG_8930.webp' %}" class="carousel-img">
-                <img src="{% static 'img/banners/bilhete_expandido.webp' %}" class="carousel-img">
+            <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
+            <div class="hero-carousel">
+                
+                <!-- Imagens -->
+                <div class="carousel-track">
+                    <img src="{% static 'img/banners/IMG_8928.webp' %}" class="carousel-img active">
+                    <img src="{% static 'img/banners/IMG_8930.webp' %}" class="carousel-img">
+                    <img src="{% static 'img/banners/bilhete_expandido.webp' %}" class="carousel-img">
+                </div>
+                
+                <!-- Barra de progresso -->
+                <div class="carousel-progress">
+                    <div class="progress-bar"></div>
+                </div>
+                
+                <!-- Botões -->
+                <button class="carousel-btn left">&#10094;</button>
+                <button class="carousel-btn right">&#10095;</button>
             </div>
-
-            <!-- Barra de progresso -->
-            <div class="carousel-progress">
-                <div class="progress-bar"></div>
+        </section>
+        
+        <!-- ======================== APP MOBILE =============================== -->
+        <section class="app-mobile">
+            <div class="app-mobile-content">
+                <div class="app-info">
+                    
+                    <h2>Baixe nosso App</h2>
+                    <p>Acompanhe o Drako FC. Acompanhe seu time, próximos jogos e muito mais.</p>
+        
+                    <!-- Desktop: QR Code -->
+                    <div class="qr-desktop">
+                        <img src="{% static 'img/app/img_qrcode_apk.png' %}" alt="QR Code para download do app">
+                        <span class="qr-label">Escaneie para baixar</span>
+                    </div>
+        
+                    <!-- Mobile: Botão de download -->
+                    <a href="{% static 'download/drakos_app.apk' %}" class="btn-download-app" download>
+                        <i class="fa-brands fa-android"></i>
+                        Baixar App
+                    </a>
+                </div>
+        
+                <!-- Mockup ilustrativo do app (opcional) -->
+                <div class="app-mockup">
+                    <img src="{% static 'img/app/mockup_app_drakos.png' %}" alt="App Drako FC">
+                </div>
             </div>
-
-            <!-- Botões -->
-            <button class="carousel-btn left">&#10094;</button>
-            <button class="carousel-btn right">&#10095;</button>
-        </div>
-    </section>
-
-    <!-- ======================== CARDS DE DESTAQUE =============================== -->
+        </section>
+        <!-- ======================== CARDS DE DESTAQUE =============================== -->
     <section class="destaques">
         <div class="card destaque1">
             <i class="fa-solid fa-newspaper"></i>
@@ -219,7 +247,9 @@
 
         </div>
     </div>
-</section>
+    </section>
+
+
 </main>
 
 {% endblock %}
