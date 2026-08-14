@@ -93,7 +93,7 @@ main{ padding-top: 64px; }
   text-decoration: none;
   min-width: 180px;
 }
-.logo img{ width: 84px; height: 84px; object-fit: contain; transform: scale(2.0); }
+.logo img{ width: 48px; height: 48px; object-fit: contain; transform: none; }
 .logo h1{
   color: #fff;
   font-size: 18px;
@@ -617,9 +617,10 @@ transform:rotate(25deg);
 }
 
 .logo img{
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  transform: none;
 }
 
 .hamb-btn{

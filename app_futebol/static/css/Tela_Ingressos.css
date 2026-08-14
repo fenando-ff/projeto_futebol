@@ -215,7 +215,13 @@ main {
 }
 
 .times-ingresso .time img {
-    height: 80px;
+    height: 64px;
+    width: auto;
+    transition: var(--transicao-suave);
+}
+
+.times-ingresso .time:last-child img {
+    height: 84px;
     width: auto;
     transition: var(--transicao-suave);
 }
@@ -242,16 +248,18 @@ main {
     50% { filter: drop-shadow(0 0 25px rgba(247, 43, 43, 0.5)); }
 }
 
-.times-ingresso .time:last-child img {
-    margin-bottom: 10px;
+.times-ingresso .time:first-child img {
+    height: 80px;
+    width: auto;
+    transform: scale(1.2);
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 10px rgba(247, 43, 43, 0.25));
+    animation: pulseGlow 3s ease-in-out infinite;
+    transition: var(--transicao-suave);
 }
-
-.times-ingresso .versus {
-    font-size: 2rem;
-    font-weight: 900;
-    color: var(--cor-primaria);
-    font-style: italic;
-    opacity: 0.8;
+.times-ingresso .time:first-child img:hover {
+    filter: drop-shadow(0 0 18px rgba(247, 43, 43, 0.45));
+    transform: scale(1.3);
 }
 
 .times-ingresso .time span {
@@ -782,34 +790,22 @@ main {
 
 .jogo-times .escudo {
     object-fit: contain;
+    width: 60px;
+    height: 60px;
 }
 
 .jogo-times .escudo:first-child {
-    width: 65px;
-    height: 65px;
-    transform: scale(2.4);
+    width: 48px;
+    height: 48px;
+    transform: scale(1.4);
     margin-right: 10px;
     transition: var(--transicao-suave);
-    filter: drop-shadow(0 0 10px rgba(247, 43, 43, 0.2));
+    filter: drop-shadow(0 0 8px rgba(247, 43, 43, 0.18));
 }
-
 .jogo-times .escudo:first-child:hover {
-    transform: scale(2.6);
-    filter: drop-shadow(0 0 20px rgba(247, 43, 43, 0.5));
+    transform: scale(1.5);
+    filter: drop-shadow(0 0 14px rgba(247, 43, 43, 0.4));
 }
-
-.jogo-times .escudo:last-child {
-    width: 60px;
-    height: 60px;
-    transition: var(--transicao-suave);
-    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.1));
-}
-
-.jogo-times .escudo:last-child:hover {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
-}
-
 .versus-mini {
     font-size: 1.2rem;
     font-weight: 900;
@@ -965,8 +961,8 @@ main {
     }
 
     .jogo-times .escudo:last-child {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
 
     .card-content h2 {
@@ -1066,6 +1062,10 @@ main {
         height: 55px;
     }
 
+    .times-ingresso .time:last-child img {
+        height: 75px;
+    }
+
     .times-ingresso .time:first-child img {
         transform: scale(1.5);
         margin-bottom: 8px;
@@ -1159,8 +1159,8 @@ main {
     }
 
     .jogo-times .escudo:last-child {
-        width: 50px;
-        height: 50px;
+        width: 60px;
+        height: 60px;
     }
 
     .card-content h2 {
@@ -1227,6 +1227,10 @@ main {
 
     .times-ingresso .time img {
         height: 50px;
+    }
+
+    .times-ingresso .time:last-child img {
+        height: 70px;
     }
 
     .times-ingresso .time:first-child img {
@@ -1359,19 +1363,23 @@ main {
         height: 45px;
     }
 
+    .times-ingresso .time:last-child img {
+        height: 65px;
+    }
+
     .times-ingresso .time:first-child img {
         transform: scale(1.4);
         height: 40px;
     }
 
     .jogo-times .escudo:first-child {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
 
     .jogo-times .escudo:last-child {
-        width: 36px;
-        height: 36px;
+        width: 56px;
+        height: 56px;
     }
 
     .times-ingresso .versus {
@@ -1506,19 +1514,23 @@ main {
         height: 35px;
     }
 
+    .times-ingresso .time:last-child img {
+        height: 55px;
+    }
+
     .times-ingresso .time:first-child img {
         transform: scale(1.2);
         height: 30px;
     }
 
     .jogo-times .escudo:first-child {
-        width: 30px;
-        height: 30px;
+        width: 22px;
+        height: 22px;
     }
 
     .jogo-times .escudo:last-child {
-        width: 28px;
-        height: 28px;
+        width: 48px;
+        height: 48px;
     }
 
     .times-ingresso .versus {
