@@ -21,7 +21,13 @@ main{
     background: linear-gradient(180deg, #8c0000, #111);
     color: #fff;
     font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
 
+}
+
+.home-container > section {
+    flex: 1;
 }
 
 h1, h2, h3 {
@@ -137,6 +143,93 @@ a{
     background: #f0f0f0;
     transition: linear;
 }
+
+/* ======================= APP MOBILE ======================= */
+.app-mobile {
+    padding: 64px 11%;
+    background: transparent;
+}
+
+
+.app-mobile-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+}
+
+.app-info {
+    flex: 1;
+}
+
+.app-info h2 {
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+    color: #f0f0f0;
+}
+
+.app-info p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.qr-desktop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.qr-desktop img {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.qr-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.btn-download-app {
+    display: none;
+    background: #F72B2B;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+}
+
+.btn-download-app:hover {
+    background: #eaeaea;
+    color: #870000;
+}
+
+.app-mockup {
+    flex: 0 0 200px;
+}
+
+.app-mockup img {
+    width: 100%;
+    max-width: 200px;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+
 
 /* ======================= DESTAQUES ======================= */
 .destaques {
@@ -322,93 +415,6 @@ a{
 /* ======================= RESPONSIVO ======================= */
 /* ===================== MOBILE PREMIUM (SEM MEXER NO PC) ===================== */
 
-/* ======================= APP MOBILE ======================= */
-.app-mobile {
-    padding: 64px 11%;
-    background: transparent;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 80px;
-}
-
-.app-mobile-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-    flex-wrap: nowrap;
-}
-
-.app-info {
-    flex: 1;
-}
-
-.app-info h2 {
-    font-size: 2.2rem;
-    margin-bottom: 16px;
-    color: #f0f0f0;
-}
-
-.app-info p {
-    font-size: 1.1rem;
-    opacity: 0.85;
-    margin-bottom: 24px;
-    line-height: 1.6;
-}
-
-.qr-desktop {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-
-.qr-desktop img {
-    width: 180px;
-    height: 180px;
-    border-radius: 12px;
-    background: #fff;
-    padding: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
-
-.qr-label {
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-.btn-download-app {
-    display: none;
-    background: #F72B2B;
-    color: white;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    text-align: center;
-    align-items: center;
-    gap: 10px;
-    transition: 0.3s;
-}
-
-.btn-download-app:hover {
-    background: #eaeaea;
-    color: #870000;
-}
-
-.app-mockup {
-    flex: 0 0 300px;
-}
-
-.app-mockup img {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 24px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-}
 
 /* Desktop grande (até 1400px) */
 @media (max-width: 1400px) {
