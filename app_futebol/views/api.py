@@ -402,11 +402,10 @@ class EsqueciSenhaAPIView(APIView):
         cliente = Clientes.objects.filter(email_clientes=email).first()
         if not cliente:
             print("[RECOVERY][esqueci-senha] client_not_found", email)
-            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_404_NOT_FOUND)
+            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_201_CREATED)
             return _response(
-                "Email não encontrado!",
-                status_code=status.HTTP_404_NOT_FOUND,
-                success=False,
+                "Se o e-mail estiver cadastrado, um código de recuperação será enviado.",
+                status_code=status.HTTP_201_CREATED,
             )
 
         codigo = str(random.randint(100000, 999999))
@@ -433,7 +432,7 @@ class EsqueciSenhaAPIView(APIView):
             print("[RECOVERY][esqueci-senha] send_mail_exception", email, exc.__class__.__name__, str(exc))
             print("[RECOVERY][esqueci-senha] final_status", status.HTTP_500_INTERNAL_SERVER_ERROR)
             return _response(
-                "Erro ao enviar email.",
+                "Nao foi possivel enviar o e-mail no momento.",
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 success=False,
             )
@@ -441,9 +440,8 @@ class EsqueciSenhaAPIView(APIView):
         print("[RECOVERY][esqueci-senha] response_ok", email)
         print("[RECOVERY][esqueci-senha] final_status", status.HTTP_201_CREATED)
         return _response(
-            "Código enviado com sucesso.",
+            "Se o e-mail estiver cadastrado, um código de recuperação será enviado.",
             status_code=status.HTTP_201_CREATED,
-            email=email,
         )
 
 
@@ -480,15 +478,15 @@ class ValidarCodigoAPIView(APIView):
         if not cliente:
             print("[RECOVERY][validar-codigo] client_not_found", email)
             return _response(
-                "Email não encontrado!",
-                status_code=status.HTTP_404_NOT_FOUND,
+                "Dados de recuperacao invalidos ou expirados.",
+                status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
         if not recuperacao:
             print("[RECOVERY][validar-codigo] no_code_found", email)
             return _response(
-                "Código inválido!",
+                "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
@@ -496,15 +494,15 @@ class ValidarCodigoAPIView(APIView):
         if recuperacao.expirado():
             print("[RECOVERY][validar-codigo] expired", email, recuperacao.codigo)
             return _response(
-                "Código expirado! Solicite outro.",
-                status_code=status.HTTP_410_GONE,
+                "Dados de recuperacao invalidos ou expirados.",
+                status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
         if recuperacao.codigo != codigo_digitado:
             print("[RECOVERY][validar-codigo] mismatch", email, codigo_digitado, recuperacao.codigo)
             return _response(
-                "Código incorreto!",
+                "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
@@ -547,15 +545,15 @@ class RedefinirSenhaAPIView(APIView):
         if not cliente:
             print("[RECOVERY][redefinir-senha] client_not_found", email)
             return _response(
-                "Email não encontrado!",
-                status_code=status.HTTP_404_NOT_FOUND,
+                "Dados de recuperacao invalidos ou expirados.",
+                status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
         if not recuperacao:
             print("[RECOVERY][redefinir-senha] no_code_found", email)
             return _response(
-                "Código inválido!",
+                "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
@@ -563,15 +561,15 @@ class RedefinirSenhaAPIView(APIView):
         if recuperacao.expirado():
             print("[RECOVERY][redefinir-senha] expired", email, recuperacao.codigo)
             return _response(
-                "Código expirado! Solicite outro.",
-                status_code=status.HTTP_410_GONE,
+                "Dados de recuperacao invalidos ou expirados.",
+                status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
         if recuperacao.codigo != codigo_digitado:
             print("[RECOVERY][redefinir-senha] mismatch", email, codigo_digitado, recuperacao.codigo)
             return _response(
-                "Código incorreto!",
+                "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
@@ -586,7 +584,6 @@ class RedefinirSenhaAPIView(APIView):
         print("[RECOVERY][redefinir-senha] response_ok", email)
         return _response(
             "Senha alterada com sucesso!",
-            email=email,
         )
 
 
@@ -611,9 +608,9 @@ class CadastroAPIView(APIView):
         try:
             cliente = serializer.save()
         except ValueError as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        except Exception as exc:
-            return Response({"detail": f"Erro ao cadastrar: {str(exc)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"detail": "Erro ao cadastrar."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception:
+            return Response({"detail": "Erro ao cadastrar."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         token = gerar_token(cliente.id_clientes)
         response_serializer = LoginResponseSerializer({"token": token, "cliente": cliente})
@@ -870,12 +867,7 @@ class IngressosCheckoutAPIView(APIView):
                 estoque_disponivel = int(produto.quantidade_estoque_produtos or 0)
                 if quantidade > estoque_disponivel:
                     return _response(
-                        {
-                            "erro": (
-                                f"Estoque insuficiente para {produto.nome_produtos}. "
-                                f"Disponível: {estoque_disponivel}"
-                            )
-                        },
+                        {"erro": "Estoque insuficiente."},
                         status_code=status.HTTP_400_BAD_REQUEST,
                         success=False,
                     )
@@ -1107,12 +1099,7 @@ class CheckoutAPIView(APIView):
                 estoque_disponivel = int(produto.quantidade_estoque_produtos or 0)
                 if quantidade > estoque_disponivel:
                     return Response(
-                        {
-                            "erro": (
-                                f"Estoque insuficiente para {produto.nome_produtos}. "
-                                f"Disponível: {estoque_disponivel}"
-                            )
-                        },
+                        {"erro": "Estoque insuficiente."},
                         status=status.HTTP_400_BAD_REQUEST,
                     )
 

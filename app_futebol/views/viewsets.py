@@ -209,7 +209,7 @@ class MeuPerfilView(viewsets.ViewSet):
         try:
             public_url = upload_image_to_r2(foto, folder="perfis")
         except ValueError as exc:
-            return Response({"detail": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Arquivo de imagem invalido."}, status=status.HTTP_400_BAD_REQUEST)
         except Exception:
             import logging
 
@@ -234,19 +234,33 @@ class TitulosViewSet(viewsets.ReadOnlyModelViewSet):
 class HistoricoTitulosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = HistoricoTitulos.objects.select_related("cliente", "titulo").all()
     serializer_class = HistoricoTitulosSerializer
+    authentication_classes = [ClienteTokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["cliente", "titulo", "ativo"]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        cliente = getattr(self.request, "user", None)
+
+        if isinstance(cliente, Clientes):
+            if getattr(cliente, "is_staff", False) or getattr(cliente, "is_superuser", False):
+                return queryset
+            return queryset.filter(cliente=cliente)
+
+        return queryset.none()
 
 
 class CategoriaClienteViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = CategoriaCliente.objects.all().order_by("id_categoria_cliente")
     serializer_class = CategoriaClientePlanoSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class TimesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Times.objects.all()
     serializer_class = TimesSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
@@ -265,6 +279,23 @@ class ProdutosViewSet(viewsets.ReadOnlyModelViewSet):
 class EnderecoClienteViewSet(viewsets.ModelViewSet):
     queryset = EnderecoCliente.objects.all()
     serializer_class = EnderecoClienteSerializer
+    authentication_classes = [ClienteTokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        cliente = getattr(self.request, "user", None)
+
+        if isinstance(cliente, Clientes):
+            if getattr(cliente, "is_staff", False) or getattr(cliente, "is_superuser", False):
+                return queryset
+            return queryset.filter(cliente_id_cliente=cliente)
+
+        return queryset.none()
+
+    def perform_create(self, serializer):
+        cliente = getattr(self.request, "user", None)
+        serializer.save(cliente_id_cliente=cliente)
 
 
 class PedidoViewSet(viewsets.ReadOnlyModelViewSet):
@@ -321,23 +352,28 @@ class JogosViewSet(viewsets.ReadOnlyModelViewSet):
 class FuncionariosViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Funcionarios.objects.all()
     serializer_class = FuncionariosSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class QuestoesViewSet(viewsets.ModelViewSet):
     queryset = Questoes.objects.all()
     serializer_class = QuestoesSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class RespostasViewSet(viewsets.ModelViewSet):
     queryset = Respostas.objects.all()
     serializer_class = RespostasSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class RecuperacaoSenhaViewSet(viewsets.ModelViewSet):
     queryset = RecuperacaoSenha.objects.all()
     serializer_class = RecuperacaoSenhaSerializer
+    permission_classes = [permissions.IsAdminUser]
 
 
 class ProgressoFasesViewSet(viewsets.ModelViewSet):
     queryset = ProgressoFases.objects.all()
     serializer_class = ProgressoFasesSerializer
+    permission_classes = [permissions.IsAdminUser]

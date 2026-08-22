@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Página não encontrada</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+        radial-gradient(circle at top, #8c0000 0%, #3f0000 35%, #111 100%);
+
+      color: #f5f5f5;
+
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: 100%;
+      max-width: 700px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      text-align: center;
+    }
+
+
+    /* =========================
+       STICKMAN
+    ========================= */
+
+    .stickman {
+      position: relative;
+
+      width: 200px;
+      height: 260px;
+
+      margin-bottom: 30px;
+    }
+
+
+    /* CABEÇA */
+
+    .head {
+      position: absolute;
+
+      top: 0;
+      left: 50%;
+
+      width: 95px;
+      height: 95px;
+
+      transform: translateX(-50%);
+
+      border: 7px solid #fff;
+      border-radius: 50%;
+    }
+
+
+    /* OLHOS */
+
+    .eye {
+      position: absolute;
+
+      top: 34px;
+
+      width: 8px;
+      height: 8px;
+
+      background: #fff;
+
+      border-radius: 50%;
+    }
+
+    .eye.left {
+      left: 25px;
+    }
+
+    .eye.right {
+      right: 25px;
+    }
+
+
+    /* BOCA CONFUSA */
+
+    .mouth {
+      position: absolute;
+
+      bottom: 18px;
+      left: 50%;
+
+      width: 28px;
+      height: 12px;
+
+      transform: translateX(-50%);
+
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+    }
+
+
+    /* CORPO */
+
+    .body-line {
+      position: absolute;
+
+      top: 92px;
+      left: 50%;
+
+      width: 7px;
+      height: 90px;
+
+      transform: translateX(-50%);
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+
+    /* =========================
+       BRAÇOS
+    ========================= */
+
+    .arm {
+      position: absolute;
+
+      width: 72px;
+      height: 7px;
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+
+    /* braço esquerdo normal */
+
+    .arm.left {
+      top: 125px;
+      left: 24px;
+
+      transform: rotate(25deg);
+      transform-origin: right center;
+    }
+
+
+    /* braço direito levantado */
+
+    .arm.right {
+      top: 102px;
+      right: 27px;
+
+      transform: rotate(-55deg);
+      transform-origin: left center;
+    }
+
+
+    /* mão na testa */
+
+    .hand {
+      position: absolute;
+
+      top: 81px;
+      right: 22px;
+
+      width: 45px;
+      height: 7px;
+
+      background: #fff;
+
+      border-radius: 10px;
+
+      transform: rotate(5deg);
+    }
+
+
+    /* =========================
+       PERNAS
+    ========================= */
+
+    .leg {
+      position: absolute;
+
+      top: 177px;
+
+      width: 75px;
+      height: 7px;
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+    .leg.left {
+      left: 25px;
+
+      transform: rotate(-58deg);
+      transform-origin: right center;
+    }
+
+    .leg.right {
+      right: 25px;
+
+      transform: rotate(58deg);
+      transform-origin: left center;
+    }
+
+
+    /* =========================
+       INTERROGAÇÃO
+    ========================= */
+
+    .question {
+      position: absolute;
+
+      top: 5px;
+      right: 0;
+
+      color: #ff3b3b;
+
+      font-size: 55px;
+      font-weight: bold;
+
+      transform: rotate(10deg);
+    }
+
+
+    /* =========================
+       TEXTO
+    ========================= */
+
+    .error-code {
+      margin-bottom: 12px;
+
+      color: #ff3b3b;
+
+      font-size: 1rem;
+      font-weight: bold;
+
+      letter-spacing: 3px;
+    }
+
+    h1 {
+      margin-bottom: 14px;
+
+      font-size: clamp(2rem, 6vw, 3.4rem);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+    }
+
+    p {
+      max-width: 520px;
+
+      font-size: 1.05rem;
+
+      line-height: 1.6;
+
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .stickman {
+        transform: scale(0.85);
+
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <div class="stickman">
+
+      <div class="head">
+
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+
+        <span class="mouth"></span>
+
+      </div>
+
+      <div class="body-line"></div>
+
+      <div class="arm left"></div>
+      <div class="arm right"></div>
+
+      <div class="hand"></div>
+
+      <div class="leg left"></div>
+      <div class="leg right"></div>
+
+      <div class="question">?</div>
+
+    </div>
+
+
+    <span class="error-code">
+      ERRO 404
+    </span>
+
+    <h1>
+      Página não encontrada
+    </h1>
+
+    <p>
+      O endereço solicitado não existe ou a página foi removida.
+    </p>
+
+  </main>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 from django.urls import path
 from .views.viewsets import (
     CategoriaProdutosViewSet,
@@ -38,7 +38,7 @@ from .views.api import (
     ValidarCodigoAPIView,
 )
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'categorias-produtos', CategoriaProdutosViewSet)
 router.register(r'public/categorias-produtos', CategoriaProdutosViewSet, basename='public-categorias-produtos')
 router.register(r'produtos', ProdutosViewSet)

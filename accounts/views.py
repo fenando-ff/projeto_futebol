@@ -114,7 +114,7 @@ def cadastro(request):
                     return redirect("login")
 
                 except Exception as e:
-                    messages.error(request, f"Erro ao cadastrar: {str(e)}")
+                    messages.error(request, "Nao foi possivel concluir o cadastro no momento.")
 
         return render(request, "acconts/cadastro.html")
 

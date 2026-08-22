@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Erro interno</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background:
+        radial-gradient(circle at top, #8c0000 0%, #3f0000 35%, #111 100%);
+
+      color: #f5f5f5;
+
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: 100%;
+      max-width: 700px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      text-align: center;
+    }
+
+
+    /* =========================
+       STICKMAN
+    ========================= */
+
+    .stickman {
+      position: relative;
+
+      width: 210px;
+      height: 260px;
+
+      margin-bottom: 30px;
+    }
+
+
+    /* cabeça */
+
+    .head {
+      position: absolute;
+
+      top: 10px;
+      left: 50%;
+
+      width: 95px;
+      height: 95px;
+
+      transform:
+        translateX(-50%)
+        rotate(8deg);
+
+      border: 7px solid #fff;
+      border-radius: 50%;
+    }
+
+
+    /* olhos */
+
+    .eye {
+      position: absolute;
+
+      top: 35px;
+
+      width: 8px;
+      height: 8px;
+
+      background: #fff;
+
+      border-radius: 50%;
+    }
+
+    .eye.left {
+      left: 24px;
+    }
+
+    .eye.right {
+      right: 24px;
+    }
+
+
+    /* boca triste */
+
+    .mouth {
+      position: absolute;
+
+      bottom: 18px;
+      left: 50%;
+
+      width: 30px;
+      height: 14px;
+
+      transform: translateX(-50%);
+
+      border-top: 5px solid #fff;
+      border-radius: 50%;
+    }
+
+
+    /* corpo */
+
+    .body-line {
+      position: absolute;
+
+      top: 103px;
+      left: 50%;
+
+      width: 7px;
+      height: 82px;
+
+      transform:
+        translateX(-50%)
+        rotate(5deg);
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+
+    /* braços */
+
+    .arm {
+      position: absolute;
+
+      width: 72px;
+      height: 7px;
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+    .arm.left {
+      top: 130px;
+      left: 25px;
+
+      transform: rotate(40deg);
+      transform-origin: right center;
+    }
+
+    .arm.right {
+      top: 128px;
+      right: 22px;
+
+      transform: rotate(-50deg);
+      transform-origin: left center;
+    }
+
+
+    /* pernas */
+
+    .leg {
+      position: absolute;
+
+      top: 180px;
+
+      width: 78px;
+      height: 7px;
+
+      background: #fff;
+
+      border-radius: 10px;
+    }
+
+    .leg.left {
+      left: 26px;
+
+      transform: rotate(-52deg);
+      transform-origin: right center;
+    }
+
+    .leg.right {
+      right: 26px;
+
+      transform: rotate(52deg);
+      transform-origin: left center;
+    }
+
+
+    /* =========================
+       SÍMBOLO DE ERRO
+    ========================= */
+
+    .error-symbol {
+      position: absolute;
+
+      top: 20px;
+      right: 0;
+
+      width: 56px;
+      height: 56px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 5px solid #ff3b3b;
+      border-radius: 50%;
+
+      color: #ff3b3b;
+
+      font-size: 34px;
+      font-weight: bold;
+
+      transform: rotate(8deg);
+    }
+
+
+    /* =========================
+       TEXTO
+    ========================= */
+
+    .error-code {
+      margin-bottom: 12px;
+
+      color: #ff3b3b;
+
+      font-size: 1rem;
+      font-weight: bold;
+
+      letter-spacing: 3px;
+    }
+
+    h1 {
+      margin-bottom: 14px;
+
+      font-size: clamp(2rem, 6vw, 3.4rem);
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+    }
+
+    p {
+      max-width: 520px;
+
+      font-size: 1.05rem;
+
+      line-height: 1.6;
+
+      color: rgba(255,255,255,0.72);
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .stickman {
+        transform: scale(0.85);
+
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 0.95rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <div class="stickman">
+
+      <div class="head">
+        <span class="eye left"></span>
+        <span class="eye right"></span>
+        <span class="mouth"></span>
+      </div>
+
+      <div class="body-line"></div>
+
+      <div class="arm left"></div>
+      <div class="arm right"></div>
+
+      <div class="leg left"></div>
+      <div class="leg right"></div>
+
+      <div class="error-symbol">!</div>
+
+    </div>
+
+
+    <span class="error-code">
+      ERRO 500
+    </span>
+
+    <h1>
+      Erro interno
+    </h1>
+
+    <p>
+      Ocorreu um problema temporário no servidor.
+      Tente novamente mais tarde.
+    </p>
+
+  </main>
+
+</body>
+</html>
