@@ -47,32 +47,113 @@
         </section>
         
         <!-- ======================== APP MOBILE =============================== -->
-        <section class="app-mobile">
-            <div class="app-mobile-content">
-                <div class="app-info">
-                    
-                    <h2>Baixe nosso App</h2>
-                    <p>Acompanhe o Drako FC. Acompanhe seu time, próximos jogos e muito mais.</p>
-        
-                    <!-- Desktop: QR Code -->
-                    <div class="qr-desktop">
-                        <img src="{% static 'img/app/img_qrcode_apk.png' %}" alt="QR Code para download do app">
-                        <span class="qr-label">Escaneie para baixar</span>
+            <section class="app-mobile">
+
+                <div class="app-mobile-content">
+
+                    <div class="app-info">
+
+                        <span class="app-badge">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            APP OFICIAL
+                        </span>
+
+                        <h2>Leve o Drako FC<br>com você</h2>
+
+                        <p>
+                            Acompanhe jogos, novidades, sua conta, a Drako Store
+                            e muito mais diretamente pelo nosso aplicativo.
+                        </p>
+
+                        <div class="app-download-area">
+
+                            <!-- Desktop -->
+                            <div class="qr-desktop">
+                                <div class="qr-box">
+                                    <img
+                                        src="{% static 'img/app/img_qrcode_apk.png' %}"
+                                        alt="QR Code para download do app"
+                                    >
+                                </div>
+
+                                <div class="qr-text">
+                                    <i class="fa-solid fa-qrcode"></i>
+
+                                    <div>
+                                        <strong>Escaneie o QR Code</strong>
+                                        <span>para baixar o aplicativo</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Mobile -->
+                            <a
+                                href="{% static 'download/drakos_app.apk' %}"
+                                class="btn-download-app"
+                                download
+                            >
+                                <i class="fa-brands fa-android"></i>
+
+                                <div>
+                                    <small>Disponível para</small>
+                                    <span>Android</span>
+                                </div>
+                            </a>
+
+                        </div>
+
                     </div>
-        
-                    <!-- Mobile: Botão de download -->
-                    <a href="{% static 'download/drakos_app.apk' %}" class="btn-download-app" download>
-                        <i class="fa-brands fa-android"></i>
-                        Baixar App
-                    </a>
+
+                            <div class="app-mockup">
+
+                                <div class="iphone-card">
+
+                                    <!-- brilho atrás do aparelho -->
+                                    <div class="iphone-glow"></div>
+
+                                    <!-- aparelho -->
+                                    <div class="iphone-frame">
+
+                                        <!-- tela do app -->
+                                        <div class="iphone-screen">
+
+                                            <!-- Splash inicial -->
+                                            <img
+                                                src="{% static 'img/Splashapp.jpg' %}"
+                                                alt="Splash do Drakos App"
+                                                class="app-screen app-splash"
+                                            >
+
+                                            <!-- Tela principal -->
+                                            <img
+                                                src="{% static 'img/IphoneModel.jpg' %}"
+                                                alt="Tela principal do Drakos App"
+                                                class="app-screen app-home"
+                                            >
+
+                                            <!-- futura notificação -->
+                                            <div class="app-notification">
+                                                <div class="notification-icon">
+                                                    <i class="fa-solid fa-dragon"></i>
+                                                </div>
+
+                                                <div class="notification-text">
+                                                    <strong>Drakos FC</strong>
+                                                    <span>Nova camisa disponível na loja.</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                 </div>
-        
-                <!-- Mockup ilustrativo do app (opcional) -->
-                <div class="app-mockup">
-                    <img src="{% static 'img/app/mockup_app_drakos.png' %}" alt="App Drako FC">
-                </div>
-            </div>
-        </section>
+
+            </section>
         <!-- ======================== CARDS DE DESTAQUE =============================== -->
     <section class="destaques">
         <div class="card destaque1">

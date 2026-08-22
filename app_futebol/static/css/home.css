@@ -145,89 +145,509 @@ a{
 }
 
 /* ======================= APP MOBILE ======================= */
+
 .app-mobile {
-    padding: 64px 11%;
-    background: transparent;
+    position: relative;
+    overflow: hidden;
+    padding: 90px 11%;
+    background:
+        radial-gradient(
+            circle at 73% 50%,
+            rgba(255, 45, 45, 0.16),
+            transparent 32%
+        );
 }
 
+
+/* Conteúdo principal */
 
 .app-mobile-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 48px;
-    max-width: 1200px;
+    width: 100%;
+    max-width: 1100px;
+
     margin: 0 auto;
-    flex-wrap: nowrap;
+
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+
+    align-items: center;
+
+    gap: 90px;
 }
+
+
+/* ================= INFO ================= */
 
 .app-info {
-    flex: 1;
+    max-width: 650px;
 }
+
+
+/* Badge APP OFICIAL */
+
+.app-badge {
+    width: fit-content;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 8px 14px;
+
+    margin-bottom: 20px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 50px;
+
+    background: rgba(255,255,255,0.05);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    letter-spacing: 1.5px;
+
+    color: #e5e5e5;
+}
+
+
+/* Título */
 
 .app-info h2 {
-    font-size: 2.2rem;
-    margin-bottom: 16px;
-    color: #f0f0f0;
+    margin: 0 0 18px;
+
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+
+    line-height: 1.05;
+
+    letter-spacing: -1px;
+
+    color: #fff;
 }
 
-.app-info p {
-    font-size: 1.1rem;
-    opacity: 0.85;
-    margin-bottom: 24px;
-    line-height: 1.6;
+
+/* Descrição */
+
+.app-info > p {
+    max-width: 570px;
+
+    margin-bottom: 35px;
+
+    font-size: 1.05rem;
+
+    line-height: 1.7;
+
+    color: rgba(255,255,255,0.72);
 }
+
+
+/* ================= QR CODE ================= */
+
+.app-download-area {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+}
+
 
 .qr-desktop {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
+
+    gap: 18px;
+
+    margin: 0;
 }
 
-.qr-desktop img {
-    width: 180px;
-    height: 180px;
-    border-radius: 12px;
+
+/* Caixa QR */
+
+.qr-box {
+    padding: 9px;
+
+    border-radius: 15px;
+
     background: #fff;
-    padding: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.30),
+        0 0 0 1px rgba(255,255,255,0.10);
 }
 
-.qr-label {
-    font-size: 0.9rem;
-    opacity: 0.7;
+
+.qr-box img {
+    display: block;
+
+    width: 145px;
+    height: 145px;
+
+    padding: 0;
+
+    border-radius: 8px;
+
+    box-shadow: none;
 }
+
+
+/* Texto ao lado do QR */
+
+.qr-text {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    color: #fff;
+}
+
+
+.qr-text > i {
+    font-size: 22px;
+
+    color: #F72B2B;
+}
+
+
+.qr-text div {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.qr-text strong {
+    font-size: 0.95rem;
+}
+
+
+.qr-text span {
+    font-size: 0.8rem;
+
+    color: rgba(255,255,255,0.55);
+}
+
+
+/* ================= CELULAR ================= */
+
+/* ======================= APP MOCKUP ======================= */
+
+.app-mockup {
+    flex: 0 0 340px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+
+/* Área que depois vai receber o movimento 3D */
+
+.iphone-card {
+    position: relative;
+
+    width: 270px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    perspective: 1200px;
+}
+
+
+/* brilho atrás */
+
+.iphone-glow {
+    position: absolute;
+
+    width: 320px;
+    height: 320px;
+
+    background: rgba(255, 0, 0, 0.20);
+
+    border-radius: 50%;
+
+    filter: blur(80px);
+
+    z-index: 0;
+}
+
+
+/* estrutura do iPhone */
+
+.iphone-frame {
+    position: relative;
+
+    width: 260px;
+    height: 540px;
+
+    padding: 8px;
+
+    background: #111;
+
+    border-radius: 42px;
+
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.55),
+        inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+
+    z-index: 2;
+
+    transition: transform 0.35s ease;
+}
+
+
+/* tela */
+
+.iphone-screen {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    border-radius: 34px;
+
+    background: #000;
+}
+
+
+/* imagens internas */
+
+.app-screen {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+}
+
+
+/* splash inicialmente visível */
+
+.app-splash {
+    opacity: 1;
+
+    z-index: 2;
+}
+
+
+/* vitrine escondida inicialmente */
+
+.app-home {
+    opacity: 0;
+
+    transform: scale(1.02);
+
+    z-index: 1;
+}
+
+
+/* ======================= NOTIFICAÇÃO ======================= */
+
+.app-notification {
+    position: absolute;
+
+    top: 18px;
+    left: 50%;
+
+    width: calc(100% - 28px);
+
+    transform:
+        translateX(-50%)
+        translateY(-120px);
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    border-radius: 18px;
+
+    background: rgba(25, 25, 25, 0.86);
+
+    backdrop-filter: blur(16px);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    color: white;
+
+    z-index: 5;
+
+    opacity: 0;
+
+    transition:
+        transform 0.45s ease,
+        opacity 0.45s ease;
+}
+
+
+/* ícone */
+
+.notification-icon {
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #8c0000;
+
+    flex-shrink: 0;
+}
+
+
+.notification-icon i {
+    font-size: 16px;
+}
+
+
+/* texto */
+
+.notification-text {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+
+    text-align: left;
+}
+
+
+.notification-text strong {
+    font-size: 0.78rem;
+}
+
+
+.notification-text span {
+    font-size: 0.68rem;
+
+    color: rgba(255,255,255,0.72);
+}
+
+
+/* ======================= HOVER IPHONE ======================= */
+
+.iphone-card:hover .iphone-frame {
+    transform:
+        rotateY(-9deg)
+        rotateX(6deg)
+        translateY(-9px);
+}
+
+
+/* Splash some */
+
+.iphone-card:hover .app-splash {
+    opacity: 0;
+    transform: scale(1.04);
+}
+
+
+/* Vitrine aparece */
+
+.iphone-card:hover .app-home {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* Notificação controlada pelo JavaScript */
+
+.app-notification.show {
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+/* ======================= TROCA SPLASH / VITRINE ======================= */
+
+.iphone-card:hover .app-splash {
+    opacity: 0;
+    transform: scale(1.04);
+}
+
+.iphone-card:hover .app-home {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* ================= BOTÃO MOBILE ================= */
 
 .btn-download-app {
     display: none;
-    background: #F72B2B;
-    color: white;
-    padding: 14px 28px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    text-align: center;
+
     align-items: center;
-    gap: 10px;
+    justify-content: center;
+
+    gap: 12px;
+
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    background: #F72B2B;
+
+    color: white;
+
     transition: 0.3s;
 }
 
+
+.btn-download-app i {
+    font-size: 28px;
+}
+
+
+.btn-download-app div {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+}
+
+
+.btn-download-app small {
+    font-size: 0.7rem;
+
+    opacity: 0.8;
+}
+
+
+.btn-download-app span {
+    font-size: 1rem;
+
+    font-weight: 600;
+}
+
+
 .btn-download-app:hover {
-    background: #eaeaea;
-    color: #870000;
-}
+    background: #fff;
 
-.app-mockup {
-    flex: 0 0 200px;
-}
+    color: #8c0000;
 
-.app-mockup img {
-    width: 100%;
-    max-width: 200px;
-    border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    transform: translateY(-2px);
 }
 
 
@@ -533,45 +953,156 @@ a{
         margin-bottom: 14px;
     }
 
-    /* APP MOBILE - Responsivo */
-    .app-mobile {
-        padding: 40px 16px;
-    }
+/* ================= APP MOBILE RESPONSIVO ================= */
 
-    .app-mobile-content {
-        flex-direction: column-reverse;
-        text-align: center;
-        gap: 24px;
-    }
+.app-mobile {
+    padding: 55px 20px;
+}
 
-    .app-info h2 {
-        font-size: 1.6rem;
-    }
+.app-mobile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    text-align: center;
+}
 
-    .app-info p {
-        font-size: 1rem;
-    }
 
-    .qr-desktop {
-        display: none;
-    }
+/* ================= CONTEÚDO ================= */
 
-    .btn-download-app {
-        display: inline-flex;
-        margin-top: 16px;
-    }
+.app-info {
+    max-width: 600px;
+}
 
-    /* Esconder mockup no mobile para evitar sobreposição */
-    .app-mockup { display: none; }
+.app-badge {
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .app-mockup {
-        flex: none;
-        width: 200px;
-    }
+.app-info h2 {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    line-height: 1.08;
+}
 
-    .app-mockup img {
-        max-width: 180px;
-    }
+.app-info > p {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+}
+
+
+/* ================= QR ================= */
+
+.qr-desktop {
+    display: none;
+}
+
+
+/* ================= BOTÃO DOWNLOAD ================= */
+
+.app-download-area {
+    justify-content: center;
+}
+
+.btn-download-app {
+    display: inline-flex;
+}
+
+
+/* ================= IPHONE ================= */
+
+.app-mockup {
+    flex: none;
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 15px;
+}
+
+
+/* Área do efeito 3D */
+
+.iphone-card {
+    width: 230px;
+
+    perspective: 1000px;
+}
+
+
+/* Estrutura do aparelho */
+
+.iphone-frame {
+    width: 220px;
+    height: 455px;
+
+    padding: 7px;
+
+    border-radius: 36px;
+}
+
+
+/* Tela interna */
+
+.iphone-screen {
+    border-radius: 30px;
+}
+
+
+/* Imagens do app */
+
+.app-screen {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* Brilho atrás */
+
+.iphone-glow {
+    width: 270px;
+    height: 270px;
+
+    filter: blur(65px);
+}
+
+
+/* ================= NOTIFICAÇÃO ================= */
+
+.app-notification {
+    top: 14px;
+
+    width: calc(100% - 22px);
+
+    padding: 10px;
+
+    gap: 8px;
+
+    border-radius: 15px;
+}
+
+.notification-icon {
+    width: 32px;
+    height: 32px;
+
+    border-radius: 9px;
+}
+
+.notification-icon i {
+    font-size: 14px;
+}
+
+.notification-text strong {
+    font-size: 0.72rem;
+}
+
+.notification-text span {
+    font-size: 0.62rem;
+}
     
     .btn-primary {
         display: inline-block;
