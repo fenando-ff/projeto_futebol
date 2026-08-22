@@ -29,10 +29,10 @@ def api_login(request):
     try:
         cliente = models.Clientes.objects.get(email_clientes=email)
     except models.Clientes.DoesNotExist:
-        return JsonResponse({"ok": False, "error": "Cliente não encontrado."}, status=404)
+        return JsonResponse({"ok": False, "error": "Credenciais inválidas."}, status=401)
 
     if not check_password(senha, cliente.senha_clientes):
-        return JsonResponse({"ok": False, "error": "Senha incorreta."}, status=401)
+        return JsonResponse({"ok": False, "error": "Credenciais inválidas."}, status=401)
 
     login_cliente(request, cliente)
     return JsonResponse({"ok": True, "cliente": get_cliente_logado(request)})
@@ -116,8 +116,8 @@ def api_register(request):
         login_cliente(request, cliente)
         return JsonResponse({"ok": True, "cliente": get_cliente_logado(request)}, status=201)
 
-    except Exception as e:
-        return JsonResponse({"ok": False, "error": f"Erro ao cadastrar: {str(e)}"}, status=500)
+    except Exception:
+        return JsonResponse({"ok": False, "error": "Erro ao cadastrar."}, status=500)
 
 
 @require_GET

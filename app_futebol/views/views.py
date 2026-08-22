@@ -645,9 +645,9 @@ def finalizar_compra(request):
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 "sucesso": False,
-                "mensagem": "Cliente não encontrado!"
+                "mensagem": "Nao foi possivel concluir a operacao."
             }, status=404)
-        messages.error(request, "Cliente não encontrado!")
+        messages.error(request, "Nao foi possivel concluir a operacao.")
         return redirect("login")
     
     # Obtém o carrinho da sessão
@@ -714,9 +714,9 @@ def finalizar_compra(request):
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                 return JsonResponse({
                     "sucesso": False,
-                    "mensagem": f"Estoque insuficiente para {produto.nome_produtos}. Disponível: {produto.quantidade_estoque_produtos}"
+                    "mensagem": "Estoque insuficiente."
                 })
-            messages.error(request, f"Estoque insuficiente para {produto.nome_produtos}. Disponível: {produto.quantidade_estoque_produtos}")
+            messages.error(request, "Estoque insuficiente.")
             return redirect("carrinho")
         
         valor_item = produto.valor_produtos * quantidade
@@ -799,9 +799,9 @@ def finalizar_compra(request):
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 "sucesso": False,
-                "mensagem": f"Erro ao processar a compra: {str(erro)}"
+                "mensagem": "Nao foi possivel processar a compra no momento."
             }, status=500)
-        messages.error(request, f"Erro ao processar a compra: {str(erro)}")
+        messages.error(request, "Nao foi possivel processar a compra no momento.")
         return redirect("carrinho")
 
 
@@ -817,14 +817,14 @@ def tela_login(request):
         try:
             cliente = models.Clientes.objects.get(email_clientes=email)
         except models.Clientes.DoesNotExist:
-            messages.error(request, "Cliente não encontrado!")
+            messages.error(request, "Credenciais inválidas.")
             return render(request, "app_futebol/login.html")
 
         if check_password(senha, cliente.senha_clientes):
             login_cliente(request, cliente)
             return redirect("home")
         else:
-            messages.error(request, "Senha incorreta!")
+            messages.error(request, "Credenciais inválidas.")
             return render(request, "app_futebol/login.html")
 
     return render(request, "app_futebol/login.html")
@@ -907,7 +907,7 @@ def tela_rec_senha(request):
             cliente = models.Clientes.objects.get(email_clientes=email)
         except models.Clientes.DoesNotExist:
             return render(request, "app_futebol/rec_senha.html", {
-                "erro": "Email não encontrado!"
+                "erro": "Se o e-mail estiver cadastrado, voce recebera um codigo de recuperacao."
             })
 
         codigo = str(random.randint(100000, 999999))
@@ -930,7 +930,7 @@ def tela_rec_senha(request):
         except Exception as e:
             print(e)
             return render(request, "app_futebol/rec_senha.html", {
-                "erro": "Erro ao enviar email. Tente novamente."
+                "erro": "Nao foi possivel enviar o e-mail no momento."
             })
 
         request.session["recuperacao_email"] = email
@@ -956,21 +956,21 @@ def tela_rec_senha_2(request):
             )
         except models.Clientes.DoesNotExist:
             return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Código inválido!"
+                "erro": "Dados de recuperacao invalidos ou expirados."
             })
         except models.RecuperacaoSenha.DoesNotExist:
             return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Código inválido!"
+                "erro": "Dados de recuperacao invalidos ou expirados."
             })
 
         if recuperacao.expirado():
             return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Código expirado! Solicite outro."
+                "erro": "Dados de recuperacao invalidos ou expirados."
             })
 
         if recuperacao.codigo != codigo_digitado:
             return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Código incorreto!"
+                "erro": "Dados de recuperacao invalidos ou expirados."
             })
 
         request.session["codigo_validado"] = True
@@ -1032,7 +1032,7 @@ def tela_rec_senha_3(request):
             return redirect("login")
 
         except models.Clientes.DoesNotExist:
-            messages.error(request, "Cliente não encontrado!")
+            messages.error(request, "Nao foi possivel alterar a senha no momento.")
             return redirect("recuperar_senha")
 
     return render(request, "app_futebol/rec_senha3.html")
@@ -1114,7 +1114,7 @@ def cancelar_socio(request):
 
         messages.success(request, "Seu plano foi cancelado com sucesso.")
     except models.Clientes.DoesNotExist:
-        messages.error(request, "Cliente não encontrado.")
+        messages.error(request, "Nao foi possivel concluir a operacao.")
 
     return redirect("socio")
 

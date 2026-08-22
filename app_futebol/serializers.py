@@ -56,6 +56,18 @@ class ClientesSerializer(serializers.ModelSerializer):
             "tempo",
             "categoria_clientes",
         ]
+        read_only_fields = [
+            "id_clientes",
+            "cpf_clientes",
+            "status_clientes",
+            "url_foto_clientes",
+            "categoria_cliente_id_categoria_cliente",
+            "score_rank",
+            "total_acertos",
+            "total_questoes",
+            "precisao",
+            "tempo",
+        ]
 
     def get_categoria_clientes(self, obj):
         categoria = getattr(obj, "categoria_cliente_id_categoria_cliente", None)
@@ -520,6 +532,7 @@ class EnderecoClienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnderecoCliente
         fields = '__all__'
+        read_only_fields = ["cliente_id_cliente"]
 
 
 class PedidoSerializer(serializers.ModelSerializer):
