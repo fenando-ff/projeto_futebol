@@ -219,6 +219,9 @@ class MeuPerfilView(viewsets.ViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
+        cliente.url_foto_clientes = public_url
+        cliente.save(update_fields=["url_foto_clientes"])
+
         return Response({"url_foto_clientes": public_url})
 
     @action(detail=False, methods=["get"], url_path="carrinho")
