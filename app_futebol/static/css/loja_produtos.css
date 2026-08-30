@@ -1,274 +1,463 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto Condensed');
 
-/* ===============================
-   RESET BÁSICO – Remove margens e paddings padrão
-   =============================== */
+/* =====================================================================
+   DRAKO STORE — LIQUID GLASS
+   Sistema de design: obsidian void + vidro líquido + brasa de dragão
+   ===================================================================== */
 
 * {
   box-sizing: border-box;
 }
 
-/* ===============================
-   ESTILO GERAL DO SITE
-   =============================== */
+/* ---------------------------------------------------------------------
+   1. DESIGN TOKENS
+   --------------------------------------------------------------------- */
+:root {
+  /* Fundo — "void" quase preto, com leve frieza roxo-carvão */
+  --void-950: #08070a;
+  --void-900: #110c10;
+  --void-850: #1a1318;
+
+  /* Marca — brasa do dragão (mantém o vermelho original #a50000 na base) */
+  --brand-red: #a50000;
+  --ember-500: #ff4426;
+  --ember-600: #e5311a;
+  --blood-700: #7a0e12;
+
+  /* Detalhe premium — escama dourada */
+  --scale-gold: #d9a94f;
+  --scale-gold-soft: #f0cf8a;
+
+  /* Sucesso (missão / carrinho) */
+  --success: #2ee6a6;
+  --success-strong: #16c98a;
+  --danger: #ff5a5a;
+
+  /* Vidro */
+  --glass-bg: rgba(24, 16, 19, 0.50);
+  --glass-bg-strong: rgba(18, 12, 15, 0.78);
+  --glass-fill-soft: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-hot: rgba(255, 96, 64, 0.5);
+  --glass-highlight: rgba(255, 255, 255, 0.09);
+
+  /* Texto */
+  --text-hi: #f6f1ee;
+  --text-mid: #b7aeb3;
+  --text-low: #7c737a;
+
+  /* Tipografia */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-label: 'Roboto Condensed', sans-serif;
+
+  /* Ritmo */
+  --radius-lg: 26px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --ease-glass: cubic-bezier(.19, 1, .22, 1);
+}
+
+/* ---------------------------------------------------------------------
+   2. BASE DO SITE
+   --------------------------------------------------------------------- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #a50000;
-  color: #111;
+  font-family: var(--font-body);
+  color: var(--text-hi);
+  background-color: var(--void-950);
+  background-image:
+    radial-gradient(1100px 620px at 12% -8%, rgba(255, 68, 38, 0.16), transparent 60%),
+    radial-gradient(900px 520px at 102% 4%, rgba(217, 169, 79, 0.10), transparent 55%),
+    radial-gradient(700px 500px at 50% 115%, rgba(122, 14, 18, 0.22), transparent 60%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 body.modo-jogo {
   padding-top: 220px; /* compensa a box de missão fixa no topo */
 }
 
-/* Container principal que centraliza o conteúdo */
 .container {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* ===============================
-   BANNER SUPERIOR – Título + Carrossel (automático)
-   =============================== */
-.banner-wrapper {
-  display: flex;
-  align-items: center;
-  height: 350px;
-  margin-bottom: 20px;
+a { color: inherit; }
+
+/* Foco visível — acessibilidade */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--scale-gold-soft);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 
-/* TÍTULO à esquerda */
-.banner-title {
-  flex: 1;
-  background-color: #ffffff;
-  color: #000;
-  display: flex;
+/* Utilitário de reveal ao rolar a página */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s var(--ease-glass), transform .8s var(--ease-glass);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Botões-base em vidro, reutilizados pelo hero e pela vitrine */
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 20px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: .2px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .3s var(--ease-glass), box-shadow .3s ease, filter .3s ease, background .3s ease;
+  border: 1px solid var(--glass-border);
 }
 
-.banner-title h2 {
-  font-size: 60px;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-family: 'Bebas Neue',sans-serif;
-  opacity: 90%;
-  letter-spacing: 7px; /* Aumenta o espaço entre letras */
+.hero-btn--solid {
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 14px 30px -12px rgba(255, 68, 38, .55);
+}
+.hero-btn--solid:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.08);
+  box-shadow: 0 18px 40px -12px rgba(255, 68, 38, .7);
 }
 
-/* CARROSSEL AUTOMÁTICO à direita */
-.banner-carousel {
-  flex: 2;
-  height: 100%;
+.hero-btn--ghost {
+  background: var(--glass-fill-soft);
+  color: var(--text-hi);
+  backdrop-filter: blur(14px);
+}
+.hero-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  border-color: var(--glass-border-hot);
+}
+
+/* ---------------------------------------------------------------------
+   3. HERO — banner-wrapper vira uma vitrine imersiva em camadas de vidro
+   --------------------------------------------------------------------- */
+.banner-wrapper {
   position: relative;
+  height: min(80vh, 640px);
+  min-height: 440px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  margin-bottom: 26px;
+  isolation: isolate;
+  box-shadow: 0 32px 80px -24px rgba(0, 0, 0, .7);
 }
 
-/* Slides do carrossel automático */
+.banner-carousel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  height: 100%;
+}
+
 .banner-slide {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 1.2s ease-in-out;
   z-index: 0;
 }
-
-.banner-slide.active {
-  opacity: 1;
-  z-index: 1;
-}
-
+.banner-slide.active { opacity: 1; z-index: 1; }
 .banner-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: saturate(1.05) contrast(1.04);
+  transform: scale(1.015);
 }
 
-/* ===============================
-   SEÇÃO TEMPORADA 25/26
-   =============================== */
+/* véu de contraste para o card de vidro ficar legível sobre a foto */
+.banner-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 9, .1) 0%, rgba(8, 6, 9, .28) 45%, rgba(8, 6, 9, .92) 100%),
+    linear-gradient(100deg, rgba(8, 6, 9, .82) 0%, rgba(8, 6, 9, .1) 58%);
+}
+
+.banner-title {
+  position: absolute;
+  left: 32px;
+  bottom: 32px;
+  z-index: 3;
+  width: min(480px, 88%);
+  padding: 30px 28px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 60px -18px rgba(0, 0, 0, .65), inset 0 1px 0 rgba(255, 255, 255, .08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  height: auto;
+  opacity: 0;
+  transform: translateY(26px);
+}
+.page-ready .banner-title {
+  animation: heroPanelIn .9s var(--ease-glass) .15s forwards;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--scale-gold-soft);
+}
+
+.banner-title h2 {
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: clamp(38px, 6vw, 62px);
+  letter-spacing: 6px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--text-hi);
+  text-shadow: 0 6px 26px rgba(0, 0, 0, .55);
+  opacity: 1;
+}
+
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-mid);
+  max-width: 40ch;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+@keyframes heroPanelIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------------------------------------------------------------
+   4. FILTRO RÁPIDO DE CATEGORIAS (chips em vidro)
+   --------------------------------------------------------------------- */
+.quick-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 4px 2px 28px;
+}
+
+.quick-filter__chip {
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  color: var(--text-mid);
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  font-size: 12.5px;
+  text-decoration: none;
+  transition: all .3s ease;
+}
+.quick-filter__chip:hover,
+.quick-filter__chip.is-active {
+  color: #fff;
+  border-color: var(--glass-border-hot);
+  background: linear-gradient(135deg, rgba(255, 68, 38, .22), rgba(122, 14, 18, .32));
+  box-shadow: 0 10px 24px -10px rgba(255, 68, 38, .55);
+  transform: translateY(-1px);
+}
+
+/* ---------------------------------------------------------------------
+   5. SEÇÃO TEMPORADA — vira um painel de vidro sobre o void
+   --------------------------------------------------------------------- */
 .season {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  background: #fff;
-  padding: 40px;
-  align-items: flex-start;
+  gap: 30px;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 44px;
+  box-shadow: 0 28px 70px -30px rgba(0, 0, 0, .6);
+  margin-bottom: 34px;
 }
 
-.season-text {
-  flex: 1 1 300px;
-}
+.season-text { flex: 1 1 320px; }
 
 .season-text h2 {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-family: 'Oswald',sans-serif;
+  font-family: var(--font-display);
+  font-size: 36px;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+  color: var(--text-hi);
 }
 
 .season-text p {
-  font-size: 19px;
-  line-height: 1.6;
-  color: #222;
-  font-family:'Roboto Condensed', sans-serif; 
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-mid);
+  font-family: var(--font-body);
 }
 
-/* Wrapper do carrossel + seta */
+.season-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(217, 169, 79, .18), rgba(217, 169, 79, .06));
+  border: 1px solid rgba(217, 169, 79, .4);
+  color: var(--scale-gold-soft);
+  font-family: var(--font-label);
+  font-size: 13px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
 .season-wrapper {
   display: flex;
-  transition: transform 0.5s ease;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
   flex-wrap: nowrap;
   justify-content: center;
+  flex: 1 1 380px;
 }
 
 .season-carousel {
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   min-width: 350px;
-  height: 350px;
+  height: 380px;
   position: relative;
+  flex: 1;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .6);
+  border: 1px solid var(--glass-border);
 }
 
-/* ======= CORREÇÃO E ANIMAÇÃO DO CARROSSEL ======= */
 .season-slide {
   position: absolute;
   top: 0;
-  left: 100%; /* começa fora da tela */
+  left: 100%;
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: all 0.6s ease;
+  transition: all .6s ease;
 }
-
-/* Slide ativo visível */
-.season-slide.active {
-  left: 0;
-  opacity: 1;
-  z-index: 2;
-}
-
-/* Slide saindo pela esquerda */
-.season-slide.exit-left {
-  left: -100%;
-  opacity: 0;
-  z-index: 1;
-}
-
-/* Garante que o primeiro slide apareça */
-.season-slide:first-child {
-  left: 0;
-  opacity: 1;
-  z-index: 2;
-}
-
-/* Corrige os slides ocultos */
-.season-slide:not(.active):not(:first-child) {
-  left: 200%;
-  opacity: 0;
-}
+.season-slide.active { left: 0; opacity: 1; z-index: 2; }
+.season-slide.exit-left { left: -100%; opacity: 0; z-index: 1; }
+.season-slide:first-child { left: 0; opacity: 1; z-index: 2; }
+.season-slide:not(.active):not(:first-child) { left: 200%; opacity: 0; }
 
 .season-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
-  filter: grayscale(100%);
-  transition: 0.7s;
+  border-radius: var(--radius-md);
+  filter: grayscale(85%) brightness(.92);
+  transition: filter .7s ease, transform .7s ease;
 }
-
 .season-slide img:hover {
-  filter: grayscale(0%);
-  width: 103%;
-  height: 103%;
+  filter: grayscale(0%) brightness(1);
+  transform: scale(1.035);
 }
 
-/* Botão da seta */
 .next-slide {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 80px;
   flex-shrink: 0;
-  transition: 0.3s;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  color: var(--text-hi) !important;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all .3s ease;
 }
-
 .next-slide:hover {
-  background-color: #d2d2d2;
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  box-shadow: 0 14px 30px -10px rgba(255, 68, 38, .6);
+  transform: translateY(-2px);
+  color: #fff !important;
 }
 
-/* ===============================
-   SEÇÃO PRODUTOS
-   =============================== */
-.categoria-section {
-  margin-bottom: 50px;
-}
+/* ---------------------------------------------------------------------
+   6. PRODUTOS
+   --------------------------------------------------------------------- */
+.categoria-section { margin-bottom: 54px; }
 
 .produtos {
   position: relative;
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 40px;
-}
-
-.btn-adicionar{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-
-  background:#1c1c1c;
-  color:rgb(226, 226, 226);
-  font-weight:600;
-
-  cursor:pointer;
-  transition:.2s;
-}
-
-
-
-.produtos h2 {
-  font-size: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-/* Menu de filtros */
-.filter {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+  background: transparent;
+  padding: 6px 0 20px;
   margin-bottom: 20px;
 }
 
-.filter a {
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-  padding: 5px 10px;
-  border: 1px solid transparent;
-  transition: 0.3s;
+.categoria-titulo {
+  font-family: var(--font-display);
+  font-size: 30px;
+  letter-spacing: 3px;
+  color: var(--text-hi);
+  text-align: left;
+  position: relative;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+}
+.categoria-titulo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 64px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--ember-500), var(--scale-gold));
 }
 
-.filter a:hover {
-  border-bottom: 2px solid #000;
-}
+.categoria-section { scroll-margin-top: 110px; }
 
-/* ===============================
-   CARROSSEL DE PRODUTOS
-   =============================== */
-
-
+/* Carrossel de produtos */
 .carrossel-produtos {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -278,165 +467,375 @@ body.modo-jogo {
   flex: 1;
   overflow-x: auto;
   display: flex;
-  gap: 20px;
+  gap: 22px;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding: 10px 0;
-}
-
-.btn-prev,
-.btn-next {
-  background-color: transparent;
-  border: transparent;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 40px;
-  flex-shrink: 0;
-  transition: 0.3s;
-}
-
-.btn-prev:hover,
-.btn-next:hover {
-  background-color: #9d0808;
-}
-
-.flex {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  padding: 10px 20px;
+  padding: 10px 4px 18px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+.carrossel-produtos .flex::-webkit-scrollbar { display: none; }
 
-.flex::-webkit-scrollbar {
-  display: none;
+.btn-prev,
+.btn-next {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  color: var(--text-hi);
+  font-size: 22px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.btn-prev:hover,
+.btn-next:hover {
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  color: #fff;
+  box-shadow: 0 12px 26px -10px rgba(255, 68, 38, .55);
+  transform: translateY(-2px);
 }
 
-/* Cada produto como um card */
-.produto{
+/* Card do produto — vidro líquido com brilho de escama */
+.produto {
+  position: relative;
   flex: 0 0 auto;
-  width: 240px;
-  background: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid #eee;
-
-  transition: transform .3s ease, box-shadow .3s ease;
-
-  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
-
-.produto:hover{
-  transform: translateY(-8px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
-}
-
-
-.produto a{
-  min-height: 300px ;
-}
-
-
-.produto-img{
-  height:300px;
-  overflow:hidden;
-  border-radius:12px 12px 0 0;
-  background:#f5f5f5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-
-.produto-img img{
-  width:100%;
-  height:100%;
-  object-fit:contain;   /* mantém o produto inteiro */
-  object-position:center;
-  transition: transform .5s ease;
-}
-
-.produto:hover .produto-img img{
-  transform: scale(1.10);
-}
-
-
-.produto h3 {
-  font-size: 17px;
-  margin-bottom: 5px;
-}
-
-.produto p {
-  font-size: 14px;
-  color: #333;
-}
-
-
-
-.produto-info{
-  padding:18px;
-  text-align:center;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.produto-info h3{
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 5px;
-}
-
-.preco{
-  color:#00ff88;
-  font-weight:600;
-  margin:10px 0;
-}
-
-.btn-adicionar.added{
-  background: #d40000;
-  color: white;
-}
-
-.btn-adicionar:hover{
-  background: #9d0808;
-}
-
-.produto-link{
+  width: 250px;
+  display: block;
   text-decoration: none;
   color: inherit;
-  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .015)),
+    var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, .7);
+  transition: transform .45s var(--ease-glass), box-shadow .45s ease, border-color .45s ease;
 }
 
+/* varredura especular — o "brilho de escama" ao passar o mouse */
+.produto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, .16) 48%, transparent 64%);
+  transform: translateX(-130%);
+  transition: transform .9s ease;
+  pointer-events: none;
+}
+.produto:hover::before { transform: translateX(130%); }
 
-.badge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:#a50000;
-  color:#fff;
-  padding:4px 8px;
-  font-size:12px;
-  border-radius:4px;
+.produto:hover {
+  transform: translateY(-8px);
+  border-color: var(--glass-border-hot);
+  box-shadow: 0 30px 65px -20px rgba(255, 68, 38, .35), 0 14px 34px -14px rgba(0, 0, 0, .55);
 }
 
+.produto-img {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .05), transparent 65%);
+}
+
+.produto-glow {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  left: 15%;
+  top: 12%;
+  background: radial-gradient(circle, rgba(255, 68, 38, .25), transparent 70%);
+  filter: blur(22px);
+  opacity: 0;
+  transition: opacity .5s ease;
+  z-index: 0;
+}
+.produto:hover .produto-glow { opacity: 1; }
+
+.produto-img img {
+  position: relative;
+  z-index: 1;
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform .6s var(--ease-glass);
+}
+.produto:hover .produto-img img { transform: scale(1.08) translateY(-4px); }
+
+.produto h3 { font-size: 17px; margin-bottom: 5px; }
+.produto p { font-size: 14px; color: var(--text-mid); }
+
+.produto-info {
+  position: relative;
+  z-index: 3;
+  padding: 18px 18px 20px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.produto-info h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-hi);
+  line-height: 1.35;
+}
+
+.preco {
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: .4px;
+  color: var(--scale-gold-soft);
+  margin: 2px 0;
+}
+
+.btn-adicionar {
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px 10px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .3px;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease, background .25s ease;
+}
+.btn-adicionar:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow: 0 14px 28px -12px rgba(255, 68, 38, .6);
+}
 
 @keyframes addCart {
-  0%{transform:scale(1);}
-  50%{transform:scale(1.2);}
-  100%{transform:scale(1);}
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+.btn-adicionar.added {
+  background: linear-gradient(135deg, var(--success), var(--success-strong));
+  animation: addCart .4s ease;
 }
 
-.btn-adicionar.added{
-  animation:addCart 0.4s ease;
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 4;
+  background: rgba(8, 6, 9, .55);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border-hot);
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  border-radius: 999px;
 }
 
-/* ===============================
-   BOX DE MISSÃO (modo jogo)
-   =============================== */
+.produtos p em,
+.produtos > p {
+  color: var(--text-mid);
+  font-family: var(--font-body);
+}
+
+/* ---------------------------------------------------------------------
+   7. VITRINE EXCLUSIVA — showcase em tela cheia
+   --------------------------------------------------------------------- */
+.showcase-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .4s ease, visibility .4s ease;
+}
+.showcase-overlay.is-open { opacity: 1; visibility: visible; }
+
+.showcase-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 4, 6, .82);
+  backdrop-filter: blur(8px);
+}
+
+.showcase-panel {
+  position: relative;
+  z-index: 2;
+  width: min(1100px, 94vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(32px) saturate(160%);
+  -webkit-backdrop-filter: blur(32px) saturate(160%);
+  box-shadow: 0 50px 120px -24px rgba(0, 0, 0, .8);
+  padding: 40px;
+  transform: scale(.93) translateY(24px);
+  transition: transform .5s var(--ease-glass);
+}
+.showcase-overlay.is-open .showcase-panel { transform: scale(1) translateY(0); }
+
+.showcase-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill-soft);
+  color: var(--text-hi);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.showcase-close:hover {
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.showcase-nav {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill-soft);
+  color: var(--text-hi);
+  font-size: 22px;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.showcase-nav:hover {
+  background: linear-gradient(135deg, var(--ember-500), var(--blood-700));
+  color: #fff;
+  box-shadow: 0 12px 26px -10px rgba(255, 68, 38, .55);
+}
+
+.showcase-stage {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.showcase-media {
+  flex: 1 1 400px;
+  height: 420px;
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, .06), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.showcase-media img {
+  max-width: 86%;
+  max-height: 86%;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 40px rgba(0, 0, 0, .55));
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+.showcase-info {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 6px;
+}
+
+.showcase-eyebrow {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-size: 12px;
+  color: var(--scale-gold-soft);
+}
+
+.showcase-info h3 {
+  font-family: var(--font-display);
+  font-size: 34px;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  color: var(--text-hi);
+}
+
+.showcase-preco {
+  font-family: var(--font-label);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--scale-gold-soft);
+}
+
+.showcase-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.showcase-thumbs {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  margin-top: 30px;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+.showcase-thumbs::-webkit-scrollbar { display: none; }
+
+.showcase-thumb {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  cursor: pointer;
+  opacity: .5;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, .04);
+  transition: all .25s ease;
+  padding: 0;
+}
+.showcase-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.showcase-thumb:hover { opacity: .85; }
+.showcase-thumb.is-active {
+  opacity: 1;
+  border-color: var(--ember-500);
+}
+
+/* ---------------------------------------------------------------------
+   8. BOX DE MISSÃO (modo jogo) — reskin em vidro
+   --------------------------------------------------------------------- */
 #missao-box {
   display: none;
   position: fixed;
@@ -444,18 +843,22 @@ body.modo-jogo {
   left: 0;
   right: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.92);
-  border: 2px solid #00ff88;
-  border-radius: 12px;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(46, 230, 166, .3);
+  border-bottom: 1px solid rgba(46, 230, 166, .35);
+  border-radius: 0 0 18px 18px;
   padding: 20px 24px;
   margin: 0 auto 30px;
   max-width: 900px;
+  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .6);
 }
 
 #missao-box h3 {
-  color: #00ff88;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
+  color: var(--success);
+  font-family: var(--font-display);
+  font-size: 26px;
   margin: 0 0 16px;
   letter-spacing: 3px;
   text-align: center;
@@ -467,54 +870,50 @@ body.modo-jogo {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   justify-content: center;
 }
 
 #missao-list li {
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
   padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: border-color 0.3s, background 0.3s;
+  transition: border-color .3s, background .3s;
 }
 
-#missao-list li .missao-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+#missao-list li .missao-item { display: flex; align-items: center; gap: 10px; }
 
 #missao-list li .missao-item img {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #fff;
 }
 
 #missao-list li .missao-item span {
-  color: #fff;
+  color: var(--text-hi);
   font-size: 14px;
   font-weight: 600;
+  font-family: var(--font-body);
 }
 
 #missao-list li.concluido {
-  border-color: #00ff88;
-  background: rgba(0, 255, 136, 0.08);
+  border-color: var(--success);
+  background: rgba(46, 230, 166, .1);
 }
-
 #missao-list li.concluido .missao-item span {
   text-decoration: line-through;
-  color: #00ff88;
+  color: var(--success);
 }
 
 #missao-list li.erro {
-  border-color: #ff4444;
-  animation: shake 0.4s ease;
+  border-color: var(--danger);
+  animation: shake .4s ease;
 }
 
 @keyframes shake {
@@ -525,303 +924,84 @@ body.modo-jogo {
   80% { transform: translateX(6px); }
 }
 
-/* ===============================
-   MISSÃO — MODO MOBILE
-   Apenas os itens, sem box
-   =============================== */
 @media (max-width: 768px) {
-  body.modo-jogo {
-    padding-top: 130px;
-  }
+  body.modo-jogo { padding-top: 130px; }
 
   body.modo-jogo #missao-box {
     display: flex !important;
     position: static;
     background: none;
+    backdrop-filter: none;
     border: none;
     border-radius: 0;
     padding: 0 0 12px 8px;
     margin: 0;
     max-width: none;
     z-index: auto;
+    box-shadow: none;
   }
-
-  body.modo-jogo #missao-box h3 {
-    display: none;
-  }
-
-  body.modo-jogo #missao-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 0;
-    margin: 0;
-    justify-content: flex-start;
-  }
-
-  body.modo-jogo #missao-list li {
-    background: none;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    gap: 6px;
-  }
-
-  body.modo-jogo #missao-list li .missao-item {
-    gap: 6px;
-  }
-
-  body.modo-jogo #missao-list li .missao-item img {
-    width: 32px;
-    height: 32px;
-  }
-
-  body.modo-jogo #missao-list li .missao-item span {
-    font-size: 12px;
-  }
-
-  body.modo-jogo #missao-list li.concluido {
-    background: none;
-  }
-
-  body.modo-jogo #missao-list li.erro {
-    background: none;
-    animation: none;
-  }
+  body.modo-jogo #missao-box h3 { display: none; }
+  body.modo-jogo #missao-list { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; justify-content: flex-start; }
+  body.modo-jogo #missao-list li { background: none; border: none; border-radius: 0; padding: 0; gap: 6px; }
+  body.modo-jogo #missao-list li .missao-item { gap: 6px; }
+  body.modo-jogo #missao-list li .missao-item img { width: 32px; height: 32px; }
+  body.modo-jogo #missao-list li .missao-item span { font-size: 12px; }
+  body.modo-jogo #missao-list li.concluido { background: none; }
+  body.modo-jogo #missao-list li.erro { background: none; animation: none; }
 }
 
-/* =========================
-   RESPONSIVO NOVO (estável)
-   Cole no FINAL do teu CSS
-   ========================= */
-
-/* 1) Trava overflow lateral de vez */
-/* =====================================================
-   RESPONSIVO COMPLETO – TELA PRODUTOS
-   Desktop intacto | Mobile refinado
-   ===================================================== */
-
-/* ===============================
-   BASE ANTI-OVERFLOW
-   =============================== */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-.container {
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-}
-
-/* =====================================================
-   FILTRO – CENTRALIZADO NO DESKTOP
-   ===================================================== */
-.produtos nav.filter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 14px;
-  margin: 0 auto 25px;
-  width: 100%;
-}
-
-.produtos nav.filter a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid #e5e5e5;
-  white-space: nowrap;
-  transition: 0.2s ease;
-}
-
-.produtos nav.filter a:hover {
-  background: #111;
-  color: #fff;
-}
-
-/* =====================================================
-   CARROSSEL – DESKTOP (inalterado visualmente)
-   ===================================================== */
-.carrossel-produtos {
-  position: relative;
-  overflow: hidden;
-}
-
-.carrossel-produtos .flex {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 10px 20px;
-}
-
-.carrossel-produtos .flex::-webkit-scrollbar {
-  display: none;
-}
-
-.btn-prev,
-.btn-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 5;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(255,255,255,0.9);
-  border: 1px solid #e6e6e6;
-  cursor: pointer;
-  font-size: 26px;
-}
-
-.btn-prev { left: 8px; }
-.btn-next { right: 8px; }
-
-/* =====================================================
-   MOBILE / TABLET
-   ===================================================== */
-/* ============================
-   FIX BANNER MOBILE (DRAKO STORE)
-   Desktop fica igual
-   ============================ */
+/* ---------------------------------------------------------------------
+   9. RESPONSIVO
+   --------------------------------------------------------------------- */
 @media (max-width: 768px) {
-
-  
-  .banner-wrapper {
-    flex-direction: column;
-    height: auto;              /* remove 350px fixo */
-    gap: 12px;
-  }
-
+  .banner-wrapper { height: auto; min-height: 0; border-radius: 20px; }
+  .banner-carousel { position: relative; height: 260px; }
+  .banner-wrapper::after { position: absolute; }
   .banner-title {
+    position: relative;
+    left: auto; bottom: auto;
     width: 100%;
-    height: auto;
-    padding: 18px 12px;
+    border-radius: 0 0 20px 20px;
+    margin-top: -1px;
   }
+  .banner-title h2 { font-size: 34px; letter-spacing: 3px; text-align: left; }
 
-  .banner-title h2 {
-    font-size: 34px;           /* era 60px */
-    letter-spacing: 3px;       /* era 7px */
-    line-height: 1.05;
-    text-align: center;
-  }
+  .season { padding: 26px 20px; border-radius: 20px; }
+  .season-wrapper { width: 100%; flex-wrap: wrap; }
+  .season-carousel { width: 100%; max-width: 100%; min-width: 0 !important; height: 260px; }
+  .season-slide img { object-position: center; transform: none !important; }
+  .season-slide img:hover { width: 100% !important; height: 100% !important; }
+  .next-slide { width: 46px; height: 46px; font-size: 22px; }
 
-  .banner-carousel {
-    width: 100%;
-    flex: none;                /* não força proporção 2 */
-    height: 200px;             /* altura decente no mobile */
-    border-radius: 12px;
-    overflow: hidden;
-  }
+  .produto { width: 200px; }
+  .produto-img { height: 210px; }
 
-  .banner-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  .showcase-stage { flex-direction: column; }
+  .showcase-media { width: 100%; height: 280px; }
+  .showcase-nav { position: absolute; top: 50%; transform: translateY(-50%); }
+  .showcase-nav--prev { left: 8px; }
+  .showcase-nav--next { right: 8px; }
+  .showcase-panel { padding: 24px; }
 }
 
 @media (max-width: 420px) {
-  .banner-title h2 {
-    font-size: 30px;
-    letter-spacing: 2px;
-  }
-
-  .banner-carousel {
-    height: 170px;
-  }
+  .banner-title h2 { font-size: 28px; letter-spacing: 2px; }
+  .banner-carousel { height: 200px; }
+  .season-carousel { height: 220px; }
+  .produto { width: 168px; }
+  .produto-img { height: 180px; }
 }
 
-
-/* =====================================================
-   CELULAR PEQUENO
-   ===================================================== */
-@media (max-width: 420px) {
-
-  .produto {
-    width: 210px;
+/* ---------------------------------------------------------------------
+   10. ACESSIBILIDADE — respeita "reduzir movimento"
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
   }
-
-  .produto img {
-    height: 200px;
-    min-height: 200px;
-  }
-}
-
-
-/* ============================
-   FIX: imagem da seção TEMPORADA no mobile
-   (centraliza e impede estouro)
-   ============================ */
-@media (max-width: 768px) {
-
-  .season {
-    padding: 22px 16px;
-  }
-
-  .season-wrapper {
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .season-carousel {
-    width: 100%;
-    max-width: 560px;
-    min-width: 0 !important;     /* REMOVE o min-width:350 que quebra */
-    margin: 0 auto;              /* centraliza */
-    height: 260px;
-    overflow: hidden;
-  }
-
-  .season-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;     /* centraliza a imagem */
-    display: block;
-    transform: none !important;  /* garante que não "cresça" */
-  }
-
-  /* desativa o hover que estoura no touch */
-  .season-slide img:hover {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-.btn-prev,
-.btn-next {
-  display: none;
-}
-
-.btn-prev { left: 8px; }
-.btn-next { right: 8px; }
-
-
-
-
-.produto-img img{
-  margin-bottom: -250px;
-  width:100%;
-  height:100%;
-  object-fit:contain;   /* mantém o produto inteiro */
-  object-position:center;
-  transition: transform .5s ease;
-}
-
-}
-
-@media (max-width: 420px) {
-  .season-carousel {
-    height: 220px;
-  }
+  .reveal { opacity: 1; transform: none; }
+  .banner-title { opacity: 1; transform: none; }
 }

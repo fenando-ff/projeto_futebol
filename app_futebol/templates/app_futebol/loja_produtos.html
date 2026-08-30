@@ -3,9 +3,8 @@
 
 
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/loja_produtos.css'%}">
+    <link rel="stylesheet" href="{% static 'css/loja_produtos.css' %}?v=20260830">
 {% endblock css_extra %}
-
 {% block titulo %} Loja {% endblock %}
 
 
@@ -21,27 +20,35 @@
       <ul id="missao-list"></ul>
     </div>
 
-  <!-- Banner com título à esquerda e carrossel automático à direita -->
-  <section class="banner-wrapper">
-    <div class="banner-title">
-      <h2>DRAKO STORE</h2>
-    </div>
+  <!-- HERO / VITRINE PRINCIPAL -->
+  <section class="banner-wrapper" id="hero">
 
     <div class="banner-carousel">
       <div class="banner-slide active">
-        <img src= "{% static "img/banners/Gemini_Generated_Image_jbbiq3jbbiq3jbbi.png" %}" alt="Banner 1">
+        <img src="{% static "img/banners/Gemini_Generated_Image_jbbiq3jbbiq3jbbi.png" %}" alt="Banner 1">
       </div>
       <div class="banner-slide">
-        <img src= "{% static "img/banners/unnamed.jpg" %}" alt="Banner 2">
+        <img src="{% static "img/banners/unnamed.jpg" %}" alt="Banner 2">
       </div>
       <div class="banner-slide">
-        <img src= "{% static "img/banners/bilhete_expandido.webp" %}" alt="Banner 3">
+        <img src="{% static "img/banners/bilhete_expandido.webp" %}" alt="Banner 3">
       </div>
     </div>
+
+    <div class="banner-title">
+      <span class="hero-eyebrow">Temporada 25/26</span>
+      <h2>DRAKO STORE</h2>
+      <p class="hero-sub">Mantos oficiais, edições exclusivas e a energia do dragão em cada detalhe.</p>
+      <div class="hero-actions">
+        <a href="#produtos" class="hero-btn hero-btn--ghost">Ver produtos</a>
+        <button type="button" id="abrir-vitrine" class="hero-btn hero-btn--solid">Explorar coleção</button>
+      </div>
+    </div>
+
   </section>
 
   <!-- Seção temporada com carrossel manual -->
-<section class="season">
+<section class="season reveal">
   <div class="season-text">
     <h2>TEMPORADA 25/26</h2>
     <p>
@@ -50,57 +57,73 @@
       e o orgulho de representar o seu time dentro e fora de campo.<br>
       Sócios e membros cadastrados garantem até 20% de desconto exclusivo.
     </p>
+    <span class="season-badge">✦ Sócios: até 20% off</span>
   </div>
 
   <!-- Containe do carrossel e seta como flex -->
   <div class="season-wrapper">
     <div class="season-carousel">
       <div class="season-slide active">
-         <img src= "{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 1">
+         <img src="{% static "img/pessoas_modelos/beckam_carrosel.png" %}" alt="Slide 1">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/banners/img_dois.png" %}" alt="Slide 2">
+        <img src="{% static "img/banners/img_dois.png" %}" alt="Slide 2">
       </div>
       <div class="season-slide">
-        <img src= "{% static "img/banners/loja_roupas.png" %}" alt="Slide 3">
+        <img src="{% static "img/banners/loja_roupas.png" %}" alt="Slide 3">
       </div>
     </div>
-    <button class="next-slide" style="color: rgb(12, 12, 12);">&#8250;</button>
+    <button class="next-slide">&#8250;</button>
   </div>
 </section>
 
   <!-- Seção de produtos -->
-<section class="produtos">
+<section class="produtos" id="produtos">
+
+  <!-- Filtro rápido por categoria (usa as mesmas categorias já carregadas pela view) -->
+  <nav class="quick-filter" aria-label="Filtrar por categoria">
+    {% for categoria, produtos in produtos_por_categoria.items %}
+      {% if produtos %}
+      <a href="#categoria-{{ categoria.id_categoria_produtos }}"
+         class="quick-filter__chip"
+         data-categoria-chip="{{ categoria.id_categoria_produtos }}">
+        {{ categoria.nome_categoria_produtos }}
+      </a>
+      {% endif %}
+    {% endfor %}
+  </nav>
 
   {% for categoria, produtos in produtos_por_categoria.items %}
   {% if produtos %}
 
-  <section class="categoria-section" id="categoria-{{ categoria.id_categoria_produtos }}">
+  <section class="categoria-section reveal" id="categoria-{{ categoria.id_categoria_produtos }}">
     <h2 class="categoria-titulo">{{ categoria.nome_categoria_produtos }}</h2>
 
     <div class="carrossel-produtos">
 
-      <button class="btn-prev">&#10094;</button>
+      <button class="btn-prev" aria-label="Anterior">&#10094;</button>
 
       <div class="flex">
 
         {% for produto in produtos %}
 
-        <a href="{% url 'loja_detalhe' produto.id_produtos %}">
-        <div class="produto">
+        <a href="{% url 'loja_detalhe' produto.id_produtos %}"
+           class="produto-link produto"
+           data-categoria="{{ produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos|default:'' }}">
+
           <div class="produto-img">
 
               {% if produto.imagem_produtos %}
                 {% if produto.imagem_produtos|slice:":4" == "http" %}
-                  <img src="{{ produto.imagem_produtos }}" alt="{{ produto.nome_produtos }}">
+                  <img src="{{ produto.imagem_produtos }}" alt="{{ produto.nome_produtos }}" loading="lazy">
                 {% else %}
-                  <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}">
+                  <img src="{% static produto.imagem_produtos %}" alt="{{ produto.nome_produtos }}" loading="lazy">
                 {% endif %}
               {% else %}
-                <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}">
+                <img src="{% static 'img/produtos/camisas/camisa_retro.webp' %}" alt="{{ produto.nome_produtos }}" loading="lazy">
               {% endif %}
 
-            </a>
+            <span class="produto-glow" aria-hidden="true"></span>
           </div>
 
           <div class="produto-info">
@@ -120,7 +143,6 @@
 
           </div>
 
-        </div>
         </a>
 
         {% empty %}
@@ -129,7 +151,7 @@
 
       </div>
 
-      <button class="btn-next">&#10095;</button>
+      <button class="btn-next" aria-label="Próximo">&#10095;</button>
 
     </div>
 
@@ -140,12 +162,40 @@
 
 </section>
 
+  <!-- VITRINE EXCLUSIVA — showcase em tela cheia, montada a partir dos produtos já renderizados acima -->
+  <div class="showcase-overlay" id="showcase-overlay" aria-hidden="true">
+    <div class="showcase-backdrop" data-showcase-close></div>
+
+    <div class="showcase-panel" role="dialog" aria-modal="true" aria-label="Vitrine de produtos em destaque">
+      <button type="button" class="showcase-close" data-showcase-close aria-label="Fechar vitrine">&times;</button>
+
+      <div class="showcase-stage">
+        <button type="button" class="showcase-nav showcase-nav--prev" id="showcase-prev" aria-label="Produto anterior">&#10094;</button>
+
+        <div class="showcase-media">
+          <img id="showcase-img" src="" alt="">
+        </div>
+
+        <div class="showcase-info">
+          <span class="showcase-eyebrow" id="showcase-categoria"></span>
+          <h3 id="showcase-nome"></h3>
+          <p class="showcase-preco" id="showcase-preco"></p>
+          <div class="showcase-actions">
+            <button type="button" class="hero-btn hero-btn--solid" id="showcase-add">Adicionar ao Carrinho</button>
+            <a href="#" id="showcase-link" class="hero-btn hero-btn--ghost">Ver detalhes</a>
+          </div>
+        </div>
+
+        <button type="button" class="showcase-nav showcase-nav--next" id="showcase-next" aria-label="Próximo produto">&#10095;</button>
+      </div>
+
+      <div class="showcase-thumbs" id="showcase-thumbs"></div>
+    </div>
+  </div>
+
 </main>  
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-  <script src="{% static "js/loja_produtos.js" %}"></script>
+  <script src="{% static 'js/loja_produtos.js' %}?v=20260830"></script>
 {% endblock js_pagina %}
-     
-</body>
-</html>
