@@ -2,102 +2,122 @@
 
 <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 
+{% with current=request.resolver_match.url_name %}
 <header class="cabecalho">
-  <a class="logo" href="{% url "home" %}">
-    <img src="{% static "img/icones/Escudo_Drakos.png" %}" alt="escudo do drakos">
+
+  <!-- LOGO / HOME -->
+  <a class="logo"
+     href="{% url 'home' %}"
+     {% if current == 'home' %}aria-current="page"{% endif %}>
+    <img src="{% static 'img/icones/Escudo_Drakos.png' %}" alt="Escudo do Drakos FC">
     <h1>DRAKOS FC</h1>
   </a>
 
+  <!-- AÇÕES MOBILE -->
+  <div class="acoes-mobile">
+    <button id="botao_hamburguer"
+            class="hamb-btn only-mobile"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="menuNav">
+      <i class="bx bx-menu"></i>
+    </button>
 
+    <a href="{% url 'carrinho' %}"
+       class="icon-btn carrinho-mobile"
+       aria-label="Carrinho"
+       {% if current == 'carrinho' %}aria-current="page"{% endif %}>
+      <i class="bx bx-cart"></i>
+    </a>
+  </div>
 
-  <!-- Ações do topo (mobile) -->
-
-<div class="acoes-mobile">
-
-<button id="botao_hamburguer"
-        class="hamb-btn only-mobile"
-        type="button"
-        aria-expanded="false"
-        aria-controls="menuNav">
-    <i class="bx bx-menu"></i>
-</button>
-
-<a href="{% url 'carrinho' %}" class="icon-btn carrinho-mobile">
-    <i class="bx bx-cart"></i>
-</a>
-
-</div>
-
-
-
-  <!-- NAV (desktop e drawer mobile) -->
+  <!-- NAV DESKTOP / DRAWER MOBILE -->
   <div class="nav" id="menuNav">
     <div class="drawer">
-      <!-- Topo do drawer (somente mobile) -->
-       
-      <div class="drawer-top">
 
+      <div class="drawer-top">
         <span class="drawer-title">MENU</span>
-        
+
         <button type="button"
                 class="hamb-close"
                 id="fechar_menu"
                 aria-label="Fechar menu">
           <i class="bx bx-x"></i>
-
         </button>
-
       </div>
 
-      
+      <ul class="hamburguer-opcoes" id="navOptions">
 
-      <ul class="hamburguer-opcoes">
         {% if request.session.cliente_id %}
-          <li class="opcao-nav">
-            <a href="{% url 'logout' %}"><i class="bx bx-log-out"></i> Sair</a>
+          <li class="opcao-nav" data-nav-key="logout">
+            <a href="{% url 'logout' %}">
+              <i class="bx bx-log-out"></i>
+              <span>Sair</span>
+            </a>
           </li>
         {% else %}
-          <li class="opcao-nav">
-            <a href="{% url 'login' %}"><i class="bx bx-user"></i> Login</a>
+          <li class="opcao-nav" data-nav-key="login">
+            <a href="{% url 'login' %}"
+               {% if current == 'login' %}aria-current="page"{% endif %}>
+              <i class="bx bx-user"></i>
+              <span>Login</span>
+            </a>
           </li>
         {% endif %}
-          
 
-          {% comment %} <li class="opcao-nav">
-            <a href="{% url 'menu_fases' %}">
-              <i class="bx bx-joystick"></i> Game
-            </a>
-          </li> {% endcomment %}
-          
-          
-        <li class="opcao-nav">
-          <a href="{% url 'produtos' %}"><i class="bx bx-store"></i> Loja</a>
-        </li>
-        <li class="opcao-nav">
-          <a href="{% url 'historia' %}"><i class="bx bx-book"></i> História</a>
-        </li>
-        <li class="opcao-nav">
-          <a href="{% url 'ingresso' %}"><i class="fa-solid fa-ticket-alt"></i> Ingressos</a>
-        </li>
-        <li class="opcao-nav">
-          <a href="{% url 'socio' %}"><i class="bx bx-crown"></i> Sócios</a>
-        </li>
-        <li class="opcao-nav">
-          <a href="{% url "perfil" %}"><i class="bx bx-user-circle"></i> Perfil</a>
-        </li>
-
-
-        <li class="opcao-nav carrinho-desktop">
-          <a href="{% url 'carrinho' %}">
-            <i class="bx bx-cart"></i> Carrinho
+        <li class="opcao-nav" data-nav-key="produtos">
+          <a href="{% url 'produtos' %}"
+             {% if current == 'produtos' %}aria-current="page"{% endif %}>
+            <i class="bx bx-store"></i>
+            <span>Loja</span>
           </a>
         </li>
+
+        <li class="opcao-nav" data-nav-key="historia">
+          <a href="{% url 'historia' %}"
+             {% if current == 'historia' %}aria-current="page"{% endif %}>
+            <i class="bx bx-book"></i>
+            <span>História</span>
+          </a>
+        </li>
+
+        <li class="opcao-nav" data-nav-key="ingresso">
+          <a href="{% url 'ingresso' %}"
+             {% if current == 'ingresso' %}aria-current="page"{% endif %}>
+            <i class="fa-solid fa-ticket-alt"></i>
+            <span>Ingressos</span>
+          </a>
+        </li>
+
+        <li class="opcao-nav" data-nav-key="socio">
+          <a href="{% url 'socio' %}"
+             {% if current == 'socio' %}aria-current="page"{% endif %}>
+            <i class="bx bx-crown"></i>
+            <span>Sócios</span>
+          </a>
+        </li>
+
+        <li class="opcao-nav" data-nav-key="perfil">
+          <a href="{% url 'perfil' %}"
+             {% if current == 'perfil' %}aria-current="page"{% endif %}>
+            <i class="bx bx-user-circle"></i>
+            <span>Perfil</span>
+          </a>
+        </li>
+
+        <li class="opcao-nav carrinho-desktop" data-nav-key="carrinho">
+          <a href="{% url 'carrinho' %}"
+             {% if current == 'carrinho' %}aria-current="page"{% endif %}>
+            <i class="bx bx-cart"></i>
+            <span>Carrinho</span>
+          </a>
+        </li>
+
       </ul>
-
-
     </div>
   </div>
 </header>
 
-<!-- Overlay do drawer (somente mobile) -->
 <div class="menu-overlay" id="menuOverlay"></div>
+{% endwith %}

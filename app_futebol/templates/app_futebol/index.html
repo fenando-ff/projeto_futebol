@@ -10,42 +10,50 @@
 {% block conteudo_pagina %}
 
 <main class="home-container">
-    
+
+    <!-- Fundo líquido: bolhas de luz atrás de todo o conteúdo,
+         é o que os cards de vidro refratam -->
+    <div class="liquid-bg" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+
     <!-- ======================== HERO =============================== -->
-    
+
     <section class="hero">
         <div class="hero-text">
             {% if nome %}
-            <h2 style="color: #f0f0f0;">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+            <h2 class="hero-greeting">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
                 {% else %}
-                <h2 style="color: #f0f0f0;">Bem-vindo!</h2>
+                <h2 class="hero-greeting">Bem-vindo!</h2>
                 {% endif %}
                 <h1>DRAKO FUTEBOL CLUBE</h1>
                 <p>A força do dragão dentro e fora de campo.</p>
                 <a href="{% url 'produtos' %}" class="btn-primary">Conheça a Drako Store</a>
             </div>
-            
-            <!-- ======================== NOVO CARROSSEL COM BARRA =============================== -->
+
+            <!-- ======================== CARROSSEL COM BARRA =============================== -->
             <div class="hero-carousel">
-                
+
                 <!-- Imagens -->
                 <div class="carousel-track">
                     <img src="{% static 'img/banners/IMG_8928.webp' %}" class="carousel-img active">
                     <img src="{% static 'img/banners/IMG_8930.webp' %}" class="carousel-img">
                     <img src="{% static 'img/banners/bilhete_expandido.webp' %}" class="carousel-img">
                 </div>
-                
+
                 <!-- Barra de progresso -->
                 <div class="carousel-progress">
                     <div class="progress-bar"></div>
                 </div>
-                
+
                 <!-- Botões -->
                 <button class="carousel-btn left">&#10094;</button>
                 <button class="carousel-btn right">&#10095;</button>
             </div>
         </section>
-        
+
         <!-- ======================== APP MOBILE =============================== -->
             <section class="app-mobile">
 
@@ -224,7 +232,7 @@
     <section class="produtos">
     <h2>PRODUTOS</h2>
 
-    <div class="produtos-carousel">
+    <div class="produtos-carousel" id="produtosCarousel">
         <div class="cards-produtos-container produtos-track">
 
             {% for produto in produtos_acessorios %}
@@ -328,6 +336,10 @@
 
         </div>
     </div>
+
+    <!-- pontos de navegação (só aparecem no mobile, via CSS) -->
+    <div class="produtos-dots" id="produtosDots"></div>
+
     </section>
 
 
