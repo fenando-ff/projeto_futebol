@@ -11,12 +11,14 @@
    FUNDO DA PÁGINA
 =============================== */
 body {
-    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background: radial-gradient(circle at center, var(--accent-tertiary) 10%, var(--page-bg) 100%);
 }
 
 /* centralização apenas do conteúdo */
 main {  
     flex: 1;
+    min-height: calc(100dvh - 120px);
+    padding: calc(var(--nav-height) + var(--nav-top) + 24px) 16px 48px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,17 +35,15 @@ main {
     max-width: 420px;
     padding: 40px 30px;
     border-radius: 20px;
-        background: rgba(10, 10, 10, 0.85);
+        background: var(--surface-glass);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 
-        0 0 40px rgba(0, 0, 0, 0.8),
-        0 0 20px rgba(143, 0, 0, 0.25);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-strong);
 
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 100px;
+    margin: 0 auto;
     animation: fadeUp 0.6s ease forwards;
 }
 
@@ -158,7 +158,7 @@ main {
 /* Efeito foco premium */
 .form-email input:focus {
     border-bottom: 2px solid #f72b2b;
-    box-shadow: 0 5px 20px #f72b2b(247, 192, 43, 0.3);
+    box-shadow: var(--glass-shadow);
 }
 
 /* ==============================

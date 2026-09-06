@@ -1,0 +1,41 @@
+/* =====================================================================
+   17. CARD FRONT
+   Mantido porque pode estar sendo usado em outra tela.
+   ===================================================================== */
+
+.card-front {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #141E30,
+            #243B55
+        );
+}
+
+.card-front::after {
+    content: "";
+
+    position: absolute;
+
+    top: -50%;
+    left: -50%;
+
+    width: 200%;
+    height: 200%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, .15),
+            transparent
+        );
+
+    transform:
+        rotate(25deg);
+}
+

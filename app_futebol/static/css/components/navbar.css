@@ -1,0 +1,1624 @@
+/* =====================================================================
+   DRAKOS FC — BASE
+   NAVBAR FULL GLASS + FOOTER + ALERTAS
+   ===================================================================== */
+
+
+/* =====================================================================
+   01. TOKENS / VARIÁVEIS
+   ===================================================================== */
+
+:root {
+    /* Cores herdadas da identidade Liquid Glass da Home */
+    --nav-flame-400: var(--flame-400, #ff6a52);
+    --nav-flame-500: var(--flame-500, #ff3b3b);
+    --nav-ember-500: var(--ember-500, #b81c1c);
+
+    /* Glass */
+    --nav-glass-fill:
+        var(--glass-fill, rgba(255, 255, 255, 0.035));
+
+    --nav-glass-fill-hover:
+        var(--glass-fill-hover, rgba(255, 255, 255, 0.065));
+
+    --nav-glass-stroke:
+        var(--glass-stroke, rgba(255, 255, 255, 0.10));
+
+    --nav-glass-stroke-strong:
+        var(--glass-stroke-strong, rgba(255, 255, 255, 0.20));
+
+    --nav-glass-streak:
+        var(--glass-streak, rgba(255, 255, 255, 0.55));
+
+    /* Movimento */
+    --nav-ease-glass:
+        var(--ease-glass, cubic-bezier(.2, .8, .2, 1));
+
+    --nav-hover-ease:
+        cubic-bezier(.16, 1, .3, 1);
+
+    --nav-hover-medium: .52s;
+    --nav-hover-slow: .70s;
+
+    /* Dimensões desktop */
+    --nav-height: 64px;
+    --nav-top: 12px;
+
+    /* Quanto maior, mais curta a navbar nas laterais */
+    --nav-side: clamp(30px, 6vw, 100px);
+}
+/* =====================================================================
+   03. NAVBAR — CONTAINER FULL GLASS
+   ===================================================================== */
+
+.cabecalho {
+    position: fixed;
+
+    top: var(--nav-top);
+    left: var(--nav-side);
+    right: var(--nav-side);
+
+    z-index: 1000;
+
+    height: var(--nav-height);
+
+    padding:
+        0
+        clamp(16px, 3vw, 34px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    /*
+       Desktop:
+       mantém os efeitos internos presos no vidro.
+    */
+    overflow: hidden;
+
+    isolation: isolate;
+
+    border:
+        1px solid
+        var(--nav-glass-stroke);
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            155deg,
+            rgba(255, 255, 255, .075) 0%,
+            rgba(255, 255, 255, .028) 42%,
+            rgba(255, 59, 59, .025) 100%
+        );
+
+    backdrop-filter:
+        blur(28px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(28px)
+        saturate(180%);
+
+    box-shadow:
+        0 20px 46px -22px rgba(0, 0, 0, .72),
+        0 7px 20px -16px rgba(255, 59, 59, .42),
+        inset 0 1px 0 rgba(255, 255, 255, .18),
+        inset 0 -1px 0 rgba(255, 255, 255, .035);
+
+    transition:
+        border-color
+        var(--nav-hover-slow)
+        ease,
+
+        box-shadow
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        background
+        var(--nav-hover-slow)
+        var(--nav-hover-ease);
+}
+
+
+/* Glow interno vermelho */
+
+.cabecalho::before {
+    content: "";
+
+    position: absolute;
+
+    z-index: -2;
+
+    width: 340px;
+    height: 160px;
+
+    top: -100px;
+    right: 5%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 74, 62, .22) 0%,
+            rgba(184, 28, 28, .08) 42%,
+            transparent 72%
+        );
+
+    filter: blur(18px);
+
+    pointer-events: none;
+}
+
+
+/* Reflexo superior */
+
+.cabecalho::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 11%;
+    right: 11%;
+
+    z-index: -1;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, .48),
+            rgba(255, 215, 200, .72),
+            rgba(255, 255, 255, .34),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* Hover geral muito discreto */
+
+.cabecalho:hover {
+    border-color:
+        rgba(255, 255, 255, .14);
+
+    box-shadow:
+        0 26px 54px -26px rgba(0, 0, 0, .78),
+        0 8px 26px -18px rgba(255, 59, 59, .48),
+        inset 0 1px 0 rgba(255, 255, 255, .20),
+        inset 0 -1px 0 rgba(255, 255, 255, .045);
+}
+
+
+/* Fallback sem backdrop-filter */
+
+@supports not (
+    (backdrop-filter: blur(2px)) or
+    (-webkit-backdrop-filter: blur(2px))
+) {
+
+    .cabecalho {
+        background:
+            rgba(15, 10, 11, .94);
+    }
+}
+
+
+/* =====================================================================
+   04. LOGO
+   ===================================================================== */
+
+.logo {
+    position: relative;
+
+    z-index: 2;
+
+    min-width: 180px;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 10px;
+
+    color: #fff;
+
+    text-decoration: none;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(
+            0 8px 14px
+            rgba(0, 0, 0, .28)
+        );
+
+    transition:
+        transform
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        filter
+        var(--nav-hover-slow)
+        var(--nav-hover-ease);
+}
+
+.logo h1 {
+    margin: 0;
+
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+}
+
+.logo:hover img {
+    transform:
+        translateY(-3px)
+        scale(1.055);
+
+    filter:
+        drop-shadow(
+            0 10px 16px
+            rgba(0, 0, 0, .34)
+        )
+        drop-shadow(
+            0 0 16px
+            rgba(255, 59, 59, .24)
+        );
+}
+
+
+/* Indicador da Home */
+
+.logo[aria-current="page"]::after {
+    content: "";
+
+    position: absolute;
+
+    left: 58px;
+    right: 2px;
+
+    bottom: -7px;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--nav-flame-400),
+            var(--nav-flame-500),
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(255, 59, 59, .55);
+
+    animation:
+        navActiveIn
+        .42s
+        var(--nav-ease-glass)
+        both;
+}
+
+
+/* =====================================================================
+   05. NAVEGAÇÃO DESKTOP
+   ===================================================================== */
+
+.nav {
+    position: relative;
+
+    z-index: 2;
+
+    display: block;
+}
+
+.drawer {
+    position: static;
+}
+
+.drawer-top {
+    display: none;
+}
+
+.hamburguer-opcoes {
+    /*
+       Variáveis manipuladas pelo JS da bolha,
+       caso ele esteja sendo utilizado.
+    */
+    --nav-bubble-x: 0px;
+    --nav-bubble-width: 0px;
+    --nav-bubble-opacity: 0;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/* Bolha Glass deslizante */
+
+.hamburguer-opcoes::before {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 0;
+
+    z-index: 0;
+
+    width:
+        var(--nav-bubble-width);
+
+    height: 38px;
+
+    transform:
+        translate3d(
+            var(--nav-bubble-x),
+            -50%,
+            0
+        );
+
+    opacity:
+        var(--nav-bubble-opacity);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .14);
+
+    border-radius: 13px;
+
+    background:
+        radial-gradient(
+            120% 150%
+            at 28% 0%,
+            rgba(255, 255, 255, .105),
+            transparent 44%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .07),
+            rgba(255, 59, 59, .045)
+        );
+
+    backdrop-filter:
+        blur(12px)
+        saturate(170%);
+
+    -webkit-backdrop-filter:
+        blur(12px)
+        saturate(170%);
+
+    box-shadow:
+        0 10px 22px -14px rgba(0, 0, 0, .70),
+        0 0 24px -14px rgba(255, 59, 59, .72),
+        inset 0 1px 0 rgba(255, 255, 255, .20);
+
+    transition:
+        transform
+        .72s
+        var(--nav-hover-ease),
+
+        width
+        .72s
+        var(--nav-hover-ease),
+
+        opacity
+        .35s
+        ease,
+
+        box-shadow
+        .65s
+        var(--nav-hover-ease),
+
+        border-color
+        .65s
+        ease;
+
+    pointer-events: none;
+}
+
+.hamburguer-opcoes:hover::before {
+    border-color:
+        rgba(255, 255, 255, .18);
+
+    box-shadow:
+        0 16px 30px -18px rgba(0, 0, 0, .76),
+        0 0 30px -16px rgba(255, 59, 59, .62),
+        inset 0 1px 0 rgba(255, 255, 255, .22);
+}
+
+
+/* Usado pelo JS ao reposicionar a bolha */
+
+.hamburguer-opcoes.no-bubble-transition::before {
+    transition: none !important;
+}
+
+
+/* Item */
+
+.hamburguer-opcoes
+.opcao-nav {
+    position: relative;
+
+    z-index: 1;
+}
+
+.hamburguer-opcoes
+.opcao-nav
+a {
+    position: relative;
+
+    min-height: 38px;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color:
+        rgba(255, 255, 255, .82);
+
+    text-decoration: none;
+
+    font-size: 13.5px;
+    font-weight: 600;
+
+    letter-spacing: .02em;
+
+    border-radius: 13px;
+
+    transition:
+        color
+        var(--nav-hover-medium)
+        ease,
+
+        transform
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        text-shadow
+        var(--nav-hover-medium)
+        ease,
+
+        background
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        border-color
+        var(--nav-hover-slow)
+        var(--nav-hover-ease);
+}
+
+
+/* Ícone */
+
+.hamburguer-opcoes
+.opcao-nav
+a i {
+    font-size: 17px;
+
+    opacity: .88;
+
+    transition:
+        color
+        var(--nav-hover-medium)
+        ease,
+
+        transform
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        opacity
+        var(--nav-hover-medium)
+        ease,
+
+        filter
+        var(--nav-hover-slow)
+        ease;
+}
+
+
+/* Hover */
+
+.hamburguer-opcoes
+.opcao-nav
+a:hover {
+    color: #fff;
+
+    transform:
+        translateY(-3px);
+
+    text-shadow:
+        0 0 16px
+        rgba(255, 255, 255, .10);
+}
+
+.hamburguer-opcoes
+.opcao-nav
+a:hover i {
+    color:
+        var(--nav-flame-400);
+
+    opacity: 1;
+
+    transform:
+        translateY(-2px)
+        scale(1.08);
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(255, 59, 59, .38)
+        );
+}
+
+
+/* =====================================================================
+   06. ITEM DA PÁGINA ATUAL
+   ===================================================================== */
+
+.hamburguer-opcoes
+.opcao-nav
+a[aria-current="page"] {
+    color: #fff;
+
+    text-shadow:
+        0 0 18px
+        rgba(255, 255, 255, .08);
+}
+
+.hamburguer-opcoes
+.opcao-nav
+a[aria-current="page"]
+i {
+    color:
+        var(--nav-flame-400);
+
+    opacity: 1;
+}
+
+.hamburguer-opcoes
+.opcao-nav
+a[aria-current="page"]::after {
+    content: "";
+
+    position: absolute;
+
+    left: 22%;
+    right: 22%;
+
+    bottom: -4px;
+
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--nav-flame-400),
+            var(--nav-flame-500),
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px
+        rgba(255, 59, 59, .60);
+
+    animation:
+        navActiveIn
+        .42s
+        var(--nav-ease-glass)
+        both;
+
+    transition:
+        opacity
+        var(--nav-hover-medium)
+        ease,
+
+        box-shadow
+        var(--nav-hover-slow)
+        ease;
+}
+
+.hamburguer-opcoes
+.opcao-nav
+a[aria-current="page"]:hover::after {
+    box-shadow:
+        0 0 18px
+        rgba(255, 59, 59, .78);
+}
+
+
+@keyframes navActiveIn {
+
+    from {
+        opacity: 0;
+        transform: scaleX(.35);
+    }
+
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+
+/* =====================================================================
+   07. AÇÕES MOBILE / BOTÕES GLASS
+   ===================================================================== */
+
+.acoes-mobile {
+    position: relative;
+
+    z-index: 3;
+
+    display: none;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.only-mobile {
+    display: none;
+}
+
+.carrinho-mobile {
+    display: none;
+}
+
+.carrinho-desktop {
+    display: flex;
+}
+
+
+.hamb-btn,
+.hamb-close,
+.icon-btn {
+    width: 38px;
+    height: 38px;
+
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, .12);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, .035);
+
+    backdrop-filter:
+        blur(12px)
+        saturate(160%);
+
+    -webkit-backdrop-filter:
+        blur(12px)
+        saturate(160%);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .12),
+        0 8px 18px -14px rgba(0, 0, 0, .65);
+
+    transition:
+        transform
+        var(--nav-hover-medium)
+        var(--nav-hover-ease),
+
+        background
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        border-color
+        var(--nav-hover-slow)
+        ease,
+
+        box-shadow
+        var(--nav-hover-slow)
+        var(--nav-hover-ease);
+}
+
+
+.hamb-btn i,
+.hamb-close i,
+.icon-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 20px;
+
+    transition:
+        transform
+        var(--nav-hover-slow)
+        var(--nav-hover-ease),
+
+        color
+        var(--nav-hover-medium)
+        ease;
+}
+
+
+.hamb-btn:hover,
+.hamb-close:hover,
+.icon-btn:hover {
+    transform:
+        translateY(-3px)
+        scale(1.045);
+
+    background:
+        rgba(255, 255, 255, .085);
+
+    border-color:
+        rgba(255, 255, 255, .24);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .20),
+        0 14px 26px -16px rgba(0, 0, 0, .72),
+        0 0 24px -14px rgba(255, 59, 59, .72);
+}
+
+
+.hamb-btn:hover i,
+.hamb-close:hover i,
+.icon-btn:hover i {
+    transform:
+        scale(1.10);
+
+    color:
+        var(--nav-flame-400);
+}
+
+
+/* Carrinho ativo */
+
+.icon-btn[aria-current="page"] {
+    border-color:
+        rgba(255, 255, 255, .18);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .075),
+            rgba(255, 59, 59, .09)
+        );
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .18),
+        0 0 20px -12px rgba(255, 59, 59, .80);
+}
+
+.icon-btn[aria-current="page"] i {
+    color:
+        var(--nav-flame-400);
+}
+
+
+/* =====================================================================
+   08. OVERLAY
+   ===================================================================== */
+
+.menu-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 999;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    background:
+        rgba(3, 3, 5, .48);
+
+    backdrop-filter:
+        blur(7px)
+        saturate(125%);
+
+    -webkit-backdrop-filter:
+        blur(7px)
+        saturate(125%);
+
+    transition:
+        opacity
+        .32s
+        ease;
+}
+
+.menu-overlay.is-open {
+    opacity: 1;
+
+    pointer-events: auto;
+}
+
+
+/* =====================================================================
+   09. NOTEBOOK
+   ===================================================================== */
+
+@media
+(min-width: 1181px)
+and
+(max-width: 1360px) {
+
+    :root {
+        --nav-side:
+            clamp(
+                22px,
+                3vw,
+                42px
+            );
+    }
+
+    .cabecalho {
+        padding:
+            0 18px;
+
+        gap: 10px;
+    }
+
+    .logo {
+        min-width: 155px;
+
+        gap: 8px;
+    }
+
+    .logo img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .logo h1 {
+        font-size: 16px;
+    }
+
+    .hamburguer-opcoes {
+        gap: 3px;
+    }
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a {
+        padding: 0 9px;
+
+        gap: 5px;
+
+        font-size: 12.8px;
+    }
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a i {
+        font-size: 16px;
+    }
+}
+
+
+/* =====================================================================
+   10. TABLET + MOBILE
+   O menu vira drawer abaixo de 1180px.
+   ===================================================================== */
+
+@media (max-width: 1180px) {
+
+    :root {
+        --nav-height: 60px;
+        --nav-top: 8px;
+        --nav-side:
+            clamp(
+                8px,
+                2vw,
+                18px
+            );
+    }
+
+
+    main {
+        padding-top:
+            calc(
+                var(--nav-height) +
+                var(--nav-top) +
+                10px
+            );
+    }
+
+
+    /*
+       CRÍTICO:
+       O drawer está dentro do header.
+       Se ficar hidden, o menu é recortado.
+    */
+
+    .cabecalho {
+        padding:
+            0 14px;
+
+        gap: 10px;
+
+        border-radius: 19px;
+
+        overflow: visible;
+    }
+
+
+    .logo {
+        min-width: 0;
+
+        flex-shrink: 1;
+
+        gap: 8px;
+    }
+
+    .logo img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .logo h1 {
+        font-size: 15px;
+
+        letter-spacing: .8px;
+    }
+
+    .logo[aria-current="page"]::after {
+        left: 51px;
+
+        bottom: -5px;
+    }
+
+
+    /* Ações */
+
+    .acoes-mobile {
+        display: flex;
+
+        flex-shrink: 0;
+    }
+
+    .only-mobile {
+        display: inline-flex;
+    }
+
+    .carrinho-mobile {
+        display: inline-flex;
+    }
+
+    .carrinho-desktop {
+        display: none;
+    }
+
+
+    /* Container invisível */
+
+    .nav {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 1001;
+
+        pointer-events: none;
+    }
+
+    .nav.is-open {
+        pointer-events: auto;
+    }
+
+
+    /* Drawer */
+
+    .drawer {
+        position: absolute;
+
+        top: 0;
+        right: 0;
+
+        width:
+            min(
+                370px,
+                82vw
+            );
+
+        height: 100vh;
+        height: 100dvh;
+
+        padding:
+            18px
+            14px
+            calc(
+                22px +
+                env(safe-area-inset-bottom)
+            );
+
+        display: flex;
+        flex-direction: column;
+
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        overscroll-behavior:
+            contain;
+
+        isolation: isolate;
+
+        transform:
+            translateX(
+                calc(
+                    100% + 24px
+                )
+            );
+
+        border-left:
+            1px solid
+            rgba(255, 255, 255, .13);
+
+        background:
+            linear-gradient(
+                160deg,
+                rgba(255, 255, 255, .075),
+                rgba(18, 10, 12, .68) 34%,
+                rgba(12, 8, 10, .76)
+            );
+
+        backdrop-filter:
+            blur(34px)
+            saturate(180%);
+
+        -webkit-backdrop-filter:
+            blur(34px)
+            saturate(180%);
+
+        box-shadow:
+            -30px 0 60px -28px rgba(0, 0, 0, .82),
+            inset 1px 0 0 rgba(255, 255, 255, .07);
+
+        transition:
+            transform
+            .62s
+            var(--nav-hover-ease);
+    }
+
+
+    /* Luz vermelha drawer */
+
+    .drawer::before {
+        content: "";
+
+        position: absolute;
+
+        z-index: -1;
+
+        width: 320px;
+        height: 320px;
+
+        top: -120px;
+        right: -110px;
+
+        border-radius: 50%;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(255, 59, 59, .23),
+                rgba(184, 28, 28, .07) 44%,
+                transparent 72%
+            );
+
+        filter: blur(34px);
+
+        pointer-events: none;
+    }
+
+
+    /* Luz quente inferior */
+
+    .drawer::after {
+        content: "";
+
+        position: absolute;
+
+        z-index: -1;
+
+        width: 260px;
+        height: 260px;
+
+        bottom: -120px;
+        left: -100px;
+
+        border-radius: 50%;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(255, 182, 72, .10),
+                transparent 70%
+            );
+
+        filter: blur(44px);
+
+        pointer-events: none;
+    }
+
+
+    .nav.is-open
+    .drawer {
+        transform:
+            translateX(0);
+    }
+
+
+    /* Cabeçalho drawer */
+
+    .drawer-top {
+        position: relative;
+
+        z-index: 2;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding:
+            2px
+            2px
+            15px;
+
+        margin-bottom: 12px;
+
+        border-bottom:
+            1px solid
+            rgba(255, 255, 255, .085);
+    }
+
+
+    .drawer-title {
+        color:
+            rgba(255, 255, 255, .80);
+
+        font-size: 11px;
+        font-weight: 800;
+
+        letter-spacing: .16em;
+    }
+
+
+    /* Menu drawer */
+
+    .hamburguer-opcoes {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 7px;
+
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /*
+       Bolha deslizante somente desktop.
+       No mobile o ativo vira um card glass.
+    */
+
+    .hamburguer-opcoes::before {
+        display: none;
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav {
+        width: 100%;
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a {
+        width: 100%;
+
+        min-height: 48px;
+
+        padding:
+            0 14px;
+
+        justify-content:
+            flex-start;
+
+        gap: 11px;
+
+        color:
+            rgba(255, 255, 255, .80);
+
+        border:
+            1px solid
+            transparent;
+
+        border-radius: 15px;
+
+        transition:
+            transform
+            .6s
+            var(--nav-hover-ease),
+
+            background
+            .6s
+            var(--nav-hover-ease),
+
+            border-color
+            .6s
+            ease,
+
+            color
+            .45s
+            ease,
+
+            box-shadow
+            .6s
+            var(--nav-hover-ease);
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a i {
+        width: 21px;
+
+        font-size: 19px;
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a:hover {
+        transform:
+            translateX(6px);
+
+        color: #fff;
+
+        background:
+            rgba(255, 255, 255, .06);
+
+        border-color:
+            rgba(255, 255, 255, .10);
+
+        box-shadow:
+            0 12px 22px -18px
+            rgba(0, 0, 0, .7);
+    }
+
+
+    /* Página atual no drawer */
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a[aria-current="page"] {
+        color: #fff;
+
+        background:
+            radial-gradient(
+                130% 160%
+                at 20% 0%,
+                rgba(255, 255, 255, .10),
+                transparent 42%
+            ),
+            linear-gradient(
+                145deg,
+                rgba(255, 255, 255, .07),
+                rgba(255, 59, 59, .055)
+            );
+
+        border-color:
+            rgba(255, 255, 255, .13);
+
+        box-shadow:
+            0 12px 24px -18px rgba(0, 0, 0, .78),
+            inset 0 1px 0 rgba(255, 255, 255, .16);
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a[aria-current="page"]::after {
+        left: 14px;
+        right: auto;
+
+        bottom: 7px;
+
+        width: 30px;
+        height: 2px;
+    }
+}
+
+
+/* =====================================================================
+   11. DESKTOP
+   ===================================================================== */
+
+@media (min-width: 1181px) {
+
+    .menu-overlay {
+        display: none;
+    }
+
+    .nav {
+        position: static;
+
+        pointer-events: auto;
+    }
+
+    .drawer {
+        position: static;
+
+        width: auto;
+        height: auto;
+
+        padding: 0;
+
+        overflow: visible;
+
+        background: transparent;
+
+        box-shadow: none;
+
+        transform: none !important;
+    }
+}
+
+
+/* =====================================================================
+   12. CELULAR
+   ===================================================================== */
+
+@media (max-width: 768px) {
+
+    :root {
+        --nav-height: 58px;
+        --nav-side: 8px;
+    }
+
+    .cabecalho {
+        padding:
+            0 11px;
+
+        border-radius: 18px;
+    }
+
+    .logo {
+        gap: 7px;
+    }
+
+    .logo img {
+        width: 41px;
+        height: 41px;
+    }
+
+    .logo h1 {
+        font-size: 14px;
+
+        letter-spacing: .7px;
+    }
+
+
+    .acoes-mobile {
+        gap: 6px;
+    }
+
+
+    .hamb-btn,
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+
+        border-radius: 11px;
+    }
+
+    .hamb-btn i,
+    .icon-btn i {
+        font-size: 19px;
+    }
+
+
+    .drawer {
+        width:
+            min(
+                330px,
+                90vw
+            );
+
+        padding:
+            16px
+            12px
+            calc(
+                20px +
+                env(safe-area-inset-bottom)
+            );
+    }
+
+
+    .hamburguer-opcoes {
+        gap: 6px;
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a {
+        min-height: 46px;
+
+        padding:
+            0 13px;
+
+        border-radius: 14px;
+    }
+}
+
+
+/* =====================================================================
+   13. CELULAR PEQUENO
+   ===================================================================== */
+
+@media (max-width: 480px) {
+
+    :root {
+        --nav-side: 6px;
+        --nav-top: 6px;
+    }
+
+    .cabecalho {
+        padding:
+            0 9px;
+
+        border-radius: 17px;
+    }
+
+
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo h1 {
+        font-size: 13px;
+    }
+
+
+    .drawer {
+        width:
+            min(
+                310px,
+                92vw
+            );
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a {
+        min-height: 44px;
+
+        font-size: 13px;
+    }
+}
+
+
+/* =====================================================================
+   14. CELULAR MUITO PEQUENO
+   ===================================================================== */
+
+@media (max-width: 360px) {
+
+    .logo h1 {
+        display: none;
+    }
+
+    .logo[aria-current="page"]::after {
+        left: 7px;
+        right: 7px;
+    }
+
+
+    .hamb-btn,
+    .icon-btn {
+        width: 34px;
+        height: 34px;
+    }
+
+
+    .acoes-mobile {
+        gap: 5px;
+    }
+
+
+    .drawer {
+        width: 94vw;
+    }
+}
+
+
+/* =====================================================================
+   15. CELULAR DEITADO
+   ===================================================================== */
+
+@media
+(max-width: 1180px)
+and
+(max-height: 520px) {
+
+    .drawer {
+        padding-top: 10px;
+    }
+
+
+    .drawer-top {
+        padding-bottom: 8px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .hamburguer-opcoes {
+        gap: 3px;
+    }
+
+
+    .hamburguer-opcoes
+    .opcao-nav
+    a {
+        min-height: 40px;
+    }
+}
+
+

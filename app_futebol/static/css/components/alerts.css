@@ -1,0 +1,145 @@
+/* =====================================================================
+   18. MENSAGENS / ALERTAS
+   ===================================================================== */
+
+.container-messages {
+    position: fixed;
+
+    top:
+        calc(
+            var(--nav-height) +
+            var(--nav-top) +
+            16px
+        );
+
+    right: 20px;
+
+    z-index: 2000;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.alert {
+    padding:
+        14px
+        18px;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 20px
+        rgba(0, 0, 0, .25);
+
+    animation:
+        slideIn
+        .3s
+        ease;
+
+    transition:
+        opacity
+        .3s
+        ease,
+
+        transform
+        .3s
+        ease;
+}
+
+
+.alert.warning {
+    background:
+        linear-gradient(
+            135deg,
+            #a90000,
+            #0b0000
+        );
+}
+
+.alert.success {
+    background:
+        linear-gradient(
+            135deg,
+            #060000,
+            #16a34a
+        );
+}
+
+.alert.error {
+    background:
+        linear-gradient(
+            135deg,
+            #0f0000,
+            #dc2626
+        );
+}
+
+
+@keyframes slideIn {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+}
+
+
+/* =====================================================================
+   19. TOUCH
+   Evita hover "preso" em celulares.
+   ===================================================================== */
+
+@media (hover: none) {
+
+    .logo:hover img,
+    .hamburguer-opcoes
+    .opcao-nav
+    a:hover,
+    .hamb-btn:hover,
+    .hamb-close:hover,
+    .icon-btn:hover {
+        transform: none;
+    }
+}
+
+
+/* =====================================================================
+   20. ACESSIBILIDADE — MOVIMENTO REDUZIDO
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .cabecalho,
+    .logo img,
+    .hamburguer-opcoes::before,
+    .hamburguer-opcoes
+    .opcao-nav
+    a,
+    .hamburguer-opcoes
+    .opcao-nav
+    a i,
+    .hamb-btn,
+    .hamb-close,
+    .icon-btn,
+    .drawer {
+        transition: none !important;
+        animation: none !important;
+    }
+}

@@ -8,6 +8,13 @@
 {% block conteudo_pagina %}
 <main class="pagamento-container">
 
+    <!-- Fundo líquido: mesmas bolhas da home/sócios -->
+    <div class="liquid-bg" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+
     <h1 class="titulo-principal">Tornar-se Sócio</h1>
 
     <!-- DADOS DO USUÁRIO -->
@@ -26,18 +33,20 @@
         </div>
     </section>
 
-    <!-- PLANO -->
-    <section class="box">
-        <h2>Seu Plano Atual</h2>
+    <!-- PLANO ATUAL x PLANO SELECIONADO: lado a lado para comparar -->
+    <div class="planos-comparativo">
 
-        <p class="box-desc">
-            Este é o plano de sócio que está atualmente vinculado à sua conta.
-        </p>
+        <section class="box">
+            <h2>Seu Plano Atual</h2>
 
-        <div class="plano-info plano-card">
-            <p><strong>Plano Atual:</strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
-        </div>
-    </section>
+            <p class="box-desc">
+                Este é o plano de sócio que está atualmente vinculado à sua conta.
+            </p>
+
+            <div class="plano-info plano-card plano-card--atual">
+                <p><strong>Plano Atual:</strong> {{ cliente.categoria_cliente_id_categoria_cliente.nome_categoria_clientes }}</p>
+            </div>
+        </section>
 
         <section class="box">
             <h2>Plano Selecionado</h2>
@@ -46,7 +55,7 @@
                 Você está prestes a assinar o plano abaixo. Revise os detalhes antes de confirmar o pagamento.
             </p>
 
-            <div class="plano-info plano-card">
+            <div class="plano-info plano-card plano-card--selecionado">
 
                 <p><strong>Plano:</strong> {{ plano.nome_categoria_clientes }}</p>
 
@@ -63,11 +72,14 @@
 
         </section>
 
+    </div>
+
     <!-- FORMAS DE PAGAMENTO -->
     <section class="box">
         <h2>Forma de Pagamento</h2>
 
         <div class="buttons-pay">
+            <span class="pay-slider" aria-hidden="true"></span>
             <button type="button" class="pay-btn" data-type="cartao">Cartão de Crédito</button>
             <button type="button" class="pay-btn" data-type="paypal">PayPal</button>
         </div>
@@ -78,6 +90,8 @@
                 <div class="card-inner" id="card-inner">
 
                     <div class="card-front">
+
+                        <span class="card-brand" id="preview-brand"></span>
 
                         <div class="card-number" id="preview-number">
                             #### #### #### ####
@@ -112,14 +126,21 @@
         <form id="form-cartao" class="form-pay" method="POST" style="display:none;">
             {% csrf_token %}
             <h3>Pagamento com Cartão</h3>
-            <input type="text" name="card_number" placeholder="Número do cartão" required>
-            <input type="text" name="card_name" placeholder="Nome impresso no cartão" required>
-            <div class="dupla">
-                <input type="text" name="card_valid" placeholder="Validade (MM/AA)" required>
-                <input type="text" name="card_cvv" placeholder="CVV" required>
-            </div>
 
-            <button type="submit" class="confirmar">Confirmar Assinatura</button>
+            <input type="text" name="card_number" placeholder="Número do cartão" inputmode="numeric" autocomplete="cc-number" required>
+            <small class="campo-erro" data-erro-de="card_number">O número do cartão precisa ter 16 dígitos.</small>
+
+            <input type="text" name="card_name" placeholder="Nome impresso no cartão" autocomplete="cc-name" required>
+            <small class="campo-erro" data-erro-de="card_name">Informe o nome completo como está no cartão.</small>
+
+            <div class="dupla">
+                <input type="text" name="card_valid" placeholder="Validade (MM/AA)" inputmode="numeric" autocomplete="cc-exp" required>
+                <input type="text" name="card_cvv" placeholder="CVV" inputmode="numeric" autocomplete="cc-csc" required>
+            </div>
+            <small class="campo-erro" data-erro-de="card_valid">Use o formato MM/AA com uma data futura.</small>
+            <small class="campo-erro" data-erro-de="card_cvv">O CVV precisa ter 3 dígitos.</small>
+
+            <button type="submit" class="confirmar" id="btn-confirmar-cartao" disabled>Confirmar Assinatura</button>
         </form>
 
         <!-- PAYPAL -->
@@ -133,188 +154,259 @@
     </section>
 </main>
 {% endblock conteudo_pagina %}
+
 {% block js_pagina %}
 <script>
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
+
+    let flipped = false;
+    let cvvFocused = false;
+
+    const card = document.querySelector(".card-preview");
+    const cardInner3D = document.querySelector(".card-inner");
+
+    /* ======================
+       EFEITO 3D DO CARTÃO
+    ====================== */
+
+    card.addEventListener("mousemove", (e) => {
+        if (cvvFocused) return;
+
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * 20;
+        const rotateY = ((x - centerX) / centerX) * 20;
+
+        let flipRotation = flipped ? 180 : 0;
+
+        cardInner3D.style.transform =
+            `rotateX(${-rotateX}deg) rotateY(${rotateY + flipRotation}deg)`;
+    });
+
+    card.addEventListener("mouseleave", () => {
+        if (cvvFocused) return;
+
+        let flipRotation = flipped ? 180 : 0;
+
+        cardInner3D.style.transform = `rotateX(0deg) rotateY(${flipRotation}deg)`;
+    });
+
+    /* ======================
+       BOTÕES PAGAMENTO (switch de vidro com pílula deslizante)
+    ====================== */
+
+    const botoes = document.querySelectorAll('.pay-btn');
+    const paySlider = document.querySelector('.pay-slider');
+    const formCartao = document.getElementById('form-cartao');
+    const formPaypal = document.getElementById('form-paypal');
+    const cardPreview = document.querySelector('.card-preview');
+
+    function selecionarMetodo(btn) {
+        botoes.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
 
-let flipped = false;
-let cvvFocused = false;
+        if (paySlider) {
+            const indice = Array.from(botoes).indexOf(btn);
+            paySlider.style.transform = `translateX(${indice * 100}%)`;
+        }
 
-const card = document.querySelector(".card-preview");
-const cardInner3D = document.querySelector(".card-inner");
+        if (btn.dataset.type === "cartao") {
+            formCartao.style.display = "flex";
+            formPaypal.style.display = "none";
+            cardPreview.style.display = "block";
+        }
 
-/* ======================
-EFEITO 3D DO CARTÃO
-====================== */
+        if (btn.dataset.type === "paypal") {
+            formPaypal.style.display = "flex";
+            formCartao.style.display = "none";
+            cardPreview.style.display = "none";
+        }
+    }
 
-card.addEventListener("mousemove", (e) => {
+    botoes.forEach(btn => {
+        btn.addEventListener('click', () => selecionarMetodo(btn));
+    });
 
-if(cvvFocused) return;
+    // Cartão de crédito pré-selecionado — evita um clique extra
+    if (botoes.length) selecionarMetodo(botoes[0]);
 
-const rect = card.getBoundingClientRect();
+    /* ======================
+       INPUTS
+    ====================== */
 
-const x = e.clientX - rect.left;
-const y = e.clientY - rect.top;
+    const numberInput = document.querySelector('[name="card_number"]');
+    const nameInput = document.querySelector('[name="card_name"]');
+    const validInput = document.querySelector('[name="card_valid"]');
+    const cvvInput = document.querySelector('[name="card_cvv"]');
+    const btnConfirmarCartao = document.getElementById('btn-confirmar-cartao');
 
-const centerX = rect.width / 2;
-const centerY = rect.height / 2;
+    const previewNumber = document.getElementById("preview-number");
+    const previewName = document.getElementById("preview-name");
+    const previewValid = document.getElementById("preview-valid");
+    const previewCvv = document.getElementById("preview-cvv");
+    const previewBrand = document.getElementById("preview-brand");
 
-const rotateX = ((y - centerY) / centerY) * 20;
-const rotateY = ((x - centerX) / centerX) * 20;
+    /* ------ detecção de bandeira (texto simples, sem logos) ------ */
 
-let flipRotation = flipped ? 180 : 0;
+    function detectarBandeira(digitos) {
+        if (/^4/.test(digitos)) return "VISA";
+        if (/^(5[1-5]|2(2[2-9]|[3-6]\d|7[01]|720))/.test(digitos)) return "MASTERCARD";
+        if (/^3[47]/.test(digitos)) return "AMEX";
+        if (/^(4011|4312|4389|4514|4573|6277|6362|6363|650|6516|6550)/.test(digitos)) return "ELO";
+        return "";
+    }
 
-cardInner3D.style.transform =
-`rotateX(${-rotateX}deg) rotateY(${rotateY + flipRotation}deg)`;
+    /* ------ validação (visual, não bloqueia o required nativo) ------ */
 
-});
+    function marcarCampo(input, valido) {
+        const temValor = input.value.trim().length > 0;
+        input.classList.toggle('is-invalid', temValor && !valido);
+        input.classList.toggle('is-valid', valido);
 
-card.addEventListener("mouseleave", () => {
+        const erro = document.querySelector(`[data-erro-de="${input.name}"]`);
+        if (erro) erro.classList.toggle('show', temValor && !valido);
+    }
 
-if(cvvFocused) return;
+    function validadeEmDia(valor) {
+        const match = valor.match(/^(\d{2})\/(\d{2})$/);
+        if (!match) return false;
 
-let flipRotation = flipped ? 180 : 0;
+        const mes = parseInt(match[1], 10);
+        const ano = parseInt("20" + match[2], 10);
+        if (mes < 1 || mes > 12) return false;
 
-cardInner3D.style.transform =
-`rotateX(0deg) rotateY(${flipRotation}deg)`;
+        const agora = new Date();
+        const anoAtual = agora.getFullYear();
+        const mesAtual = agora.getMonth() + 1;
 
-});
+        return ano > anoAtual || (ano === anoAtual && mes >= mesAtual);
+    }
 
-/* ======================
-BOTÕES PAGAMENTO
-====================== */
+    function estadoDosCampos() {
+        const numeroValido = numberInput.value.replace(/\D/g, "").length === 16;
+        const nomeValido = nameInput.value.trim().length >= 3;
+        const validadeValida = validadeEmDia(validInput.value);
+        const cvvValido = cvvInput.value.length === 3;
 
-const botoes = document.querySelectorAll('.pay-btn');
-const formCartao = document.getElementById('form-cartao');
-const formPaypal = document.getElementById('form-paypal');
-const cardPreview = document.querySelector('.card-preview');
+        return { numeroValido, nomeValido, validadeValida, cvvValido };
+    }
 
-botoes.forEach(btn => {
+    function atualizarBotaoConfirmar() {
+        const { numeroValido, nomeValido, validadeValida, cvvValido } = estadoDosCampos();
+        btnConfirmarCartao.disabled = !(numeroValido && nomeValido && validadeValida && cvvValido);
+    }
 
-btn.addEventListener('click', () => {
+    /* número cartão */
 
-botoes.forEach(b => b.classList.remove("active"));
-btn.classList.add("active");
+    numberInput.addEventListener("input", () => {
+        const digitos = numberInput.value.replace(/\D/g, "").substring(0, 16);
 
-if(btn.dataset.type === "cartao"){
+        let valor = digitos.replace(/(.{4})/g, "$1 ").trim();
+        numberInput.value = valor;
 
-formCartao.style.display = "flex";
-formPaypal.style.display = "none";
-cardPreview.style.display = "block";
+        previewNumber.textContent = valor || "#### #### #### ####";
 
-}
+        const bandeira = detectarBandeira(digitos);
+        previewBrand.textContent = bandeira;
+        previewBrand.classList.toggle('show', bandeira !== "");
 
-if(btn.dataset.type === "paypal"){
+        atualizarBotaoConfirmar();
 
-formPaypal.style.display = "flex";
-formCartao.style.display = "none";
-cardPreview.style.display = "none";
+        // avança pro nome assim que os 16 dígitos são preenchidos
+        if (digitos.length === 16) nameInput.focus();
+    });
 
-}
+    numberInput.addEventListener("blur", () => {
+        marcarCampo(numberInput, numberInput.value.replace(/\D/g, "").length === 16);
+    });
 
-});
+    /* nome */
 
-});
+    nameInput.addEventListener("input", () => {
+        let valor = nameInput.value.replace(/[^a-zA-Z\s]/g, "").toUpperCase();
+        nameInput.value = valor;
 
-/* ======================
-INPUTS
-====================== */
+        previewName.textContent = valor || "SEU NOME";
 
-const numberInput = document.querySelector('[name="card_number"]');
-const nameInput = document.querySelector('[name="card_name"]');
-const validInput = document.querySelector('[name="card_valid"]');
-const cvvInput = document.querySelector('[name="card_cvv"]');
+        atualizarBotaoConfirmar();
+    });
 
-const previewNumber = document.getElementById("preview-number");
-const previewName = document.getElementById("preview-name");
-const previewValid = document.getElementById("preview-valid");
-const previewCvv = document.getElementById("preview-cvv");
+    nameInput.addEventListener("blur", () => {
+        marcarCampo(nameInput, nameInput.value.trim().length >= 3);
+    });
 
-/* número cartão */
+    /* validade */
 
-numberInput.addEventListener("input", () => {
+    validInput.addEventListener("input", () => {
+        let valor = validInput.value.replace(/\D/g, "").substring(0, 4);
 
-let valor = numberInput.value
-.replace(/\D/g,"")
-.substring(0,16)
-.replace(/(.{4})/g,"$1 ")
-.trim();
+        if (valor.length >= 3) {
+            valor = valor.replace(/(\d{2})(\d)/, "$1/$2");
+        }
 
-numberInput.value = valor;
+        validInput.value = valor;
+        previewValid.textContent = valor || "MM/AA";
 
-previewNumber.textContent = valor || "#### #### #### ####";
+        atualizarBotaoConfirmar();
 
-});
+        if (valor.length === 5) cvvInput.focus();
+    });
 
-/* nome */
+    validInput.addEventListener("blur", () => {
+        marcarCampo(validInput, validadeEmDia(validInput.value));
+    });
 
-nameInput.addEventListener("input", () => {
+    /* ======================
+       CVV INPUT + LIMITADOR
+    ====================== */
 
-let valor = nameInput.value
-.replace(/[^a-zA-Z\s]/g,"")
-.toUpperCase();
+    cvvInput.addEventListener("input", () => {
+        let valor = cvvInput.value.replace(/\D/g, "").substring(0, 3);
+        cvvInput.value = valor;
 
-nameInput.value = valor;
+        previewCvv.textContent = valor || "###";
 
-previewName.textContent = valor || "SEU NOME";
+        atualizarBotaoConfirmar();
+    });
 
-});
+    cvvInput.addEventListener("blur", () => {
+        marcarCampo(cvvInput, cvvInput.value.length === 3);
+    });
 
-/* validade */
+    /* ======================
+       VIRAR CARTÃO NO CVV
+    ====================== */
 
-validInput.addEventListener("input", () => {
+    cvvInput.addEventListener("focus", () => {
+        cvvFocused = true;
+        flipped = true;
+        cardInner3D.style.transform = "rotateY(180deg)";
+    });
 
-let valor = validInput.value
-.replace(/\D/g,"")
-.substring(0,4);
+    cvvInput.addEventListener("blur", () => {
+        cvvFocused = false;
+        flipped = false;
+        cardInner3D.style.transform = "rotateY(0deg)";
+    });
 
-if(valor.length >= 3){
-valor = valor.replace(/(\d{2})(\d)/,"$1/$2");
-}
+    /* ======================
+       ESTADO DE ENVIO (evita duplo clique)
+    ====================== */
 
-validInput.value = valor;
+    formCartao.addEventListener("submit", () => {
+        btnConfirmarCartao.classList.add("is-loading");
+        btnConfirmarCartao.disabled = true;
+    });
 
-previewValid.textContent = valor || "MM/AA";
-
-});
-
-/* ======================
-CVV INPUT + LIMITADOR
-====================== */
-
-cvvInput.addEventListener("input", () => {
-
-let valor = cvvInput.value
-.replace(/\D/g,"")
-.substring(0,3);
-
-cvvInput.value = valor;
-
-previewCvv.textContent = valor || "###";
-
-});
-
-/* ======================
-VIRAR CARTÃO NO CVV
-====================== */
-
-cvvInput.addEventListener("focus", () => {
-
-cvvFocused = true;
-flipped = true;
-
-cardInner3D.style.transform = "rotateY(180deg)";
-
-});
-
-cvvInput.addEventListener("blur", () => {
-
-cvvFocused = false;
-flipped = false;
-
-cardInner3D.style.transform = "rotateY(0deg)";
-
-});
+    formPaypal.addEventListener("submit", () => {
+        const btnPaypal = formPaypal.querySelector(".paypal-btn");
+        btnPaypal.classList.add("is-loading");
+        btnPaypal.disabled = true;
+    });
 
 });
 </script>

@@ -1,0 +1,56 @@
+.liquid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.blob-1 {
+  width: 640px;
+  height: 640px;
+  top: -180px;
+  right: -140px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 90, 60, 0.55), rgba(122, 15, 15, 0) 70%);
+  animation: driftA 32s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 520px;
+  height: 520px;
+  bottom: -200px;
+  left: -160px;
+  background: radial-gradient(circle at 60% 40%, rgba(184, 28, 28, 0.45), rgba(58, 10, 10, 0) 70%);
+  animation: driftB 38s ease-in-out infinite;
+}
+
+.blob-3 {
+  width: 380px;
+  height: 380px;
+  top: 36%;
+  left: 55%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 182, 72, 0.22), rgba(255, 182, 72, 0) 70%);
+  animation: driftC 26s ease-in-out infinite;
+}
+
+.glass-card,
+.glass-panel {
+  background: linear-gradient(165deg, var(--glass-fill-hover), var(--glass-fill) 70%);
+  border: 1px solid var(--glass-stroke);
+  backdrop-filter: blur(30px) saturate(160%);
+  -webkit-backdrop-filter: blur(30px) saturate(160%);
+  box-shadow: var(--glass-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none !important;
+  }
+}

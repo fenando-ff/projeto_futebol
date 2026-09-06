@@ -1,0 +1,39 @@
+.theme-toggle-floating {
+  position: fixed;
+  right: clamp(14px, 2.5vw, 28px);
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 1100;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  background: var(--surface-glass);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-glass), background 0.3s var(--ease-glass);
+}
+
+.theme-toggle-floating i {
+  font-size: 17px;
+}
+
+.theme-toggle-floating:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: var(--surface-hover);
+}
+
+@media (max-width: 480px) {
+  .theme-toggle-floating {
+    right: 14px;
+    bottom: max(14px, env(safe-area-inset-bottom));
+    width: 34px;
+    height: 34px;
+  }
+}

@@ -1,122 +1,307 @@
-main{
-    margin-top: -100px;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* =====================================================================
+   Mesmos tokens de home.css / socio.css. Continua valendo a sugestão:
+   isso pede um tokens.css único compartilhado entre as páginas.
+   ===================================================================== */
+:root {
+    --void-950: #07070a;
+    --void-900: #0d0808;
+    --ember-900: #3a0a0a;
 
-.titulo-principal {
-    font-size:2.4rem;
-    margin-bottom:30px;
-    font-weight:800;
-    color:#a50000;
-    animation:fadeUp .8s ease;
+    --flame-400: #ff6a52;
+    --flame-500: #ff3b3b;
+    --ember-500: #b81c1c;
+    --gold-500:  #ffb648;
+
+    --glass-fill:        rgba(255, 255, 255, 0.035);
+    --glass-fill-hover:  rgba(255, 255, 255, 0.065);
+    --glass-stroke:      rgba(255, 255, 255, 0.10);
+    --glass-stroke-strong: rgba(255, 255, 255, 0.20);
+    --glass-streak:      rgba(255, 255, 255, 0.55);
+
+    --ink:       #f6f3f1;
+    --ink-dim:   rgba(246, 243, 241, 0.72);
+    --ink-faint: rgba(246, 243, 241, 0.52);
+
+    --danger: #ff6b6b;
+
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --ease-glass: cubic-bezier(.2, .8, .2, 1);
 }
 
+body {
+    font-family: "Poppins", sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(120% 70% at 50% -10%, var(--ember-900) 0%, var(--void-900) 45%, var(--void-950) 100%);
+}
+
+h2 { margin-bottom: 15px; }
+
+/* ======================= FUNDO LÍQUIDO (BOLHAS) ======================= */
+
+.liquid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    will-change: transform;
+}
+
+.blob-1 {
+    width: 640px; height: 640px;
+    top: -180px; right: -140px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 90, 60, .55), rgba(122, 15, 15, 0) 70%);
+    animation: driftA 32s ease-in-out infinite;
+}
+.blob-2 {
+    width: 520px; height: 520px;
+    bottom: -200px; left: -160px;
+    background: radial-gradient(circle at 60% 40%, rgba(184, 28, 28, .45), rgba(58, 10, 10, 0) 70%);
+    animation: driftB 38s ease-in-out infinite;
+}
+.blob-3 {
+    width: 380px; height: 380px;
+    top: 36%; left: 55%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 182, 72, .22), rgba(255, 182, 72, 0) 70%);
+    animation: driftC 26s ease-in-out infinite;
+}
+
+@keyframes driftA { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-40px,30px) scale(1.08); } }
+@keyframes driftB { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(35px,-25px) scale(1.05); } }
+@keyframes driftC { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-25px,20px) scale(1.1); } }
 
 @keyframes fadeUp {
-    from{
-        opacity:0;
-        transform:translateY(30px);
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blob { animation: none !important; }
+    .titulo-principal, .box { animation: none !important; }
+    .box, .pay-btn, .confirmar, .paypal-btn, .card-inner, .pay-slider, input {
+        transition: none !important;
     }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
-.box{
-    animation:fadeUp .6s ease forwards;
-}
-
-
-.box-desc{
-    font-size:14px;
-    color:#666;
-    margin-bottom:15px;
-}
-
-.plano-preco{
-    font-size:18px;
-    font-weight:700;
-    color:#7a0000;
-}
-
-.plano-desc{
-    margin-top:10px;
-    line-height:1.5;
-    font-size:14px;
-}
-
+/* ======================= LAYOUT ======================= */
 
 .pagamento-container {
-    width: 80%;
-    margin: 140px auto;
-    font-family: "Poppins", sans-serif;
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 1100px;
+    margin: 48px auto 96px;
 }
 
 .titulo-principal {
     font-size: 2.4rem;
-    margin-bottom: 30px;
     font-weight: 800;
-    color: white;
+    margin-bottom: 30px;
+    color: #fff;
+    background: linear-gradient(135deg, #ffffff 20%, #ffd9c2 62%, var(--flame-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp .6s var(--ease-glass) both;
 }
 
-/* standardized section box */
+/* ======================= BOX (painel de vidro) ======================= */
+
 .box {
-    background: #fff;
+    position: relative;
     padding: 30px;
-    border-radius: 16px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    border-left: 6px solid #8c0000;
-    transition: transform .3s ease, box-shadow .3s ease;
+    margin-bottom: 28px;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(165deg, var(--glass-fill-hover), var(--glass-fill) 70%);
+    border: 1px solid var(--glass-stroke);
+    backdrop-filter: blur(30px) saturate(160%);
+    -webkit-backdrop-filter: blur(30px) saturate(160%);
+    box-shadow: 0 20px 44px -22px rgba(0, 0, 0, .55);
+    animation: fadeUp .6s var(--ease-glass) both;
+    transition: transform .3s var(--ease-glass), border-color .3s var(--ease-glass);
+}
+
+/* faixa de luz fina no topo — mesmo padrão da home/sócios */
+.box::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 12%; right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-streak), transparent);
+    pointer-events: none;
+}
+
+/* aceno sutil de marca na lateral — mesma ideia do "traço" da navbar */
+.box::after {
+    content: "";
+    position: absolute;
+    top: 18px; bottom: 18px; left: 0;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, var(--flame-400), var(--ember-500));
+    opacity: .55;
 }
 
 .box:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
+    border-color: var(--glass-stroke-strong);
 }
 
 .box h2 {
-    color: #8c0000;
-    font-size: 1.6rem;
-    margin-bottom: 15px;
+    font-size: 1.4rem;
+    color: #fff;
 }
 
 .box-desc {
     font-size: 14px;
-    color: #555;
+    color: var(--ink-dim);
     margin-bottom: 15px;
 }
 
+/* ======================= DADOS DO USUÁRIO ======================= */
+
+.dados-usuario p {
+    margin-bottom: 8px;
+    font-size: 15px;
+    color: var(--ink-dim);
+}
+
+.dados-usuario p strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* ======================= PLANO ATUAL / SELECIONADO ======================= */
+/* lado a lado em telas maiores, pra comparar antes de confirmar */
+
+/* lado a lado em telas maiores, pra comparar antes de confirmar
+   (o wrapper .planos-comparativo é adicionado só no HTML, decorativo) */
+
+.planos-comparativo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 860px) {
+    .planos-comparativo {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.plano-info.plano-card {
+    position: relative;
+    padding: 22px;
+    border-radius: var(--radius-md);
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-stroke);
+    color: var(--ink);
+    transition: transform .3s var(--ease-glass), border-color .3s var(--ease-glass);
+}
+
+.plano-info.plano-card p { margin-bottom: 6px; color: var(--ink-dim); }
+.plano-info.plano-card p strong { color: var(--ink); }
+
+/* "Plano Selecionado" — o que está prestes a ser pago, ganha destaque quente */
+.plano-card--selecionado {
+    background: linear-gradient(165deg, rgba(255, 106, 82, .14), var(--glass-fill) 70%);
+    border-color: rgba(255, 106, 82, .4);
+    box-shadow: 0 0 0 1px rgba(255, 106, 82, .18), 0 20px 40px -20px rgba(0, 0, 0, .6);
+}
+
+.plano-card--selecionado::before {
+    content: "Você vai assinar este";
+    position: absolute;
+    top: -1px; right: 16px;
+    padding: 4px 12px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .4px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--flame-400), var(--flame-500));
+    border-radius: 0 0 8px 8px;
+}
+
+.plano-card--selecionado:hover,
+.plano-info.plano-card:hover {
+    transform: translateY(-3px);
+}
+
+.plano-preco {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--flame-400);
+}
+
+.plano-desc {
+    margin-top: 10px;
+    line-height: 1.6;
+    font-size: 14px;
+    color: var(--ink-dim);
+}
+
+/* ======================= SELETOR DE PAGAMENTO (switch de vidro) ======================= */
 
 .buttons-pay {
+    position: relative;
     display: flex;
-    gap: 20px;
+    gap: 4px;
+    padding: 4px;
     margin-top: 10px;
+    border-radius: 14px;
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-stroke);
+}
+
+.pay-slider {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 6px);
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--flame-400), var(--flame-500));
+    box-shadow: 0 8px 20px -6px rgba(255, 59, 59, .55);
+    transition: transform .35s var(--ease-glass);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .pay-btn {
+    position: relative;
+    z-index: 1;
     flex: 1;
-    padding: 16px;
-    border: 2px solid #ddd;
-    cursor: pointer;
-    border-radius: 10px;
-    background: #f7f7f7;
-    color: #333;
+    padding: 14px;
+    border: none;
+    background: transparent;
+    color: var(--ink-dim);
     font-weight: 600;
-    transition: all .25s ease;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color .25s ease;
 }
 
-.pay-btn:hover {
-    border-color: #7a0000;
-    background: #fff;
-}
+.pay-btn.active { color: #fff; }
 
-.pay-btn.active {
-    border-color: #7a0000;
-    background: #7a0000;
-    color: white;
-}
+/* ======================= FORMULÁRIO ======================= */
 
 .form-pay {
     margin-top: 20px;
@@ -127,767 +312,224 @@ main{
 
 input {
     padding: 14px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-stroke);
+    background: var(--glass-fill);
+    color: var(--ink);
     font-size: 14px;
-    transition: .2s;
+    font-family: inherit;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
+
+input::placeholder { color: var(--ink-faint); }
 
 input:focus {
-    border-color: #7a0000;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(122,0,0,0.1);
+    border-color: var(--flame-400);
+    background: var(--glass-fill-hover);
+    box-shadow: 0 0 0 3px rgba(255, 106, 82, .15);
 }
 
-
-.plano-info{
-    background:#f9f9f9;
-    padding:15px;
-    border-radius:8px;
-    border-left:4px solid #7a0000;
-    transition:all .3s ease;
+input.is-invalid {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, .12);
 }
 
-.plano-info:hover{
-    background:#fff5f5;
-    transform:scale(1.01);
+input.is-valid {
+    border-color: rgba(120, 220, 150, .6);
 }
 
-/* card styling when applied to plano-info */
-.plano-info.plano-card{
-    background: linear-gradient(135deg,#8c0000,#4a0000);
+.campo-erro {
+    display: none;
+    margin-top: -8px;
+    font-size: 12px;
+    color: var(--danger);
+}
+
+.campo-erro.show { display: block; }
+
+.dupla { display: flex; gap: 10px; }
+
+/* ======================= BOTÕES DE CONFIRMAÇÃO ======================= */
+
+.confirmar,
+.paypal-btn {
+    position: relative;
+    margin-top: 10px;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--flame-400), var(--flame-500) 55%, var(--ember-500));
     color: #fff;
     border: none;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px -8px rgba(255, 59, 59, .5), inset 0 1px 0 rgba(255, 255, 255, .3);
+    transition: transform .25s var(--ease-glass), box-shadow .25s var(--ease-glass), filter .25s, opacity .25s;
+}
+
+.confirmar:hover:not(:disabled),
+.paypal-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 16px 30px -10px rgba(255, 59, 59, .6), inset 0 1px 0 rgba(255, 255, 255, .35);
+}
+
+.confirmar:disabled,
+.paypal-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+    box-shadow: none;
+}
+
+.confirmar.is-loading,
+.paypal-btn.is-loading {
+    color: transparent;
+    pointer-events: none;
+}
+
+.confirmar.is-loading::after,
+.paypal-btn.is-loading::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 18px; height: 18px;
+    margin: -9px 0 0 -9px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .4);
+    border-top-color: #fff;
+    animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ======================= CARTÃO 3D ======================= */
+
+.card-preview {
+    width: 100%;
+    max-width: 380px;
+    height: 220px;
+    margin: 32px auto;
+    perspective: 1400px;
+}
+
+.card-inner {
     position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform .6s var(--ease-glass);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 25px;
+    border-radius: 18px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backface-visibility: hidden;
+    border: 1px solid rgba(255, 255, 255, .16);
+    box-shadow: 0 24px 48px -16px rgba(0, 0, 0, .55);
     overflow: hidden;
 }
-.plano-info.plano-card::before{
-    content: '';
+
+.card-front {
+    background: linear-gradient(135deg, #3a0a0a, #7a0f0f 55%, var(--flame-500));
+}
+
+.card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #2a0707, #5a0d0d);
+}
+
+/* brilho que varre o cartão no hover — a "faixa de luz" do vidro */
+.card-front::after {
+    content: "";
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 120px;
-    height: 120px;
-    background: rgba(255,255,255,0.08);
-    transform: rotate(45deg);
-}
-.plano-info.plano-card p{
-    color: #fff;
-}
-.plano-info.plano-card .plano-preco{
-    color: #ffe5e5;
-}
-.plano-info.plano-card:hover{
-    transform: translateY(-4px) scale(1.02);
-    box-shadow:0 12px 30px rgba(0,0,0,0.4);
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .25), transparent);
+    transform: skewX(-25deg);
 }
 
-.dupla {
+.card-preview:hover .card-front::after {
+    left: 150%;
+    transition: 1s;
+}
+
+.card-number {
+    font-size: 22px;
+    letter-spacing: 3px;
+}
+
+.card-info {
     display: flex;
-    gap: 10px;
-}
-
-.confirmar, .paypal-btn {
-    margin-top: 10px;
-    padding: 14px;
-    background: #008000;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.confirmar:hover, .paypal-btn:hover {
-    background: #00a000;
-}
-
-
-/* =========================
-   CARTÃO 3D
-========================= */
-
-.card-preview{
-    width:380px;
-    height:220px;
-    margin:40px auto;
-    perspective:1500px;
-}
-
-.input-focus {
-    box-shadow: 0 0 10px rgba(122,0,0,0.4);
-    transform: scale(1.02);
-}
-
-.card-inner{
-    width:100%;
-    height:100%;
-    position:relative;
-    transform-style:preserve-3d;
-    transition:transform .6s;
-}
-
-.card-inner.flip{
-    transform:rotateY(180deg);
-}
-
-.card-front,
-.card-back{
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:15px;
-    padding:25px;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    backface-visibility:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,0.4);
-}
-
-/* frente */
-
-.card-front{
-    background:linear-gradient(135deg,#7a0000,#9e0000);
-}
-
-
-.card-front::after{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:50%;
-height:100%;
-background:linear-gradient(
-120deg,
-transparent,
-rgba(255,255,255,0.4),
-transparent
-);
-transform:skewX(-25deg);
-}
-
-
-.card-preview:hover .card-front::after{
-left:150%;
-transition:1s;
-}
-
-/* verso */
-
-.card-back{
-    transform:rotateY(180deg);
-    background:linear-gradient(135deg,#5a0000,#780000);
-}
-
-/* faixa magnética */
-
-.stripe{
-    width:100%;
-    height:45px;
-    background:black;
-    margin-top:20px;
-}
-
-/* CVV */
-
-.cvv-box{
-    align-self:flex-end;
-    background:white;
-    color:black;
-    padding:5px 10px;
-    border-radius:5px;
-    margin-top:20px;
-    font-weight:bold;
-}
-
-/* número */
-
-.card-number{
-    font-size:22px;
-    letter-spacing:3px;
-}
-
-/* nome + validade */
-
-.card-info{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-    border-left:4px solid #7a0000;
-}
-
-.plano-info p{
-    margin-bottom:6px;
-}
-
-/* =========================
-   BOTÕES PAGAMENTO
-========================= */
-
-.buttons-pay{
-    display:flex;
-    gap:20px;
-    margin-top:10px;
-}
-
-.pay-btn{
-    flex:1;
-    padding:16px;
-    border:2px solid #ddd;
-    cursor:pointer;
-    border-radius:10px;
-    background:#f7f7f7;
-    color:#333;
-    font-weight:600;
-    transition:all .25s ease;
-}
-
-.pay-btn:hover{
-    border-color:#7a0000;
-    background:#fff;
-}
-
-.pay-btn.active{
-    border-color:#7a0000;
-    background:#7a0000;
-    color:white;
-}
-
-/* =========================
-   FORMULÁRIOS
-========================= */
-
-.form-pay{
-    margin-top:20px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-input{
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:14px;
-    transition:.2s;
-}
-
-input:focus{
-    border-color:#7a0000;
-    outline:none;
-    box-shadow:0 0 0 2px rgba(122,0,0,0.1);
-}
-
-/* inputs lado a lado */
-
-.dupla{
-    display:flex;
-    gap:10px;
-}
-
-/* =========================
-   BOTÕES CONFIRMAR
-========================= */
-
-.confirmar,
-.paypal-btn{
-    margin-top:10px;
-    padding:14px;
-    background:#008000;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
-}
-
-.confirmar:hover,
-.paypal-btn:hover{
-    background:#00a000;
-}
-
-/* =========================
-   CARTÃO 3D
-========================= */
-
-.card-preview{
-    width:100%;
-    max-width:380px;
-    height:220px;
-    margin:40px auto;
-    perspective:1200px;
-}
-
-.card-inner{
-    width:100%;
-    height:100%;
-    position:relative;
-    transform-style:preserve-3d;
-    transition:transform .6s;
-}
-
-.card-inner.flip{
-    transform:rotateY(180deg);
-}
-
-.card-front,
-.card-back{
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:15px;
-    padding:25px;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    backface-visibility:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,0.4);
-}
-
-/* frente */
-
-.card-front{
-        background:linear-gradient(135deg,#7a0000,#780000);
-}
-
-/* verso */
-
-.card-back{
-    transform:rotateY(180deg);
-        background:linear-gradient(135deg,#7a0000,#780000);
-}
-
-/* faixa magnética */
-
-.stripe{
-    width:100%;
-    height:45px;
-    background:black;
-    margin-top:20px;
-}
-
-/* CVV */
-
-.cvv-box{
-    align-self:flex-end;
-    background:white;
-    color:black;
-    padding:5px 10px;
-    border-radius:5px;
-    margin-top:20px;
-    font-weight:bold;
-}
-
-/* número */
-
-.card-number{
-    font-size:22px;
-    letter-spacing:3px;
-}
-
-/* nome + validade */
-
-.card-info{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-}
-
-/* =========================
-   RESPONSIVIDADE TABLET
-========================= */
-
-@media (max-width:768px){
-
-.pagamento-container{
-    width:94%;
-    margin:120px auto;
-}
-
-.titulo-principal{
-    font-size:1.9rem;
-    text-align:center;
-}
-
-.box{
-    padding:20px;
-}
-
-.buttons-pay{
-    flex-direction:column;
-}
-
-.pay-btn{
-    padding:14px;
-}
-
-.dupla{
-    flex-direction:column;
-}
-
-input{
-    font-size:16px;
-    padding:16px;
-}
-
-.card-preview{
-    max-width:320px;
-    height:200px;
-}
-
-.card-number{
-    font-size:19px;
-}
-
-}
-
-/* =========================
-   RESPONSIVIDADE CELULAR
-========================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:"Poppins",sans-serif;
-}
-
-/* =========================
-   CONTAINER
-========================= */
-
-.pagamento-container{
-    width:80%;
-    max-width:1100px;
-    margin:140px auto;
-}
-
-/* =========================
-   TITULOS
-========================= */
-
-.titulo-principal {
-    font-size:2.4rem;
-    margin-bottom:30px;
-    font-weight:800;
-    color: #a50000;
-}
-
-h2{
-    margin-bottom:15px;
-}
-
-/* =========================
-   BOXES
-========================= */
-
-.box{
-    background:#fff;
-    padding:30px;
-    border-radius:16px;
-    margin-bottom:30px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.1);
-    border-left:6px solid #8c0000;
-}
-
-/* =========================
-   DADOS USUARIO
-========================= */
-
-.dados-usuario p{
-    margin-bottom:6px;
-    font-size:15px;
-}
-
-/* =========================
-   PLANO INFO
-========================= */
-
-.plano-info{
-    background:#f9f9f9;
-    padding:15px;
-    border-radius:8px;
-    border-left:4px solid #7a0000;
-}
-
-.plano-info p{
-    margin-bottom:6px;
-}
-
-/* =========================
-   BOTÕES PAGAMENTO
-========================= */
-
-.buttons-pay{
-    display:flex;
-    gap:20px;
-    margin-top:10px;
-}
-
-.pay-btn{
-    flex:1;
-    padding:16px;
-    border:2px solid #ddd;
-    cursor:pointer;
-    border-radius:10px;
-    background:#f7f7f7;
-    color:#333;
-    font-weight:600;
-    transition:all .25s ease;
-}
-
-.pay-btn:hover{
-    border-color:#7a0000;
-    background:#fff;
-}
-
-.pay-btn.active{
-    border-color:#7a0000;
-    background:#7a0000;
-    color:white;
-}
-
-/* =========================
-   FORMULÁRIOS
-========================= */
-
-.form-pay{
-    margin-top:20px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
-}
-
-input{
-    padding:14px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:14px;
-    transition:.2s;
-}
-
-input:focus{
-    border-color:#7a0000;
-    outline:none;
-    box-shadow:0 0 0 2px rgba(122,0,0,0.1);
-}
-
-/* inputs lado a lado */
-
-.dupla{
-    display:flex;
-    gap:10px;
-}
-
-/* =========================
-   BOTÕES CONFIRMAR
-========================= */
-
-.confirmar,
-.paypal-btn{
-    margin-top:10px;
-    padding:14px;
-    background:#008000;
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
-}
-
-.confirmar:hover,
-.paypal-btn:hover{
-    background:#00a000;
-}
-
-/* =========================
-   CARTÃO 3D
-========================= */
-
-.card-preview{
-    width:100%;
-    max-width:380px;
-    height:220px;
-    margin:40px auto;
-    perspective:1200px;
-}
-
-.card-inner{
-    width:100%;
-    height:100%;
-    position:relative;
-    transform-style:preserve-3d;
-    transition:transform .6s;
-}
-
-.card-inner.flip{
-    transform:rotateY(180deg);
-}
-
-.card-front,
-.card-back{
-    position:absolute;
-    width:100%;
-    height:100%;
-    border-radius:15px;
-    padding:25px;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    backface-visibility:hidden;
-    box-shadow:0 15px 35px rgba(0,0,0,0.4);
-}
-
-/* frente */
-
-.card-front{
-        background:linear-gradient(135deg,#390000,#9f0000);
-}
-
-/* verso */
-
-.card-back{
-    transform:rotateY(180deg);
-        background:linear-gradient(135deg,#390000,#9f0000);
-}
-
-/* faixa magnética */
-
-.stripe{
-    width:100%;
-    height:45px;
-    background:black;
-    margin-top:20px;
-}
-
-/* CVV */
-
-.cvv-box{
-    align-self:flex-end;
-    background:white;
-    color:black;
-    padding:5px 10px;
-    border-radius:5px;
-    margin-top:20px;
-    font-weight:bold;
-}
-
-/* número */
-
-.card-number{
-    font-size:22px;
-    letter-spacing:3px;
-}
-
-/* nome + validade */
-
-.card-info{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-}
-
-/* =========================
-   RESPONSIVIDADE TABLET
-========================= */
-
-@media (max-width:768px){
-
-.pagamento-container{
-    width:94%;
-    margin:120px auto;
-}
-
-.titulo-principal{
-    font-size:1.9rem;
-}
-
-.box{
-    padding:20px;
-}
-
-.buttons-pay{
-    flex-direction:column;
-}
-
-.pay-btn{
-    padding:14px;
-}
-
-.dupla{
-    flex-direction:column;
-}
-
-input{
-    font-size:16px;
-    padding:16px;
-}
-
-.card-preview{
-    max-width:320px;
-    height:200px;
-}
-
-.card-number{
-    font-size:19px;
-}
-
-}
-
-/* =========================
-   RESPONSIVIDADE CELULAR
-========================= */
-
-@media (max-width:480px){
-
-main{
-    margin-top: -100px;
-}
-
-
-.pagamento-container{
-    width:95%;
-    margin:110px auto;
-}
-
-.titulo-principal{
-    font-size:1.7rem;
-}
-
-h2{
-    font-size:1.1rem;
-}
-
-.dados-usuario p{
-    font-size:14px;
-}
-
-.card-preview{
-    max-width:290px;
-    height:180px;
-}
-
-.card-number{
-    font-size:17px;
-    letter-spacing:2px;
-}
-
-.card-info{
-    font-size:12px;
-}
-
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.card-brand {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, .85);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.card-brand.show { opacity: 1; transform: translateY(0); }
+
+.stripe {
+    width: 100%;
+    height: 45px;
+    margin-top: 20px;
+    background: #0d0d0d;
+}
+
+.cvv-box {
+    align-self: flex-end;
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #fff;
+    color: #111;
+    font-weight: bold;
+}
+
+/* ======================= RESPONSIVO ======================= */
+
+@media (max-width: 900px) {
+    .blob { filter: blur(70px); opacity: .8; }
+}
+
+@media (max-width: 768px) {
+    .pagamento-container { width: 94%; margin: 32px auto 72px; }
+    .titulo-principal { font-size: 1.9rem; text-align: center; }
+    .box { padding: 22px; }
+    .buttons-pay { flex-direction: column; }
+    .pay-slider { display: none; }
+    .dupla { flex-direction: column; }
+    input { font-size: 16px; padding: 15px; }
+    .card-preview { max-width: 320px; height: 200px; }
+    .card-number { font-size: 19px; }
+}
+
+@media (max-width: 480px) {
+    .titulo-principal { font-size: 1.6rem; }
+    .box h2 { font-size: 1.15rem; }
+    .dados-usuario p { font-size: 14px; }
+    .card-preview { max-width: 290px; height: 180px; }
+    .card-number { font-size: 17px; letter-spacing: 2px; }
+    .card-info { font-size: 12px; }
 }

@@ -7,13 +7,14 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', sans-serif;
-    background: radial-gradient(circle at top, #5a0000 0%, #0d0d0d 70%);
+    background: radial-gradient(circle at top, var(--accent-tertiary) 0%, var(--page-bg) 70%);
     min-height: 100vh;
 }
 
 /* CENTRALIZAÇÃO */
 main {
-    height: 100vh;
+    min-height: calc(100dvh - 120px);
+    padding: calc(var(--nav-height) + var(--nav-top) + 24px) 16px 48px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -25,13 +26,14 @@ main {
     max-width: 420px;
     padding: 50px 35px;
     border-radius: 22px;
-    background: rgba(25, 25, 25, 0.85);
+    background: var(--surface-glass);
     backdrop-filter: blur(25px);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--glass-shadow-strong);
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+    margin: 0 auto;
     animation: fadeUp 0.5s ease;
     color: #ffffff;
 }
@@ -164,7 +166,7 @@ main {
 /* RESPONSIVO */
 @media (max-width: 480px) {
     .conteiner {
-        margin: 20px;
+        margin: 0 20px;
         padding: 40px 25px;
     }
 

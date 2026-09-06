@@ -1,0 +1,179 @@
+/* =====================================================================
+   16. FOOTER
+   ===================================================================== */
+
+.footer {
+    position: relative;
+
+    z-index: 3;
+
+    margin-top: 0;
+
+    padding:
+        60px
+        5%;
+
+    color: #fff;
+
+    background: #111;
+
+    font-family:
+        'Poppins',
+        sans-serif;
+}
+
+
+.footer-container {
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    flex-wrap: wrap;
+
+    gap: 40px;
+}
+
+
+/* Marca */
+
+.footer-brand h3 {
+    margin-bottom: 12px;
+
+    color: #F72B2B;
+
+    font-size: 1.8rem;
+}
+
+.footer-brand p {
+    font-size: .95rem;
+
+    opacity: .7;
+}
+
+
+/* Títulos */
+
+.footer-sponsors h4,
+.footer-links h4 {
+    margin-bottom: 12px;
+
+    color: #F72B2B;
+
+    font-size: 1.1rem;
+}
+
+
+/* Patrocinadores */
+
+.Patriocinio {
+    text-align: center;
+}
+
+.sponsor-logos {
+    margin-top: 30px;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 26px;
+}
+
+.sponsor-logos img {
+    width: auto;
+    height: 40px;
+
+    max-width: 120px;
+
+    object-fit: contain;
+
+    transform:
+        scale(1.5);
+
+    transition:
+        transform
+        .3s
+        ease;
+}
+
+.sponsor-logos img:hover {
+    transform:
+        scale(1.95);
+
+    cursor: default;
+}
+
+
+/* Links */
+
+.footer-links ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 8px;
+}
+
+.footer-links a {
+    color: #fff;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
+    transition:
+        color
+        .3s
+        ease;
+}
+
+.footer-links a:hover {
+    color: #F72B2B;
+}
+
+
+/* Rodapé inferior */
+
+.footer-bottom {
+    margin-top: 40px;
+
+    padding-top: 20px;
+
+    text-align: center;
+
+    font-size: .85rem;
+
+    opacity: .6;
+
+    border-top:
+        1px solid #333;
+}
+
+
+/* Footer responsivo */
+
+@media (max-width: 900px) {
+
+    .footer-container {
+        flex-direction: column;
+
+        text-align: center;
+
+        gap: 30px;
+    }
+
+    .sponsor-logos {
+        justify-content: center;
+    }
+
+    .sponsor-logos img {
+        height: 34px;
+
+        max-width: 100px;
+    }
+}
+

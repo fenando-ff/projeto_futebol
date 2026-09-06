@@ -8,6 +8,9 @@
 main {
     position: relative;
 
+    min-height: calc(100dvh - 120px);
+    padding: calc(var(--nav-height) + var(--nav-top) + 24px) 16px 48px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +22,7 @@ main {
 }
 
 body {
-    background: radial-gradient(circle at top, #1a1a1a, #0d0d0d 70%);
+    background: radial-gradient(circle at top, var(--page-bg-secondary), var(--page-bg) 70%);
     margin: 0;
     font-family: sans-serif;
 }
@@ -135,13 +138,12 @@ body {
     max-width: 420px;
     padding: 45px 65px;
     border-radius: 18px;
-    background: #1b1b1b;
-    border: 2px solid rgba(227, 227, 227, 0.06);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    background: var(--surface-glass);
+    border: 2px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-strong);
     display: flex;
     flex-direction: column;
-    margin-top: 80px;
-    margin-bottom: 100px;
+    margin: 0 auto;
     z-index: 2;
 }
 
@@ -162,7 +164,7 @@ body {
     border: 1px solid rgba(255,255,255,0.12);
     padding: 12px 15px;
     transition: 0.3s ease;
-    background: #1a1a1a;
+    background: var(--surface-glass-strong);
 }
 
 .caixa:focus-within {

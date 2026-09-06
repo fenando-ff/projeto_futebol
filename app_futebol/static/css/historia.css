@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #111111;
-    --text-color: #ffffff;
-    --accent-color: #e31b23;
-    --gray-text: #cccccc;
-    --timeline-line: rgba(255, 255, 255, 0.15);
+    --bg-color: var(--page-bg);
+    --text-color: var(--text-primary);
+    --accent-color: var(--accent-secondary);
+    --gray-text: var(--text-secondary);
+    --timeline-line: var(--glass-border);
 }
 
 html, body {
@@ -24,7 +24,7 @@ html, body {
 .header-hero {
     text-align: center;
     padding: 80px 20px 60px;
-    background: linear-gradient(to bottom, #000000, #111111);
+    background: linear-gradient(to bottom, var(--page-bg-secondary), var(--page-bg));
 }
 
 .historia-titulo {

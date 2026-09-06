@@ -9,6 +9,14 @@
 
 {% block conteudo_pagina %}
 <div class="socio-main">
+
+  <!-- Fundo líquido: mesmas bolhas da home, atrás de todo o conteúdo -->
+  <div class="liquid-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+
   <div class="socio-container">
 
     <div class="text-area">
@@ -76,6 +84,3 @@
 {% block js_pagina %}
     <script src="{% static 'js/socios.js' %}"></script>
 {% endblock js_pagina %}
-
-</body>
-</html>

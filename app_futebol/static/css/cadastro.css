@@ -2,12 +2,12 @@
    RESET E VARIÁVEIS
 ========================= */
 :root {
-    --cor-primaria: #F72B2B;
-    --cor-fundo: #141414;
-    --cor-input: #1a1a1a;
-    --cor-texto: #fff;
-    --cor-placeholder: #aaa;
-    --radius: 10px;
+    --cor-primaria: var(--accent-secondary);
+    --cor-fundo: var(--page-bg);
+    --cor-input: var(--surface-glass-strong);
+    --cor-texto: var(--text-primary);
+    --cor-placeholder: var(--text-muted);
+    --radius: var(--radius-sm);
 }
 
 /* .mensagens {
@@ -42,7 +42,7 @@
 
 body {
 color: var(--cor-texto);
-background: radial-gradient(circle at top left, #1f1f1f, #0f0f0f 60%);
+background: radial-gradient(circle at top left, var(--page-bg-secondary), var(--page-bg) 60%);
 }
 
 
@@ -61,12 +61,10 @@ main {
     width: 100%;
     max-width: 480px;
     padding: 60px 60px;
-    background: linear-gradient(145deg, #1a1a1a, #111);
+    background: var(--surface-glass);
     border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.04);
-    box-shadow: 
-        0 30px 60px rgba(0,0,0,0.8),
-        0 0 60px rgba(247,43,43,0.07);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-strong);
     position: relative;
     transition: 0.4s ease;
 
@@ -74,9 +72,7 @@ main {
 
 .conteiner:hover {
     transform: translateY(-1px);
-    box-shadow: 
-        0 40px 80px rgba(79, 0, 0, 0.9),
-        0 0 80px rgba(100, 0, 0, 0.1);
+    box-shadow: var(--glass-shadow-strong);
 }
 
 /* =========================
@@ -102,8 +98,8 @@ main {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #111;
-    border: 1px solid #2c2c2c;
+    background: var(--surface-glass-strong);
+    border: 1px solid var(--glass-border);
     border-radius: 12px;
     padding: 0 15px;
     margin-top: 20px;
@@ -112,13 +108,13 @@ main {
 }
 
 .caixa:hover {
-    border-color: #444;
+    border-color: var(--glass-border);
 }
 
 
 .caixa:focus-within {
     border-color: var(--cor-primaria);
-    box-shadow: 0 0 0 3px rgba(247,43,43,0.15);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 
@@ -133,7 +129,7 @@ main {
 }
 
 .caixa input:hover {
-    border-color: #444;
+    border-color: var(--glass-border);
 }
 
 
@@ -144,31 +140,31 @@ main {
     text-align: center;
     padding: 14px 0;
     border-radius: 12px;
-    border: 1px solid #2c2c2c;
+    border: 1px solid var(--glass-border);
     cursor: pointer;
     transition: all 0.3s ease;
-    background: #111;
+    background: var(--surface-glass-strong);
     font-size: 14px;
-    color: #aaa;
+    color: var(--text-secondary);
 }
 
 .sexo-option:hover {
     border-color: var(--cor-primaria);
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .sexo-option input:checked + span {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .sexo-option:has(input:checked) {
     border-color: var(--cor-primaria);
-    background: rgba(247,43,43,0.08);
-    box-shadow: 0 0 15px rgba(247,43,43,0.2);
+    background: var(--surface-hover);
+    box-shadow: var(--glass-shadow);
 }
 
 .caixa i {
-    color: #777;
+    color: var(--text-muted);
     font-size: 18px;
 }
 
@@ -199,12 +195,12 @@ main {
     text-align: center;
     padding: 12px 0;
     border-radius: var(--radius);
-    border: 1px solid #333;
+    border: 1px solid var(--glass-border);
     cursor: pointer;
     transition: 0.25s;
-    background: var(--cor-input);
+    background: var(--surface-glass-strong);
     font-size: 14px;
-    color: var(--cor-texto);
+    color: var(--text-primary);
 }
 
 .sexo-option input { display: none; }
@@ -226,8 +222,8 @@ main {
     padding: 14px;
     border: none;
     border-radius: var(--radius);
-    background: var(--cor-primaria);
-    color: var(--cor-texto);
+    background: var(--accent-secondary);
+    color: var(--text-primary);
     font-weight: 600;
     cursor: pointer;
     transition: 0.25s;
@@ -235,8 +231,8 @@ main {
 }
 
 .btn-terceiro:hover {
-    background: #d61f1f;
-    box-shadow: 0 5px 15px rgba(247,43,43,0.4);
+    background: var(--accent-tertiary);
+    box-shadow: var(--glass-shadow);
 }
 
 /* =========================

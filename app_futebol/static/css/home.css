@@ -720,7 +720,7 @@ button:focus-visible {
 
 .card i {
     font-size: 34px;
-    color: var(--flame-400);
+    color: var(--);
 }
 
 .card h3 {
@@ -745,8 +745,8 @@ button:focus-visible {
 }
 
 /* pequena variação de tom por card — ecos quentes/frios do "fogo do dragão" */
-.destaque2 i { color: var(--gold-500); }
-.destaque3 i { color: var(--ice-500); }
+.destaque2 i { color: var(--); }
+.destaque3 i { color: var(--); }
 
 /* ======================= PRÓXIMO JOGO ======================= */
 

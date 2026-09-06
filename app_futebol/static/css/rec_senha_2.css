@@ -2,12 +2,14 @@
    FUNDO
 =============================== */
 body {
-    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background: radial-gradient(circle at center, var(--accent-tertiary) 10%, var(--page-bg) 100%);
 }
 
 /* Centralização correta (sem mexer no body flex global) */
 main {
     flex: 1;
+    min-height: calc(100dvh - 120px);
+    padding: calc(var(--nav-height) + var(--nav-top) + 24px) 16px 48px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,14 +34,11 @@ main {
     max-width: 420px;
     padding: 50px 35px;
     border-radius: 20px;
-    margin-bottom: 250px;
-    margin-top: 100px;
-    background: rgba(10, 10, 10, 0.9);
-    border: 1px solid rgba(255,255,255,0.05);
+    margin: 0 auto;
+    background: var(--surface-glass);
+    border: 1px solid var(--glass-border);
 
-    box-shadow: 
-        0 0 40px rgba(0,0,0,0.8),
-        0 0 20px rgba(143,0,0,0.3);
+    box-shadow: var(--glass-shadow-strong);
 
     display: flex;
     flex-direction: column;
@@ -107,8 +106,8 @@ main {
 
     border-radius: 10px;
     border: 1px solid #333;
-    background: #141414;
-    color: #fff;
+    background: var(--surface-glass-strong);
+    color: var(--text-primary);
 
     transition: 0.25s;
 }
@@ -151,8 +150,7 @@ main {
     }
 
     .conteiner{padding: 40px 5px;
-               margin: 80px 10px;
-               margin-bottom: 100px;
+               margin: 0 10px;
         }
 
     #area_seta {

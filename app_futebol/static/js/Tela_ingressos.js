@@ -23,6 +23,76 @@ document.addEventListener("DOMContentLoaded", () => {
   const botaoFinalizar = document.getElementById("btn-finalizar");
   const valorFinalEl = document.getElementById("valor-final");
 
+  const btnAdicionar = document.getElementById("btn-adicionar");
+  const btnMenos = document.getElementById("btn-menos");
+  const btnMais = document.getElementById("btn-mais");
+  const subtotalPreview = document.getElementById("subtotal-preview");
+  const subtotalValorEl = document.getElementById("subtotal-valor");
+  const carrinhoVazioMsg = document.getElementById("carrinho-vazio-msg");
+
+  // Página sem ingressos disponíveis: não há formulário pra configurar.
+  if (!formSetor) {
+    atualizarTotal();
+    return;
+  }
+
+  /* ============================================================
+     STEPPER DE QUANTIDADE (+/-) — mesmo campo #quantidade por baixo
+  ============================================================ */
+
+  function ajustarQuantidade(delta) {
+    const min = parseInt(quantidadeInput.min, 10) || 1;
+    const max = parseInt(quantidadeInput.max, 10) || 10;
+    let valor = (parseInt(quantidadeInput.value, 10) || min) + delta;
+    valor = Math.min(max, Math.max(min, valor));
+    quantidadeInput.value = valor;
+    quantidadeInput.dispatchEvent(new Event('input'));
+  }
+
+  if (btnMenos) btnMenos.addEventListener("click", () => ajustarQuantidade(-1));
+  if (btnMais) btnMais.addEventListener("click", () => ajustarQuantidade(1));
+
+  /* ============================================================
+     PRÉVIA DE SUBTOTAL + HABILITAR/DESABILITAR "ADICIONAR"
+  ============================================================ */
+
+  function estadoSelecao() {
+    const opcao = setorSelect.selectedOptions && setorSelect.selectedOptions[0];
+    const temSetor = !!(opcao && opcao.getAttribute('value'));
+    const preco = temSetor ? parseFloat(opcao.dataset.preco) : NaN;
+    const quantidade = parseInt(quantidadeInput.value, 10) || 0;
+    const quantidadeValida = quantidade >= 1 && quantidade <= 10;
+
+    return { temSetor, preco, quantidade, quantidadeValida };
+  }
+
+  function atualizarPreviaEBotao() {
+    const { temSetor, preco, quantidade, quantidadeValida } = estadoSelecao();
+
+    if (temSetor && !isNaN(preco) && quantidadeValida) {
+      subtotalValorEl.textContent = `R$ ${(preco * quantidade).toFixed(2)}`;
+      subtotalPreview.classList.add('show');
+    } else {
+      subtotalPreview.classList.remove('show');
+    }
+
+    btnAdicionar.disabled = !(temSetor && !isNaN(preco) && quantidadeValida);
+  }
+
+  setorSelect.addEventListener("change", atualizarPreviaEBotao);
+  quantidadeInput.addEventListener("input", atualizarPreviaEBotao);
+  atualizarPreviaEBotao();
+
+  /* ============================================================
+     CARRINHO VAZIO (placeholder amigável)
+  ============================================================ */
+
+  function atualizarCarrinhoVazio() {
+    if (!carrinhoVazioMsg) return;
+    const temItens = listaIngressos.querySelectorAll(".item-ingresso").length > 0;
+    carrinhoVazioMsg.style.display = temItens ? "none" : "flex";
+  }
+
   // 🛒 Adiciona ingresso à lista e ao carrinho da sessão
   formSetor.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -71,8 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     listaIngressos.appendChild(li);
     atualizarTotal();
+    atualizarCarrinhoVazio();
+
     formSetor.reset();
     quantidadeInput.value = 1;
+    atualizarPreviaEBotao();
+
+    btnAdicionar.disabled = true;
+    btnAdicionar.classList.add('is-loading');
 
     fetch(`/adicionar/${produtoId}/`, {
       method: 'POST',
@@ -85,15 +161,22 @@ document.addEventListener("DOMContentLoaded", () => {
       alert('Erro ao adicionar ao carrinho. Tente novamente.');
       li.remove();
       atualizarTotal();
+      atualizarCarrinhoVazio();
+    }).finally(() => {
+      btnAdicionar.classList.remove('is-loading');
+      atualizarPreviaEBotao();
     });
   });
 
   // ❌ Excluir ingresso (apenas visual, pois o carrinho real é na sessão)
   listaIngressos.addEventListener("click", (e) => {
     if (e.target.classList.contains("botao-excluir")) {
-      const item = e.target.closest(".item-ingresso");
+      const btn = e.target;
+      const item = btn.closest(".item-ingresso");
       const produtoId = item.dataset.produtoId;
-      const quantidade = parseInt(item.querySelector('.info-ingresso p:nth-child(2)').textContent.replace('Quantidade:', '').trim(), 10);
+
+      btn.disabled = true;
+      btn.textContent = "Removendo...";
 
       fetch(`/remover/${produtoId}/`, {
         method: 'POST',
@@ -102,10 +185,16 @@ document.addEventListener("DOMContentLoaded", () => {
           'X-Requested-With': 'XMLHttpRequest'
         }
       }).then(() => {
-        item.remove();
-        atualizarTotal();
+        item.classList.add('is-removing');
+        setTimeout(() => {
+          item.remove();
+          atualizarTotal();
+          atualizarCarrinhoVazio();
+        }, 250);
       }).catch(() => {
         alert('Erro ao remover item.');
+        btn.disabled = false;
+        btn.textContent = "Excluir";
       });
     }
   });
@@ -119,13 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     valorFinalEl.textContent = soma.toFixed(2);
-
     botaoFinalizar.disabled = soma === 0;
-    botaoFinalizar.style.opacity = soma === 0 ? "0.6" : "1";
   }
 
   // ✅ Finalizar compra e exibir PDF
-    if (!botaoFinalizar) {
+  if (!botaoFinalizar) {
     console.error('Botão finalizar não encontrado (id=btn-finalizar)');
   } else {
     botaoFinalizar.addEventListener("click", () => {
@@ -155,9 +242,10 @@ document.addEventListener("DOMContentLoaded", () => {
             msg.style.display = 'block';
             listaIngressos.innerHTML = '';
             atualizarTotal();
+            atualizarCarrinhoVazio();
             setTimeout(() => {
               msg.classList.remove('show');
-              msg.style.display = 'none';
+              setTimeout(() => { msg.style.display = 'none'; }, 300);
             }, 1800);
           }
           window.open(`/baixar_ingresso/${data.pedido_id}/`, '_blank');
@@ -176,4 +264,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   atualizarTotal();
+  atualizarCarrinhoVazio();
 });

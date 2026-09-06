@@ -8,8 +8,8 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #f8f8f8;
-  color: #222;
+  background-color: var(--page-bg);
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -72,7 +72,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   object-fit: cover;
-  background: #fff;
+  background: var(--surface-glass);
 }
 
 .miniaturas {
@@ -239,7 +239,7 @@ body {
 .produto-relacionado-card {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--glass-shadow);
   display: flex;
   flex-direction: column;
   height: 100%;

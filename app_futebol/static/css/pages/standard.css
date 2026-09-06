@@ -1,0 +1,193 @@
+/* Shared visual language for pages outside the established reference screens. */
+
+body {
+  color: var(--text-primary);
+  background:
+    radial-gradient(90% 70% at 12% 0%, var(--page-bg-secondary), transparent 68%),
+    linear-gradient(145deg, var(--page-bg), var(--page-bg-secondary));
+  font-family: var(--font-body);
+}
+
+main {
+  color: var(--text-primary);
+}
+
+main .conteiner,
+main .login-wrapper,
+main .main-perfil,
+main .carrinho,
+main .resumo,
+main .produto-detalhe,
+main .historia-main,
+main .timeline-container,
+main .box,
+main .payment-modal,
+main .game-payment-modal,
+main .resultado-modal {
+  color: var(--text-primary);
+}
+
+main .cabecalho-lista,
+main .item-carrinho,
+main .bloco-resumo,
+main .formas,
+main .payment-left,
+main .payment-right,
+main .game-payment-form,
+main .card-titulo,
+main .meus-dados-body,
+main .meus-pedidos-body,
+main .meus-ingressos-body,
+main .pedido-card,
+main .ingresso-item {
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+  background: var(--surface-glass);
+  box-shadow: var(--glass-shadow);
+}
+
+main .cabecalho-lista span,
+main .item-carrinho p,
+main .bloco-resumo p,
+main .pedido-card p,
+main .ingresso-item span,
+main .meta-item {
+  color: var(--text-secondary);
+}
+
+main .conteiner,
+main .carrinho,
+main .resumo,
+main .container,
+main .produto-detalhe,
+main .col-conteudo,
+main .profile-card,
+main .perfil-dados,
+main .perfil-pedidos,
+main .perfil-ingressos,
+main .box,
+main .payment-modal,
+main .game-payment-modal,
+main .resultado-modal {
+  border: 1px solid var(--glass-border);
+  background: var(--surface-glass);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.produto-container,
+.produto-container .detalhes,
+.produto-relacionado-card {
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+  background: var(--surface-glass);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.produto-container h1,
+.produto-container h2,
+.produto-container h3,
+.produto-container h4,
+.produto-container .titulo,
+.produto-container .marca {
+  color: var(--text-primary);
+}
+
+.produto-container p,
+.produto-container label {
+  color: var(--text-secondary);
+}
+
+.produto-container input,
+.produto-container select,
+.produto-container textarea {
+  color: var(--text-primary);
+  background: var(--surface-glass-strong);
+  border-color: var(--glass-border);
+}
+
+main h1,
+main h2,
+main h3,
+main h4 {
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+}
+
+main p,
+main label,
+main .subtitulo,
+main .info,
+main .texto-evento,
+main .produto-descricao {
+  color: var(--text-secondary);
+}
+
+main input,
+main select,
+main textarea {
+  color: var(--text-primary);
+  background: var(--surface-glass-strong);
+  border-color: var(--glass-border);
+}
+
+main input::placeholder,
+main textarea::placeholder {
+  color: var(--text-muted);
+}
+
+main input:focus,
+main select:focus,
+main textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 18%, transparent);
+  outline: none;
+}
+
+main button,
+main .btn-primario,
+main .btn-terceiro,
+main .btn-pagamento,
+main .submit-btn,
+main .hero-btn,
+main .btn-comprar,
+main .btn-finalizar {
+  border-color: var(--glass-border);
+  font-family: var(--font-body);
+}
+
+main button:hover,
+main .btn-primario:hover,
+main .btn-terceiro:hover,
+main .btn-pagamento:hover,
+main .submit-btn:hover,
+main .hero-btn:hover,
+main .btn-comprar:hover,
+main .btn-finalizar:hover {
+  box-shadow: var(--glass-shadow);
+}
+
+main .payment-overlay,
+main .game-payment-overlay,
+main .resultado-overlay {
+  background: color-mix(in srgb, var(--page-bg) 76%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+@supports not (color: color-mix(in srgb, black, white)) {
+  main input:focus,
+  main select:focus,
+  main textarea:focus {
+    box-shadow: 0 0 0 3px rgba(255, 106, 82, 0.18);
+  }
+
+  main .payment-overlay,
+  main .game-payment-overlay,
+  main .resultado-overlay {
+    background: rgba(7, 7, 10, 0.76);
+  }
+}

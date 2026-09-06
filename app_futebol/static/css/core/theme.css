@@ -1,0 +1,52 @@
+html {
+  background: var(--bg-page);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background:
+    radial-gradient(
+      120% 70% at 50% -10%,
+      var(--ember-900) 0%,
+      var(--void-900) 45%,
+      var(--void-950) 100%
+    );
+}
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(
+      120% 70% at 50% -10%,
+      rgba(255, 215, 204, 0.82) 0%,
+      var(--void-900) 45%,
+      var(--void-950) 100%
+    );
+}
+
+main {
+  flex: 1;
+}
+
+main.page-shell--spaced {
+  padding-top: clamp(32px, 5vh, 64px);
+}
+
+main.page-shell--roomy {
+  padding-top: clamp(56px, 8vh, 96px);
+}
+
+main.page-shell--profile-roomy {
+  padding-top: clamp(72px, 10vh, 120px);
+}
+
+main.page-shell--ingresso {
+  padding-top: 0;
+}
+
+.no-scroll {
+  overflow: hidden;
+}

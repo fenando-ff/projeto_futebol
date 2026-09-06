@@ -1,0 +1,90 @@
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: #07070a;
+  --bg-page-alt: #0d0808;
+  --page-bg: var(--bg-page);
+  --page-bg-secondary: var(--bg-page-alt);
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-hover: rgba(255, 255, 255, 0.065);
+  --surface-strong: rgba(255, 255, 255, 0.10);
+  --surface-stronger: rgba(255, 255, 255, 0.20);
+  --surface-glass: var(--surface);
+  --surface-glass-strong: var(--surface-strong);
+  --surface-streak: rgba(255, 255, 255, 0.55);
+  --glass-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.55);
+  --glass-shadow-strong: 0 26px 54px -26px rgba(0, 0, 0, 0.78);
+  --glass-border: var(--surface-strong);
+
+  --text-primary: #f6f3f1;
+  --text-secondary: rgba(246, 243, 241, 0.72);
+  --text-muted: rgba(246, 243, 241, 0.52);
+  --text-dark: #17110f;
+  --text-dark-secondary: rgba(23, 17, 15, 0.62);
+
+  --accent-primary: #ff6a52;
+  --accent-secondary: #ff3b3b;
+  --accent-tertiary: #b81c1c;
+  --accent-gold: #ffb648;
+  --accent-sky: #7dd3fc;
+  --success: #28a745;
+  --danger: #ff6b6b;
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 14px;
+  --ease-glass: cubic-bezier(.2, .8, .2, 1);
+
+  --font-body: "Poppins", sans-serif;
+  --font-heading: "Bebas Neue", "Oswald", sans-serif;
+  --font-ui: "Roboto Condensed", sans-serif;
+
+  --void-950: var(--bg-page);
+  --void-900: var(--bg-page-alt);
+  --ember-900: #3a0a0a;
+  --ember-700: #6e0f0f;
+  --flame-400: var(--accent-primary);
+  --flame-500: var(--accent-secondary);
+  --ember-500: var(--accent-tertiary);
+  --gold-500: var(--accent-gold);
+  --ice-500: var(--accent-sky);
+  --glass-fill: var(--surface);
+  --glass-fill-hover: var(--surface-hover);
+  --glass-stroke: var(--surface-strong);
+  --glass-stroke-strong: var(--surface-stronger);
+  --glass-streak: var(--surface-streak);
+  --ink: var(--text-primary);
+  --ink-dim: var(--text-secondary);
+  --ink-faint: var(--text-muted);
+  --ink-dark: var(--text-dark);
+  --ink-dark-dim: var(--text-dark-secondary);
+}
+
+html[data-theme="light"][data-standard-theme="true"] {
+  color-scheme: light;
+
+  --bg-page: #f4f5f7;
+  --bg-page-alt: #e9ebef;
+  --page-bg: var(--bg-page);
+  --page-bg-secondary: var(--bg-page-alt);
+  --surface: rgba(255, 255, 255, 0.74);
+  --surface-hover: rgba(255, 255, 255, 0.90);
+  --surface-strong: rgba(18, 18, 18, 0.12);
+  --surface-stronger: rgba(18, 18, 18, 0.22);
+  --surface-glass: var(--surface);
+  --surface-glass-strong: var(--surface-strong);
+  --surface-streak: rgba(255, 255, 255, 0.85);
+  --glass-shadow: 0 20px 44px -22px rgba(0, 0, 0, 0.16);
+  --glass-shadow-strong: 0 26px 54px -26px rgba(0, 0, 0, 0.22);
+  --glass-border: var(--surface-strong);
+
+  --text-primary: #17110f;
+  --text-secondary: rgba(23, 17, 15, 0.74);
+  --text-muted: rgba(23, 17, 15, 0.56);
+  --text-dark: #f6f3f1;
+  --text-dark-secondary: rgba(246, 243, 241, 0.70);
+
+  --ember-900: #f7e7e7;
+  --ember-700: #f0d0d0;
+}

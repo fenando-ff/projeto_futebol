@@ -6,32 +6,6 @@
 /* ----------------------------------------
    1. VARIÁVEIS E RESET
    ---------------------------------------- */
-:root {
-    /* Cores */
-    --cor-primaria: #F72B2B;
-    --cor-primaria-hover: #d61f1f;
-    --cor-primaria-glow: rgba(247, 43, 43, 0.6);
-    --cor-bg-card: rgba(26, 26, 26, 0.95);
-    --cor-bg-card-hover: rgba(35, 35, 35, 0.98);
-    --cor-borda: #333333;
-    --cor-borda-hover: #444444;
-    --cor-texto-cinza: #cfcfcf;
-    --cor-texto-branco: #ffffff;
-    --cor-sucesso: #28a745;
-    --cor-sucesso-glow: rgba(40, 167, 69, 0.5);
-
-    /* Efeitos */
-    --sombra-padrao: 0 10px 30px rgba(0, 0, 0, 0.5);
-    --sombra-hover: 0 15px 40px rgba(0, 0, 0, 0.7);
-    --transicao-suave: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 /* ----------------------------------------
    2. BODY E BACKGROUND
    ---------------------------------------- */
@@ -228,19 +202,6 @@ main {
 
 .times-ingresso .time:hover {
     transform: scale(1.05);
-}
-
-.times-ingresso .time:first-child img {
-    transform: scale(1.9);
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 15px rgba(247, 43, 43, 0.3));
-    animation: pulseGlow 3s ease-in-out infinite;
-    transition: var(--transicao-suave);
-}
-
-.times-ingresso .time:first-child img:hover {
-    filter: drop-shadow(0 0 25px rgba(247, 43, 43, 0.6));
-    transform: scale(2);
 }
 
 @keyframes pulseGlow {

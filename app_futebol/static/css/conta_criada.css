@@ -1,6 +1,6 @@
 
 body{
-    background: radial-gradient(circle at center, #8F0000 10%, #0F0F0F 100%);
+    background: radial-gradient(circle at center, var(--accent-tertiary) 10%, var(--page-bg) 100%);
     background-repeat: no-repeat;
 
 }
@@ -21,9 +21,9 @@ main{
     padding: 40px 30px;
     margin: 120px 65px;
     border-radius: 20px;
-    background: #8F0000(0, 28, 79, 0.3); /* cor semitransparente */
+    background: var(--surface-glass);
     backdrop-filter: blur(50px); /* o blur no fundo */
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: var(--glass-shadow-strong);
     max-width: 600px;
 }
 
