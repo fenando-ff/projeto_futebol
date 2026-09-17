@@ -94,6 +94,21 @@ if (modoJogo) {
 
     console.log(`ID: ${id}, btnMenos: ${!!btnMenos}, btnMais: ${!!btnMais}, qtdEl: ${!!qtdEl}`);
 
+    // Sinaliza no botão "-" que, na quantidade 1, o próximo clique remove o item
+    function atualizarSinalRemover() {
+      if (!btnMenos || !qtdEl) return;
+      const qtdAtual = parseInt(qtdEl.textContent, 10) || 0;
+      btnMenos.classList.toggle('vai-remover', qtdAtual <= 1);
+      btnMenos.title = qtdAtual <= 1 ? 'Remover item' : 'Diminuir quantidade';
+    }
+    atualizarSinalRemover();
+
+    function definirCarregando(carregando) {
+      item.classList.toggle('is-updating', carregando);
+      if (btnMenos) btnMenos.disabled = carregando;
+      if (btnMais) btnMais.disabled = carregando;
+    }
+
     function postQuantidade(novaQtd) {
       if (!id) {
         console.error('ID não encontrado!');
@@ -102,6 +117,8 @@ if (modoJogo) {
       const url = `/atualizar/${id}/`;
       const formData = new FormData();
       formData.append('quantidade', novaQtd);
+
+      definirCarregando(true);
 
       fetch(url, {
         method: 'POST',
@@ -116,12 +133,14 @@ if (modoJogo) {
           console.log('Resposta do servidor:', data);
           if (!data.success) {
             console.error('Erro:', data);
+            definirCarregando(false);
             return;
           }
 
           if (novaQtd <= 0) {
-            // Remove item do DOM se quantidade for 0
-            item.remove();
+            // Remove item do DOM (com uma saída suave) se quantidade for 0
+            item.classList.add('is-removing');
+            setTimeout(() => item.remove(), 250);
           } else {
             // Atualiza quantidade no DOM
             if (qtdEl) {
@@ -135,12 +154,18 @@ if (modoJogo) {
                 precoLinhaEl.textContent = itemServidor.subtotal.toFixed(2);
               }
             }
+
+            atualizarSinalRemover();
+            definirCarregando(false);
           }
 
           // Atualiza resumo com dados do servidor
           atualizarResumo(data);
         })
-        .catch(err => console.error('Erro na requisição:', err));
+        .catch(err => {
+          console.error('Erro na requisição:', err);
+          definirCarregando(false);
+        });
     }
 
     // Botão MAIS
@@ -210,6 +235,8 @@ if (modoJogo) {
       const formData = new FormData();
       formData.append('quantidade', 0);
 
+      link.classList.add('is-loading');
+
       fetch(`/atualizar/${id}/`, {
         method: 'POST',
         headers: {
@@ -221,10 +248,18 @@ if (modoJogo) {
       }).then(r => r.json())
         .then(data => {
           if (data.success) {
-            if (itemEl) itemEl.remove();
+            if (itemEl) {
+              itemEl.classList.add('is-removing');
+              setTimeout(() => itemEl.remove(), 250);
+            }
             atualizarResumo(data);
+          } else {
+            link.classList.remove('is-loading');
           }
-        }).catch(err => console.error(err));
+        }).catch(err => {
+          console.error(err);
+          link.classList.remove('is-loading');
+        });
     });
   });
 
@@ -258,7 +293,7 @@ if (modoJogo) {
     if (!paymentOverlay) return;
     paymentOverlay.classList.remove("show");
     if (payForm) payForm.innerHTML = "";
-    if (paySubmit) paySubmit.style.display = "none";
+    if (paySubmit) { paySubmit.style.display = "none"; paySubmit.disabled = false; }
     if (paySuccess) paySuccess.style.display = "none";
     payMethods.forEach(m => m.classList.remove("selected"));
     if (payTitle) payTitle.textContent = "Nenhuma forma selecionada";
@@ -279,6 +314,72 @@ if (modoJogo) {
     });
   });
 
+  /* ------ validação leve do formulário de pagamento (não bloqueia o fetch,
+     só evita habilitar "Confirmar" com dados obviamente incompletos) ------ */
+
+  function validadeEmDiaCarrinho(valor) {
+    const m = valor.match(/^(\d{2})\/(\d{2})$/);
+    if (!m) return false;
+    const mes = parseInt(m[1], 10);
+    const ano = parseInt("20" + m[2], 10);
+    if (mes < 1 || mes > 12) return false;
+    const agora = new Date();
+    return ano > agora.getFullYear() || (ano === agora.getFullYear() && mes >= agora.getMonth() + 1);
+  }
+
+  function ligarValidacaoCartao() {
+    const nome = document.getElementById('cardName');
+    const numero = document.getElementById('cardNumber');
+    const validade = document.getElementById('cardExpiry');
+    const cvv = document.getElementById('cardCvv');
+    if (!nome || !numero || !validade || !cvv || !paySubmit) return;
+
+    function checar() {
+      const numeroOk = numero.value.replace(/\D/g, '').length >= 13;
+      const nomeOk = nome.value.trim().length >= 3;
+      const validadeOk = validadeEmDiaCarrinho(validade.value);
+      const cvvOk = /^\d{3,4}$/.test(cvv.value);
+      paySubmit.disabled = !(numeroOk && nomeOk && validadeOk && cvvOk);
+    }
+
+    numero.addEventListener('input', () => {
+      const digitos = numero.value.replace(/\D/g, '').substring(0, 16);
+      numero.value = digitos.replace(/(.{4})/g, '$1 ').trim();
+      checar();
+    });
+
+    validade.addEventListener('input', () => {
+      let v = validade.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 3) v = v.replace(/(\d{2})(\d)/, '$1/$2');
+      validade.value = v;
+      checar();
+    });
+
+    cvv.addEventListener('input', () => {
+      cvv.value = cvv.value.replace(/\D/g, '').substring(0, 4);
+      checar();
+    });
+
+    nome.addEventListener('input', checar);
+
+    checar();
+  }
+
+  function ligarValidacaoPaypal() {
+    const email1 = payForm.querySelector('input[type="email"]');
+    const email2 = payForm.querySelectorAll('input[type="email"]')[1];
+    if (!email1 || !email2 || !paySubmit) return;
+
+    function checar() {
+      const valido = /\S+@\S+\.\S+/.test(email1.value) && email1.value === email2.value;
+      paySubmit.disabled = !valido;
+    }
+
+    email1.addEventListener('input', checar);
+    email2.addEventListener('input', checar);
+    checar();
+  }
+
   // FUNÇÃO: loadPaymentForm(tipo)
   // Renderiza dinamicamente o formulário de pagamento de acordo com método selecionado
   // Parâmetro: tipo = 'visa' | 'mastercard' | 'paypal'
@@ -288,6 +389,7 @@ if (modoJogo) {
   function loadPaymentForm(tipo) {
     if (!paySubmit || !payForm || !payTitle || !paySubtitle) return;
     paySubmit.style.display = "block";
+    paySubmit.disabled = true;
 
     // Formulário para cartões de crédito (Visa/Mastercard)
     if (tipo === "visa" || tipo === "mastercard") {
@@ -298,20 +400,21 @@ if (modoJogo) {
           <input id="cardName" type="text" placeholder="Nome no cartão">
 
           <label for="cardNumber">Número do cartão</label>
-          <input id="cardNumber" type="text" maxlength="19" placeholder="0000 0000 0000 0000">
+          <input id="cardNumber" type="text" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000">
 
           <div class="row">
             <div>
               <label for="cardExpiry">Validade</label>
-              <input id="cardExpiry" type="text" maxlength="5" placeholder="MM/AA">
+              <input id="cardExpiry" type="text" inputmode="numeric" maxlength="5" placeholder="MM/AA">
             </div>
 
             <div>
               <label for="cardCvv">CVV</label>
-              <input id="cardCvv" type="text" maxlength="4" placeholder="123">
+              <input id="cardCvv" type="text" inputmode="numeric" maxlength="4" placeholder="123">
             </div>
           </div>
         `;
+      ligarValidacaoCartao();
     }
 
     // Formulário para PayPal
@@ -325,6 +428,7 @@ if (modoJogo) {
         <label>Confirmar e-mail</label>
         <input type="email" placeholder="email@exemplo.com">
       `;
+      ligarValidacaoPaypal();
     }
   }
 

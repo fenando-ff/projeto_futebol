@@ -1,4 +1,4 @@
-  {% extends "base.html" %}
+{% extends "base.html" %}
   {% load static %}
 
   {% block css_extra %}
@@ -8,10 +8,18 @@
   {% endblock css_extra %}
 
   {% block conteudo_pagina %}
+
+  <!-- Fundo líquido: mesmas bolhas das outras páginas (troca de cor sozinha no modo jogo) -->
+  <div class="liquid-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+
     {% if nome %}
-      <h2>Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
+      <h2 class="saudacao">Bem-vindo, {{ nome }} {{ sobrenome }}!</h2>
     {% else %}
-      <h2>Bem-vindo, visitante!</h2>
+      <h2 class="saudacao">Bem-vindo, visitante!</h2>
     {% endif %}
   <main>
     <div class="container">
@@ -26,6 +34,8 @@
       <section class="carrinho">
         <h1 class="titulo">CARRINHO</h1>
         <hr>
+
+        {% if itens %}
         <div class="cabecalho-lista">
           <span>Produto</span>
           <span>Quant.</span>
@@ -33,7 +43,6 @@
         </div>
 
         <!-- Itens do carrinho dinâmicos -->
-        {% if itens %}
           {% for item in itens %}
           <div class="item-carrinho" data-id="{{ item.produto.id_produtos }}">
             {% if item.produto.imagem_produtos|slice:":4" == "http" %}
@@ -46,20 +55,22 @@
               <p>{{ item.produto.descricao_produtos }}</p>
             </div>
             <div class="quantidade">
-              <button type="button" class="btn-menos">-</button>
+              <button type="button" class="btn-menos" aria-label="Diminuir quantidade">-</button>
               <span class="qtd">{{ item.quantidade }}</span>
-              <button type="button" class="btn-mais">+</button>
+              <button type="button" class="btn-mais" aria-label="Aumentar quantidade">+</button>
               <span class="preco-item">R$<span class="preco-linha">{{ item.preco_linha|floatformat:2 }}</span></span>
             </div>
-            <a href="{% url 'remover_carrinho' item.produto.id_produtos %}" class="lixeira">
+            <a href="{% url 'remover_carrinho' item.produto.id_produtos %}" class="lixeira" aria-label="Remover item">
               <i class="fa-solid fa-trash"></i>
             </a>
           </div>
           {% endfor %}
         {% else %}
-          <div style="color:rgb(186, 0, 0); text-align:center; padding:40px;">
+          <div class="carrinho-vazio-state">
+            <i class="fa-solid fa-cart-shopping"></i>
             <h3>Seu carrinho está vazio!</h3>
-            <p><a href="{% url 'produtos' %}" style="color:#b70000;">Ver produtos</a></p>
+            <p>Que tal dar uma olhada na Drako Store?</p>
+            <a href="{% url 'produtos' %}" class="btn-ver-produtos">Ver produtos</a>
           </div>
         {% endif %}
       </section>
@@ -81,9 +92,9 @@
         <div id="pagamento-normal">
           <h2>FORMA DE PAGAMENTO:</h2>
           <div class="formas">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png">
-            <img src="https://logo.svgcdn.com/logos/visa.svg">
+            <span class="forma-badge">PayPal</span>
+            <span class="forma-badge">Mastercard</span>
+            <span class="forma-badge">Visa</span>
           </div>
           <button id="openPayment" class="btn-pagamento" type="button">
             Escolher forma de pagamento
@@ -118,18 +129,18 @@
 
         <div class="payment-methods">
           <div class="pay-method" data-method="visa">
-            <img src="https://logo.svgcdn.com/logos/visa.svg" alt="Visa Logo" width="70">
-            <span>Visa</span>
+            <span class="forma-badge">Visa</span>
+            <span>Cartão Visa</span>
           </div>
 
           <div class="pay-method" data-method="mastercard">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg">
-            <span>Mastercard</span>
+            <span class="forma-badge">Mastercard</span>
+            <span>Cartão Mastercard</span>
           </div>
 
           <div class="pay-method" data-method="paypal">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg">
-            <span>PayPal</span>
+            <span class="forma-badge">PayPal</span>
+            <span>Conta PayPal</span>
           </div>
         </div>
 
