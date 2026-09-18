@@ -47,7 +47,8 @@
 
       {% for plano in planos %}
       {% if 'não socio' not in plano.nome|lower and 'nao socio' not in plano.nome|lower %}
-      <div class="plano-card" data-index="{{ forloop.counter0 }}">
+      <form method="post" action="{% url 'selecionar_plano_socio' plano.id %}" class="plano-card" data-index="{{ forloop.counter0 }}">
+        {% csrf_token %}
 
         {% if plano.imagem %}
         <img src="{% static plano.imagem %}" alt="{{ plano.nome }}" class="plano-img">
@@ -63,15 +64,15 @@
           {% endfor %}
         </ul>
 
-        <a href="{% url 'confirmar_socio' plano.id %}" class="btn-plano">
+        <button type="submit" class="btn-plano" style="border: 0; cursor: pointer;">
           {% if plano.preco %}
             R$ {{ plano.preco|floatformat:2 }}
           {% else %}
             Escolher plano
           {% endif %}
-        </a>
+        </button>
 
-      </div>
+      </form>
       {% endif %}
       {% endfor %}
 

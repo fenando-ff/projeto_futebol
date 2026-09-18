@@ -3,7 +3,7 @@
 
 
 {% block css_extra %}
-    <link rel="stylesheet" href="{% static 'css/loja_produtos.css' %}?v=20260830">
+    <link rel="stylesheet" href="{% static 'css/loja_produtos.css' %}?v=20260917">
 {% endblock css_extra %}
 {% block titulo %} Loja {% endblock %}
 
@@ -37,7 +37,7 @@
 
     <div class="banner-title">
       <span class="hero-eyebrow">Temporada 25/26</span>
-      <h2>DRAKO STORE</h2>
+      <h1>DRAKO STORE</h1>
       <p class="hero-sub">Mantos oficiais, edições exclusivas e a energia do dragão em cada detalhe.</p>
       <div class="hero-actions">
         <a href="#produtos" class="hero-btn hero-btn--ghost">Ver produtos</a>
@@ -47,20 +47,36 @@
 
   </section>
 
-  <!-- Seção temporada com carrossel manual -->
+  <!-- Filtro rápido por categoria — navegação secundária fixa, em vidro -->
+  <nav class="quick-filter" aria-label="Filtrar por categoria">
+    {% for categoria, produtos in produtos_por_categoria.items %}
+      {% if produtos %}
+      <a href="#categoria-{{ categoria.id_categoria_produtos }}"
+         class="quick-filter__chip"
+         data-categoria-chip="{{ categoria.id_categoria_produtos }}">
+        {{ categoria.nome_categoria_produtos }}
+      </a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  <!-- Seção temporada — bloco editorial, sem caixa de vidro -->
 <section class="season reveal">
   <div class="season-text">
     <h2>TEMPORADA 25/26</h2>
     <p>
-      Os mantos oficiais da nova temporada 25/26 já estão disponíveis na DRAKO STORE.<br>
-      Fabricados com material de alta performance, garantindo conforto, durabilidade<br>
-      e o orgulho de representar o seu time dentro e fora de campo.<br>
+      Os mantos oficiais da nova temporada 25/26 já estão disponíveis na DRAKO STORE.
+      Fabricados com material de alta performance, garantindo conforto, durabilidade
+      e o orgulho de representar o seu time dentro e fora de campo.
       Sócios e membros cadastrados garantem até 20% de desconto exclusivo.
     </p>
     <span class="season-badge">✦ Sócios: até 20% off</span>
+    <div class="season-cta">
+      <a href="{% url 'socio' %}" class="hero-btn hero-btn--ghost on-surface">Quero ser sócio</a>
+    </div>
   </div>
 
-  <!-- Containe do carrossel e seta como flex -->
+  <!-- Containe do carrossel e seta -->
   <div class="season-wrapper">
     <div class="season-carousel">
       <div class="season-slide active">
@@ -73,25 +89,12 @@
         <img src="{% static "img/banners/loja_roupas.png" %}" alt="Slide 3">
       </div>
     </div>
-    <button class="next-slide">&#8250;</button>
+    <button class="next-slide" aria-label="Próxima foto">&#8250;</button>
   </div>
 </section>
 
   <!-- Seção de produtos -->
 <section class="produtos" id="produtos">
-
-  <!-- Filtro rápido por categoria (usa as mesmas categorias já carregadas pela view) -->
-  <nav class="quick-filter" aria-label="Filtrar por categoria">
-    {% for categoria, produtos in produtos_por_categoria.items %}
-      {% if produtos %}
-      <a href="#categoria-{{ categoria.id_categoria_produtos }}"
-         class="quick-filter__chip"
-         data-categoria-chip="{{ categoria.id_categoria_produtos }}">
-        {{ categoria.nome_categoria_produtos }}
-      </a>
-      {% endif %}
-    {% endfor %}
-  </nav>
 
   {% for categoria, produtos in produtos_por_categoria.items %}
   {% if produtos %}
@@ -108,7 +111,7 @@
         {% for produto in produtos %}
 
         <a href="{% url 'loja_detalhe' produto.id_produtos %}"
-           class="produto-link produto"
+           class="produto-link produto{% if forloop.first %} produto--featured{% endif %}"
            data-categoria="{{ produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos|default:'' }}">
 
           <div class="produto-img">
@@ -124,23 +127,19 @@
               {% endif %}
 
             <span class="produto-glow" aria-hidden="true"></span>
-          </div>
-
-          <div class="produto-info">
-
-            <h3>{{ produto.nome_produtos }}</h3>
-
-            <p class="preco">
-              R$ {{ produto.valor_produtos|floatformat:2 }}
-            </p>
 
             <button class="btn-adicionar"
                     data-id="{{ produto.id_produtos }}"
                     data-nome="{{ produto.nome_produtos }}"
-                    data-categoria="{{ produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos|default:'' }}">
+                    data-categoria="{{ produto.categoria_produtos_id_categoria_produtos.id_categoria_produtos|default:'' }}"
+                    aria-label="Adicionar {{ produto.nome_produtos }} ao carrinho">
               Adicionar ao Carrinho
             </button>
+          </div>
 
+          <div class="produto-info">
+            <h3>{{ produto.nome_produtos }}</h3>
+            <p class="preco">R$ {{ produto.valor_produtos|floatformat:2 }}</p>
           </div>
 
         </a>
@@ -197,5 +196,5 @@
 {% endblock conteudo_pagina %}
 
 {% block js_pagina %}
-  <script src="{% static 'js/loja_produtos.js' %}?v=20260830"></script>
+  <script src="{% static 'js/loja_produtos.js' %}?v=20260917"></script>
 {% endblock js_pagina %}

@@ -12,8 +12,8 @@
    Mesmos tokens de home.css / socio.css / pagamento_socio.css.
    ===================================================================== */
 :root {
-    --void-950: #07070a;
-    --void-900: #0d0808;
+    --void-950: var(--page-bg);
+    --void-900: var(--page-bg-secondary);
     --ember-900: #3a0a0a;
 
     --flame-400: #ff6a52;
@@ -697,6 +697,279 @@ main {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
+
+
+
+
+/* =========================================================
+   TELA DE INGRESSOS — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] {
+    --void-950: #f4f5f7;
+    --void-900: #e9ebef;
+
+    --ink: #211b1b;
+    --ink-dim: rgba(33, 27, 27, 0.72);
+    --ink-faint: rgba(33, 27, 27, 0.52);
+
+    --glass-fill: rgba(255, 255, 255, 0.48);
+    --glass-fill-hover: rgba(255, 255, 255, 0.68);
+    --glass-stroke: rgba(75, 55, 55, 0.12);
+    --glass-stroke-strong: rgba(75, 55, 55, 0.20);
+    --glass-streak: rgba(255, 255, 255, 0.95);
+}
+
+
+/* ================= FUNDO ================= */
+
+html[data-theme="light"] body {
+    background:
+        radial-gradient(
+            110% 75% at 88% -8%,
+            rgba(255, 145, 132, .26),
+            transparent 60%
+        ),
+        radial-gradient(
+            85% 65% at 5% 90%,
+            rgba(255, 195, 190, .18),
+            transparent 65%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f8fa,
+            #eceef2 52%,
+            #f8f6f6
+        );
+
+    color: var(--ink);
+}
+
+
+/* ================= BLOBS ================= */
+
+html[data-theme="light"] .blob-1 {
+    opacity: .48;
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 120, 105, .38),
+            transparent 70%
+        );
+}
+
+html[data-theme="light"] .blob-2 {
+    opacity: .34;
+    background:
+        radial-gradient(
+            circle at 60% 40%,
+            rgba(215, 85, 95, .28),
+            transparent 70%
+        );
+}
+
+html[data-theme="light"] .blob-3 {
+    opacity: .28;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 182, 72, .24),
+            transparent 70%
+        );
+}
+
+
+/* ================= TÍTULOS ================= */
+
+html[data-theme="light"] .titulo-pagina {
+    background:
+        linear-gradient(
+            135deg,
+            #261b1b 12%,
+            #7a3235 58%,
+            var(--flame-500)
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="light"] .titulo-secundario {
+    color: var(--ink);
+}
+
+
+/* ================= PAINÉIS GLASS ================= */
+
+html[data-theme="light"] .titulo-ingresso,
+html[data-theme="light"] .mapa-estadio,
+html[data-theme="light"] .lado-direito-ingressos,
+html[data-theme="light"] .jogo-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .74),
+            rgba(255, 255, 255, .44)
+        );
+
+    border-color: var(--glass-stroke);
+
+    box-shadow:
+        0 22px 46px -26px rgba(45, 35, 35, .28),
+        inset 0 1px 0 rgba(255, 255, 255, .88);
+}
+
+
+/* hover */
+
+html[data-theme="light"] .titulo-ingresso:hover,
+html[data-theme="light"] .jogo-card:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .84),
+            rgba(255, 248, 248, .56)
+        );
+
+    border-color: var(--glass-stroke-strong);
+
+    box-shadow:
+        0 28px 54px -28px rgba(65, 40, 40, .30),
+        0 0 30px -24px rgba(255, 85, 85, .18);
+}
+
+
+/* ================= TEXTOS ================= */
+
+html[data-theme="light"] .header-compra h3,
+html[data-theme="light"] .card-header h3,
+html[data-theme="light"] .times-ingresso .time span,
+html[data-theme="light"] .card-content h2,
+html[data-theme="light"] .info-ingresso p strong {
+    color: var(--ink);
+}
+
+html[data-theme="light"] .sem-jogos,
+html[data-theme="light"] .detalhes-jogo p,
+html[data-theme="light"] .input-group label,
+html[data-theme="light"] .subtotal-preview,
+html[data-theme="light"] .aviso-sem-ingressos,
+html[data-theme="light"] .carrinho-vazio,
+html[data-theme="light"] .info-ingresso p,
+html[data-theme="light"] .card-content p,
+html[data-theme="light"] .aviso-vazio {
+    color: var(--ink-dim);
+}
+
+
+/* ================= DETALHES DO JOGO ================= */
+
+html[data-theme="light"] .detalhes-jogo {
+    background: rgba(255, 255, 255, .46);
+    border-color: var(--glass-stroke);
+}
+
+
+/* ================= FORMULÁRIOS ================= */
+
+html[data-theme="light"] .form-setor select,
+html[data-theme="light"] .form-setor input {
+    background: rgba(255, 255, 255, .56);
+    color: var(--ink);
+    border-color: var(--glass-stroke);
+}
+
+html[data-theme="light"] .form-setor select:hover,
+html[data-theme="light"] .form-setor input:hover {
+    background: rgba(255, 255, 255, .72);
+    border-color: var(--glass-stroke-strong);
+}
+
+html[data-theme="light"] .form-setor select:focus,
+html[data-theme="light"] .form-setor input:focus {
+    background: rgba(255, 255, 255, .82);
+    border-color: var(--flame-400);
+}
+
+html[data-theme="light"] .form-setor select option {
+    background: #fff;
+    color: #211b1b;
+}
+
+
+/* ================= STEPPER ================= */
+
+html[data-theme="light"] .stepper-btn {
+    background: rgba(255, 255, 255, .58);
+    color: var(--ink);
+    border-color: var(--glass-stroke);
+}
+
+html[data-theme="light"] .stepper-btn:hover {
+    background: rgba(255, 255, 255, .78);
+}
+
+
+/* ================= SUBTOTAL / AVISOS ================= */
+
+html[data-theme="light"] .subtotal-preview,
+html[data-theme="light"] .aviso-sem-ingressos {
+    background: rgba(255, 255, 255, .45);
+}
+
+
+/* ================= LISTA DO CARRINHO ================= */
+
+html[data-theme="light"] .lista-ingressos li.item-ingresso {
+    background: rgba(255, 255, 255, .52);
+    border-color: var(--glass-stroke);
+}
+
+html[data-theme="light"] .lista-ingressos li.item-ingresso:hover {
+    background: rgba(255, 255, 255, .72);
+    border-color: var(--glass-stroke-strong);
+}
+
+
+/* ================= PRÓXIMOS JOGOS ================= */
+
+html[data-theme="light"] .jogo-times {
+    border-color: var(--glass-stroke);
+}
+
+
+/* ================= MAPA ================= */
+
+html[data-theme="light"] .mapa-estadio img {
+    box-shadow:
+        0 14px 30px rgba(50, 40, 40, .16);
+}
+
+
+/* ================= SUCESSO ================= */
+
+html[data-theme="light"] #mensagem-sucesso {
+    background: rgba(240, 255, 247, .78);
+    color: #173524;
+    border-color: rgba(52, 209, 122, .38);
+
+    box-shadow:
+        0 22px 52px rgba(30, 70, 45, .18),
+        0 0 34px rgba(52, 209, 122, .18);
+}
+
+
+/* ================= SCROLL ================= */
+
+html[data-theme="light"] .lista-ingressos ul::-webkit-scrollbar-thumb {
+    background: rgba(190, 75, 70, .34);
+}
+
+
+
+
 
 /* ----------------------------------------
    RESPONSIVIDADE

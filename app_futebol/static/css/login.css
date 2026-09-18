@@ -211,6 +211,155 @@ button:hover { transform: translateY(-2px); }
 .esqueceu_senha a, .criar-conta a { color: #f72b2b; text-decoration: none; }
 .esqueceu_senha a:hover, .criar-conta a:hover { opacity: 0.8; }
 
+
+
+
+
+/* =========================================================
+   LOGIN — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 145, 132, .24),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(255, 195, 190, .18),
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f8fa,
+            #eceef2 55%,
+            #f8f6f6
+        );
+
+    color: var(--text-primary);
+}
+
+
+/* ================= CARD ================= */
+
+html[data-theme="light"] .conteiner {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.76),
+            rgba(255,255,255,.48)
+        );
+
+    border-color: rgba(75,55,55,.12);
+
+    box-shadow:
+        0 24px 52px -26px rgba(60,45,45,.28),
+        inset 0 1px 0 rgba(255,255,255,.92);
+
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+}
+
+
+/* ================= TÍTULO ================= */
+
+html[data-theme="light"] .titulo_login {
+    color: #241b1b;
+}
+
+
+/* ================= INPUTS ================= */
+
+html[data-theme="light"] .caixa {
+    background: rgba(255,255,255,.58);
+    border-color: rgba(75,55,55,.12);
+}
+
+html[data-theme="light"] .caixa:hover {
+    background: rgba(255,255,255,.70);
+    border-color: rgba(75,55,55,.18);
+}
+
+html[data-theme="light"] .caixa:focus-within {
+    background: rgba(255,255,255,.82);
+    border-color: #f72b2b;
+
+    box-shadow:
+        0 0 0 3px rgba(247,43,43,.10),
+        0 12px 26px -18px rgba(80,45,45,.24);
+}
+
+html[data-theme="light"] .caixa input {
+    color: #211b1b;
+}
+
+html[data-theme="light"] .caixa input::placeholder {
+    color: rgba(33,27,27,.45);
+}
+
+html[data-theme="light"] .caixa i {
+    color: rgba(33,27,27,.55);
+}
+
+
+/* ================= LINKS ================= */
+
+html[data-theme="light"] .esqueceu_senha,
+html[data-theme="light"] .criar-conta {
+    color: rgba(33,27,27,.68);
+}
+
+html[data-theme="light"] .esqueceu_senha a,
+html[data-theme="light"] .criar-conta a {
+    color: #d92828;
+}
+
+
+/* ================= ALERTAS ================= */
+
+html[data-theme="light"] .alert.success {
+    background: rgba(52,209,122,.10);
+    border-color: rgba(52,209,122,.30);
+    color: #247544;
+}
+
+html[data-theme="light"] .alert.error {
+    background: rgba(247,43,43,.08);
+    border-color: rgba(247,43,43,.26);
+    color: #c72c2c;
+}
+
+
+/* ================= RING ================= */
+
+/*
+   Mantém a identidade vermelha,
+   apenas suaviza um pouco para o fundo claro.
+*/
+
+html[data-theme="light"] .ring {
+    opacity: .30;
+}
+
+html[data-theme="light"] .ring i {
+    border-color: rgba(215,35,35,.72);
+}
+
+html[data-theme="light"] .ring:hover i {
+    opacity: .82;
+}
+
+
+
+
+
+
+
+
+
 /* RESPONSIVO */
 @media (max-width: 480px) {
     .conteiner {    

@@ -61,10 +61,6 @@ def get_socio_catalog_item(categoria_id):
     return _load_raw_catalog().get(categoria_id, {})
 
 
-def get_socio_catalog_order():
-    return list(_load_raw_catalog().values())
-
-
 def get_socio_tier(categoria):
     categoria_id = getattr(categoria, "id_categoria_cliente", None)
     nome = (getattr(categoria, "nome_categoria_clientes", "") or "").strip().lower()

@@ -193,10 +193,6 @@ class Clientes(models.Model):
     @property
     def is_authenticated(self):
         return True
-    
-    @property
-    def is_authenticated(self):
-        return True
 
     @property
     def is_anonymous(self):
@@ -469,7 +465,7 @@ class RecuperacaoSenha(models.Model):
 
 
     def __str__(self):
-        return f"Código: {self.codigo} - Cliente: {self.cliente_id}"
+        return f"Recuperacao: {self.pk} - Cliente: {self.cliente_id}"
 
 
 class Respostas(models.Model):

@@ -67,27 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ======= EFEITO 3D NOS CARDS =======
-  const cards = document.querySelectorAll(".produto");
-
-  cards.forEach(card => {
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / 18;
-      const rotateY = (centerX - x) / 18;
-      card.style.transform =
-          `translateY(-8px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "";
-    });
-  });
-
   // ======= CARROSSEL AUTOMÁTICO DO BANNER =======
   let currentBanner = 0;
   const bannerSlides = document.querySelectorAll(".banner-slide");
@@ -215,15 +194,14 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
-        // 🎨 FEEDBACK VISUAL DO BOTÃO
+        // 🎨 FEEDBACK VISUAL DO BOTÃO — agora é um ícone circular, então o
+        // feedback é a troca do "+" por "✓" via classe (ver CSS .added),
+        // sem depender de texto solto que não caberia no círculo.
         if (btnElement) {
-          const originalText = btnElement.textContent;
-          btnElement.textContent = '✓ Adicionado!';
           btnElement.classList.add("added");
           setTimeout(() => {
-            btnElement.textContent = originalText;
             btnElement.classList.remove("added");
-          }, 2000);
+          }, 1600);
         }
 
       } else {

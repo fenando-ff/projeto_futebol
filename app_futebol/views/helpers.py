@@ -3,7 +3,6 @@ import uuid
 from urllib.parse import urljoin
 
 import boto3
-from botocore.exceptions import ClientError
 
 from django.conf import settings
 from django.templatetags.static import static

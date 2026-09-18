@@ -140,6 +140,160 @@ main {
     transform: scale(1.03);
 }
 
+
+/* =========================================================
+   VALIDAR CÓDIGO — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 145, 132, .22),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(255, 195, 190, .16),
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f8fa,
+            #eceef2 55%,
+            #f8f6f6
+        );
+}
+
+
+/* ================= CARD ================= */
+
+html[data-theme="light"] .conteiner {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.78),
+            rgba(255,255,255,.50)
+        );
+
+    border-color: rgba(75,55,55,.12);
+
+    box-shadow:
+        0 24px 52px -26px rgba(60,45,45,.28),
+        inset 0 1px 0 rgba(255,255,255,.92);
+
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+
+/* ================= SETA ================= */
+
+html[data-theme="light"] .fa-arrow-left {
+    color: rgba(33,27,27,.68);
+}
+
+html[data-theme="light"] .fa-arrow-left:hover {
+    color: #c92b2b;
+}
+
+
+/* ================= TÍTULO ================= */
+
+html[data-theme="light"] .titulo {
+    color: #241b1b;
+}
+
+html[data-theme="light"] .subtitulo {
+    color: rgba(33,27,27,.58);
+}
+
+
+/* ================= CAMPOS DO CÓDIGO ================= */
+
+html[data-theme="light"] .codigo-input {
+    background:
+        rgba(255,255,255,.62);
+
+    color: #211b1b;
+
+    border-color:
+        rgba(75,55,55,.14);
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255,255,255,.76);
+}
+
+html[data-theme="light"] .codigo-input:hover {
+    background:
+        rgba(255,255,255,.74);
+
+    border-color:
+        rgba(75,55,55,.22);
+}
+
+html[data-theme="light"] .codigo-input:focus {
+    background:
+        rgba(255,255,255,.88);
+
+    border-color:
+        #f72b2b;
+
+    box-shadow:
+        0 0 0 3px rgba(247,43,43,.10),
+        0 12px 24px -18px rgba(90,45,45,.26);
+
+    transform: translateY(-3px);
+}
+
+
+/* ================= BOTÃO ================= */
+
+html[data-theme="light"] .btn-primario {
+    background:
+        linear-gradient(
+            135deg,
+            #ff6a52,
+            #f72b2b
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 12px 26px -12px
+        rgba(247,43,43,.42);
+}
+
+html[data-theme="light"] .btn-primario:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #ff7863,
+            #e92121
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 16px 30px -12px
+        rgba(247,43,43,.50);
+}
+
+
+/* ================= ERRO ================= */
+
+html[data-theme="light"] .erro-local {
+    color: #c92f36;
+
+    background:
+        rgba(247,43,43,.08);
+
+    border-color:
+        rgba(247,43,43,.24);
+}   
+
 /* ==============================
    RESPONSIVO
 =============================== */

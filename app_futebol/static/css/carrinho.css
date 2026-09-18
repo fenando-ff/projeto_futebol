@@ -8,12 +8,11 @@
 
 /* =====================================================================
    Mesmos tokens de home.css / socio.css / pagamento_socio.css / Tela_Ingressos.css.
-   Esta página não depende mais de variáveis externas (--surface-glass,
-   --page-bg etc. de standard.css) — fica autossuficiente como as outras.
+   Os tokens de fundo acompanham --page-bg e --page-bg-secondary globais.
    ===================================================================== */
 :root {
-    --void-950: #07070a;
-    --void-900: #0d0808;
+    --void-950: var(--page-bg);
+    --void-900: var(--page-bg-secondary);
     --ember-900: #3a0a0a;
 
     --flame-400: #ff6a52;
@@ -847,4 +846,78 @@ html, body { overflow-x: hidden; }
     .item-carrinho { grid-template-columns: 64px 1fr; }
     .item-carrinho img { width: 64px; height: 64px; }
     .quantidade button { width: 28px; height: 28px; }
+}
+/* Light Mode: superficies do Carrinho, sem alterar o fundo da pagina. */
+html[data-theme="light"] main .container {
+    --cart-surface: color-mix(in srgb, var(--surface-glass) 45%, var(--page-bg-secondary));
+    --cart-surface-inner: color-mix(in srgb, var(--surface-glass) 85%, var(--surface-glass-strong));
+    --cart-accent: color-mix(in srgb, var(--accent-tertiary) 85%, var(--text-primary));
+}
+
+/* Evita acumular vidro branco nos wrappers e nos cards ao mesmo tempo. */
+html[data-theme="light"] main :is(.container, .resumo) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+html[data-theme="light"] main :is(.carrinho, .bloco-resumo, .bloco-pagamento) {
+    background: var(--cart-surface);
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    color: var(--text-primary);
+}
+
+html[data-theme="light"] main :is(.item-carrinho, .forma-badge, .quantidade button, .quantidade span.qtd) {
+    background: var(--cart-surface-inner);
+    border-color: var(--glass-border);
+    color: var(--text-primary);
+}
+
+html[data-theme="light"] main :is(.cabecalho-lista, .formas) {
+    background: transparent;
+    box-shadow: none;
+    color: var(--text-secondary);
+}
+
+html[data-theme="light"] main :is(.carrinho, .bloco-resumo, .bloco-pagamento) :is(h1, h2, h3, .valor) {
+    color: var(--text-primary);
+}
+
+html[data-theme="light"] main .titulo {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+}
+
+html[data-theme="light"] main :is(.saudacao, .info-produto p, .bloco-resumo p, .carrinho-vazio-state, .carrinho-vazio-state p, .forma-badge) {
+    color: var(--text-secondary);
+}
+
+html[data-theme="light"] main .total {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="light"] main .total .valor {
+    color: var(--cart-accent) !important;
+}
+
+html[data-theme="light"] main :is(.quantidade span.preco-item, .carrinho-vazio-state i, .lixeira, .quantidade button.btn-menos.vai-remover) {
+    color: var(--cart-accent);
+}
+
+html[data-theme="light"] main :is(.carrinho hr, .bloco-resumo hr) {
+    border-color: var(--glass-border);
+}
+
+html[data-theme="light"] main :is(.forma-badge:hover, .quantidade button:hover:not(:disabled), .lixeira:hover) {
+    background: var(--surface-glass-strong);
+    color: var(--cart-accent);
+    border-color: var(--glass-border);
+}
+
+html[data-theme="light"] main :is(.bloco-pagamento .btn-pagamento, .carrinho-vazio-state a.btn-ver-produtos) {
+    background: linear-gradient(135deg, var(--cart-accent), var(--accent-tertiary));
+    box-shadow: var(--glass-shadow);
 }

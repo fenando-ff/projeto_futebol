@@ -1,14 +1,17 @@
 import os
-import random
+import secrets
 import uuid
 import logging
-from django.http import HttpResponse, JsonResponse, FileResponse
+from django.http import JsonResponse, FileResponse
 from django.utils import timezone
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db import transaction
+from django.views.decorators.cache import never_cache
+from django.views.decorators.http import require_http_methods, require_POST
 from app_futebol import models
 from ..decorators import cliente_login_required
 import io
@@ -17,10 +20,9 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 import qrcode
 import re
-import json
 import boto3
 from botocore.exceptions import ClientError
-from .socio_catalog import build_socio_web_plan, get_socio_planos_queryset
+from .socio_catalog import build_socio_web_plan, get_socio_planos_queryset, get_socio_tier
 
 # -------------------------------
 # Helpers
@@ -28,6 +30,7 @@ from .socio_catalog import build_socio_web_plan, get_socio_planos_queryset
 
 def login_cliente(request, cliente):
     # Salva os dados do cliente na sessão.
+    request.session.pop("selecao_socio", None)
     request.session["cliente_id"] = cliente.id_clientes
     request.session["cliente_nome"] = cliente.nome_clientes
     request.session["cliente_sobrenome"] = cliente.sobrenome_clientes
@@ -85,15 +88,6 @@ def get_historico_cliente(request, cliente_obj=None):
     """Retorna o histórico de compras serializável do cliente e salva na sessão.
     Usa a tabela `Compra` como fonte primária e agrupa por `pedido`.
     """
-    # 1. Ajuste lógico: O try deve rodar independente de como pegamos o cliente_obj
-    # Se cliente_obj for None, tentamos pegar o ID da sessão, mas precisaríamos do objeto real para o filtro funcionar bem
-    # (Vou manter sua lógica original, mas atente-se a isso)
-    
-    if cliente_obj is None:
-        cliente_id = request.session.get('cliente_id')
-        # DICA: Aqui você provavelmente precisaria buscar o objeto cliente no banco se ele for None,
-        # senão o filtro abaixo (clientes_id_clientes=cliente_obj) vai buscar nulo.
-    
     try:
         # Busca todas as compras do cliente
         compras_qs = models.Compra.objects.filter(
@@ -311,7 +305,7 @@ def tela_perfil(request):
 
         # --- Atualiza ou Cria o Endereço ---
         # Tenta buscar o endereço, se não existir, cria um novo vinculado ao cliente
-        endereco, created = models.EnderecoCliente.objects.get_or_create(
+        endereco, _ = models.EnderecoCliente.objects.get_or_create(
             cliente_id_cliente=cliente
         )
         
@@ -899,9 +893,41 @@ def tela_loja_produtos(request):
     })
 
 
+def _limpar_recuperacao(request):
+    for chave in ("recuperacao_id", "recuperacao_email", "codigo_validado",
+                  "recuperacao_validada_id", "recuperacao_tentativas"):
+        request.session.pop(chave, None)
+
+
+def _recuperacao_da_sessao(request, bloquear=False):
+    recuperacao_id = request.session.get("recuperacao_id")
+    email = request.session.get("recuperacao_email")
+    if not recuperacao_id or not email:
+        return None
+    cliente = models.Clientes.objects.filter(email_clientes=email).first()
+    if not cliente:
+        return None
+    registros = models.RecuperacaoSenha.objects.filter(cliente_id=cliente.pk)
+    if bloquear:
+        registros = registros.select_for_update()
+    recuperacao = registros.order_by("-criado_em", "-id").first()
+    if not recuperacao or recuperacao.pk != recuperacao_id or recuperacao.expirado():
+        return None
+    return recuperacao
+
+
+def _reiniciar_recuperacao(request):
+    _limpar_recuperacao(request)
+    messages.error(request, "Dados de recuperacao invalidos ou expirados.")
+    return redirect("recuperar_senha")
+
+
+@never_cache
+@require_http_methods(["GET", "POST"])
 def tela_rec_senha(request):
+    _limpar_recuperacao(request)
     if request.method == "POST":
-        email = request.POST.get("email")
+        email = request.POST.get("email", "").strip().lower()
 
         try:
             cliente = models.Clientes.objects.get(email_clientes=email)
@@ -910,29 +936,30 @@ def tela_rec_senha(request):
                 "erro": "Se o e-mail estiver cadastrado, voce recebera um codigo de recuperacao."
             })
 
-        codigo = str(random.randint(100000, 999999))
+        codigo = str(secrets.randbelow(900000) + 100000)
 
         recuperacao = models.RecuperacaoSenha.objects.create(
             cliente_id=cliente.id_clientes,
             codigo=codigo,
         )
 
-        request.session["recuperacao_id"] = recuperacao.id
-
         try:
-            send_mail(
+            enviados = send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
-        except Exception as e:
-            print(e)
+            if enviados != 1:
+                raise RuntimeError("Email nao enviado")
+        except Exception:
+            recuperacao.delete()
             return render(request, "app_futebol/rec_senha.html", {
                 "erro": "Nao foi possivel enviar o e-mail no momento."
             })
 
+        request.session["recuperacao_id"] = recuperacao.id
         request.session["recuperacao_email"] = email
         return redirect("recuperar_senha2")
 
@@ -940,52 +967,41 @@ def tela_rec_senha(request):
 
 
 
+@never_cache
+@require_http_methods(["GET", "POST"])
 def tela_rec_senha_2(request):
+    recuperacao = _recuperacao_da_sessao(request)
+    if not recuperacao:
+        return _reiniciar_recuperacao(request)
     if request.method == "POST":
-        codigo_digitado = request.POST.get("codigo")
-        email = request.session.get("recuperacao_email")
-        recuperacao_id = request.session.get("recuperacao_id")
-
-        if not email or not recuperacao_id:
-            return redirect("recuperar_senha")
-
-        try:
-            cliente = models.Clientes.objects.get(email_clientes=email)
-            recuperacao = models.RecuperacaoSenha.objects.get(
-                id=recuperacao_id, cliente_id=cliente.id_clientes
-            )
-        except models.Clientes.DoesNotExist:
-            return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Dados de recuperacao invalidos ou expirados."
-            })
-        except models.RecuperacaoSenha.DoesNotExist:
+        request.session.pop("recuperacao_validada_id", None)
+        codigo_digitado = request.POST.get("codigo", "").strip()
+        if not secrets.compare_digest(recuperacao.codigo.encode(), codigo_digitado.encode()):
+            tentativas = request.session.get("recuperacao_tentativas", 0) + 1
+            request.session["recuperacao_tentativas"] = tentativas
+            if tentativas >= 5:
+                recuperacao.delete()
+                return _reiniciar_recuperacao(request)
             return render(request, "app_futebol/rec_senha_2.html", {
                 "erro": "Dados de recuperacao invalidos ou expirados."
             })
 
-        if recuperacao.expirado():
-            return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Dados de recuperacao invalidos ou expirados."
-            })
-
-        if recuperacao.codigo != codigo_digitado:
-            return render(request, "app_futebol/rec_senha_2.html", {
-                "erro": "Dados de recuperacao invalidos ou expirados."
-            })
-
-        request.session["codigo_validado"] = True
+        request.session["recuperacao_validada_id"] = recuperacao.pk
         return redirect("recuperar_senha3")
 
     return render(request, "app_futebol/rec_senha_2.html")
 
 
+@never_cache
+@require_http_methods(["GET", "POST"])
 def tela_rec_senha_3(request):
-    if not request.session.get("codigo_validado"):
-        return redirect("recuperar_senha")
+    recuperacao = _recuperacao_da_sessao(request)
+    if not recuperacao or request.session.get("recuperacao_validada_id") != recuperacao.pk:
+        return _reiniciar_recuperacao(request)
 
     if request.method == "POST":
-        nova_senha = request.POST.get("senha")
-        confirmar_senha = request.POST.get("confirmar_senha")
+        nova_senha = request.POST.get("senha", "")
+        confirmar_senha = request.POST.get("confirmar_senha", "")
 
         # 🔐 1️⃣ Verifica se as senhas coincidem
         if nova_senha != confirmar_senha:
@@ -1017,23 +1033,22 @@ def tela_rec_senha_3(request):
                 {"erro": "A senha deve conter pelo menos 1 letra maiúscula."}
             )
 
-        email = request.session.get("recuperacao_email")
-
         try:
-            cliente = models.Clientes.objects.get(email_clientes=email)
-            cliente.senha_clientes = make_password(nova_senha)
-            cliente.save()
-
-            # 🧹 Limpa sessão
-            request.session.pop("recuperacao_email", None)
-            request.session.pop("codigo_validado", None)
+            with transaction.atomic():
+                recuperacao = _recuperacao_da_sessao(request, bloquear=True)
+                if not recuperacao:
+                    return _reiniciar_recuperacao(request)
+                cliente = models.Clientes.objects.get(pk=recuperacao.cliente_id)
+                cliente.senha_clientes = make_password(nova_senha)
+                cliente.save(update_fields=["senha_clientes"])
+                models.RecuperacaoSenha.objects.filter(cliente_id=cliente.pk).delete()
+            _limpar_recuperacao(request)
 
             messages.success(request, "Senha alterada com sucesso!")
             return redirect("login")
 
         except models.Clientes.DoesNotExist:
-            messages.error(request, "Nao foi possivel alterar a senha no momento.")
-            return redirect("recuperar_senha")
+            return _reiniciar_recuperacao(request)
 
     return render(request, "app_futebol/rec_senha3.html")
 
@@ -1119,19 +1134,53 @@ def cancelar_socio(request):
     return redirect("socio")
 
 
-@cliente_login_required
-def pagamento_socio(request, plano_id):
-    try:
-        plano = models.CategoriaCliente.objects.get(id_categoria_cliente=plano_id)
-    except models.CategoriaCliente.DoesNotExist:
-        messages.error(request, "Plano não encontrado!")
-        return redirect("tela_socio")
-    
-    cliente_id = request.session.get("cliente_id")
-    if not cliente_id:
-        return redirect("login")
+def _buscar_plano_socio(plano_id):
+    plano = get_socio_planos_queryset().filter(pk=plano_id).first()
+    if plano and get_socio_tier(plano) != "nao-socio":
+        return plano
+    return None
 
-    cliente = models.Clientes.objects.get(id_clientes=cliente_id)
+
+def _reiniciar_selecao_socio(request):
+    request.session.pop("selecao_socio", None)
+    messages.error(request, "Selecione um plano valido para continuar.")
+    return redirect("socio")
+
+
+@cliente_login_required
+@require_POST
+def selecionar_plano_socio(request, plano_id):
+    request.session.pop("selecao_socio", None)
+    plano = _buscar_plano_socio(plano_id)
+    if not plano:
+        return _reiniciar_selecao_socio(request)
+    request.session["selecao_socio"] = {
+        "plano_id": plano.pk,
+        "cliente_id": request.session["cliente_id"],
+        "criado_em": timezone.now().timestamp(),
+    }
+    return redirect("confirmar_socio", plano_id=plano.pk)
+
+
+@never_cache
+@cliente_login_required
+@require_http_methods(["GET", "POST"])
+def pagamento_socio(request, plano_id):
+    selecao = request.session.get("selecao_socio", {})
+    cliente_id = request.session["cliente_id"]
+    if (selecao.get("plano_id") != plano_id
+            or selecao.get("cliente_id") != cliente_id
+            or not 0 <= timezone.now().timestamp() - selecao.get("criado_em", 0) < 1800):
+        return _reiniciar_selecao_socio(request)
+
+    plano = _buscar_plano_socio(plano_id)
+    if not plano:
+        return _reiniciar_selecao_socio(request)
+
+    cliente = models.Clientes.objects.filter(pk=cliente_id).first()
+    if not cliente:
+        request.session.pop("selecao_socio", None)
+        return redirect("login")
     
     # Se o usuário confirmar o pagamento, atualiza o plano do cliente
     if request.method == "POST":
@@ -1142,6 +1191,7 @@ def pagamento_socio(request, plano_id):
         # Atualiza sessão (armazenando id e nome)
         request.session["plano_socio_id"] = plano.id_categoria_cliente
         request.session["plano_socio_nome"] = plano.nome_categoria_clientes
+        request.session.pop("selecao_socio", None)
 
         messages.success(request, "Parabéns! Agora você é sócio: %s" % plano.nome_categoria_clientes)
         return redirect("home")
@@ -1150,8 +1200,6 @@ def pagamento_socio(request, plano_id):
         "cliente": cliente,
         "plano": plano,
     })
-
-# ... suas outras importações (models, login_required, etc) ...
 
 @cliente_login_required
 def gerar_pdf_ingressos(request, pedido_id):
@@ -1183,7 +1231,7 @@ def gerar_pdf_ingressos(request, pedido_id):
     # 4. Configuração do PDF
     buffer = io.BytesIO()
     p = canvas.Canvas(buffer, pagesize=A4)
-    width, height = A4
+    _, height = A4
 
     for item in itens_compra:
         produto = item.produtos_id_produtos

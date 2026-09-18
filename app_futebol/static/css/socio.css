@@ -10,8 +10,8 @@
    fica só o aviso, não mexi na estrutura de arquivos de vocês.
    ===================================================================== */
 :root {
-  --void-950: #07070a;
-  --void-900: #0d0808;
+  --void-950: var(--page-bg);
+  --void-900: var(--page-bg-secondary);
   --ember-900: #3a0a0a;
 
   --flame-400: #ff6a52;
@@ -337,6 +337,215 @@ body {
   filter: brightness(1.05);
   box-shadow: 0 14px 26px -8px rgba(255, 59, 59, .6);
 }
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   PLANOS SÓCIOS — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] {
+  --void-950: #f4f5f7;
+  --void-900: #e9ebef;
+
+  --ink: #211b1b;
+  --ink-dim: rgba(33, 27, 27, 0.72);
+  --ink-faint: rgba(33, 27, 27, 0.52);
+
+  --glass-fill: rgba(255, 255, 255, 0.48);
+  --glass-fill-hover: rgba(255, 255, 255, 0.68);
+  --glass-stroke: rgba(75, 55, 55, 0.12);
+  --glass-stroke-strong: rgba(75, 55, 55, 0.20);
+  --glass-streak: rgba(255, 255, 255, 0.95);
+}
+
+
+/* ================= FUNDO ================= */
+
+html[data-theme="light"] body {
+  background:
+    radial-gradient(
+      110% 75% at 88% -8%,
+      rgba(255, 145, 132, .25),
+      transparent 60%
+    ),
+    radial-gradient(
+      85% 65% at 5% 90%,
+      rgba(255, 195, 190, .18),
+      transparent 65%
+    ),
+    linear-gradient(
+      135deg,
+      #f7f8fa,
+      #eceef2 52%,
+      #f8f6f6
+    );
+
+  color: var(--ink);
+}
+
+
+/* ================= BLOBS ================= */
+
+html[data-theme="light"] .blob-1 {
+  opacity: .48;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 120, 105, .38),
+      transparent 70%
+    );
+}
+
+html[data-theme="light"] .blob-2 {
+  opacity: .34;
+  background:
+    radial-gradient(
+      circle at 60% 40%,
+      rgba(215, 85, 95, .28),
+      transparent 70%
+    );
+}
+
+html[data-theme="light"] .blob-3 {
+  opacity: .28;
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 182, 72, .24),
+      transparent 70%
+    );
+}
+
+
+/* ================= TÍTULO PRINCIPAL ================= */
+
+html[data-theme="light"] .text-area h1 {
+  background:
+    linear-gradient(
+      135deg,
+      #261b1b 12%,
+      #7a3235 58%,
+      var(--flame-500)
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* ================= TEXTOS ================= */
+
+html[data-theme="light"] .text-area,
+html[data-theme="light"] .text-area h2,
+html[data-theme="light"] .meu-plano-status,
+html[data-theme="light"] .plano-card h3 {
+  color: var(--ink);
+}
+
+html[data-theme="light"] .text-area p,
+html[data-theme="light"] .plano-card .plano-desc li {
+  color: var(--ink-dim);
+}
+
+
+/* ================= CARDS ================= */
+
+html[data-theme="light"] .plano-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .74),
+      rgba(255, 255, 255, .44)
+    );
+
+  border-color: var(--glass-stroke);
+
+  box-shadow:
+    0 22px 46px -26px rgba(45, 35, 35, .28),
+    inset 0 1px 0 rgba(255, 255, 255, .88);
+}
+
+
+/* hover */
+
+html[data-theme="light"] .plano-card:hover {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .84),
+      rgba(255, 248, 248, .56)
+    );
+
+  border-color: var(--glass-stroke-strong);
+
+  box-shadow:
+    0 28px 54px -28px rgba(65, 40, 40, .30),
+    0 0 30px -24px rgba(255, 85, 85, .18);
+}
+
+
+/* ================= CARD SELECIONADO ================= */
+
+html[data-theme="light"] .plano-card.active {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 235, 232, .82),
+      rgba(255, 255, 255, .58)
+    );
+
+  border-color: rgba(255, 106, 82, .42);
+
+  box-shadow:
+    0 26px 54px -24px rgba(95, 50, 45, .28),
+    0 0 0 1px rgba(255, 106, 82, .18),
+    0 0 30px -8px rgba(255, 90, 80, .22);
+
+  transform: translateY(-6px);
+}
+
+
+/* ================= IMAGENS ================= */
+
+html[data-theme="light"] .plano-img {
+  box-shadow:
+    0 14px 30px rgba(55, 40, 40, .16);
+}
+
+
+/* ================= BENEFÍCIOS ================= */
+
+html[data-theme="light"] .plano-card .plano-desc li {
+  border-bottom-color: var(--glass-stroke);
+}
+
+
+/* ================= STATUS DO PLANO ================= */
+
+html[data-theme="light"] .plano-nome {
+  color: var(--flame-500);
+}
+
+
+
+
+
+
+
+
+
+
 
 /* ======================= RESPONSIVO ======================= */
 

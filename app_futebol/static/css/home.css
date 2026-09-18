@@ -9,8 +9,8 @@
 
 :root {
     /* fundo */
-    --void-950: #07070a;
-    --void-900: #0d0808;
+    --void-950: var(--page-bg);
+    --void-900: var(--page-bg-secondary);
     --ember-900: #3a0a0a;
     --ember-700: #6e0f0f;
 
@@ -1006,6 +1006,262 @@ button:focus-visible {
     border-radius: 6px;
     background: linear-gradient(135deg, var(--flame-400), var(--flame-500));
 }
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   HOME — LIGHT MODE
+   Mantém todo o Dark Mode intacto.
+   ========================================================= */
+
+html[data-theme="light"] {
+    /* Fundo */
+    --void-950: #f3f4f7;
+    --void-900: #e9ebf0;
+
+    /* Texto */
+    --ink: #211b1b;
+    --ink-dim: rgba(33, 27, 27, 0.72);
+    --ink-faint: rgba(33, 27, 27, 0.52);
+
+    /* Liquid Glass claro */
+    --glass-fill: rgba(255, 255, 255, 0.48);
+    --glass-fill-hover: rgba(255, 255, 255, 0.68);
+    --glass-stroke: rgba(80, 55, 55, 0.12);
+    --glass-stroke-strong: rgba(80, 55, 55, 0.20);
+    --glass-streak: rgba(255, 255, 255, 0.92);
+}
+
+
+/* ================= FUNDO ================= */
+
+html[data-theme="light"] .home-container {
+    background:
+        radial-gradient(
+            100% 75% at 88% -5%,
+            rgba(255, 153, 143, 0.28) 0%,
+            rgba(255, 216, 211, 0.14) 36%,
+            transparent 65%
+        ),
+        radial-gradient(
+            85% 65% at 4% 92%,
+            rgba(255, 185, 190, 0.22),
+            transparent 65%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f7f9 0%,
+            #eceef2 52%,
+            #f8f6f6 100%
+        );
+
+    color: var(--ink);
+}
+
+
+/* ================= BLOBS ================= */
+
+html[data-theme="light"] .blob-1 {
+    opacity: .52;
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 125, 110, .42),
+            rgba(255, 125, 110, 0) 70%
+        );
+}
+
+html[data-theme="light"] .blob-2 {
+    opacity: .38;
+    background:
+        radial-gradient(
+            circle at 60% 40%,
+            rgba(220, 90, 100, .30),
+            transparent 70%
+        );
+}
+
+html[data-theme="light"] .blob-3 {
+    opacity: .32;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 182, 72, .26),
+            transparent 70%
+        );
+}
+
+
+/* ================= TEXTOS ================= */
+
+html[data-theme="light"] .hero-greeting,
+html[data-theme="light"] .hero-text p,
+html[data-theme="light"] .app-info > p,
+html[data-theme="light"] .card p,
+html[data-theme="light"] .info,
+html[data-theme="light"] .desc,
+html[data-theme="light"] .qr-text span {
+    color: var(--ink-dim);
+}
+
+html[data-theme="light"] .app-info h2,
+html[data-theme="light"] .card h3,
+html[data-theme="light"] .jogo-card .time span,
+html[data-theme="light"] .product-info,
+html[data-theme="light"] .product-info h3,
+html[data-theme="light"] .qr-text {
+    color: var(--ink);
+}
+
+
+/* Título principal continua especial,
+   mas adaptado para fundo claro */
+
+html[data-theme="light"] .hero-text h1 {
+    background:
+        linear-gradient(
+            135deg,
+            #261b1b 10%,
+            #7c3134 55%,
+            var(--flame-500)
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* ================= GLASS ================= */
+
+html[data-theme="light"] .hero-carousel,
+html[data-theme="light"] .card,
+html[data-theme="light"] .jogo-card,
+html[data-theme="light"] .product-card,
+html[data-theme="light"] .app-badge {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .72),
+            rgba(255, 255, 255, .42)
+        );
+
+    border-color: var(--glass-stroke);
+
+    box-shadow:
+        0 22px 48px -26px rgba(45, 35, 35, .28),
+        inset 0 1px 0 rgba(255, 255, 255, .88);
+}
+
+
+/* hover sem ficar branco estourado */
+
+html[data-theme="light"] .card:hover,
+html[data-theme="light"] .jogo-card:hover,
+html[data-theme="light"] .product-card:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .82),
+            rgba(255, 248, 248, .54)
+        );
+
+    border-color: var(--glass-stroke-strong);
+
+    box-shadow:
+        0 30px 56px -28px rgba(70, 40, 40, .32),
+        0 0 34px -26px rgba(255, 80, 80, .22);
+}
+
+
+/* ================= BOTÃO SECUNDÁRIO ================= */
+
+html[data-theme="light"] .btn-secondary {
+    color: #322829;
+    background: rgba(255, 255, 255, .52);
+    border-color: rgba(80, 55, 55, .14);
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+    background: rgba(255, 255, 255, .78);
+    border-color: rgba(120, 65, 65, .22);
+}
+
+
+/* ================= APP BADGE ================= */
+
+html[data-theme="light"] .app-badge {
+    color: var(--ink-dim);
+}
+
+
+/* ================= PRODUTO ================= */
+
+html[data-theme="light"] .product-image {
+    background:
+        radial-gradient(
+            120% 140% at 50% 0%,
+            rgba(255, 118, 100, .28),
+            transparent 60%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(255, 240, 238, .92),
+            rgba(237, 226, 226, .82)
+        );
+}
+
+html[data-theme="light"] .tag {
+    background: rgba(255, 255, 255, .58);
+    border-color: rgba(65, 45, 45, .10);
+    color: var(--ink-dim);
+}
+
+html[data-theme="light"] .bottom {
+    border-top-color: rgba(55, 40, 40, .10);
+}
+
+
+/* ================= PRÓXIMO JOGO ================= */
+
+html[data-theme="light"] .jogo-card img {
+    border-color: rgba(80, 55, 55, .12);
+
+    box-shadow:
+        0 10px 24px rgba(60, 45, 45, .16);
+}
+
+
+/* ================= CARROSSEL ================= */
+
+html[data-theme="light"] .carousel-progress {
+    background: rgba(50, 35, 35, .14);
+}
+
+
+/* ================= FOCO ================= */
+
+html[data-theme="light"] a:focus-visible,
+html[data-theme="light"] button:focus-visible {
+    outline-color: var(--flame-500);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /* ======================= RESPONSIVO ======================= */
 

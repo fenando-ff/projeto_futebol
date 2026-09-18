@@ -11,8 +11,8 @@
    isso pede um tokens.css único compartilhado entre as páginas.
    ===================================================================== */
 :root {
-    --void-950: #07070a;
-    --void-900: #0d0808;
+    --void-950: var(--page-bg);
+    --void-900: var(--page-bg-secondary);
     --ember-900: #3a0a0a;
 
     --flame-400: #ff6a52;
@@ -506,6 +506,263 @@ input.is-valid {
     color: #111;
     font-weight: bold;
 }
+
+
+
+
+
+
+/* =========================================================
+   PAGAMENTO — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] {
+    --void-950: #f4f5f7;
+    --void-900: #e9ebef;
+
+    --ink: #211b1b;
+    --ink-dim: rgba(33, 27, 27, 0.72);
+    --ink-faint: rgba(33, 27, 27, 0.48);
+
+    --glass-fill: rgba(255, 255, 255, 0.50);
+    --glass-fill-hover: rgba(255, 255, 255, 0.70);
+    --glass-stroke: rgba(75, 55, 55, 0.12);
+    --glass-stroke-strong: rgba(75, 55, 55, 0.20);
+    --glass-streak: rgba(255, 255, 255, 0.95);
+}
+
+
+/* ================= FUNDO ================= */
+
+html[data-theme="light"] body {
+    background:
+        radial-gradient(
+            110% 75% at 88% -8%,
+            rgba(255, 145, 132, .24),
+            transparent 60%
+        ),
+        radial-gradient(
+            85% 65% at 5% 90%,
+            rgba(255, 195, 190, .17),
+            transparent 65%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f8fa,
+            #eceef2 52%,
+            #f8f6f6
+        );
+
+    color: var(--ink);
+}
+
+
+/* ================= BLOBS ================= */
+
+html[data-theme="light"] .blob-1 {
+    opacity: .48;
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 120, 105, .38),
+            transparent 70%
+        );
+}
+
+html[data-theme="light"] .blob-2 {
+    opacity: .34;
+    background:
+        radial-gradient(
+            circle at 60% 40%,
+            rgba(215, 85, 95, .27),
+            transparent 70%
+        );
+}
+
+html[data-theme="light"] .blob-3 {
+    opacity: .28;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 182, 72, .23),
+            transparent 70%
+        );
+}
+
+
+/* ================= TÍTULO ================= */
+
+html[data-theme="light"] .titulo-principal {
+    background:
+        linear-gradient(
+            135deg,
+            #261b1b 12%,
+            #7a3235 58%,
+            var(--flame-500)
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* ================= BOXES ================= */
+
+html[data-theme="light"] .box {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, .76),
+            rgba(255, 255, 255, .44)
+        );
+
+    border-color: var(--glass-stroke);
+
+    box-shadow:
+        0 22px 48px -26px rgba(45, 35, 35, .27),
+        inset 0 1px 0 rgba(255, 255, 255, .90);
+}
+
+html[data-theme="light"] .box:hover {
+    border-color: var(--glass-stroke-strong);
+
+    box-shadow:
+        0 28px 54px -28px rgba(65, 40, 40, .30),
+        inset 0 1px 0 rgba(255, 255, 255, .96);
+}
+
+
+/* ================= TEXTOS ================= */
+
+html[data-theme="light"] .box h2,
+html[data-theme="light"] .dados-usuario p strong,
+html[data-theme="light"] .plano-info.plano-card p strong {
+    color: var(--ink);
+}
+
+html[data-theme="light"] .box-desc,
+html[data-theme="light"] .dados-usuario p,
+html[data-theme="light"] .plano-info.plano-card p,
+html[data-theme="light"] .plano-desc {
+    color: var(--ink-dim);
+}
+
+
+/* ================= PLANOS ================= */
+
+html[data-theme="light"] .plano-info.plano-card {
+    background: rgba(255, 255, 255, .50);
+    border-color: var(--glass-stroke);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .72);
+}
+
+html[data-theme="light"] .plano-info.plano-card:hover {
+    background: rgba(255, 255, 255, .68);
+    border-color: var(--glass-stroke-strong);
+}
+
+
+/* Plano que será contratado */
+
+html[data-theme="light"] .plano-card--selecionado {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 231, 228, .82),
+            rgba(255, 255, 255, .56)
+        );
+
+    border-color: rgba(255, 106, 82, .40);
+
+    box-shadow:
+        0 20px 42px -24px rgba(90, 45, 40, .26),
+        0 0 0 1px rgba(255, 106, 82, .14),
+        inset 0 1px 0 rgba(255, 255, 255, .88);
+}
+
+
+/* ================= SELETOR DE PAGAMENTO ================= */
+
+html[data-theme="light"] .buttons-pay {
+    background: rgba(255, 255, 255, .46);
+    border-color: var(--glass-stroke);
+}
+
+html[data-theme="light"] .pay-btn {
+    color: var(--ink-dim);
+}
+
+/* O botão ativo continua branco porque está sobre o slider vermelho */
+html[data-theme="light"] .pay-btn.active {
+    color: #fff;
+}
+
+
+/* ================= INPUTS ================= */
+
+html[data-theme="light"] input {
+    background: rgba(255, 255, 255, .58);
+    color: var(--ink);
+    border-color: var(--glass-stroke);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .72);
+}
+
+html[data-theme="light"] input::placeholder {
+    color: var(--ink-faint);
+}
+
+html[data-theme="light"] input:hover {
+    background: rgba(255, 255, 255, .70);
+    border-color: var(--glass-stroke-strong);
+}
+
+html[data-theme="light"] input:focus {
+    background: rgba(255, 255, 255, .84);
+    border-color: var(--flame-400);
+
+    box-shadow:
+        0 0 0 3px rgba(255, 106, 82, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .92);
+}
+
+
+/* ================= ERROS ================= */
+
+html[data-theme="light"] .campo-erro {
+    color: #c43f46;
+}
+
+
+/* ================= CARTÃO ================= */
+
+/*
+   O cartão 3D permanece propositalmente escuro/vermelho.
+   Apenas suavizamos a sombra para combinar com o ambiente claro.
+*/
+
+html[data-theme="light"] .card-front,
+html[data-theme="light"] .card-back {
+    box-shadow:
+        0 26px 50px -18px rgba(70, 35, 35, .38);
+}
+
+
+/* ================= FOCO / ACESSIBILIDADE ================= */
+
+html[data-theme="light"] input:focus-visible,
+html[data-theme="light"] button:focus-visible {
+    outline-color: var(--flame-500);
+}
+
+
+
+
 
 /* ======================= RESPONSIVO ======================= */
 

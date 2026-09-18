@@ -1,16 +1,12 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from .models import Perfil
-from django.contrib.auth.hashers import make_password, check_password # Isso aqui importa a ferramenta pra criar criptografia e ler criptografia
+from django.contrib.auth.hashers import make_password
 from app_futebol import models
 import re
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 
-# -------------------- codigo pra estudar e aplicar ----------------------
 def cadastro(request):
     if request.method == "POST":
 
@@ -113,7 +109,7 @@ def cadastro(request):
                     messages.success(request, "Cadastro realizado com sucesso!")
                     return redirect("login")
 
-                except Exception as e:
+                except Exception:
                     messages.error(request, "Nao foi possivel concluir o cadastro no momento.")
 
         return render(request, "acconts/cadastro.html")

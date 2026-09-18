@@ -1,5 +1,4 @@
-import os
-import random
+import secrets
 from decimal import Decimal
 
 from django.conf import settings
@@ -13,14 +12,13 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from ..models import CategoriaCliente, Clientes, Compra, Jogos, Pedido, Produtos, RecuperacaoSenha, Times
+from ..models import CategoriaCliente, Clientes, Compra, Jogos, Pedido, Produtos, RecuperacaoSenha
 from ..serializers import (
     AssinarPlanoSerializer,
     CadastroSerializer,
     CheckoutSerializer,
     IngressoCheckoutSerializer,
     CategoriaClienteAssinaturaSerializer,
-    CategoriaClienteSerializer,
     EsqueciSenhaSerializer,
     LoginResponseSerializer,
     LoginSerializer,
@@ -32,7 +30,7 @@ from ..serializers import (
 from ..auth import ClienteTokenAuthentication, gerar_token
 from ..views.views import get_historico_cliente
 from .helpers import build_public_image_url
-from .socio_catalog import build_pricing_snapshot, build_socio_api_plan, get_socio_desconto_percent
+from .socio_catalog import build_pricing_snapshot, get_socio_desconto_percent
 
 
 def _buscar_ultima_recuperacao(email):
@@ -384,11 +382,8 @@ class EsqueciSenhaAPIView(APIView):
         operation_description="Gera um código de recuperação, persiste o registro e envia o email com o código, como no fluxo atual.",
     )
     def post(self, request):
-        print("[RECOVERY][esqueci-senha] start", request.path, request.get_host(), list(request.data.keys()))
         serializer = EsqueciSenhaSerializer(data=_normalize_recovery_payload(request.data))
         if not serializer.is_valid():
-            print("[RECOVERY][esqueci-senha] validation_error", serializer.errors)
-            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_400_BAD_REQUEST)
             return _response(
                 _validation_message(serializer.errors, "Dados inválidos."),
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -397,48 +392,37 @@ class EsqueciSenhaAPIView(APIView):
             )
 
         email = serializer.validated_data["email"]
-        print("[RECOVERY][esqueci-senha] recipient", email)
 
         cliente = Clientes.objects.filter(email_clientes=email).first()
         if not cliente:
-            print("[RECOVERY][esqueci-senha] client_not_found", email)
-            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_201_CREATED)
             return _response(
                 "Se o e-mail estiver cadastrado, um código de recuperação será enviado.",
                 status_code=status.HTTP_201_CREATED,
             )
 
-        codigo = str(random.randint(100000, 999999))
-        print("[RECOVERY][esqueci-senha] code_generated", email, "length=6")
+        codigo = str(secrets.randbelow(900000) + 100000)
 
         RecuperacaoSenha.objects.create(
             cliente_id=cliente.id_clientes,
             codigo=codigo,
             criado_em=timezone.now(),
         )
-        print("[RECOVERY][esqueci-senha] recovery_saved", email)
 
         try:
-            print("[RECOVERY][esqueci-senha] send_mail_start", email)
-            sent_count = send_mail(
+            send_mail(
                 "Código de recuperação de senha",
                 f"Seu código: {codigo}",
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
                 fail_silently=False,
             )
-            print("[RECOVERY][esqueci-senha] send_mail_return", email, sent_count)
-        except Exception as exc:
-            print("[RECOVERY][esqueci-senha] send_mail_exception", email, exc.__class__.__name__, str(exc))
-            print("[RECOVERY][esqueci-senha] final_status", status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception:
             return _response(
                 "Nao foi possivel enviar o e-mail no momento.",
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 success=False,
             )
 
-        print("[RECOVERY][esqueci-senha] response_ok", email)
-        print("[RECOVERY][esqueci-senha] final_status", status.HTTP_201_CREATED)
         return _response(
             "Se o e-mail estiver cadastrado, um código de recuperação será enviado.",
             status_code=status.HTTP_201_CREATED,
@@ -459,10 +443,8 @@ class ValidarCodigoAPIView(APIView):
         operation_description="Confere se o código informado é o último gerado para o email e se ainda está dentro do prazo de expiração.",
     )
     def post(self, request):
-        print("[RECOVERY][validar-codigo] start", request.path, request.get_host(), list(request.data.keys()))
         serializer = ValidarCodigoSerializer(data=_normalize_recovery_payload(request.data))
         if not serializer.is_valid():
-            print("[RECOVERY][validar-codigo] validation_error", serializer.errors)
             return _response(
                 _validation_message(serializer.errors, "Dados inválidos."),
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -472,11 +454,9 @@ class ValidarCodigoAPIView(APIView):
 
         email = serializer.validated_data["email"]
         codigo_digitado = serializer.validated_data["codigo"]
-        print("[RECOVERY][validar-codigo] payload", email, codigo_digitado)
 
         cliente, recuperacao = _buscar_ultima_recuperacao(email)
         if not cliente:
-            print("[RECOVERY][validar-codigo] client_not_found", email)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -484,7 +464,6 @@ class ValidarCodigoAPIView(APIView):
             )
 
         if not recuperacao:
-            print("[RECOVERY][validar-codigo] no_code_found", email)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -492,7 +471,6 @@ class ValidarCodigoAPIView(APIView):
             )
 
         if recuperacao.expirado():
-            print("[RECOVERY][validar-codigo] expired", email, recuperacao.codigo)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -500,14 +478,12 @@ class ValidarCodigoAPIView(APIView):
             )
 
         if recuperacao.codigo != codigo_digitado:
-            print("[RECOVERY][validar-codigo] mismatch", email, codigo_digitado, recuperacao.codigo)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
-        print("[RECOVERY][validar-codigo] response_ok", email)
         return _response("Código válido.")
 
 
@@ -525,10 +501,8 @@ class RedefinirSenhaAPIView(APIView):
         operation_description="Valida o código mais recente do email, aplica a nova senha e remove os registros de recuperação utilizados.",
     )
     def post(self, request):
-        print("[RECOVERY][redefinir-senha] start", request.path, request.get_host(), list(request.data.keys()))
         serializer = RedefinirSenhaSerializer(data=_normalize_recovery_payload(request.data))
         if not serializer.is_valid():
-            print("[RECOVERY][redefinir-senha] validation_error", serializer.errors)
             return _response(
                 _validation_message(serializer.errors, "Dados inválidos."),
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -539,11 +513,9 @@ class RedefinirSenhaAPIView(APIView):
         email = serializer.validated_data["email"]
         codigo_digitado = serializer.validated_data["codigo"]
         nova_senha = serializer.validated_data["senha"]
-        print("[RECOVERY][redefinir-senha] payload", email, codigo_digitado)
 
         cliente, recuperacao = _buscar_ultima_recuperacao(email)
         if not cliente:
-            print("[RECOVERY][redefinir-senha] client_not_found", email)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -551,7 +523,6 @@ class RedefinirSenhaAPIView(APIView):
             )
 
         if not recuperacao:
-            print("[RECOVERY][redefinir-senha] no_code_found", email)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -559,7 +530,6 @@ class RedefinirSenhaAPIView(APIView):
             )
 
         if recuperacao.expirado():
-            print("[RECOVERY][redefinir-senha] expired", email, recuperacao.codigo)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -567,21 +537,17 @@ class RedefinirSenhaAPIView(APIView):
             )
 
         if recuperacao.codigo != codigo_digitado:
-            print("[RECOVERY][redefinir-senha] mismatch", email, codigo_digitado, recuperacao.codigo)
             return _response(
                 "Dados de recuperacao invalidos ou expirados.",
                 status_code=status.HTTP_400_BAD_REQUEST,
                 success=False,
             )
 
-        print("[RECOVERY][redefinir-senha] updating_password", email)
         with transaction.atomic():
             cliente.senha_clientes = make_password(nova_senha)
             cliente.save(update_fields=["senha_clientes"])
             RecuperacaoSenha.objects.filter(cliente_id=cliente.id_clientes).delete()
-        print("[RECOVERY][redefinir-senha] password_updated", email)
 
-        print("[RECOVERY][redefinir-senha] response_ok", email)
         return _response(
             "Senha alterada com sucesso!",
         )

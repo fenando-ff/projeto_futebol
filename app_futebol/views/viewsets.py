@@ -5,8 +5,6 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as django_filters
-from django.shortcuts import get_object_or_404
-from django.db import transaction
 
 from .helpers import upload_image_to_r2
 from ..models import (
@@ -28,12 +26,9 @@ from ..models import (
     Titulos,
 )
 from ..serializers import (
-    CategoriaClienteSerializer,
     CategoriaClientePlanoSerializer,
     CategoriaProdutosSerializer,
-    CarrinhoItemSerializer,
     ClientesSerializer,
-    CompraSerializer,
     CompraHistoricoSerializer,
     EnderecoClienteSerializer,
     FuncionariosSerializer,
@@ -41,7 +36,6 @@ from ..serializers import (
     JogosSerializer,
     ProdutoAPISerializer,
     PedidoSerializer,
-    ProdutosSerializer,
     ProgressoFasesSerializer,
     QuestoesSerializer,
     RespostasSerializer,

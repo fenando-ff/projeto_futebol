@@ -243,6 +243,174 @@ main {
     text-shadow: 0 0 8px rgba(247, 192, 43, 0.8);
 }
 
+
+/* =========================================================
+   RECUPERAÇÃO DE SENHA — LIGHT MODE
+   Mantém o Dark Mode intacto
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(255, 145, 132, .22),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at bottom left,
+            rgba(255, 195, 190, .16),
+            transparent 42%
+        ),
+        linear-gradient(
+            135deg,
+            #f7f8fa,
+            #eceef2 55%,
+            #f8f6f6
+        );
+
+    color: var(--text-primary);
+}
+
+
+/* ================= CARD ================= */
+
+html[data-theme="light"] .conteiner {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.78),
+            rgba(255,255,255,.50)
+        );
+
+    border-color: rgba(75,55,55,.12);
+
+    box-shadow:
+        0 24px 52px -26px rgba(60,45,45,.28),
+        inset 0 1px 0 rgba(255,255,255,.92);
+
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+
+/* ================= SETA ================= */
+
+html[data-theme="light"] .fa-arrow-left {
+    color: rgba(33,27,27,.68);
+}
+
+html[data-theme="light"] .fa-arrow-left:hover {
+    color: #c92b2b;
+}
+
+
+/* ================= TÍTULO ================= */
+
+html[data-theme="light"] .titulo {
+    color: #241b1b;
+}
+
+html[data-theme="light"] .titulo h2 {
+    color: #241b1b;
+}
+
+
+/* ================= INPUT ================= */
+
+html[data-theme="light"] .form-email input {
+    color: #211b1b;
+
+    border-bottom-color:
+        rgba(60,45,45,.28);
+}
+
+html[data-theme="light"] .form-email input::placeholder {
+    color:
+        rgba(33,27,27,.46);
+}
+
+html[data-theme="light"] .form-email input:hover {
+    border-bottom-color:
+        rgba(60,45,45,.42);
+}
+
+html[data-theme="light"] .form-email input:focus {
+    border-bottom-color: #f72b2b;
+
+    box-shadow:
+        0 8px 20px -16px
+        rgba(90,45,45,.28);
+}
+
+
+/* ================= BOTÃO ================= */
+
+html[data-theme="light"] .btn-primario {
+    background:
+        linear-gradient(
+            135deg,
+            #ff6a52,
+            #f72b2b
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 12px 26px -12px
+        rgba(247,43,43,.42);
+}
+
+html[data-theme="light"] .btn-primario:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #ff7863,
+            #e92121
+        );
+
+    color: #fff;
+
+    box-shadow:
+        0 16px 30px -12px
+        rgba(247,43,43,.50);
+}
+
+
+/* ================= TEXTO AUXILIAR ================= */
+
+html[data-theme="light"] .duvida {
+    color:
+        rgba(33,27,27,.64);
+}
+
+html[data-theme="light"] .reenviar a {
+    color: #d92828;
+}
+
+html[data-theme="light"] .reenviar a:hover {
+    color: #ad1e1e;
+
+    text-shadow:
+        0 0 10px
+        rgba(217,40,40,.16);
+}
+
+
+/* ================= ERROS ================= */
+
+html[data-theme="light"] .erro-local,
+html[data-theme="light"] .erro-email {
+    color: #c92f36;
+}
+
+html[data-theme="light"] .erro-local {
+    background:
+        rgba(247,43,43,.08);
+
+    border-color:
+        rgba(247,43,43,.24);
+}
+
 /* ==============================
    RESPONSIVO
 =============================== */

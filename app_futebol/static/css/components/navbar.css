@@ -47,6 +47,24 @@
     /* Quanto maior, mais curta a navbar nas laterais */
     --nav-side: clamp(30px, 6vw, 100px);
 }
+/* Navbar escura no Light Mode: tokens locais para nao depender dos acentos de cada pagina. */
+html[data-theme="light"] .cabecalho {
+    --nav-flame-400: #e8a5b3;
+    --nav-flame-500: #d58b9c;
+    --nav-dark-text: #ecc3cc;
+    --nav-dark-text-active: #ffe4eb;
+    --nav-dark-surface: linear-gradient(155deg, rgba(40, 29, 35, .94), rgba(22, 20, 27, .92));
+    --nav-dark-fallback: #20191f;
+    --nav-dark-border: rgba(232, 165, 179, .30);
+    --nav-dark-border-hover: rgba(232, 165, 179, .44);
+    --nav-dark-highlight: rgba(255, 228, 235, .18);
+    --nav-dark-glow: rgba(213, 139, 156, .08);
+    --nav-dark-item: rgba(232, 165, 179, .09);
+    --nav-dark-item-active: rgba(232, 165, 179, .10);
+    --nav-dark-shadow: rgba(0, 0, 0, .82);
+    --nav-dark-depth: 0 22px 48px -20px var(--nav-dark-shadow), inset 0 1px 0 var(--nav-dark-highlight);
+}
+
 /* =====================================================================
    03. NAVBAR — CONTAINER FULL GLASS
    ===================================================================== */
@@ -1622,3 +1640,102 @@ and
 }
 
 
+/* Liquid Glass escuro no Light Mode: somente aparencia; geometria e transicoes herdadas. */
+html[data-theme="light"] .cabecalho {
+    background: var(--nav-dark-surface);
+    border-color: var(--nav-dark-border);
+    box-shadow: var(--nav-dark-depth);
+}
+
+html[data-theme="light"] .cabecalho:hover {
+    border-color: var(--nav-dark-border-hover);
+    box-shadow: var(--nav-dark-depth), 0 8px 24px -16px var(--nav-dark-glow);
+}
+
+html[data-theme="light"] .cabecalho::before,
+html[data-theme="light"] .cabecalho .drawer::before {
+    background: radial-gradient(circle, var(--nav-dark-glow), transparent 72%);
+}
+
+html[data-theme="light"] .cabecalho::after {
+    background: linear-gradient(90deg, transparent, var(--nav-dark-highlight), var(--nav-flame-400), transparent);
+}
+
+html[data-theme="light"] .cabecalho :is(.logo, .logo h1, .drawer-title, .hamb-btn, .hamb-close, .icon-btn),
+html[data-theme="light"] .cabecalho .hamburguer-opcoes .opcao-nav a {
+    color: var(--nav-dark-text);
+}
+
+html[data-theme="light"] .cabecalho .hamburguer-opcoes .opcao-nav a:is(:hover, :focus-visible, [aria-current="page"]) {
+    color: var(--nav-dark-text-active);
+    text-shadow: none;
+}
+
+html[data-theme="light"] .cabecalho .hamburguer-opcoes .opcao-nav a:is(:hover, :focus-visible, [aria-current="page"]) i {
+    color: var(--nav-flame-400);
+    filter: none;
+}
+
+html[data-theme="light"] .cabecalho :is(.hamb-btn, .hamb-close, .icon-btn),
+html[data-theme="light"] .cabecalho .hamburguer-opcoes::before {
+    background: var(--nav-dark-item);
+    border-color: var(--nav-dark-border);
+    box-shadow: inset 0 1px 0 var(--nav-dark-highlight);
+}
+
+html[data-theme="light"] .cabecalho :is(.hamb-btn, .hamb-close, .icon-btn):is(:hover, :focus-visible, [aria-current="page"]),
+html[data-theme="light"] .cabecalho .hamburguer-opcoes:hover::before {
+    color: var(--nav-dark-text-active);
+    background: var(--nav-dark-item-active);
+    border-color: var(--nav-dark-border-hover);
+    box-shadow: inset 0 1px 0 var(--nav-dark-highlight);
+}
+
+html[data-theme="light"] .cabecalho a[aria-current="page"]::after {
+    box-shadow: 0 0 8px var(--nav-dark-glow);
+}
+
+html[data-theme="light"] .cabecalho a:focus-visible,
+html[data-theme="light"] .cabecalho button:focus-visible {
+    outline: 2px solid var(--nav-flame-400);
+    outline-offset: 2px;
+}
+
+@media (max-width: 1180px) {
+    html[data-theme="light"] .cabecalho .drawer {
+        background: var(--nav-dark-surface);
+        border-color: var(--nav-dark-border);
+        box-shadow: -30px 0 60px -28px var(--nav-dark-shadow), inset 1px 0 0 var(--nav-dark-highlight);
+    }
+
+    html[data-theme="light"] .cabecalho .drawer::after {
+        background: radial-gradient(circle, var(--nav-dark-glow), transparent 70%);
+    }
+
+    html[data-theme="light"] .cabecalho .drawer-top {
+        border-color: var(--nav-dark-border);
+    }
+
+    html[data-theme="light"] .cabecalho .hamburguer-opcoes .opcao-nav a:is(:hover, :focus-visible) {
+        background: var(--nav-dark-item);
+        border-color: var(--nav-dark-border);
+    }
+
+    html[data-theme="light"] .cabecalho .hamburguer-opcoes .opcao-nav a[aria-current="page"] {
+        background: var(--nav-dark-item-active);
+        border-color: var(--nav-dark-border-hover);
+        box-shadow: inset 0 1px 0 var(--nav-dark-highlight);
+    }
+}
+
+@supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+    html[data-theme="light"] .cabecalho {
+        background: var(--nav-dark-fallback);
+    }
+
+    @media (max-width: 1180px) {
+        html[data-theme="light"] .cabecalho .drawer {
+            background: var(--nav-dark-fallback);
+        }
+    }
+}

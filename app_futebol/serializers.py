@@ -5,7 +5,6 @@ from django.db import transaction
 from django.utils import timezone
 from rest_framework import serializers
 from .models import (
-    Alternativas,
     CategoriaCliente,
     CategoriaProdutos,
     Clientes,
@@ -21,7 +20,6 @@ from .models import (
     Questoes,
     RecuperacaoSenha,
     Respostas,
-    SetorFuncionarios,
     Times,
     Titulos,
 )
@@ -29,8 +27,6 @@ from .views.helpers import build_public_image_url
 from .views.socio_catalog import (
     build_pricing_snapshot,
     build_socio_api_plan,
-    get_socio_desconto_percent,
-    get_socio_tier,
 )
 
 class ClientesSerializer(serializers.ModelSerializer):
@@ -681,6 +677,7 @@ class RecuperacaoSenhaSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecuperacaoSenha
         fields = '__all__'
+        extra_kwargs = {"codigo": {"write_only": True}}
 
 
 class ProgressoFasesSerializer(serializers.ModelSerializer):

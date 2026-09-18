@@ -688,6 +688,261 @@
         transform: translateY(-2px);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* =========================================================
+   PERFIL — DARK MODE
+   Mantém estrutura e funcionalidades atuais
+   ========================================================= */
+
+html[data-theme="dark"] .main-perfil {
+    color: var(--ink, #f6f3f1);
+}
+
+
+/* ================= HEADER ================= */
+
+html[data-theme="dark"] .header-perfil {
+    border-bottom-color: rgba(255, 106, 82, .28);
+}
+
+html[data-theme="dark"] .header-perfil h1 {
+    color: #ff6a52;
+}
+
+html[data-theme="dark"] .header-perfil p {
+    color: rgba(246, 243, 241, .65);
+}
+
+
+/* ================= CARDS PRINCIPAIS ================= */
+
+html[data-theme="dark"] .perfil-dados,
+html[data-theme="dark"] .perfil-historico,
+html[data-theme="dark"] .perfil-ingressos,
+html[data-theme="dark"] .profile-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.025)
+        );
+
+    border: 1px solid rgba(255,255,255,.10);
+
+    backdrop-filter: blur(26px) saturate(150%);
+    -webkit-backdrop-filter: blur(26px) saturate(150%);
+
+    box-shadow:
+        0 22px 46px -24px rgba(0,0,0,.62),
+        inset 0 1px 0 rgba(255,255,255,.08);
+
+    color: #f6f3f1;
+}
+
+
+/* ================= CABEÇALHOS DOS CARDS ================= */
+
+html[data-theme="dark"] .card-titulo {
+    background:
+        linear-gradient(
+            135deg,
+            rgba(122,0,0,.78),
+            rgba(55,8,8,.88)
+        );
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+
+/* ================= FORMULÁRIO ================= */
+
+html[data-theme="dark"] .grupo-inputs h3 {
+    color: #ff6a52;
+    border-bottom-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .campo label {
+    color: rgba(246,243,241,.82);
+}
+
+html[data-theme="dark"] .input-padrao {
+    background: rgba(255,255,255,.045);
+    color: #f6f3f1;
+    border-color: rgba(255,255,255,.12);
+}
+
+html[data-theme="dark"] .input-padrao::placeholder {
+    color: rgba(246,243,241,.42);
+}
+
+html[data-theme="dark"] .input-padrao:hover {
+    border-color: rgba(255,255,255,.20);
+}
+
+html[data-theme="dark"] .input-padrao:focus {
+    background: rgba(255,255,255,.075);
+    border-color: #ff6a52;
+
+    box-shadow:
+        0 0 0 3px rgba(255,106,82,.12);
+
+    outline: none;
+}
+
+
+/* ================= HISTÓRICO ================= */
+
+html[data-theme="dark"] .item-pedido {
+    border-bottom-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .item-pedido:hover {
+    background: rgba(255,255,255,.045);
+}
+
+html[data-theme="dark"] .item-pedido.aberto {
+    background: rgba(255,255,255,.055);
+}
+
+html[data-theme="dark"] .pedido-data,
+html[data-theme="dark"] .pedido-id,
+html[data-theme="dark"] .pedido-total {
+    color: #f6f3f1;
+}
+
+
+/* ================= DETALHES DO PEDIDO ================= */
+
+html[data-theme="dark"] .detalhes-pedido {
+    background: rgba(0,0,0,.14);
+    border-top-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .nome-item,
+html[data-theme="dark"] .subtotal-item {
+    color: #f6f3f1;
+}
+
+html[data-theme="dark"] .meta-item {
+    color: rgba(246,243,241,.62);
+}
+
+html[data-theme="dark"] .imagem-produto {
+    box-shadow: 0 8px 18px rgba(0,0,0,.30);
+}
+
+html[data-theme="dark"] .imagem-produto.placeholder {
+    background: rgba(255,255,255,.08);
+}
+
+
+/* ================= INGRESSOS ================= */
+
+html[data-theme="dark"] .ingresso-dropdown {
+    background: rgba(0,0,0,.10);
+    border-top-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .item-ingresso,
+html[data-theme="dark"] .perfil-ingressos .ingresso-item {
+    border-bottom-color: rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .nome-ingresso,
+html[data-theme="dark"] .perfil-ingressos .ingresso-nome {
+    color: #f6f3f1;
+}
+
+html[data-theme="dark"] .perfil-ingressos .ingresso-data,
+html[data-theme="dark"] .perfil-ingressos .aviso-sem-ingressos {
+    color: rgba(246,243,241,.58);
+}
+
+
+/* ================= AVATAR ================= */
+
+html[data-theme="dark"] .avatar-preview {
+    background: rgba(255,255,255,.05);
+    border-color: rgba(255,255,255,.16);
+
+    box-shadow:
+        0 14px 32px rgba(0,0,0,.42);
+}
+
+html[data-theme="dark"] .avatar-info h2 {
+    color: #f6f3f1;
+}
+
+html[data-theme="dark"] .avatar-info p {
+    color: rgba(246,243,241,.62);
+}
+
+html[data-theme="dark"] .avatar-filename {
+    color: rgba(246,243,241,.58);
+}
+
+
+/* ================= LINKS ================= */
+
+html[data-theme="dark"] .link-senha {
+    color: #ff8a78;
+}
+
+
+/* ================= STATUS ================= */
+
+html[data-theme="dark"] .status-entregue {
+    background: rgba(52,209,122,.15);
+    color: #6ee7a3;
+}
+
+html[data-theme="dark"] .status-processando {
+    background: rgba(255,182,72,.14);
+    color: #ffd07b;
+}
+
+
+/* ================= BOTÕES ================= */
+
+html[data-theme="dark"] .btn-plano,
+html[data-theme="dark"] .btn-salvar,
+html[data-theme="dark"] .btn-ver-detalhes,
+html[data-theme="dark"] .btn-toggle-ingressos,
+html[data-theme="dark"] .btn-visualizar-ingresso,
+html[data-theme="dark"] .btn-avatar-upload {
+    background:
+        linear-gradient(
+            135deg,
+            #ff6a52,
+            #ff3b3b 55%,
+            #b81c1c
+        );
+
+    box-shadow:
+        0 10px 24px -8px rgba(255,59,59,.45);
+}
+
+html[data-theme="dark"] .btn-plano:hover,
+html[data-theme="dark"] .btn-salvar:hover,
+html[data-theme="dark"] .btn-ver-detalhes:hover,
+html[data-theme="dark"] .btn-toggle-ingressos:hover,
+html[data-theme="dark"] .btn-visualizar-ingresso:hover,
+html[data-theme="dark"] .btn-avatar-upload:hover {
+    filter: brightness(1.06);
+}
+
     @media (max-width: 900px) {
         .perfil-avatar {
             justify-content: center;
